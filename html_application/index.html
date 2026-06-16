@@ -1,6 +1,6 @@
 <!--
 /*
-' Copyright 2022~2025 USBONG
+' Copyright 2022~2026 USBONG
 '
 ' Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You ' may obtain a copy of the License at
 '
@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20251201; from 20251130
+' @date updated: 20260616; from 20260615
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -24,7 +24,7 @@
   </head>
 
   <title>
-    Usbong Game Off 2025
+    Usbong Game Off 2026 - PRE
   </title>
 
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -1802,9 +1802,9 @@ const iTitleImageFrame2DelayCountMax=40;
 var iDelayAnimationCountEnter=0;
 const iDelayAnimationCountEnterMax=10;
 
-//added by Mike, 20231121
-var bHasViewedTitle=false;
-var bHasPressedStart=false;
+//edited by Mike, 20260615; from 20231121; debug
+var bHasViewedTitle=true; //false;
+var bHasPressedStart=true; //false;
 
 var iMonsterBossTileWidth=128;
 var iMonsterBossTileHeight=128;
@@ -1814,6 +1814,9 @@ var iMainImageTileStepAngle=0;
 var newMainImageTileProjectilePosX=0;
 var newMainImageTileProjectilePosY=0;
 var bHasFired=false;
+
+//added by Mike, 20260615
+var bHasAttacked=false;
 
 var bHasHeroHitMonster=false;
 
@@ -2037,15 +2040,18 @@ var bIsHeroFacingUp=false;
 
 	const MONSTER_TYPE_COUNT_MAX=7;
 
+	//edited by Mike, 20260616; debug
+	const WRAITH_MONSTER_HP_MAX=10;//1;//2;//3;
 
-	const WRAITH_MONSTER_HP_MAX=1;//2;//3;
 	const RUNNING_WRAITH_MONSTER_HP_MAX=1;
 	const BOMB_MONSTER_HP_MAX=1;
 
 	const ZOMBIE_MONSTER_HP_MAX=2;//3;//2;
-
 	
-	var iCurrMapLocation=51; //51;//74;//62;//62;//51;//73;//74;//51;//65;//72;//75;//54;//53;//12;//0;		
+	//edited by Mike, 20260616
+	const START_MAP_LOCATION=53;//51
+	var iCurrMapLocation=START_MAP_LOCATION; //51;//74;//62;//62;//51;//73;//74;//51;//65;//72;//75;//54;//53;//12;//0;		
+	
 	var hasInitMapLocation=false;	
 		
 	var iStageMaxWidth=640;
@@ -2253,6 +2259,9 @@ var bIsHeroFacingUp=false;
 
 		mainImageTileProjectile.style.visibility="hidden";
 		bHasFired=false;		
+		
+		//bHasAttacked=false; //removed by Mike, 20260615
+		
 		bIsHeroDash=false;
 		//bHasHeroShotFireball=false;
 		
@@ -2402,6 +2411,9 @@ var bIsHeroFacingUp=false;
 		mainImageTileFireballProjectileHold.style.visibility="hidden";
 				
 		bHasFired=false;
+
+		//bHasAttacked=false; //removed by Mike, 20260615
+
 		//bIsActionKeyPressed=false;
 
 		bHasHeroShotFireball=false;
@@ -3301,6 +3313,7 @@ var bIsHeroFacingUp=false;
 		amuletStatusImageTile.style.top=0+iYPos+iImageFrameHeightDefault*1+"px";
 	}			
 
+/*	//removed by Mike, 20260615
 	function initTest() {
 		iCurrHeroLife=iCurrHeroLifeMax;
 		
@@ -3321,6 +3334,7 @@ var bIsHeroFacingUp=false;
         myAudio.play();
 		//-----------			
 	}
+*/
 
 	function init() {	
 		bIsGameOver=false;		
@@ -3339,12 +3353,20 @@ var bIsHeroFacingUp=false;
 		bIsExecutingShake=false;
 		iDestroyHumanShakeDelayCount=0;
 		
+/*		//edited by Mike, 20260615; debug		
 		bHasPressedStart=false;
   		bHasViewedHowToPlayGuide=false;
 		bHasViewedTitle=false;
 		bIsMissionDone=false;
 		bIsMissionStarted=false;	
 		bHasViewedMissionIntro=false;
+*/
+		bHasPressedStart=true;
+  		bHasViewedHowToPlayGuide=true;
+		bHasViewedTitle=true;
+		bIsMissionDone=false;
+		bIsMissionStarted=false;	
+		bHasViewedMissionIntro=true;
 
 		bIsShowingStage1End=false;
 		bIsShowingStage2End=false;
@@ -6368,15 +6390,19 @@ alert("iInputY: "+iInputY);
 		//hero tile position
 		var mainImageTile = document.getElementById("mainImageTileImageId");
 
-
 		if (iHeroAttackAnimationCount>iHeroAttackAnimationCountMax) {
-			if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]<=0) {
-				inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.visibility="hidden";				
-				inputArrayWraithMonsterWithIdCount[MONSTER_IS_ACTIVE]=false;
-				
-				//alert("DITO!!");
-				return;
-			}						
+			//solves problem of hero not being able to hit multiple enemies at once
+			if (inputArrayWraithMonsterWithIdCount[MONSTER_IS_ACTIVE]) { //added by Mike, 20260616
+			
+				if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]<=0) {
+								
+					inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.visibility="hidden";				
+					inputArrayWraithMonsterWithIdCount[MONSTER_IS_ACTIVE]=false;
+					
+					//alert("DITO!!");
+					return;
+				}						
+			}
 		}	 		
 
 
@@ -8659,7 +8685,11 @@ if (arrayWalkOnSnowEffectCount==1) {
 		setMonsterDeathAnimationPosition(iMonsterImageTilePosX,iMonsterImageTilePosY,MONSTER_TYPE_VAL_DEFAULT);
 		
 		resetProjectile();
-		resetFireballProjectile();
+		
+		//edited by Mike, 22060615
+		//if removed; can hit multiple enemies until fireball leaves the screen;
+		//effects have to be updated for all though;
+		//resetFireballProjectile();
 	
 		var myAudioEffectCannonFire = document.getElementById("myAudioEffectCannonFireId");
 
@@ -10349,20 +10379,36 @@ if (arrayWalkOnSnowEffectCount==1) {
 	}
 
 	function verifyHeroCollideWithWraithMonsters(inputArrayWraithMonsterWithIdCount) {
+	}
+
+	function verifyHeroCollideWithWraithMonstersDebug(inputArrayWraithMonsterWithIdCount, iCount) {
 			
 		var mainImageTileTankBody = document.getElementById("mainImageTileImageTankBodyId");
 		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
 	
 		//alert(inputArraySnakeMonsterWithIdCount[MONSTER_IS_ACTIVE]);
 
+		//alert(inputArrayWraithMonsterWithIdCount);
+/*		
+		if (iCount==0) {
+			if (bHasAttacked) {
+				alert("bHasAttacked: "+bHasAttacked);
+			}
+		}
+*/
 	
 //		for (iCount=0; iCount<iSnakeMonsterCountMax; iCount++) {
 			//inputArraySnakeMonsterWithIdCount[MONSTER_OBJECT]= document.getElementById("snakeMonsterImageId"+iCount);
 
 			//alert(arraySnakeMonsterCountId[iCount][MONSTER_IS_ACTIVE]);
 
-
-			if (!inputArrayWraithMonsterWithIdCount[MONSTER_IS_ACTIVE]) {
+			//reverified: WHY using inputArrayWraithMonsterWithIdCount[MONSTER_IS_ACTIVE] RESULTS TO ERROR; in unable to hit multiple enemies;
+			//due to when inputArrayWraithMonsterWithIdCount has been set to hidden
+			
+			if ((!inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].checkVisibility()) || (!inputArrayWraithMonsterWithIdCount[MONSTER_IS_ACTIVE])) {
+			
+				//alert("INACTIVE!!! bHasAttacked: "+bHasAttacked+"iCount: "+iCount);
+			
 				return;
 			}		
 			else { //if (isBatMonsterTileActive) {						
@@ -10371,63 +10417,25 @@ if (arrayWalkOnSnowEffectCount==1) {
 					//bIsHeroAttacked=false;
 					return;
 				}
-			
-			//bIsHeroAttacked=false;		
-
-			//+iImageFrameWidthDefault/2; iImageFrameHeightDefault/2
-				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidth, iImageFrameHeight, iImageFrameWidthDefault, iImageFrameHeightDefault)) {		
-				//removed by Mike, 20251120
-/*				
-				//edited by Mike, 20251113
-				if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2)) {	
-
-					inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]=ATTACKING_STATE;
 				
-					//if (!bHasFired) {
-						if (!bHasHeroHitMonster) {
-							if (inputArrayWraithMonsterWithIdCount[MONSTER_ATTACK_DELAY]>=inputArrayWraithMonsterWithIdCount[MONSTER_ATTACK_DELAY_MAX]) {
-								inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]=ATTACKING_STATE							
-							}
-							else {
-								inputArrayWraithMonsterWithIdCount[MONSTER_ATTACK_DELAY]++;
+				//edited by Mike, 20260615
+				//OK for one-hit dead enemies;
+				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge, iImageFrameWidthLarge/2, iImageFrameHeightLarge)) {
 
-								inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]=IDLE_STATE;
-							}
+				//edited by Mike, 20260616				
+				//noted if enemy already covers the hero, hero can't attack it anymore;
+				//one tap to attack and move; instead of multiple buttons;
+				//updated to enable attack against multiple enemies at the same time;
+				//however, the enemies must be at the exact same location or almost unnoticable difference in position; 
+				
+				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*0.75, iImageFrameHeightLarge, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge)) {
+				
+				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*1, iImageFrameHeightLarge, iImageFrameWidthLarge*1, iImageFrameHeightLarge)) {
 
-							if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]==ATTACKING_STATE) {
 
-								heroHitByMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iMonsterAttackDamageWraith);
-								
-								setExplosionEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/2,mainImageTilePosY+iImageFrameHeightLarge/2);
-								
-								//push out hero
-								//bHasHeroChangedFacingLeftOrRight=false;
-								
-								if (!bIsHeroFacingUpOrDown) {
-									if (!bIsHeroWalking) {
-										if (mainImageTilePosX>inputArrayWraithMonsterWithIdCount[MONSTER_POSX]) {	
-											mainImageTilePosX+=iImageFrameWidthLarge/20;
-										}
-										else {
-											mainImageTilePosX-=iImageFrameWidthLarge/20;
-										}
-									}
-								}
-							}
-						}
-					//}					
-				}				
+				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*1, iImageFrameHeightLarge, iImageFrameWidthLarge*1, iImageFrameHeightLarge)) {
 				
-				else */
-				/*if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75)) {
-*/
-				
-				//edited by Mike, 20251124
-				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2)) {	
-				if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge, iImageFrameWidthLarge/2, iImageFrameHeightLarge)) {
-				
-				
-				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2)) {
+				if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2)) {
 				
 					//TODO: -add: auto-update z-index
 					//updateHeroZIndex(mainImageTileHeroBody,inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT]);
@@ -10482,14 +10490,51 @@ if (arrayWalkOnSnowEffectCount==1) {
 					//verify if hero attacked
 					//edited by Mike, 20251113
 					//if (bHasFired && (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge, iImageFrameHeightLarge, iImageFrameWidthLarge, iImageFrameHeightLarge))) {
-					if (bHasFired && (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2))) {
 
-						//edited by Mike, 20251112; from 20251111
-						var bHasReducedHeroManaOutput=reduceHeroMana(3);
+/*					
+					if (bHasAttacked) {
+						alert("bHasAttacked: "+bHasAttacked);
+					}
+*/					
+
+					//alert(inputArrayWraithMonsterWithIdCount);
+
+					//edited by Mike, 20260615; debug
+					//if (bHasFired && (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2))) {
+
+					
+					if (bHasFired) {
+						bHasAttacked=bHasFired;
+					}
+
+					//edited by Mike, 20260616
+					if (bHasAttacked && isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2)) {
+					
+					//if (bHasAttacked && isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge*1,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge*1, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*1, iImageFrameHeightLarge*1, iImageFrameWidthLarge*1, iImageFrameHeightLarge*1)) {
+					
+					//alert("DITO!!!: "+iCount);
+					
+					bHasAttacked=true;
+
+					//alert("inputArrayWraithMonsterWithIdCount[MONSTER_POSX]"+inputArrayWraithMonsterWithIdCount[MONSTER_POSX]);
+																
+					//hero can no longer escape; only attacks
+					//if (bHasFired) {
+					
+						//edited by Mike, 20260616; from 20251112
+						//var bHasReducedHeroManaOutput=reduceHeroMana(3);
+						var bHasReducedHeroManaOutput=0;
+
+						//no need to reduce multiple times if multiple enemies are hit at the same time
+						if ((bHasFired) && (bHasAttacked)){ 
+							bHasReducedHeroManaOutput=reduceHeroMana(3);
+						}
 						
 						if (!bHasReducedHeroManaOutput) {
 							return;
 						}
+
+
 						
 	/*	
 						iCurrHeroMana-=3;
@@ -10503,7 +10548,7 @@ if (arrayWalkOnSnowEffectCount==1) {
 							return;
 						}
 	*/
-										
+
 						bHasHeroHitMonster=true;
 						iHeroAttackAnimationDelayCount=0;
 						iHeroAttackAnimationCount=0;//-1;
@@ -10560,6 +10605,8 @@ if (arrayWalkOnSnowEffectCount==1) {
 						setExplosionEffectPosition(inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidthLarge/2,inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/2);	
 
 						actorLastAttackedByHero=inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT];
+						
+						//noted by Mike, 20260615; debug
 						inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]--;
 
 						//TODO: do this after hero's attack finishes last frame
@@ -10579,6 +10626,7 @@ if (arrayWalkOnSnowEffectCount==1) {
 
 								setExplosionEffectPosition(inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidthLarge/2,inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/2);
 							}
+							
 						//}
 						
 						
@@ -10630,14 +10678,12 @@ if (arrayWalkOnSnowEffectCount==1) {
 								}
 								
 								//currSkelMonsterTileState=ATTACKING_STATE;//WALKING_STATE;
-							}
-
-						
-							
+							}							
 						}
 					}
 				}
 			}
+			
 		//}
 	}
 	
@@ -13509,15 +13555,16 @@ iCurrTextCharacterCountMax=sText.length;
 					
 					arrayWraithMonsterCountId[0][MONSTER_POSY]=iInnerVerticalOffset+iStageMaxHeight/4+iImageFrameHeightDefault;
 					
-					arrayWraithMonsterCountId[1][MONSTER_POSX]=iInnerHorizontalOffset+iStageMaxWidth-iImageFrameWidthLarge*4;
+					//edited by Mike, 20260615
+					arrayWraithMonsterCountId[1][MONSTER_POSX]=iInnerHorizontalOffset+iStageMaxWidth-iImageFrameWidthLarge*2.1;//4;
 					
 					arrayWraithMonsterCountId[1][MONSTER_POSY]=iInnerVerticalOffset+iStageMaxHeight/4+iImageFrameHeightDefault;
 
-					arrayWraithMonsterCountId[0][MONSTER_STEPX]=2;
-					arrayWraithMonsterCountId[0][MONSTER_STEPY]=2;
+					arrayWraithMonsterCountId[0][MONSTER_STEPX]=1;//2;
+					arrayWraithMonsterCountId[0][MONSTER_STEPY]=1;//2;
 
-					arrayWraithMonsterCountId[1][MONSTER_STEPX]=2;
-					arrayWraithMonsterCountId[1][MONSTER_STEPY]=2;
+					arrayWraithMonsterCountId[1][MONSTER_STEPX]=1;//2;
+					arrayWraithMonsterCountId[1][MONSTER_STEPY]=1;//2;
 /*
 					arrayWraithMonsterCountId[2][MONSTER_STEPX]=2;
 					arrayWraithMonsterCountId[2][MONSTER_STEPY]=2;
@@ -13564,14 +13611,31 @@ iCurrTextCharacterCountMax=sText.length;
 					verifyHeroSniperShotCollideWithSkelMonsters();
 				}
 */				
-
 				var bHasWraithMonsterWalking=false;
 				
-				for (iCount=0; iCount<iWraithMonsterCountMax/2; iCount++) {
-					if (arrayWraithMonsterCountId[iCount][MONSTER_IS_ACTIVE]) {
+				//added by Mike, 20260615
+				//bHasAttacked=bHasFired; //if always true; noted delay in the second attack
+				//var bHasFiredTemp=bHasFired; //if always true; noted delay in the second attack
+								
+				for (var iCount=0; iCount<iWraithMonsterCountMax/2; iCount++) {
+				//for (iCount=0; iCount<iWraithMonsterCountMax; iCount++) {
+					//edited by Mike, 20260616
+					//if (arrayWraithMonsterCountId[iCount][MONSTER_IS_ACTIVE]) {
+					if ((arrayWraithMonsterCountId[iCount][MONSTER_OBJECT].checkVisibility()) && (arrayWraithMonsterCountId[iCount][MONSTER_IS_ACTIVE])) {
+					
 						arrayWraithMonsterCountId[iCount][MONSTER_OBJECT].style.visibility="visible";
 						
 						//alert(iCount);
+
+						//added by Mike, 20260615
+						//enable multiple enemies hit;
+						//bHasFired=bHasFiredTemp;
+
+/*						
+						if (bHasFired) {
+							alert("bHasAttacked: "+bHasAttacked);
+						}
+*/
 
 						arrayWraithMonsterCountId[iCount][MONSTER_OBJECT].style.top = 0+arrayWraithMonsterCountId[iCount][MONSTER_POSY]+"px"; //iInnerVerticalOffset
 						arrayWraithMonsterCountId[iCount][MONSTER_OBJECT].style.left = 0+arrayWraithMonsterCountId[iCount][MONSTER_POSX]+"px"; //iInnerHorizontalOffset
@@ -13585,33 +13649,53 @@ iCurrTextCharacterCountMax=sText.length;
 								continue;
 							}						
 						}	 		
-*/									
+*/
+									
 						if (arrayWraithMonsterCountId[iCount][MONSTER_CURRENT_STATE]!=ATTACKING_STATE) {
+
 							if (!bHasWraithMonsterWalking) {
 								//already set to WALKING_STATE									//arrayWraithMonsterCountId[iCount][MONSTER_CURRENT_STATE]=WALKING_STATE_STATE;								
 
 								bHasWraithMonsterWalking=true;
 							}
 							else {
-								arrayWraithMonsterCountId[iCount][MONSTER_CURRENT_STATE]=IDLE_STATE;								
+								arrayWraithMonsterCountId[iCount][MONSTER_CURRENT_STATE]=IDLE_STATE;
 							}
 
 							executeWraithMonsterWalkingAnimation(arrayWraithMonsterCountId[iCount]);
+							
 						}
 						else {
 							executeWraithMonsterAttackingAnimation(arrayWraithMonsterCountId[iCount]);
 						}
-					
-
-						verifyHeroCollideWithWraithMonsters(arrayWraithMonsterCountId[iCount]);
 						
+						
+/*						
+						if (bHasAttacked) {
+							alert("iCount: "+iCount);
+						}
+*/
+
+						//verifyHeroCollideWithWraithMonsters(arrayWraithMonsterCountId[iCount]);
+						verifyHeroCollideWithWraithMonstersDebug(arrayWraithMonsterCountId[iCount],iCount);
+								
+//alert(arrayWraithMonsterCountId[iCount]);
+								
 						verifyHeroFireballCollideWithWraithMonsters(arrayWraithMonsterCountId[iCount]);
 
 						verifyHeroSniperShotCollideWithWraithMonsters(arrayWraithMonsterCountId[iCount]);
 						
 						//verifyWraithCollideWithRiver(arrayWraithMonsterCountId[iCount]);
 					}
+/*					
+					else {
+						alert("iCount!!! INACTIVE: "+iCount);
+					}
+*/					
 				}
+				
+				//added by Mike, 20260615
+				bHasAttacked=false;
 
 				//added by Mike, 20251109
 				updateArrayActorsZIndex();
@@ -13640,7 +13724,8 @@ iCurrTextCharacterCountMax=sText.length;
 					//alert("mainImageTilePosX: "+mainImageTilePosX);				
 					resetProjectile();
 				}
-							
+				//edited by Mike, 20260616
+/*
 				//right-most
 				if (mainImageTilePosX+iImageFrameWidthDefault>(iInnerHorizontalOffset)+iStageMaxWidth-iImageFrameWidthDefault*1.5) {
 					//OK;
@@ -13653,6 +13738,13 @@ iCurrTextCharacterCountMax=sText.length;
 					//bIsLevelUp=true;
 					
 					verifyIfHeroLeveledUp();
+				}
+*/				
+				//right-most
+				//wall
+				if (mainImageTilePosX+iImageFrameWidthDefault>(iInnerHorizontalOffset)+iStageMaxWidth-iImageFrameWidthDefault*1.5) { 
+					mainImageTilePosX=(iInnerHorizontalOffset)+iStageMaxWidth-iImageFrameWidthDefault*1.5-iImageFrameWidthDefault;
+					resetProjectile();	
 				}
 				//left-most
 				//wall
@@ -19784,7 +19876,10 @@ setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameW
 			//reset; new game
 			dElapsedTimeInSeconds=0;
 
-			iCurrMapLocation=51;//75;//51;//53;		
+			//edited by Mike, 20260616
+			//iCurrMapLocation=51;//75;//51;//53;		
+			iCurrMapLocation=START_MAP_LOCATION;//75;//51;//53;		
+			
 			iStartTimeInMilliseconds=Date.now();	
 
 			bossBattleBgImageBeach.setAttribute("src", sSnowStage2);
