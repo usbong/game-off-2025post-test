@@ -4,7 +4,7 @@ This is a code-level post-test analysis of [Game Off 2025: Blue Sapphire Galaxy:
 
 ### ITCH.IO: PROTOTYPES
 
-1) https://masarapmabuhay.itch.io/game-off-2025-post-test
+1) https://masarapmabuhay.itch.io/game-off-2025-post-test0
 
 **Key Lesson Learned:** 
 
@@ -12,11 +12,23 @@ When the object is set to `hidden` visibility, attempting to access elements ins
 
 **Unlocked Possibilities:**
 
-It is now possible to hit multiple enemies with the melee attack, although they have to be in the exact same position, or have unnoticeable difference in position.
+It's now possible to hit multiple enemies with the melee attack, although they have to be in the exact same position, or have unnoticeable difference in position.
 
 Meanwhile, the "F" fireball can now hit multiple enemies in its path after commenting out `resetFireballProjectile()`. The technique could be used to create a wider area of enemies that can be hit using melee attacks. 
 
 Note that the image object for the fireball exploding animation must also be increased to more than `1` and put inside an `array` image pool.
+
+2) https://masarapmabuhay.itch.io/game-off-2025-post-test1
+
+**Key Lesson Learned:** 
+
+When an object like an enemy is to be reused again and put in a different `x` and `y` positions, setting both these positions to `-1000`, which is not viewable on the canvas, prevents the object from appearing in its previous position when its `visibility` is again set to `visible`.
+
+Note that this should be done before setting the object's `visibility` to `hidden`.
+
+**Unlocked Possibilities:**
+
+It's now possible to reuse the same object multiple times and put in different positions.
 
 ## Select Software Development Productivity Tools
 
