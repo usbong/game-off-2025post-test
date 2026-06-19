@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260618; from 20260617
+' @date updated: 20260619; from 20260618
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -1218,14 +1218,18 @@ var bIsExecutingShake=false;
 var iDestroyHumanShakeDelayCount=0;
 var iDestroyHumanShakeDelayMax=5;
 
-const iShakeOffsetWidthMax=2;
-const iShakeOffsetHeightMax=2;
+//edited by Mike, 20260619
+const iShakeOffsetWidthMax=2;//4;
+const iShakeOffsetHeightMax=2;//4;
 
 var iShakeOffsetWidth=iShakeOffsetWidthMax;
 var iShakeOffsetHeight=iShakeOffsetHeightMax;
 
-const iMonsterShakeOffsetWidthMax=2;
-const iMonsterShakeOffsetHeightMax=2;
+var bIsShakeOffsetWidthLeftSide=false;
+
+//edited by Mike, 20260619
+const iMonsterShakeOffsetWidthMax=2;//4;
+const iMonsterShakeOffsetHeightMax=2;//4;
 
 var iMonsterShakeOffsetWidth=iMonsterShakeOffsetWidthMax;
 var iMonsterShakeOffsetHeight=iMonsterShakeOffsetHeightMax;
@@ -10474,10 +10478,10 @@ if (arrayWalkOnSnowEffectCount==1) {
 				
 				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*1, iImageFrameHeightLarge, iImageFrameWidthLarge*1, iImageFrameHeightLarge)) {
 
-
-				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*1, iImageFrameHeightLarge, iImageFrameWidthLarge*1, iImageFrameHeightLarge)) {
+				//edited by Mike, 20260619
+				if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75)) {
 				
-				if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2)) {
+				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2)) {
 				
 					//TODO: -add: auto-update z-index
 					//updateHeroZIndex(mainImageTileHeroBody,inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT]);
@@ -10549,8 +10553,12 @@ if (arrayWalkOnSnowEffectCount==1) {
 						bHasAttacked=bHasFired;
 					}
 
-					//edited by Mike, 20260616
-					if (bHasAttacked && isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2)) {
+					//edited by Mike, 20260619; from 20260616
+					//if (bHasAttacked && isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2)) {
+
+					//if (bHasAttacked && isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge*1,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge*1, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge, iImageFrameHeightLarge, iImageFrameWidthLarge, iImageFrameHeightLarge)) {
+
+					if (bHasAttacked && isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge*0.75,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge**0.75, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75)) {
 					
 					//if (bHasAttacked && isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge*1,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge*1, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*1, iImageFrameHeightLarge*1, iImageFrameWidthLarge*1, iImageFrameHeightLarge*1)) {
 					
@@ -12022,8 +12030,19 @@ if (arrayWalkOnSnowEffectCount==1) {
 
     myCanvas.style.top = (iVerticalOffsetInnerScreen+0)+iShakeOffsetHeight+"px";
 
-    iHorizontalOffset=myCanvas.getBoundingClientRect().x+iShakeOffsetWidth;
+	//edited by Mike, 20260619
+    //iHorizontalOffset=myCanvas.getBoundingClientRect().x+iShakeOffsetWidth;
+    
+	if (bIsShakeOffsetWidthLeftSide) {
+		iHorizontalOffset=myCanvas.getBoundingClientRect().x-iShakeOffsetWidth;
+		
+		bIsShakeOffsetWidthLeftSide=false;
+	}
+	else {
+		iHorizontalOffset=myCanvas.getBoundingClientRect().x+iShakeOffsetWidth;
 
+		bIsShakeOffsetWidthLeftSide=true;
+	}
 
     myCanvasTwo.style.top = myCanvas.style.top;
     myCanvasTwo.style.left = myCanvas.style.left;
@@ -13725,7 +13744,8 @@ iCurrTextCharacterCountMax=sText.length;
 */
 									
 						if (arrayWraithMonsterCountId[iCount][MONSTER_CURRENT_STATE]!=ATTACKING_STATE) {
-
+							//edited by Mike, 20260619
+/*
 							if (!bHasWraithMonsterWalking) {
 								//already set to WALKING_STATE									//arrayWraithMonsterCountId[iCount][MONSTER_CURRENT_STATE]=WALKING_STATE_STATE;								
 
@@ -13734,6 +13754,7 @@ iCurrTextCharacterCountMax=sText.length;
 							else {
 								arrayWraithMonsterCountId[iCount][MONSTER_CURRENT_STATE]=IDLE_STATE;
 							}
+*/							
 
 							executeWraithMonsterWalkingAnimation(arrayWraithMonsterCountId[iCount]);
 							
