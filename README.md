@@ -30,6 +30,26 @@ Note that this should be done before setting the object's `visibility` to `hidde
 
 It's now possible to reuse the same object multiple times and put in different positions.
 
+3) https://masarapmabuhay.itch.io/game-off-2025-post-test2
+
+**Key Lesson Learned:** 
+
+I've opted to update the collision detection hit box from `iImageFrameHeightLarge/2` and `iImageFrameWidthLarge/2` to `iImageFrameHeightLarge` and `iImageFrameWidthLarge`. 
+
+This adds more leeway when targeting a monster to launch an attack, such that the hero attacks instead of walking pass the monster if the target based on the mouse's position when it's clicked isn't too far from the enemy.
+
+In the same way, monsters would attack the hero if he's in the same field of view and doesn't attack first. Previously, monsters would at times only end up walking and not attacking at all. 
+
+Still, at certain angles, such as diagonal, it may appear that the hero's weapon is still too far to supposedly hit the enemy. This, however, could be fixed by adding more animation effects. 
+
+**Unlocked Possibilities:**
+
+The game's now a lot easier, because the hero is also a lot more powerful.
+
+# Additional Bug Fixes
+
++updated: shaking to move the screen to the left and the right alternately; instead of only to the right so the margin now appears not only on the left, but also on the right;
+
 ## Select Software Development Productivity Tools
 
 1) MS Paint
