@@ -4,7 +4,7 @@ This is a code-level post-test analysis of [Game Off 2025: Blue Sapphire Galaxy:
 
 ### ITCH.IO: PROTOTYPES
 
-1) https://masarapmabuhay.itch.io/game-off-2025-post-test0
+1) 20260616; https://masarapmabuhay.itch.io/game-off-2025-post-test0
 
 **Key Lesson Learned:** 
 
@@ -18,7 +18,7 @@ Meanwhile, the "F" fireball can now hit multiple enemies in its path after comme
 
 Note that the image object for the fireball exploding animation must also be increased to more than `1` and put inside an `array` image pool.
 
-2) https://masarapmabuhay.itch.io/game-off-2025-post-test1
+2) 20260618; https://masarapmabuhay.itch.io/game-off-2025-post-test1
 
 **Key Lesson Learned:** 
 
@@ -30,7 +30,7 @@ Note that this should be done before setting the object's `visibility` to `hidde
 
 It's now possible to reuse the same object multiple times and put in different positions.
 
-3) https://masarapmabuhay.itch.io/game-off-2025-post-test2
+3) 20260619; https://masarapmabuhay.itch.io/game-off-2025-post-test2
 
 **Key Lesson Learned:** 
 
@@ -48,6 +48,7 @@ The game's now a lot easier, because the hero is also a lot more powerful.
 
 # Additional Bug Fixes
 
+3) 20260619;<br/> 
 +updated: shaking to move the screen to the left and the right alternately; instead of only to the right so the margin now appears not only on the left, but also on the right;
 
 ## Select Software Development Productivity Tools
