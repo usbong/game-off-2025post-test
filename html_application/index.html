@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260623; from 20260619
+' @date updated: 20260624; from 20260623
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -6514,6 +6514,17 @@ alert("iInputY: "+iInputY);
 					}
 					
 					inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.top=inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+"px";
+					
+					//added by Mike, 20260624
+					//inadvertently deleted
+					if (inputArrayWraithMonsterWithIdCount[MONSTER_POSX]<mainImageTilePosX) {
+						inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+=inputArrayWraithMonsterWithIdCount[MONSTER_STEPX];
+					}
+					else {
+						inputArrayWraithMonsterWithIdCount[MONSTER_POSX]-=inputArrayWraithMonsterWithIdCount[MONSTER_STEPX];
+					}
+
+					inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.left=inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+"px";	
 				}			
 			}
 		}
