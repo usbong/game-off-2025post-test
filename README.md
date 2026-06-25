@@ -58,7 +58,7 @@ Moreover, enemy monsters now have a new animation frame when the hero deals them
 
 We now have more animation frames that can be used as "bones" for various "skins." These can, of course, be further updated.
 
-4) 20260624;
+4) 20260624; work-in-progress
 
 **Key Lesson Learned:** 
 
@@ -84,6 +84,21 @@ Now:
 
 We can now add more animation effects when the hero hits the monster multiple times.
 
+5) 20260625; https://masarapmabuhay.itch.io/game-off-2025-post-test4
+
+**Key Lesson Learned:** 
+
+I've updated a combo count that automatically resets back to zero after 5 cycles. Whenever the hero is able to make a string of at least 3 hits to a monster facing directly to him toward the left or the right, it is pushed back and flies outward.
+
+At the moment, the code isn't yet orderly such that the ON and OFF switches using a combination of `if` statements and variables aren't yet in one place, making it time-consuming to identify which to turn on and which to turn off in order to produce the correct output. 
+
+Moreover, I'll still need to check that the damages dealt to the monsters by the hero are correctly counted.
+
+Meanwhile, I've removed the "START" button that momentarily appears when the app is loaded on a browser.
+
+**Unlocked Possibilities:**
+
+More animation frames can be added based on the combo count.
 
 # Additional Bug Fixes
 
