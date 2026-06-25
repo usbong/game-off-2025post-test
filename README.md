@@ -88,7 +88,7 @@ We can now add more animation effects when the hero hits the monster multiple ti
 
 **Key Lesson Learned:** 
 
-I've updated a combo count that automatically resets back to zero after 5 cycles. Whenever the hero is able to make a string of at least 3 hits to a monster facing directly to him toward the left or the right, it is pushed back and flies outward.
+I've updated a combo count that automatically resets back to zero after 5 cycles without a successful melee attack. Whenever the hero is able to make a string of at least 3 hits to a monster facing directly to him toward the left or the right, it is pushed back and flies outward.
 
 At the moment, the code isn't yet orderly such that the ON and OFF switches using a combination of `if` statements and variables aren't yet in one place, making it time-consuming to identify which to turn on and which to turn off in order to produce the correct output. 
 
