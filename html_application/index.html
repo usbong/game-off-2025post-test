@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260624; from 20260623
+' @date updated: 20260625; from 20260624
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -1123,6 +1123,22 @@
 				z-index: 90; /*4;*/
 			}
 
+			div.DivTextCombo
+			{
+				position: absolute;
+				color: #ffffff;
+
+				font-size: 32px;
+				font-weight: bold;
+
+				padding: 0px;
+				visibility: hidden;
+
+				/* put above image tiles;
+					below step count button
+				*/
+				z-index: 90; /*4;*/
+			}
 
       audio.myAudio
       {
@@ -1316,6 +1332,9 @@ var iCurrHeroDeathCount=0;
 var iCurrPearlCount=0;
 var iCurrPearlCountMax=6;
 var iCurrMonsterDeathCount=0;
+
+//added by Mike, 20260625
+var iCurrHeroComboCount=0;
 
 const DEFAULT_DEATH_COUNT_VAL=1;
 const BOSS_DEATH_COUNT_VAL=10;
@@ -1671,12 +1690,17 @@ var iHeroAnimationDelayCount=0;
 const iHeroAnimationDelayCountMax=8;//10;//5;//2;//1; //TODO: -add: more dust effect if target walking distance is far
 
 var iHeroAttackAnimationCount=0;//-1; //0; //due to immediately +1 in execution;
-var iHeroAttackAnimationCountMax=3;
+const iHeroAttackAnimationCountMax=3;
 var iHeroAttackAnimationDelayCount=0;
-var iHeroAttackAnimationDelayCountMax=5;//2;//1; //TODO: -add: more dust effect if target walking distance 
+const iHeroAttackAnimationDelayCountMax=5;//2;//1; //TODO: -add: more dust effect if target walking distance 
 
 //added by Mike, 20251106
 var iHeroAttackComboCount=0;
+
+//added by Mike, 20260625
+var iHeroAttackComboResetDelayCount=0;
+const iHeroAttackComboResetDelayCountMax=5;
+
 
 /*
 var iScore=10000;//0;
@@ -3277,6 +3301,34 @@ var bIsHeroFacingUp=false;
 		textHeroDeathStatusDiv.innerHTML = "x"+iCurrHeroDeathCount;		
 	}
 	
+	function drawHeroComboStatus(myCanvasContext, iXPos, iYPos) {		
+		//var comboCountImageTile = document.getElementById("comboCountImageId");	
+		var textHeroComboStatusDiv = document.getElementById("textHeroComboStatusDivId");
+
+		//comboCountImageTile.style.visibility="visible";
+		//comboCountImageTile.style.left=0+iXPos+iImageFrameWidthDefault+"px";
+		//comboCountImageTile.style.top=0+iYPos+iImageFrameHeightDefault*1+"px";
+
+		textHeroComboStatusDiv.style.visibility="visible";
+/*
+		textHeroComboStatusDiv.style.left=parseInt(deathCountImageTile.style.left)+iImageFrameWidthDefault+"px"
+		textHeroComboStatusDiv.style.top=0+iYPos+iImageFrameHeightDefault*0.9+"px";
+
+		if (iCurrHeroDeathCount>999) {
+			iCurrHeroDeathCount=999; //BAD ENDING...? how to reach 999? the faster?!
+		}		
+*/
+
+		textHeroComboStatusDiv.style.left=0+iXPos+iImageFrameWidthDefault+"px"
+		textHeroComboStatusDiv.style.top=0+iYPos+iImageFrameHeightDefault+"px";
+/*
+		textHeroComboStatusDiv.style.left=0+iXPos+"px"
+		textHeroComboStatusDiv.style.top=0+iYPos+"px";
+*/		
+		iCurrHeroComboCount=iHeroAttackComboCount; //TODO: -update: this
+		textHeroComboStatusDiv.innerHTML = "Cx"+iCurrHeroComboCount;		
+	}
+	
 	function drawKeyStatus(myCanvasContext, iXPos, iYPos) {	
 		var keyStatusImageTile = document.getElementById("keyStatusImageTileId");
 		//var textPearlStatusDiv = document.getElementById("textPearlStatusDivId");
@@ -3671,7 +3723,9 @@ var bIsHeroFacingUp=false;
 		textMonsterDeathStatusDiv.style.visibility="hidden";
 
 		titleImage.style.visibility="hidden";
-		textEnterDiv.style.visibility="visible";
+		//edited by Mike, 20260625
+		//textEnterDiv.style.visibility="visible";
+		textEnterDiv.style.visibility="hidden";
 		
 		textNewGameDiv.style.visibility="hidden";
 		textContinueGameDiv.style.visibility="hidden";
@@ -4152,8 +4206,10 @@ var bIsHeroFacingUp=false;
 
 		//alert ("textEnterDiv.style.left: "+textEnterDiv.style.left);
 		//alert ("textEnterDiv.style.top: "+textEnterDiv.style.top);
-
-		textEnterDiv.style.visibility="visible";
+		
+		//edited by Mike, 20260625
+		//textEnterDiv.style.visibility="visible";
+		textEnterDiv.style.visibility="hidden";
 
 		iTransitionScale=1;
 		
@@ -4181,6 +4237,9 @@ var bIsHeroFacingUp=false;
 		iCurrHeroDeathCount=0;
 		iCurrPearlCount=0; //debug; change this;
 		iCurrMonsterDeathCount=0;//998;//0;
+
+		//added by Mike, 2026025
+		iCurrHeroComboCount=0;
 				
 		//resetProjectile()				
 
@@ -4993,6 +5052,15 @@ alert("iInputY: "+iInputY);
 		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");
 		
 		bIsHeroWalking=true;
+				
+		//added by Mike, 20260625
+		if (iHeroAttackComboResetDelayCount>=iHeroAttackComboResetDelayCountMax) {
+			iHeroAttackComboCount=0;
+		}
+		else {
+			iHeroAttackComboResetDelayCount++
+		}
+
 
 		if (iHeroAnimationDelayCount==iHeroAnimationDelayCountMax) {
 			iHeroAnimationCount=(iHeroAnimationCount+1)%4; //last hidden
@@ -5121,7 +5189,7 @@ alert("iInputY: "+iInputY);
 				//iHeroAttackAnimationCount=0;
 
 				bHasHeroHitMonster=false;		
-			}
+							}
 			else {
 				iHeroAttackAnimationCount++
 			}
@@ -6408,6 +6476,19 @@ alert("iInputY: "+iInputY);
 */		
 	}	
 	
+	//added by Mike, 20260625
+	function clearWraithMonsterFromStage(inputArrayWraithMonsterWithIdCount) {	
+		//added by Mike, 20260617
+		//set outside the viewable canvas
+		inputArrayWraithMonsterWithIdCount[MONSTER_POSX]=-1000;
+		inputArrayWraithMonsterWithIdCount[MONSTER_POSY]=-1000;		
+		inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.top = 0+inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+"px";
+		inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.left = 0+inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+"px"; 					
+		inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.visibility="hidden";				
+		
+		inputArrayWraithMonsterWithIdCount[MONSTER_IS_ACTIVE]=false;
+	}
+	
 	function executeWraithMonsterWalkingAnimation(inputArrayWraithMonsterWithIdCount) {		
 		//hero tile position
 		var mainImageTile = document.getElementById("mainImageTileImageId");
@@ -6418,7 +6499,9 @@ alert("iInputY: "+iInputY);
 			
 				if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]<=0) {
 
-					//added by Mike, 20260617
+					//edited by Mike, 20260625; from 20260617
+					clearWraithMonsterFromStage(inputArrayWraithMonsterWithIdCount);
+/*					
 					//set outside the viewable canvas
 					inputArrayWraithMonsterWithIdCount[MONSTER_POSX]=-1000;
 					inputArrayWraithMonsterWithIdCount[MONSTER_POSY]=-1000;		
@@ -6427,7 +6510,7 @@ alert("iInputY: "+iInputY);
 					inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.visibility="hidden";				
 					
 					inputArrayWraithMonsterWithIdCount[MONSTER_IS_ACTIVE]=false;
-					
+*/					
 					//alert("DITO!!");
 					return;
 				}						
@@ -6564,7 +6647,7 @@ alert("iInputY: "+iInputY);
 
 		var iFrameY=0;
 		var iFrameXOffset=0;
-
+		
 		if (inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidthLarge/4<mainImageTilePosX) {
 			iFrameY=iImageFrameHeightLarge*0; //face right
 			
@@ -6614,18 +6697,26 @@ alert("iInputY: "+iInputY);
 					iFrameXOffset=iImageFrameWidthLarge*0;		
 					
 					//if (bIsMonsterFacingLeft) {
+					//noted by Mike, 20260625; TODO: -fix this;
 					//TODO: -add: combo count
-					if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]==1) {
+					if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]==1) { //0
+					//if (iHeroAttackComboCount>=3) {
+					
 						if (inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_LEFT]) {
 							iFrameY=iImageFrameHeightLarge*9;
 							
 							inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+=inputArrayWraithMonsterWithIdCount[MONSTER_STEPX]*5;
+							
+							//alert("HALLO!!!: "+inputArrayWraithMonsterWithIdCount[MONSTER_POSX]);
+
 						}
 						else { //monster facing right
 							iFrameY=iImageFrameHeightLarge*8;
 
 							inputArrayWraithMonsterWithIdCount[MONSTER_POSX]-=inputArrayWraithMonsterWithIdCount[MONSTER_STEPX]*5;
 						}
+
+						//inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]-=2;
 						
 						//inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]--;
 					}
@@ -6639,19 +6730,100 @@ alert("iInputY: "+iInputY);
 					iFrameXOffset=iImageFrameWidthLarge*11;				
 				}
 */								
-				
-				inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset + "px -" + iFrameY + "px";
+				//removed by Mike, 20260625
+				//inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset + "px -" + iFrameY + "px";
 				
 				inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]++;
+				
+				//TODO: -update: this; when monster gets hit and sent flying outward, add dying animation
+				const iAnimationInvincibleCountOffset=12;//4; //up to 4 frames
+				
+				if ((inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]>WRAITH_ANIMATION_INVINCIBLE_COUNT_MAX-2-iAnimationInvincibleCountOffset) && (inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]<WRAITH_ANIMATION_INVINCIBLE_COUNT_MAX-2)) {
+					//alert("COUNT: "+inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]);
+										
+					//send monster flying outward
+					//edited by Mike, 20260625
+					if ((iHeroAttackComboCount>=3) || (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]<0)) {//0)) {
+					
+						//alert(inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]);
+					
+						iFrameXOffset=iImageFrameWidthLarge*2;	
+						
+						if (inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_LEFT]) {
+							iFrameY=iImageFrameHeightLarge*9;
+						}
+						else { //monster facing right
+							iFrameY=iImageFrameHeightLarge*8;
+						}
+					}
+					
+					//alert(inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]);
+					//noted by Mike, 20260625
+					//TODO: -fix: this
+/*
+					if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]<=1) {
+						//alert("DITO!!!");
+						
+						if (iHeroAttackComboCount==1) {
+							iFrameXOffset=iImageFrameWidthLarge*2;	
+							
+							if (inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_LEFT]) {
+								iFrameY=iImageFrameHeightLarge*11;
+							}
+							else { //monster facing right
+								iFrameY=iImageFrameHeightLarge*10;
+							}
+						}
+					}
+					else if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]<0) {
+						if (iHeroAttackComboCount>=3) {
+						
+							//alert(inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]);
+						
+							iFrameXOffset=iImageFrameWidthLarge*2;	
+							
+							if (inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_LEFT]) {
+								iFrameY=iImageFrameHeightLarge*9;
+							}
+							else { //monster facing right
+								iFrameY=iImageFrameHeightLarge*8;
+							}
+							
+							//inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]-=2;
+						}
+					}
+*/					
+						
+					//inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]--;
 
-/*				//TODO: -update: this; when monster gets hit and sent flying outward, add dying animation
-				if (inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]>=WRAITH_ANIMATION_INVINCIBLE_COUNT_MAX) {
-					inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]=0;
+					//inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]=-1;
+					
+					inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]=DYING_STATE;
+
+					iCurrMonsterDeathCount++;
+
+					setExplosionEffectPosition(inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidthLarge/2,inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/2);
+					
+					inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset + "px -" + iFrameY + "px";			
+					
+				}				
+				//END
+				//else if (inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]==WRAITH_ANIMATION_INVINCIBLE_COUNT_MAX) {
+				else if (inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]>=WRAITH_ANIMATION_INVINCIBLE_COUNT_MAX-2) {
+
+					//alert("==");
+					
+					//alert("==: "+inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]);
+					
+					//edited by Mike, 20260617
+					//TODO: -fix: this
+					//if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]<=0) {
+						clearWraithMonsterFromStage(inputArrayWraithMonsterWithIdCount);
+					//}
 				}
-				else {
+				else {				
 					inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset + "px -" + iFrameY + "px";
 				}
-*/
 				
 				return;
 		}		
@@ -7052,16 +7224,8 @@ alert("iInputY: "+iInputY);
 
 		if (iHeroAttackAnimationCount>iHeroAttackAnimationCountMax) {
 			if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]<=0) {
-				//added by Mike, 20260617
-				//set outside the viewable canvas
-				inputArrayWraithMonsterWithIdCount[MONSTER_POSX]=-1000;
-				inputArrayWraithMonsterWithIdCount[MONSTER_POSY]=-1000;		
-				inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.top = 0+inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+"px";
-				inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.left = 0+inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+"px"; 					
-
-				inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.visibility="hidden";		
-				
-				inputArrayWraithMonsterWithIdCount[MONSTER_IS_ACTIVE]=false;
+				//edited by Mike, 20260625; from 20260617
+				clearWraithMonsterFromStage(inputArrayWraithMonsterWithIdCount);
 				
 				//alert("DITO!!");
 				return;
@@ -10594,69 +10758,7 @@ if (arrayWalkOnSnowEffectCount==1) {
 
 				//edited by Mike, 20260619
 				if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75)) {
-				
-				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2)) {
-				
-					//TODO: -add: auto-update z-index
-					//updateHeroZIndex(mainImageTileHeroBody,inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT]);
-					
-					//added by Mike, 20251109
-/*
-					if (!bHasHeroChangedFacingLeftOrRight) {
-						if (!bIsHeroFacingUpOrDown) {
-							if (mainImageTilePosX>inputArrayWraithMonsterWithIdCount[MONSTER_POSX]) {				
-								bIsHeroFacingLeft=true;
-								bIsHeroFacingLeftOrRight=true;					
-							}
-							else { //hero is on top of skel in y-axis;
-								bIsHeroFacingLeft=false;
-								bIsHeroFacingLeftOrRight=true;					
-							}
-						}
-						bHasHeroChangedFacingLeftOrRight=true;
-					}
-					else {
-*/
-					//edited by Mike, 20251120; from 20251119
-					//inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]=ATTACKING_STATE;
-					
-					
-					
-/*
-					if (bHasHeroChangedFacingLeftOrRight) {
-						//monster deals damage to hero; spinning hero;
-						//therefore, push out hero
-						//bHasHeroChangedFacingLeftOrRight=false;
-						
-						//deal damage only when hero is exactly facing left or right;
-						if (!bIsHeroFacingUpOrDown) {
-							inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]=ATTACKING_STATE;
-						}
-						else {
-							if (inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_COUNT]==0) {
-								let iRandAttackValue=window.parseInt(Math.random() * 10)%10;
-								
-								//alert(iRandAttackValue);
-								
-								//deal damage at 1/20 chance
-								if (iRandAttackValue<1) {
-									inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]=ATTACKING_STATE;
-								}
-							}
-						}
-					}
-*/
-
-					//verify if hero attacked
-					//edited by Mike, 20251113
-					//if (bHasFired && (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge, iImageFrameHeightLarge, iImageFrameWidthLarge, iImageFrameHeightLarge))) {
-
-/*					
-					if (bHasAttacked) {
-						alert("bHasAttacked: "+bHasAttacked);
-					}
-*/					
-
+			
 					//alert(inputArrayWraithMonsterWithIdCount);
 
 					//edited by Mike, 20260615; debug
@@ -10692,6 +10794,9 @@ if (arrayWalkOnSnowEffectCount==1) {
 						//no need to reduce multiple times if multiple enemies are hit at the same time
 						if ((bHasFired) && (bHasAttacked)){ 
 							bHasReducedHeroManaOutput=reduceHeroMana(3);
+							
+							//added by Mike, 20260625
+							inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]--;
 						}
 						
 						if (!bHasReducedHeroManaOutput) {
@@ -10716,6 +10821,9 @@ if (arrayWalkOnSnowEffectCount==1) {
 						bHasHeroHitMonster=true;
 						iHeroAttackAnimationDelayCount=0;
 						iHeroAttackAnimationCount=0;//-1;
+						
+						//added by Mike, 20260625
+						iHeroAttackComboResetDelayCount=0;
 						
 						iHeroAttackComboCount++;
 
@@ -10771,7 +10879,7 @@ if (arrayWalkOnSnowEffectCount==1) {
 						actorLastAttackedByHero=inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT];
 						
 						//noted by Mike, 20260615; debug
-						inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]--;
+						//inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]--;
 						
 						//added by Mike, 20260623
 						inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]=0;
@@ -10783,7 +10891,7 @@ if (arrayWalkOnSnowEffectCount==1) {
 								//inputArrayWraithMonsterWithIdCount[MONSTER_IS_ACTIVE]=false;
 								
 								inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]=DYING_STATE;
-
+							
 								//setMonsterDeathAnimationPosition(inputArrayWraithMonsterWithIdCount[MONSTER_POSX]-iImageFrameWidthLarge/2, inputArrayWraithMonsterWithIdCount[MONSTER_POSY]-iImageFrameHeightLarge/2, MONSTER_TYPE_VAL_WRAITH);								
 								
 								//alert("DITO!");
@@ -11513,14 +11621,8 @@ if (arrayWalkOnSnowEffectCount==1) {
 					
 					setFireballExplosionEffectPosition(inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidth/2,inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeight/2);
 
-					//edited by Mike, 20260618; debug					
-					inputArrayWraithMonsterWithIdCount[MONSTER_POSX]=-1000;
-					inputArrayWraithMonsterWithIdCount[MONSTER_POSY]=-1000;		
-					inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.top = 0+inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+"px";
-					inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.left = 0+inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+"px";
-
-					inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.visibility="hidden";					
-					inputArrayWraithMonsterWithIdCount[MONSTER_IS_ACTIVE]=false;
+					//edited by Mike, 20260625; from 20260618; debug					
+					clearWraithMonsterFromStage(inputArrayWraithMonsterWithIdCount);
 
 					iCurrMonsterDeathCount++;
 				}
@@ -12606,6 +12708,9 @@ iCurrTextCharacterCountMax=sText.length;
 			//drawMonsterDeathStatus(myCanvasTwoContext,0+parseInt(textTimeDiv.style.left), 0+parseInt(textTimeDiv.style.top));
 			drawHeroDeathStatus(myCanvasTwoContext,0+parseInt(textTimeDiv.style.left), 0+parseInt(textTimeDiv.style.top)); 
 			
+			//added by Mike, 20260625
+			drawHeroComboStatus(myCanvasTwoContext,0+iStageMaxWidth/2, 0-iImageFrameHeightDefault); 
+			
 			return;
 		}
 
@@ -13324,6 +13429,9 @@ iCurrTextCharacterCountMax=sText.length;
 	//edited by Mike, 20251124; from 20251120
 	//drawMonsterDeathStatus(myCanvasTwoContext,0+parseInt(textTimeDiv.style.left), 0+parseInt(textTimeDiv.style.top)); 
 	drawHeroDeathStatus(myCanvasTwoContext,0+parseInt(textTimeDiv.style.left), 0+parseInt(textTimeDiv.style.top));
+
+	//added by Mike, 20260625
+	drawHeroComboStatus(myCanvasTwoContext,0+iStageMaxWidth/2, 0-iImageFrameHeightDefault); 
 		
 	//alert(iHorizontalOffset);
 
@@ -20196,6 +20304,9 @@ setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameW
 			iCurrHeroDeathCount=0;
 			iCurrPearlCount=0;
 			iCurrMonsterDeathCount=0;
+
+			//added by Mike, 20260625
+			iCurrHeroComboCount=0;
 			
 			//added by Mike, 20251122
 			iTextStatusOffsetY=0;
@@ -21634,6 +21745,7 @@ opting to put assets folder in "html_application" folder instead
 	<div id="textMonsterDeathStatusDivId" class="DivTextTime">0</div>
 	<div id="textHeroDeathStatusDivId" class="DivTextTime">0</div>
 
+	<div id="textHeroComboStatusDivId" class="DivTextCombo">0</div>
 
 
 <!--
