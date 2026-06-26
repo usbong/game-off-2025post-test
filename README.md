@@ -88,7 +88,7 @@ We can now add more animation effects when the hero hits the monster multiple ti
 
 **Key Lesson Learned:** 
 
-I've added a combo count that automatically resets back to zero after 5 cycles without a successful melee attack. Whenever the hero is able to make a string of at least 3 hits to a monster facing directly toward him from his left or his right, it is pushed back and flies outward.
+I've added a combo count that automatically resets back to zero internally after 5 cycles without a successful melee attack. Whenever the hero is able to make a string of at least 3 hits to a monster facing directly toward him from his left or his right, it is pushed back and flies outward.
 
 At the moment, the code isn't yet orderly such that the ON and OFF switches using a combination of `if` statements and variables aren't yet in one place, making it time-consuming to identify which to turn on and which to turn off in order to produce the correct output. 
 
@@ -99,6 +99,18 @@ Meanwhile, I've removed the "START" button that momentarily appears when the app
 **Unlocked Possibilities:**
 
 More animation frames can be added based on the combo count.
+
+7) 20260626; https://masarapmabuhay.itch.io/game-off-2025-post-test5
+
+**Key Lesson Learned:** 
+
+I've updated the code to be more orderly, removing excess comments and other clutter. Because of this, the computer can now correctly count the damages that the hero deals to each monster.
+
+However, since the combo count quickly resets to zero internally, I'll need to use another counter to identify the corresponding death animation to be used based on the combo count. I had thought about dealing damage such as `-3000` or `-2000` to identify the combo, but this would mess up the computer's correctly computed damage.
+
+**Unlocked Possibilities:**
+
+More death-related animation frames can be added based on the combo count that will be stored in another variable. The higher this count, the stronger-looking it should be.
 
 # Additional Bug Fixes
 
