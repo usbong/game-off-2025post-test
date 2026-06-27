@@ -112,6 +112,16 @@ However, since the combo count quickly resets to zero internally, I'll need to u
 
 More death-related animation frames can be added based on the combo count that will be stored in another variable. The higher this count, the stronger-looking it should be.
 
+8) 20260627; work-in-progress
+
+**Key Lesson Learned:** 
+
+This version removes some of the animation frames like lying down to create a much more solid (not buggy-looking) experience.
+
+**Unlocked Possibilities:**
+
+A reusable artifact. 
+
 # Additional Bug Fixes
 
 3) 20260619;<br/> 
