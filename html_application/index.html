@@ -6497,6 +6497,8 @@ alert("iInputY: "+iInputY);
 		inputArrayWraithMonsterWithIdCount[MONSTER_IS_ACTIVE]=false;
 		
 		inputArrayWraithMonsterWithIdCount[MONSTER_DEATH_ANIMATION_TYPE]=MONSTER_DEATH_ANIMATION_TYPE_DEFAULT;
+		
+		inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]=WALKING_STATE;
 	}
 	
 	function executeWraithMonsterWalkingAnimation(inputArrayWraithMonsterWithIdCount) {		
@@ -6695,6 +6697,7 @@ alert("iInputY: "+iInputY);
 			}
 		}
 
+/*
 		//added by Mike, 20260623
 		if (inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]<WRAITH_ANIMATION_INVINCIBLE_COUNT_MAX) {
 			//edited by Mike, 20260624
@@ -6763,12 +6766,7 @@ alert("iInputY: "+iInputY);
 			if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]<=0) {
 
 				//alert(inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]);
-			
-				setExplosionEffectPosition(inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidthLarge/2,inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/2);
-				
-/*			
-				clearWraithMonsterFromStage(inputArrayWraithMonsterWithIdCount);
-*/				
+				setExplosionEffectPosition(inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidthLarge/2,inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/2);		
 			}
 			else {
 				inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset + "px -" + iFrameY + "px";
@@ -6778,6 +6776,7 @@ alert("iInputY: "+iInputY);
 
 			return;
 		}
+*/
 			
 		if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]<=0) {
 
@@ -6793,9 +6792,12 @@ alert("iInputY: "+iInputY);
 				inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*4 + "px -" + iFrameY + "px";
 			}
 			else {
-				inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset + "px -" + iFrameY + "px";				
+				//inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset + "px -" + iFrameY + "px";
+				
+				inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_COUNT] + "px -" + iFrameY + "px";				
 			}
 		}
+
 				
 		inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]++;
 	}
@@ -10743,9 +10745,15 @@ if (arrayWalkOnSnowEffectCount==1) {
 					//hero can no longer escape; only attacks
 					//if (bHasFired) {
 					
-						//edited by Mike, 20260616; from 20251112
+						//edited by Mike, 20260627; from 20260616
 						//var bHasReducedHeroManaOutput=reduceHeroMana(3);
-						var bHasReducedHeroManaOutput=0;
+						var bHasReducedHeroManaOutput=false;//0;
+						
+						//added by Mike, 20260627
+						if (iCurrHeroMana==0) {
+							return;
+						}
+
 
 						//no need to reduce multiple times if multiple enemies are hit at the same time
 						if ((bHasFired) && (bHasAttacked)){ 
