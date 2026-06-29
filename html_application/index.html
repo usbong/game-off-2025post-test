@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260627; from 20260626
+' @date updated: 20260629; from 20260627
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -6791,6 +6791,11 @@ alert("iInputY: "+iInputY);
 			else if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]==IDLE_STATE) {
 				inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*4 + "px -" + iFrameY + "px";
 			}
+			else if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]==HIT_STATE) {
+				iFrameXOffset=iImageFrameWidthLarge*11;	
+
+				inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset + "px -" + iFrameY + "px";
+			}
 			else {
 				//inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset + "px -" + iFrameY + "px";
 				
@@ -10847,6 +10852,8 @@ if (arrayWalkOnSnowEffectCount==1) {
 						
 						//added by Mike, 20260623
 						inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]=0;
+						//added by Mike, 20260629
+						inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]=HIT_STATE;
 						
 						//TODO: do this after hero's attack finishes last frame
 						//if (iHeroAttackAnimationCount>iHeroAttackAnimationCountMax) {
