@@ -128,6 +128,16 @@ This version retains the combo count and the hit animation, while commenting out
 
 An easier-to-debug reusable artifact. 
 
+10) 20260702; https://masarapmabuhay.itch.io/game-off-2025-post-test7
+
+**Key Lesson Learned:** 
+
+I've updated the animation frames which include walking diagonally and directly upward or downward. I've also added new boxing animation frames and sound. At the code level, the monster's AI still doesn't proactively align horizontally to the hero. In other words, their positions in the  `y-axis` aren't equal or very close to each other. For the time being, the monster may still look above (behind) or below (in front) of the hero just like the animation frames with the sword. The punching animation required an update in the code, such that the frames don't skip or change too quickly. As for the sound, I've set it to play once the last frame of the punching animation finishes.
+
+**Unlocked Possibilities:**
+
+More animation frames could be created using existing frames that are further edited. Examples of these include monsters with weapons like bow and arrow, knife, spear, etc.
+
 # Additional Bug Fixes
 
 3) 20260619;<br/> 
