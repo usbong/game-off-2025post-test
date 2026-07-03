@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260702; from 20260701
+' @date updated: 20260703; from 20260702
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -6956,6 +6956,7 @@ alert("iInputY: "+iInputY);
 						inputArrayWraithMonsterWithIdCount[MONSTER_POSY]-=inputArrayWraithMonsterWithIdCount[MONSTER_STEPY];
 					}
 */					
+					//edited by Mike, 20260703
 					if (inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/16<mainImageTilePosY) {
 						inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+=inputArrayWraithMonsterWithIdCount[MONSTER_STEPY];
 					}
@@ -7041,9 +7042,9 @@ alert("iInputY: "+iInputY);
 				inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_COUNT] + "px -" + iFrameY + "px";
 			}
 			else if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]==IDLE_STATE) {
-				//edited by Mike, 20260702; temp
-				//inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*4 + "px -" + iFrameY + "px";
-				
+				//edited by Mike, 20260703; from 20260702; temp
+				inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*4 + "px -" + iFrameY + "px";
+/*				
 				if (inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidthLarge/4<mainImageTilePosX) {
 					iFrameY=iImageFrameHeightLarge*0; //face right
 				}
@@ -7052,6 +7053,7 @@ alert("iInputY: "+iInputY);
 				}
 			
 				inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*4 + "px -" + iFrameY + "px";
+*/
 			}
 			else if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]==HIT_STATE) {
 				iFrameXOffset=iImageFrameWidthLarge*11;	
@@ -7742,11 +7744,11 @@ alert("iInputY: "+iInputY);
 
 			var iFrameY=0;
 			var iFrameXOffset=0;//iImageFrameWidthLarge*4;//0;
-/*			
+			
 			if (inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidthLarge/4<mainImageTilePosX) {
 				iFrameY=iImageFrameHeightLarge*0; //face right
-*/				
-/*	//removed by Mike, 20260702; attack only when horizontally aligned with the hero			
+				
+	//removed by Mike, 20260702; attack only when horizontally aligned with the hero			
 				//if skel is facing up; below hero
 				if (inputArrayWraithMonsterWithIdCount[MONSTER_POSY]>mainImageTilePosY+iImageFrameHeightLarge/4) {
 					iFrameY=iImageFrameHeightLarge*5; //face up
@@ -7754,45 +7756,41 @@ alert("iInputY: "+iInputY);
 				else if (inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/4<mainImageTilePosY) {
 					iFrameY=iImageFrameHeightLarge*3; //face down
 				}
-*/
-/*				
+
 			}
 			//if hero is to the left of skel
 			else if (inputArrayWraithMonsterWithIdCount[MONSTER_POSX]>mainImageTilePosX+iImageFrameWidthLarge/4) {
 				iFrameY=iImageFrameHeightLarge*1; //face left
-*/
-/*	//removed by Mike, 20260702; attack only when horizontally aligned with the hero			
+
+	//removed by Mike, 20260702; attack only when horizontally aligned with the hero			
 				//if skel is facing up; below hero
 				if (inputArrayWraithMonsterWithIdCount[MONSTER_POSY]>mainImageTilePosY+iImageFrameHeightLarge/4) {
 					iFrameY=iImageFrameHeightLarge*4; //face up
 				}
 				else if (inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/4<mainImageTilePosY) {
 					iFrameY=iImageFrameHeightLarge*2; //face down
-				}
-*/			
-/*	
+				}			
 			}
 			//if parallel
-			else {
-*/			
-/*	//removed by Mike, 20260702; attack only when horizontally aligned with the hero			
+			else {			
+	//removed by Mike, 20260702; attack only when horizontally aligned with the hero			
 				//if skel is facing up; below hero
 				if (inputArrayWraithMonsterWithIdCount[MONSTER_POSY]>mainImageTilePosY+iImageFrameHeightLarge/4) {
-					iFrameY=iImageFrameHeightLarge*4; //face up
+					iFrameY=iImageFrameHeightLarge*7;//4; //face up
 				}
 				else if (inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/4<mainImageTilePosY) {
 				//else {
-					iFrameY=iImageFrameHeightLarge*2; //face down
+					iFrameY=iImageFrameHeightLarge*6;//2; //face down
 				}
 				else {
 					iFrameY=iImageFrameHeightLarge*4; //default
 				}
-*/				
-/*
-				iFrameY=iImageFrameHeightLarge*4; //default
-			}
-*/
 
+				//iFrameY=iImageFrameHeightLarge*4; //default
+			}
+
+
+/*			//edited by Mike, 20260703
 			if (inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidthLarge/4<mainImageTilePosX) {
 				iFrameY=iImageFrameHeightLarge*0; //face right
 			}
@@ -7801,7 +7799,7 @@ alert("iInputY: "+iInputY);
 			else {
 				iFrameY=iImageFrameHeightLarge*1; //face left
 			}
-
+*/
 			//edited by Mike, 20260702
 			inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*(inputArrayWraithMonsterWithIdCount[MONSTER_ATTACK_ANIMATION_COUNT]-1) - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";		
 
