@@ -138,6 +138,16 @@ I've updated the animation frames which include walking diagonally and directly 
 
 More animation frames could be created using existing frames that are further edited. Examples of these include monsters with weapons like bow and arrow, knife, spear, etc.
 
+11) 20260703; https://masarapmabuhay.itch.io/game-off-2025-post-test8
+
+**Key Lesson Learned:** 
+
+I've opted to create new boxer-related animation frames including when facing diagonally and directly upward or downward, instead of the monsters always facing left or right without diagonals. I've also updated the code to use these animation frames just like with the sword-weilding monster.
+
+**Unlocked Possibilities:**
+
+Drawing pixel art at 64x64px isn't too difficult, although it took me about two and a half hours to update the sprite sheet. Larger dimensions such as 128x128 would allow for more shadings and details in the image frames.
+
 # Additional Bug Fixes
 
 3) 20260619;<br/> 
