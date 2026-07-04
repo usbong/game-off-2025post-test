@@ -148,13 +148,26 @@ I've opted to create new boxer-related animation frames including when facing di
 
 Drawing pixel art at 64x64px isn't too difficult, although it took me about two and a half hours to update the sprite sheet. Larger dimensions such as 128x128 would allow for more shadings and details in the image frames.
 
+12) 20260704; https://masarapmabuhay.itch.io/game-off-2025-post-test9
+
+**Key Lesson Learned:** 
+
+I've updated the boxer monster's animation frames to reduce any noticeable pecularities when the hero moves around it so that it rotates, facing each of the eight directions. More specifically, I've made the body wider by 2 pixels when the monster's facing directly upward or downward.
+
+**Unlocked Possibilities:**
+
+While the oddities in the animation frames aren't too noticeable when the action is fast-paced, they do become apparent when the frames are reused and further modified.
+
 # Additional Bug Fixes
 
-3) 20260619;<br/> 
+1) 20260619;<br/> 
 +updated: shaking to move the screen to the left and the right alternately; instead of only to the right so the margin now appears not only on the left, but also on the right;
 
-6) 20260624;<br/> 
+2) 20260624;<br/> 
 +fixed: portion of the code that makes monster chase the hero in `executeWraithMonsterWalkingAnimation`; appears to have been inadvertently deleted
+
+3) 20260704;<br/>
++fixed: bug when the hero continuously presses the attack button on a target monster even though he's exhausted all his stamina, thereby causing the monster to not change animation frames anymore, eventually leading to the monster's sudden death. The former was related to the value of `MONSTER_ANIMATION_INVINCIBLE_COUNT` found in the monster's walking and attacking animation functions, which prevented the animation counters from getting continuously counted.
 
 ## Select Software Development Productivity Tools
 
