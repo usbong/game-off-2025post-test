@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260704; from 20260703
+' @date updated: 20260705; from 20260704
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -6635,11 +6635,12 @@ alert("iInputY: "+iInputY);
 				inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_LEFT]=true;
 			}
 			//---------------------------------------------
-			
+/*			//removed by Mike, 20260705			
 			if (inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]<WRAITH_ANIMATION_INVINCIBLE_COUNT_MAX) {
 				//no need to move the monster
 			}
 			else {
+*/			
 				if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]==WALKING_STATE) {
 					if (inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge*0<mainImageTilePosY) {
 						inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+=inputArrayWraithMonsterWithIdCount[MONSTER_STEPY];
@@ -6665,7 +6666,9 @@ alert("iInputY: "+iInputY);
 					inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.left=inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+"px";	
 					
 				}			
+/*	//removed by Mike, 20260705				
 			}
+*/			
 		}
 		else {
 			inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_DELAY_COUNT]++;
@@ -6819,8 +6822,9 @@ alert("iInputY: "+iInputY);
 			}
 		}
 
-				
+/*		//removed by Mike, 20260705				
 		inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]++;
+*/		
 	}
 	
 	
@@ -7470,13 +7474,14 @@ alert("iInputY: "+iInputY);
 		}	 		
 
 		inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.visibility="visible";
-	
+
+/*		//removed by Mike, 20260705	
 		//added by Mike, 20260623
 		if (inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]<WRAITH_ANIMATION_INVINCIBLE_COUNT_MAX) {
 			//no need to move the monster
 		}
 		else {
-
+*/
 			if (inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_DELAY_COUNT]>=0) {
 			
 				inputArrayWraithMonsterWithIdCount[MONSTER_ATTACK_ANIMATION_COUNT]=(inputArrayWraithMonsterWithIdCount[MONSTER_ATTACK_ANIMATION_COUNT]+1);//%4; //last hidden
@@ -7541,7 +7546,10 @@ alert("iInputY: "+iInputY);
 			}
 
 			inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*(inputArrayWraithMonsterWithIdCount[MONSTER_ATTACK_ANIMATION_COUNT]-1) - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";		
+
+/*	//removed by Mike, 20260705
 		}
+*/		
 	}
 	
 	
@@ -7692,13 +7700,14 @@ alert("iInputY: "+iInputY);
 		}	 		
 
 		inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.visibility="visible";
-	
+
+/*		//removed by Mike, 20260705	
 		//added by Mike, 20260623
 		if (inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]<WRAITH_ANIMATION_INVINCIBLE_COUNT_MAX) {
 			//no need to move the monster
 		}
 		else {
-
+*/
 			//edited by Mike, 20260702
 			//if (inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_DELAY_COUNT]>=0) {
 
@@ -7813,8 +7822,11 @@ alert("iInputY: "+iInputY);
 			//edited by Mike, 20260702
 			inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*(inputArrayWraithMonsterWithIdCount[MONSTER_ATTACK_ANIMATION_COUNT]-1) - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";		
 
-			//inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*(inputArrayWraithMonsterWithIdCount[MONSTER_ATTACK_ANIMATION_COUNT]) - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";		
+			//inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*(inputArrayWraithMonsterWithIdCount[MONSTER_ATTACK_ANIMATION_COUNT]) - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";
+			
+/*		//removed by Mike, 20260705
 		}
+*/		
 	}
 	
 	
@@ -11336,11 +11348,13 @@ if (arrayWalkOnSnowEffectCount==1) {
 									inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]--;
 								}
 							}
-							
+
+/*							//removed by Mike, 20260705							
 							//added by Mike, 20260704
 							//fixes problem of monster getting stuck in an animation frame;
 							//it now attacks; if the hero continues to press the attack button despite having exhausted his stamina;
 							inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]=WRAITH_ANIMATION_INVINCIBLE_COUNT_MAX;
+*/							
 						}
 
 
@@ -11425,8 +11439,9 @@ if (arrayWalkOnSnowEffectCount==1) {
 						//noted by Mike, 20260615; debug
 						//inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]--;
 						
-						//added by Mike, 20260623
-						inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]=0;
+						//removed by Mike, 20260705; from 20260623
+						//inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]=0;
+						
 						//added by Mike, 20260629
 						inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]=HIT_STATE;
 						
