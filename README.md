@@ -158,6 +158,16 @@ I've updated the boxer monster's animation frames to reduce any noticeable pecul
 
 While the oddities in the animation frames aren't too noticeable when the action is fast-paced, they do become apparent when the frames are reused and further modified.
 
+13) 20260711; work-in-progress
+
+**Key Lesson Learned:** 
+
+I'm currently updating the code to be able to fire the same projectile multiple times using the "F" key and mouse click. Right now, I reuse the one and only fireball available, such that if the hero casts it even though it hasn't gone past the screen's `width` and `height` dimensions yet, its `x` and `y` positions are immediately updated to where the hero is located. As a result, the hero could create a stream of fireballs that reach a distance farther than a melee attack. Also, I've taken out the stamina component that limits the amount of times the hero could cast this spell. Nonetheless, multiple fireballs available for use and stored in an array pool when not in use is ideal, only writing this code is prone to human error including spelling and syntax errors, meaning that it must be done in small steps, verifying if the app could run every time the programmer writes a new set of code; otherwise, in the likely event that the app won't run at all, it would be extremely difficult to find the cause of the error.
+
+**Unlocked Possibilities:**
+
+We can now make use of more projectiles that reach a distance farther than a melee attack.
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
