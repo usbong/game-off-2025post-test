@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260707; from 20260705
+' @date updated: 20260711; from 20260709
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -1905,6 +1905,19 @@ var mainImageTileProjectilePosY=0;
 
 var mainImageTileFireballProjectilePosX=0;
 var mainImageTileFireballProjectilePosY=0;
+
+//added by Mike, 20260711
+//-------------------------------------
+var arrayMainImageTileFireballProjectilePosX=[];
+var arrayMainImageTileFireballProjectilePosY=[];
+
+const iArrayFireballProjectilePosXYCountMax=5;
+
+for (iCount=0; iCount<iArrayFireballProjectilePosXYCountMax; iCount++) {
+	arrayMainImageTileFireballProjectilePosX[iCount]=0;
+	arrayMainImageTileFireballProjectilePosY[iCount]=0;
+}
+//-------------------------------------
 
 var mainImageTileSniperShotPosX=0;
 var mainImageTileSniperShotPosY=0;
@@ -19917,7 +19930,8 @@ iCurrTextCharacterCountMax=sText.length;
 
 //-----------------------
 
-		//added by Mike, 20230427			
+
+		//edited by Mike, 20260709; from 20230427			
 		if (bHasHeroShotFireball) {		
 			resetProjectile();
 		
@@ -19934,6 +19948,7 @@ iCurrTextCharacterCountMax=sText.length;
 		
 			//return;
 		}
+		
 		
 		if (mainImageTileFireballProjectilePosX+iImageFrameWidth>iStageMaxWidth-iInnerHorizontalOffset) {//iHorizontalOffset		
 			//alert("DITO");
@@ -20559,19 +20574,22 @@ alert("iXPos: "+iXPos);
 
 	if (bIsActionKeyPressed) {
 		if (bIsActionKeyFireballPressed) {
-			if (!bHasHeroShotFireball) {
+			//if (!bHasHeroShotFireball) {
+			if (true) {
 				//edited by Mike, 20251116			
 				//part of command to create fireball
 				//-----------
 				resetProjectile();			
 				iMouseClickStartTime=iMouseClickMaxElapsedTime+1;	
 				bHasHeroShotFireball=true;		
-				
+
+/*				
 				//iCurrHeroMana=0;//set to empty
 				//reduceHeroMana(6);
 				if (iCurrHeroMana==iCurrHeroManaMax) {
 					reduceHeroMana(iCurrHeroManaMax);
 				}
+*/
 
 				newMainImageTileFireballProjectilePosY=mainImageTileFireballProjectileStepY*Math.cos(fMainImageTileStepAngleRad).toFixed(3);
 
@@ -20583,6 +20601,8 @@ alert("iXPos: "+iXPos);
 				
 				mainImageTileFireballProjectileStepDestinationX=iXPos;
 				mainImageTileFireballProjectileStepDestinationY=iYPos;
+				
+				
 				
 				setInitFireballEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/2,mainImageTilePosY+iImageFrameHeightLarge/2);				
 			}
@@ -22239,6 +22259,7 @@ opting to put assets folder in "html_application" folder instead
 
 
 	<img id="initFireballEffectImageId" class="ImageInitFireball" src="assets/images/effectsSmall.png">
+
 
 	<img id="heroAttackEffectImageId" class="ImageHeroAttack" src="assets/images/heroEffectsSmall.png?lastmod=20241128T1010">
 
