@@ -158,7 +158,7 @@ I've updated the boxer monster's animation frames to reduce any noticeable pecul
 
 While the oddities in the animation frames aren't too noticeable when the action is fast-paced, they do become apparent when the frames are reused and further modified.
 
-13) 20260711; work-in-progress
+13) 20260711; https://masarapmabuhay.itch.io/game-off-2025-post-test10
 
 **Key Lesson Learned:** 
 
