@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260711; from 20260709
+' @date updated: 20260714; from 20260711
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -2060,9 +2060,9 @@ var bIsHeroFacingUp=false;
 	const MONSTER_STEPY=5;
 
 	const MONSTER_ANIMATION_DELAY_COUNT=6;
-	const MONSTER_ANIMATION_DELAY_COUNT_MAX=7;
-
-	//added by Mike, 20260702
+	const MONSTER_ANIMATION_DELAY_COUNT_MAX=7; 
+	
+	//noted by Mike, 20260714; from 20260702
 	const MONSTER_ANIMATION_DELAY_COUNT_MAX_VAL_BOXER=3;
 
 	const MONSTER_ANIMATION_COUNT=8;
@@ -3916,7 +3916,8 @@ var bIsHeroFacingUp=false;
 			arrayWraithMonsterCountId[iCount][MONSTER_STEPY]=2;			
 			
 			arrayWraithMonsterCountId[iCount][MONSTER_ANIMATION_DELAY_COUNT]=10;
-			arrayWraithMonsterCountId[iCount][MONSTER_ANIMATION_DELAY_COUNT_MAX]=5;//6;	
+			//edited by Mike, 20260714
+			arrayWraithMonsterCountId[iCount][MONSTER_ANIMATION_DELAY_COUNT_MAX]=5;//5;//6;//8	
 
 			arrayWraithMonsterCountId[iCount][MONSTER_ANIMATION_COUNT]=-1;		
 			arrayWraithMonsterCountId[iCount][MONSTER_ANIMATION_COUNT_MAX]=4;//5;		
@@ -6891,9 +6892,74 @@ alert("iInputY: "+iInputY);
 			inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.visibility="visible";
 			inputArrayWraithMonsterWithIdCount[MONSTER_RESPAWN_WAIT_TIME]=0;
 		}
-		
+	
+
+		//added by Mike, 20260714
+		//---------------------------------------------
+		//var bIsMonsterFacingUpOrDown=false;
+		//var bIsMonsterFacingLeftOrRight=false;
+		//var bIsMonsterFacingUp=false;
+		//var bIsMonsterFacingLeft=false;
+					
+		inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_UP_OR_DOWN]=false;				
+		inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_UP]=false;
+		inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_LEFT_OR_RIGHT]=false;				
+		inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_LEFT]=false;
+			
+		//verify monster's facing direction
+		if (inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/2<mainImageTilePosY) {
+			//bIsMonsterFacingUpOrDown=true;
+			//bIsMonsterFacingUp=false;
+			
+			inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_UP_OR_DOWN]=true;				
+			inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_UP]=false;
+			
+		}
+		else if (inputArrayWraithMonsterWithIdCount[MONSTER_POSY]>mainImageTilePosY+iImageFrameHeightLarge/2) {
+			//bIsMonsterFacingUpOrDown=true;
+			//bIsMonsterFacingUp=true;
+
+			inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_UP_OR_DOWN]=true;				
+			inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_UP]=true;
+		}
+				
+		//if (inputArrayWraithMonsterWithIdCount[MONSTER_POSX]<mainImageTilePosX-iImageFrameWidthLarge/4) {
+		if (inputArrayWraithMonsterWithIdCount[MONSTER_POSX]<mainImageTilePosX) {
+			//bIsMonsterFacingLeftOrRight=true;
+			//bIsMonsterFacingLeft=false;
+
+			inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_LEFT_OR_RIGHT]=true;				
+			inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_LEFT]=false;
+		}
+		//else if (inputArrayWraithMonsterWithIdCount[MONSTER_POSX]>mainImageTilePosX+iImageFrameWidthLarge/2) {			
+		else {
+			bIsMonsterFacingLeftOrRight=true;
+			//bIsMonsterFacingLeft=true;
+
+			inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_LEFT_OR_RIGHT]=true;				
+			inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_LEFT]=true;
+		}
+		//---------------------------------------------
+
+	
 		//==============================
 		//AI; movement
+
+		//if ((inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_UP_OR_DOWN]) && (!inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_LEFT_OR_RIGHT])) {
+		
+		if (inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_UP_OR_DOWN]) {
+		//if (!inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_UP]) {
+
+			//alert("DITO!!!");
+		
+			inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_DELAY_COUNT_MAX]=8;
+		}
+		else {
+			inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_DELAY_COUNT_MAX]=5;
+		}
+		
+		//inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_DELAY_COUNT_MAX]=8;
+		
 		if (inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_DELAY_COUNT]>=inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_DELAY_COUNT_MAX]) {
 			inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_COUNT]=(inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_COUNT]+1)%inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_COUNT_MAX]; //last hidden		
 
@@ -6920,7 +6986,8 @@ alert("iInputY: "+iInputY);
 				inputArrayWraithMonsterWithIdCount[MONSTER_STEP_DELAY]++;
 			}
 
-			//added by Mike, 20260623
+/*
+			//removed by Mike, 20260714; from 20260623
 			//---------------------------------------------
 			//var bIsMonsterFacingUpOrDown=false;
 			//var bIsMonsterFacingLeftOrRight=false;
@@ -6966,6 +7033,8 @@ alert("iInputY: "+iInputY);
 				inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_LEFT]=true;
 			}
 			//---------------------------------------------
+*/
+
 			//removed by Mike, 20260704
 /*			
 			if (inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]<WRAITH_ANIMATION_INVINCIBLE_COUNT_MAX) {
