@@ -168,6 +168,18 @@ I'm currently updating the code to be able to fire the same projectile multiple 
 
 We can now make use of more projectiles that reach a distance farther than a melee attack.
 
+14) 20260714; work-in-progress
+
+**Key Lesson Learned:** 
+
+I've again updated the animation frames, especially with regard to walking directly up and down as well as their idle equivalents. I've set the animation delay (`inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_DELAY_COUNT_MAX]`) for walking directly up and down to be longer at `8` instead of `5`; otherwise, the movement would not look as fluid. 
+
+Also, I realized that if there would be more of these customized delays, then a spreadsheet with the corresponding values would be necessary. While using the [2D Animation Tool](https://github.com/usbong/2danimationTool) that I developed back in 2023 proved helpful, actually seeing the animation frames changing as the monster faced a particular direction even while it moves according to its `x` and `y` coordinate positions is still crucial. I note that the animation frames for walking directly left or right don't appear logical even when I was developing the app back in Game Off 2025; however, speeding up the animation by reducing the delay per animation frame creates a somewhat acceptable walking sequence.
+
+**Unlocked Possibilities:**
+
+With more `bones` as guide, it would be faster to create the animation sequences from hereon.
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
