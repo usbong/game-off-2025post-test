@@ -180,6 +180,16 @@ Also, I realized that if there would be more of these customized delays, then a 
 
 With more `bones` as guide, it would be faster to create the animation sequences from hereon.
 
+15) 20260716; work-in-progress
+
+**Key Lesson Learned:** 
+
+I've further updated the animation frames. I noticed that the diagonal movement toward the top-right was off by a few pixels, such that the movement toward the top-left was markedly more fluid-looking and not jerking. Moreover, I had to rearrange the four frames, so that the frame count in the sequence for when the monster opens and closes his feet isn't the same when moving toward the top-right and the top-left directions. 
+
+**Unlocked Possibilities:**
+
+While having these animation sequences readily at hand makes development faster, it's still easy to commit human errors when positioning the image inside the frame as well as when assigning its order in the sequence. Even being off by only `1` pixel results in a jerking animation sequence that is most apparent when the dimensions are small such as when the image frame is only `64x64px` big.
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
