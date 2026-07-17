@@ -190,6 +190,16 @@ I've further updated the animation frames. I noticed that the diagonal movement 
 
 While having these animation sequences readily at hand makes development faster, it's still easy to commit human errors when positioning the image inside the frame as well as when assigning its order in the sequence. Even being off by only `1` pixel results in a jerking animation sequence that is most apparent when the dimensions are small such as when the image frame is only `64x64px` big.
 
+16) 20260717; work-in-progress
+
+**Key Lesson Learned:** 
+
+I updated the lumbar area of the monster's back for the animation frames moving diagonally toward the top-right and the top-left. It's now less jiggly than before. Meanwhile, the upper body still moves partially sideways as it should. I've also updated the monster's arms when moving directly upward to show a more pendulum-like swing, using [AnatomyLab's 3D Animation Walk Cycle](https://www.youtube.com/shorts/NS-GBLpBxLg) as additional reference, and made the feet swing backward higher. Finally, the animation frames for walking directly left and right still appear acceptable as they are.
+
+**Unlocked Possibilities:**
+
+While there are still many more animation and images frames to do including those for the effects and font styles, I think that what I have right now are definitely better than what I had made during Game Off 2025. I also note that the animations appear less cartoony at the moment. 
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
