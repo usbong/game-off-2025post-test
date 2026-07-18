@@ -200,6 +200,18 @@ I updated the lumbar area of the monster's back for the animation frames moving 
 
 While there are still many more animation and images frames to do including those for the effects and font styles, I think that what I have right now are definitely better than what I had made during Game Off 2025. I also note that the animations appear less cartoony at the moment. 
 
+17) 20260718; work-in-progress
+
+**Key Lesson Learned:** 
+
+I've again updated the lumbar area of the monster's back for the animation frames moving diagonally toward the top-right and the top-left to be even less jigglier than before. While the upper body appears to have more joints and thus produces less stiffness in the movement, each of the feet has only one joint that could rotate, making their movement less natural-looking. Nonetheless, the effect might still be acceptable at the moment.
+
+I've also updated the animation frames for moving directly downward, while facing toward the screen. The animation frames for the feet had a delay caused by frame #1, wherein both feet are together. Moreover, I've made the feet swing a little more just like when the monster moves directly upward.
+
+**Unlocked Possibilities:**
+
+We now have better animation sequences that would save us more time during development if they are reused regularly.
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
