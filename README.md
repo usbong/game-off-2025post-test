@@ -204,7 +204,7 @@ While there are still many more animation and images frames to do including thos
 
 **Key Lesson Learned:** 
 
-I've again updated the lumbar area of the monster's back for the animation frames moving diagonally toward the top-right and the top-left to be less awkward-looking than before. Further, while the upper body appears to have more joints and thus produces less stiffness in the movement, each of the feet has only one joint that could rotate, making their movement less natural-looking. Nonetheless, the effect might still be acceptable at the moment.
+I've again updated the lumbar area of the monster's back for the animation frames moving diagonally toward the top-right and the top-left to be less awkward-looking than before. Further, while the upper body appears to have more joints and thus produces less stiffness in the movement, one of the feet doesn't seem to have more than one joint that could rotate, making their movement less natural-looking. Nonetheless, the effect might still be acceptable at the moment.
 
 I've also updated the animation frames for moving directly downward, while facing toward the screen. The animation frames for the feet had a delay caused by frame #1, wherein both feet are together. Moreover, I've made the feet swing a little more like when the monster moves directly upward.
 
