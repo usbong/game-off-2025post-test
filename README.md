@@ -216,7 +216,7 @@ We now have better animation sequences that would save us more time during devel
 
 **Key Lesson Learned:** 
 
-Adding knee joints creates a more natural-looking animation sequences, markedly different from the marching animations of the prior versions. Right now, the animation frames for moving toward the top-left and the top-right as well as the ones for the bottom-left and the bottom-right now have additional knee joints. I note that when the animations aren't scaled bigger, they may at times look awkward, as though the monster has a stump or bent leg.
+Adding knee joints creates a more natural-looking animation sequence, markedly different from the marching animations of the prior versions. Right now, the animation frames for moving toward the top-left and the top-right as well as the ones for the bottom-left and the bottom-right now have additional knee joints. I note that when the animations aren't scaled bigger, they may at times look awkward, as though the monster has a stump or a bent leg.
 
 **Unlocked Possibilities:**
 
