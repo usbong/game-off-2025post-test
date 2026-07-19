@@ -204,13 +204,23 @@ While there are still many more animation and images frames to do including thos
 
 **Key Lesson Learned:** 
 
-I've again updated the lumbar area of the monster's back for the animation frames moving diagonally toward the top-right and the top-left to be less awkward-looking than before. Further, while the upper body appears to have more joints and thus produces less stiffness in the movement, one of the feet doesn't seem to have more than one joint that could rotate, making their movement less natural-looking. Nonetheless, the effect might still be acceptable at the moment.
+I've again updated the lumbar area of the monster's back for the animation frames moving diagonally toward the top-right and the top-left to be less awkward-looking than before. Further, while the upper body appears to have more joints and thus produces less stiffness in the movement, one of the legs doesn't seem to have more than one joint that could rotate, making their movement less natural-looking. Nonetheless, the effect might still be acceptable at the moment.
 
-I've also updated the animation frames for moving directly downward, while facing toward the screen. The animation frames for the feet had a delay caused by frame #1, wherein both feet are together. Moreover, I've made the feet swing a little more like when the monster moves directly upward.
+I've also updated the animation frames for moving directly downward, while facing toward the screen. The animation frames for the leg had a delay caused by frame #1, wherein both legs and feet are together. Moreover, I've made the leg swing a little more like when the monster moves directly upward.
 
 **Unlocked Possibilities:**
 
 We now have better animation sequences that would save us more time during development if they are reused regularly.
+
+18) 20260719; work-in-progress
+
+**Key Lesson Learned:** 
+
+Adding knee joints creates a more natural-looking animation sequences, markedly different from the marching animations of the prior versions. Right now, the animation frames for moving toward the top-left and the top-right as well as the ones for the bottom-left and the bottom-right now have additional knee joints. I note that when the animations aren't scaled bigger, they may at times look awkward, as though the monster has a stump or bent leg.
+
+**Unlocked Possibilities:**
+
+We can now show the monster's back while walking a lot more confidently than before thanks to the improvements. Of course, I'll likewise need to update the ones for moving toward the screen, as a result of this good outcome.
 
 # Additional Bug Fixes
 
