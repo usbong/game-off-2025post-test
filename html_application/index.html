@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260714; from 20260711
+' @date updated: 20260721; from 20260714
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -5256,32 +5256,44 @@ alert("iInputY: "+iInputY);
 		}
 		bIsHeroFacingLeftPrev=bIsHeroFacingLeft;
 */
-
+		//edited by Mike, 20260721
+		if (bIsHeroFacingLeftOrRight) {
+			if (bIsHeroFacingLeft) {
+				iFrameY=iImageFrameHeightLarge*1;
 				
-		if (bIsHeroFacingLeft) {
-			iFrameY=iImageFrameHeightLarge*1;
-			
-			if (bIsHeroFacingUpOrDown) {
-				if (!bIsHeroFacingUp) {
-					iFrameY=iImageFrameHeightLarge*2;
+				if (bIsHeroFacingUpOrDown) {
+					if (!bIsHeroFacingUp) {
+						iFrameY=iImageFrameHeightLarge*2;
+					}
+					else {
+						iFrameY=iImageFrameHeightLarge*4;
+					}				
 				}
-				else {
-					iFrameY=iImageFrameHeightLarge*4;
-				}				
 			}
-		}
-		else {
-			iFrameY=iImageFrameHeightLarge*0;
+			else {
+				iFrameY=iImageFrameHeightLarge*0;
 
-			if (bIsHeroFacingUpOrDown) {
-				if (!bIsHeroFacingUp) {
-					iFrameY=iImageFrameHeightLarge*3;
-				}
-				else {
-					iFrameY=iImageFrameHeightLarge*5;
+				if (bIsHeroFacingUpOrDown) {
+					if (!bIsHeroFacingUp) {
+						iFrameY=iImageFrameHeightLarge*3;
+					}
+					else {
+						iFrameY=iImageFrameHeightLarge*5;
+					}
 				}
 			}
 		}
+		//if directly facing up or down
+		else {
+			if (!bIsHeroFacingUp) {
+				iFrameY=iImageFrameHeightLarge*6;
+			}
+			else {
+				iFrameY=iImageFrameHeightLarge*7;
+			}
+		}
+		
+
 		
 		
 
@@ -7126,7 +7138,6 @@ alert("iInputY: "+iInputY);
 				iFrameY=iImageFrameHeightLarge*7;//4; //default
 			}
 		}
-
 			
 		if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]<=0) {
 
@@ -9565,6 +9576,7 @@ if (arrayWalkOnSnowEffectCount==1) {
 
 		setMonsterDeathAnimationPosition(iMonsterImageTilePosX,iMonsterImageTilePosY,iMonsterType);
 
+/*		//edited by Mike, 20260721
 		var myAudioEffectSwordOut = document.getElementById("myAudioEffectSwordOutId");
 
 		myAudioEffectSwordOut.setAttribute("src", sAudioEffectActionSwordOut);
@@ -9573,6 +9585,14 @@ if (arrayWalkOnSnowEffectCount==1) {
 		myAudioEffectSwordOut.volume=fMyAudioEffectSwordOutVolume;
 		myAudioEffectSwordOut.loop=false;
 		myAudioEffectSwordOut.play();
+*/		
+		var myAudioEffectPunchSandBag = document.getElementById("myAudioEffectPunchSandBagId");
+		myAudioEffectPunchSandBag.setAttribute("src", sAudioEffectActionPunchSandBag);
+
+		fMyAudioEffectPunchSandBagVolume=1.0;
+		myAudioEffectPunchSandBag.volume=fMyAudioEffectPunchSandBagVolume;
+		myAudioEffectPunchSandBag.loop=false;
+		myAudioEffectPunchSandBag.play();	
 	}
 	
 
@@ -9584,7 +9604,8 @@ if (arrayWalkOnSnowEffectCount==1) {
 		//setMonsterDeathAnimationPosition(iMonsterImageTilePosX+iImageFrameWidthLarge/2,iMonsterImageTilePosY+iImageFrameHeightLarge/2,MONSTER_TYPE_VAL_DEFAULT);
 
 		setMonsterDeathAnimationPosition(iMonsterImageTilePosX,iMonsterImageTilePosY,MONSTER_TYPE_VAL_DEFAULT);
-
+		
+/*		//edited by Mike, 20260721
 		var myAudioEffectSwordOut = document.getElementById("myAudioEffectSwordOutId");
 
 		myAudioEffectSwordOut.setAttribute("src", sAudioEffectActionSwordOut);
@@ -9593,6 +9614,14 @@ if (arrayWalkOnSnowEffectCount==1) {
 		myAudioEffectSwordOut.volume=fMyAudioEffectSwordOutVolume;
 		myAudioEffectSwordOut.loop=false;
 		myAudioEffectSwordOut.play();
+*/		
+		var myAudioEffectPunchSandBag = document.getElementById("myAudioEffectPunchSandBagId");
+		myAudioEffectPunchSandBag.setAttribute("src", sAudioEffectActionPunchSandBag);
+
+		fMyAudioEffectPunchSandBagVolume=1.0;
+		myAudioEffectPunchSandBag.volume=fMyAudioEffectPunchSandBagVolume;
+		myAudioEffectPunchSandBag.loop=false;
+		myAudioEffectPunchSandBag.play();		
 	}
 
 	function grassMonsterHitByHero(mainImageTilePosX, mainImageTilePosY, iMonsterImageTilePosX, iMonsterImageTilePosY) {	
@@ -20425,6 +20454,7 @@ alert(Date.now()-iMouseClickStartTime);
 	//becomes DASH attack;
 	if (bHasFiredTemp) {
 			//edited by Mike, 20251123; from 20251108
+			
 /*		
 //bHasHeroChangedFacingLeftOrRight			
 			mainImageTileProjectileStepY=mainImageTileProjectileStepYMax;//mainImageTileProjectileVelocityY;
@@ -22155,7 +22185,7 @@ opting to put assets folder in "html_application" folder instead
 	
 		<img id="mainImageTileImageTankBodyId" class="ImageTankFrame1" src="assets/images/inputImageLarge.png?lastmod=20241110">
 		
-		<img id="mainImageTileImageHeroBodyId" class="ImageHeroFrame1" src="assets/images/inputImageLarge2026.png?lastmod=20260707T1533">		
+		<img id="mainImageTileImageHeroBodyId" class="ImageHeroFrame1" src="assets/images/inputImageLarge2026.png?lastmod=20260721T1429">		
 
 		<img id="RunningWraithMonsterImageId" class="ImageHeroFrame1" src="assets/images/inputImageLarge2025RunningWraith.png?lastmod=20251123T0943">		
 
