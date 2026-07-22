@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260721; from 20260714
+' @date updated: 20260722; from 20260721
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -5085,6 +5085,11 @@ alert("iInputY: "+iInputY);
 	function executeHeroWalkingAnimation() {
 		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");
 		
+		//added by Mike, 20260722
+		//if (bHasHeroHitMonster) {
+			//return;
+		//}
+		
 		bIsHeroWalking=true;
 				
 		//added by Mike, 20260625
@@ -5216,15 +5221,19 @@ alert("iInputY: "+iInputY);
 
 		if (iHeroAttackAnimationDelayCount==0) {//iHeroAnimationDelayCountMax) {
 			//iHeroAttackAnimationCount=(iHeroAttackAnimationCount+1)%4; //last hidden
+
 			if (iHeroAttackAnimationCount>iHeroAttackAnimationCountMax) {//3) {
+
 				//alert(iHeroAnimationCount);
 				iHeroAttackAnimationDelayCount=0;
 				
 				//removed by Mike, 20251127
 				//iHeroAttackAnimationCount=0;
+				
+				iHeroAttackAnimationCount=1;//0; //added by Mike, 20260722
 
 				bHasHeroHitMonster=false;		
-							}
+			}
 			else {
 				iHeroAttackAnimationCount++
 			}
@@ -5234,7 +5243,7 @@ alert("iInputY: "+iInputY);
 		}
 
 		var iFrameY=0;
-		var iFrameXOffset=0;
+		//var iFrameXOffset=0;
 
 /*		//removed by Mike, 20251106; update animation sprites instead
 		if (iHeroAttackComboCount>1) {
@@ -5318,10 +5327,13 @@ alert("iInputY: "+iInputY);
 		}
 		else {
 */		
+			//alert(iHeroAttackAnimationCount-1);
 			
-			//alert(iHeroAttackAnimationCount);
-		
-			mainImageTileHeroBody.style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*(iHeroAttackAnimationCount-1) - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";
+			//edited by Mike, 20260722
+			//mainImageTileHeroBody.style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*(iHeroAttackAnimationCount-1) - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";
+
+			mainImageTileHeroBody.style.objectPosition = "-" + 0-iImageFrameWidthLarge*(iHeroAttackAnimationCount-1) - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";
+
 			
 /*			
 			//mainImageTileHeroBody.style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*(iHeroAttackAnimationCount-1) - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";
@@ -6958,7 +6970,9 @@ alert("iInputY: "+iInputY);
 		//AI; movement
 
 		//if ((inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_UP_OR_DOWN]) && (!inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_LEFT_OR_RIGHT])) {
-		
+
+		//edited by Mike, 20260722
+/*		
 		if (inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_UP_OR_DOWN]) {
 		//if (!inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_UP]) {
 
@@ -6969,6 +6983,8 @@ alert("iInputY: "+iInputY);
 		else {
 			inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_DELAY_COUNT_MAX]=5;
 		}
+*/
+		inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_DELAY_COUNT_MAX]=5;
 		
 		//inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_DELAY_COUNT_MAX]=8;
 		
@@ -11305,11 +11321,20 @@ if (arrayWalkOnSnowEffectCount==1) {
 							//if (isPointsOfRectIntersectingPointsOfRectMonster(heroImageTilePosX,heroImageTilePosY, monsterImageTilePosX,monsterImageTilePosY, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iMonsterWidth*0.75, iMonsterHeight*0.75)) {
 
 							if (isPointsOfRectIntersectingPointsOfRectMonster(heroImageTilePosX,heroImageTilePosY, monsterImageTilePosX,monsterImageTilePosY, iImageFrameWidthLarge, iImageFrameHeightLarge, iMonsterWidth, iMonsterHeight)) {
+							
+								//added by Mike, 20260722
+								var iHeroImageTilePosYOffset=iImageFrameHeightLarge/5;
 								
-								//edited by Mike, 20251121; from 20251118
-								if (heroImageTilePosY>monsterImageTilePosY) {
+								//edited by Mike, 20260722; from 20251121
+								//if (heroImageTilePosY>monsterImageTilePosY) {
+								if (heroImageTilePosY-iHeroImageTilePosYOffset>monsterImageTilePosY) {
 								//if (heroImageTilePosY>monsterImageTilePosY+iMonsterHeight/2) {
 									bIsHeroFacingUp=true;
+									bIsHeroFacingUpOrDown=true;					
+								}
+								//added by Mike, 20260722
+								else if (heroImageTilePosY+iHeroImageTilePosYOffset<monsterImageTilePosY) { //+iImageFrameHeightLarge/2
+									bIsHeroFacingUp=false;
 									bIsHeroFacingUpOrDown=true;					
 								}
 								else { //hero is on top of monster in y-axis;
@@ -20155,18 +20180,21 @@ mainImageTileProjectilePosY=parseInt(mainImageTileProjectilePosY)+newMainImageTi
 				//added by Mike, 20251105
 				//iHeroAttackComboCount=0;
 				
-				//edited by Mike, 20251123; from 20251119
-				if (mainImageTileProjectileStepY<mainImageTileProjectileStepYMax) {
-					//mainImageTileProjectileStepY+=mainImageTileProjectileVelocityY;//++;
-					mainImageTileProjectileStepY=mainImageTileProjectileStepYMax;
+				//edited by Mike, 20260722
+				if ((!bHasAttacked) || (!bHasHeroHitMonster)) {
+					//edited by Mike, 20251123; from 20251119
+					if (mainImageTileProjectileStepY<mainImageTileProjectileStepYMax) {
+						//mainImageTileProjectileStepY+=mainImageTileProjectileVelocityY;//++;
+						mainImageTileProjectileStepY=mainImageTileProjectileStepYMax;
+					}
+
+					if (mainImageTileProjectileStepX<mainImageTileProjectileStepXMax) {
+						//mainImageTileProjectileStepX+=mainImageTileProjectileVelocityX;//++;
+						mainImageTileProjectileStepX=mainImageTileProjectileStepXMax;
+					}				
+
+					executeHeroWalkingAnimation();
 				}
-
-				if (mainImageTileProjectileStepX<mainImageTileProjectileStepXMax) {
-					//mainImageTileProjectileStepX+=mainImageTileProjectileVelocityX;//++;
-					mainImageTileProjectileStepX=mainImageTileProjectileStepXMax;
-				}				
-
-				executeHeroWalkingAnimation();
 			}
 		}
 
