@@ -222,6 +222,28 @@ Adding knee joints creates a more natural-looking animation sequence, markedly d
 
 We can now show the monster's back while walking a lot more confidently than before thanks to the improvements. Of course, I'll likewise need to update the ones for moving toward the screen, as a result of this good outcome.
 
+19) 20260720; work-in-progress
+
+**Key Lesson Learned:** 
+
+Adding knee joints creates a more natural-looking animation sequence, markedly different from the marching animations of the prior versions. Right now, the animation frames for moving toward the top-left and the top-right as well as the ones for the bottom-left and the bottom-right now have additional knee joints. I note that when the animations aren't scaled bigger, they may at times look awkward, as though the monster has a stump or a bent leg.
+
+**Unlocked Possibilities:**
+
+We can now show the monster's back while walking a lot more confidently than before thanks to the improvements. Of course, I'll likewise need to update the ones for moving toward the screen, as a result of this good outcome.
+
+20) 20260722; https://masarapmabuhay.itch.io/game-off-2025-post-test11
+
+**Key Lesson Learned:** 
+
+I've updated the code to auto-identify which punching animation frames should be used for the hero by adding a small offset in the `y-axis` when determining whether to face directly to the left/right or face diagonally downward. Previously, the hero could punch facing directly to the left, even though the monster is still a few pixels below him, such that a diagonal punching animation would have been more apt.
+
+Meanwhile, I've also updated the animation frames to look less robotic, although I haven't yet added any idle animations.
+
+**Unlocked Possibilities:**
+
+We now have a more forgiving `collision detection` system that uses offsets to coincide with what we can expect to see on screen. Previously, I had opted to allow for a more lenient use of `hit boxes` at the expense of a slight discrepancy in what is actually visible on screen, that is, the player at times may still appear a little bit far to hit the monster despite being able to deal damage. This, however, can be solved by adding more animation effects.
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
