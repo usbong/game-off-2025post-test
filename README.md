@@ -244,6 +244,16 @@ Meanwhile, I've also updated the animation frames to look less robotic, although
 
 We now have a more forgiving `collision detection` system that uses offsets to coincide with what we can expect to see on screen. Previously, I had opted to allow for a more lenient use of `hit boxes` at the expense of a slight discrepancy in what is actually visible on screen, that is, the player at times may still appear a little bit far to hit the monster despite being able to deal damage. This, however, can be solved by adding more animation effects.
 
+21) 20260723; https://masarapmabuhay.itch.io/game-off-2025-post-test12
+
+**Key Lesson Learned:** 
+
+I've removed one pixel near the knees to create a sense of movement even when the characters are `idle`. Otherwise, when all the characters are only standing still, the scene appears to lack movement. I've also lowered the left arm when the characters are facing directly downward to make them look less flat or without depth.
+
+**Unlocked Possibilities:**
+
+There's now more movement among the characters even when they're only standing.
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
