@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260723; from 20260722
+' @date updated: 20260724; from 20260723
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -7226,8 +7226,20 @@ alert("iInputY: "+iInputY);
 				inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_COUNT] + "px -" + iFrameY + "px";
 			}
 			else if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]==IDLE_STATE) {
-				//edited by Mike, 20260703; from 20260702; temp
-				inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*4 + "px -" + iFrameY + "px";
+				//edited by Mike, 20260723; from 20260703;
+				//inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*4 + "px -" + iFrameY + "px";
+				
+				//alert(inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_COUNT]);
+
+				//inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*(inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_COUNT]%2)-iImageFrameWidthLarge*4 + "px -" + iFrameY + "px";
+				
+				if (inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_COUNT]<=inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_COUNT_MAX]/2) {
+					inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*(1)-iImageFrameWidthLarge*4 + "px -" + iFrameY + "px";
+				}
+				else {
+					inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*(0)-iImageFrameWidthLarge*4 + "px -" + iFrameY + "px";
+				}
+				
 /*				
 				if (inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidthLarge/4<mainImageTilePosX) {
 					iFrameY=iImageFrameHeightLarge*0; //face right
