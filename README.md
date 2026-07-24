@@ -248,7 +248,9 @@ We now have a more forgiving `collision detection` system that uses offsets to c
 
 **Key Lesson Learned:** 
 
-I've removed one pixel near the knees to create a sense of movement even when the characters are `idle`. Otherwise, when all the characters are only standing still, the scene appears to lack movement. I've also lowered the left arm when the characters are facing directly downward to make them look less flat or without depth.
+I've removed one pixel near the knees to create a sense of movement even when the characters are `idle`. Otherwise, when all the characters are only standing still, the scene appears to lack movement. I've also lowered the left arm when the characters are facing directly downward to make them look less flat or without depth. 
+
+At the code level, this means that when the character's state is `idle`, the animation count is cycled between `0` and `1` using the `%` or modulo operator to be able to swap between the two frames.
 
 **Unlocked Possibilities:**
 
