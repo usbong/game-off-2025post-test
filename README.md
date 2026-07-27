@@ -262,7 +262,7 @@ There's now more movement among the characters even when they're only standing.
 
 I've added a total of `16` coins that the hero could collect. Actually, there are `17` because one is used as a display icon to indicate how many the hero has collected so far. Moreover, this item could be replaced with a fruit or some other object. At the code level, I opted not to create a `double array` to reduce the amount of code that I'd have to write and check for human errors, thereby speeding up the development. Still, if this item would behave in a more complex way just like with the monsters that attack the hero, then it would be necessary to create a `double array` for this as well. 
 
-I've also updated the code to determine where the hero will be facing based on the `iDeltaX`, which is the `x` position of the point where the user clicked the mouse. Previously, without the `offset`, even a few pixels to the left of the center in the `x` axis resulted to the hero facing to the right. 
+I've also updated the code to determine where the hero will be facing based on the `iDeltaX`, which is the `x` position of the point where the user clicked the mouse. Previously, without the `offset`, even a few pixels to the left of the hero's center in the `x` axis resulted to the hero facing to the right. 
 
 **Unlocked Possibilities:**
 
