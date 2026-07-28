@@ -268,6 +268,18 @@ I've also updated the code to determine where the hero will be facing based on t
 
 We can make the items appear every time the hero hits or eliminates a monster. The monsters in this case could be thought of as boxes that could be destroyed just like with the boxes in [Crash Bandicoot](https://www.youtube.com/watch?v=pSHj5UKSylk), which the developers had put in order to fill up the vacant space, provide a choice to players who're willing to take on a challenge to be able to get a reward in exchange for the risk, among other things. 
 
+23) 20260728; https://masarapmabuhay.itch.io/game-off-2025-post-test14
+
+**Key Lesson Learned:** 
+
+I've added the coins in the array of items checked in `updateArrayActorsZIndex()`, so that they will be automatically drawn above or behind the hero and the monsters, the latter in this case don't pick them up. I also note that I added an extra `32px` in the height in [coin.png](https://github.com/usbong/game-off-2025post-test/blob/main/html_application/assets/images/coin.png), because the aforementioned function uses the object's height to determine which should be above which. Further, the extra space is transparent.
+
+Next, I updated the hero's sprite sheet to use the arms in the `idle` state when walking diagonally. Meanwhile, I've kept the arms swinging when the hero moves directly toward the left, right, top and bottom. I note that even a pixel's difference can cause unintended jerking.
+
+**Unlocked Possibilities:**
+
+More possible variations in the sprite images can be added including holding a shield.
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
