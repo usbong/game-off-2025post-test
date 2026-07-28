@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260727; from 20260724
+' @date updated: 20260728; from 20260727
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -472,7 +472,7 @@
 		.ImageCoin {
 			position: absolute;
 
-			clip: rect(0px,32px,32px,0px);
+			clip: rect(0px,32px,64px,0px);
 
 			visibility: hidden;
 
@@ -482,7 +482,7 @@
 		.ImageCoinDisplayIcon {
 			position: absolute;
 
-			clip: rect(0px,32px,32px,0px);
+			clip: rect(0px,32px,64px,0px);
 
 			visibility: hidden;
 
@@ -4856,9 +4856,7 @@ alert("iInputY: "+iInputY);
 
 	//added by Mike, 20260727
 	function setCoinPosition(iInputX, iInputY, iCount) {
-	
-		//alert(iCount);
-	
+		
 		var coinImage = document.getElementById("coinImageId"+iCount);
 
 		if (coinImage.style.visibility=="visible") {
@@ -4878,6 +4876,10 @@ alert("iInputY: "+iInputY);
 */
 		coinImage.style.left = iInputX+"px";
 		coinImage.style.top = iInputY+"px";
+
+		
+		//added by Mike, 20260728
+		return coinImage;
 	}	
 	
 	function setInitFireballEffectPosition(iInputX, iInputY) {
@@ -11914,7 +11916,11 @@ if (arrayWalkOnSnowEffectCount==1) {
 		  return;
 		}
 		else {
-			if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, parseInt(coinImage.style.left),parseInt(coinImage.style.top), iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthDefault*0.75, iImageFrameHeightDefault*0.75)) {
+			//added by Mike, 20260728
+			//note we added a blank square space above the tile to get the correct z-index during auto-update
+			const coinImageOffsetY=iImageFrameWidthDefault;
+			
+			if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, parseInt(coinImage.style.left),parseInt(coinImage.style.top)+coinImageOffsetY, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthDefault*0.75, iImageFrameHeightDefault*0.75)) {
 
 				//alert("HERE!!!");
 /*
@@ -14909,16 +14915,23 @@ iCurrTextCharacterCountMax=sText.length;
 							let iCoinOffsetX=iImageFrameWidthLarge*(iCurrCoinCount%4);
 							//setCoinPosition(0+iStageMaxWidth*0.20+iCurrCoinColumn*32+iCoinOffsetX,0+iStageMaxHeight*0.10+iCurrCoinRow*64,iCurrCoinCount);
 							
-							setCoinPosition(0+iStageMaxWidth*0.20+iCurrCoinColumn*16+iCoinOffsetX,0+iStageMaxHeight*0.20+iCurrCoinRow*48,iCurrCoinCount);
+							var currCoinImageObject=setCoinPosition(0+iStageMaxWidth*0.20+iCurrCoinColumn*16+iCoinOffsetX,0+iStageMaxHeight*0.10+iCurrCoinRow*48,iCurrCoinCount);
 							
 							//alert(iCurrCoinCount);
+							
+							//added by Mike, 20260728
+							//----------------------------------
+							arrayActors[iArrayActorsCount]=currCoinImageObject;
+							arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+							iArrayActorsCount++;							
+							//----------------------------------
 							
 							iCurrCoinCount++;
 						}
 					}
-					
+										
 					//setCoinPosition(0+iStageMaxWidth/2-iImageFrameWidthDefault*2,0+iStageMaxHeight*0.01,16); //display icon
-					setCoinPosition(0+iStageMaxWidth*0.02,0+iStageMaxHeight*0.87,16); //display icon
+					setCoinPosition(0+iStageMaxWidth*0.02,0+iStageMaxHeight*0.87-iImageFrameHeightDefault,16); //display icon
 	
 					hasInitMapLocation=true;					
 				}
