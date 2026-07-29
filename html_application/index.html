@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260728; from 20260727
+' @date updated: 20260729; from 20260728
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -62,7 +62,7 @@
 
 		canvas.myCanvas {
 			position: absolute;
-
+			
 			padding: 0;
 			margin: auto;
 			display: block;
@@ -89,7 +89,8 @@
 
 			visibility: hidden;
 
-			border: 0px;
+			/*background-color: #261912;*/
+			border: 2px dotted gray;
 
 			z-index: 50;//3;
 		}
@@ -3410,6 +3411,29 @@ var bIsHeroFacingUp=false;
 
 		textHeroCoinStatusDiv.innerHTML = "x"+iCurrHeroCoinCount;
 	}
+
+	function drawHeroXYPosStatus(myCanvasContext, iXPos, iYPos) {		
+		var textHeroXPosStatusDiv = document.getElementById("textHeroXPosStatusDivId");
+		var textHeroYPosStatusDiv = document.getElementById("textHeroYPosStatusDivId");
+
+		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");
+		
+		textHeroXPosStatusDiv.style.visibility="visible";
+		textHeroYPosStatusDiv.style.visibility="visible";
+
+		heroImageTilePosX=parseInt(mainImageTileHeroBody.style.left);
+		heroImageTilePosY=parseInt(mainImageTileHeroBody.style.top);	
+
+		textHeroXPosStatusDiv.style.left=0+iXPos+"px"
+		textHeroXPosStatusDiv.style.top=0+iYPos+"px";
+
+		textHeroYPosStatusDiv.style.left=0+iXPos+"px"
+		textHeroYPosStatusDiv.style.top=0+iYPos+iImageFrameHeightDefault+"px";
+
+		textHeroXPosStatusDiv.innerHTML = "HX:"+heroImageTilePosX;
+		textHeroYPosStatusDiv.innerHTML = "HY:"+heroImageTilePosY;
+	}
+	
 	
 	function drawKeyStatus(myCanvasContext, iXPos, iYPos) {	
 		var keyStatusImageTile = document.getElementById("keyStatusImageTileId");
@@ -13153,10 +13177,13 @@ if (arrayWalkOnSnowEffectCount==1) {
 	
 	myCanvasTint.style.opacity="0.5";
 */
+/*
 	var myCanvasTint = document.getElementById("myCanvasTintId");
-	//myCanvasTint.style.visibility="visible";
-	//myCanvasTint.style.opacity="0.5";
 
+	myCanvasTint.fillStyle = "#261912"; //brown background//stage
+	myCanvasTint.style.visibility="visible";
+	myCanvasTint.style.opacity="0.5";
+*/
 
     //edited by Mike, 20231126
     /*myCanvasTwoContext.fillStyle = "#000000"; //"#ffffff"; //white background//stage
@@ -13166,8 +13193,9 @@ if (arrayWalkOnSnowEffectCount==1) {
 
     //note: max is 150 for height?...
     //myCanvasTwoContext.fillRect(0, 0, iStageMaxWidth, 120);//iStageMaxHeight/2);
-    /*myCanvasTwoContext.fillRect(0, 0, iStageMaxWidth, iStageMaxHeight);//iStageMaxHeight/2);
-	*/
+    
+	//myCanvasTwoContext.fillRect(0, 0, iStageMaxWidth, iStageMaxHeight);//iStageMaxHeight/2);
+	
 
 	//added by Mike, 20251103
 	//drawChar(iImageFrameWidthDefault*5,iImageFrameHeightDefault*0,"5");
@@ -13697,6 +13725,9 @@ iCurrTextCharacterCountMax=sText.length;
 			
 			//added by Mike, 20260727
 			drawHeroCoinStatus(myCanvasTwoContext,0+iStageMaxWidth*0.02, 0+iStageMaxHeight*0.87); 
+
+			//added by Mike, 20260729
+			drawHeroXYPosStatus(myCanvasTwoContext, 0+iStageMaxWidth*0.8, 0+iStageMaxHeight*0.77);
 			
 			return;
 		}
@@ -14422,6 +14453,9 @@ iCurrTextCharacterCountMax=sText.length;
 
 	//added by Mike, 20260727
 	drawHeroCoinStatus(myCanvasTwoContext,0+iStageMaxWidth*0.02, 0+iStageMaxHeight*0.77); 
+
+	//added by Mike, 20260729
+	drawHeroXYPosStatus(myCanvasTwoContext, 0+iStageMaxWidth*0.8, 0+iStageMaxHeight*0.77);
 		
 	//alert(iHorizontalOffset);
 
@@ -14753,10 +14787,14 @@ iCurrTextCharacterCountMax=sText.length;
 				//bossBattleBgImageBeach.setAttribute("src", sZombieStage);
 				//bossBattleBgImageBeach.setAttribute("src", sSnowStage2);
 
-
+/*				//edited by Mike, 20260729
 				bossBattleBgImageBeach.style.visibility = "visible";
 				bossBattleBgImagePart2.style.visibility = "hidden";
 				bossBattleBgImagePart3.style.visibility = "visible";	
+*/
+				bossBattleBgImageBeach.style.visibility = "hidden";
+				bossBattleBgImagePart2.style.visibility = "hidden";
+				bossBattleBgImagePart3.style.visibility = "hidden";	
 
 				if (!hasInitMapLocation) {				
 					//added by Mike, 20251123
@@ -22858,6 +22896,12 @@ opting to put assets folder in "html_application" folder instead
 
 	<div id="textHeroComboStatusDivId" class="DivTextCombo">0</div>
 	<div id="textHeroCoinStatusDivId" class="DivTextCoin">0</div>
+
+	<div id="textHeroXPosStatusDivId" class="DivTextCoin">0</div>
+	<div id="textBackgroundXPosStatusDivId" class="DivTextCoin">0</div>
+
+	<div id="textHeroYPosStatusDivId" class="DivTextCoin">0</div>
+	<div id="textBackgroundYPosStatusDivId" class="DivTextCoin">0</div>
 
 
 <!--
