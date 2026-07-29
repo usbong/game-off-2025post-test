@@ -276,9 +276,17 @@ I've added the coins in the array of items checked in `updateArrayActorsZIndex()
 
 Next, I updated the hero's sprite sheet to use the arms in the `idle` state when walking diagonally. Meanwhile, I've kept the arms swinging when the hero moves directly toward the left, right, top and bottom. I note that even a pixel's difference can cause unintended jerking.
 
+24) 20260729; https://masarapmabuhay.itch.io/game-off-2025-post-test15
+
+**Key Lesson Learned:** 
+
+I still haven't been able to get the automated reading of an external `.txt` file to work in Javascript. If the user selected the file himself, then the content of the file could be read. However, this is an additional step that I prefer to avoid. I've also re-verified the use of the `iframe`, whose contents, which are taken from an external `src` file, could be read using HTML, but cannot be obtained using Javascript for security reasons and such.
+
+I've thus gone ahead with making do with putting the contents of this external input file in the main `.html` file instead. Right now, I'm displaying on screen the current `x` and `y` positions of the hero. These will be useful in computing for the `viewport` to identify which monsters, items and other objects should be shown on screen based on where the `viewport` is currently located in relation to the entire stage. This means that those that aren't inside the `viewport` don't need to be shown nor updated needlessly. I note that `margins` should be added as well, so that the objects don't simply pop into the `viewport`. 
+
 **Unlocked Possibilities:**
 
-More possible variations in the sprite images can be added including holding a shield.
+By adding the basic foundations of a side-scrolling engine, the stage could be made larger than the default `width` and `height` which are currently set to `640px` by `360px` respectively.
 
 # Additional Bug Fixes
 
