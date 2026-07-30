@@ -284,9 +284,23 @@ I still haven't been able to get the automated reading of an external `.txt` fil
 
 I've thus gone ahead with making do with putting the contents of this external input file in the main `.html` file instead. Right now, I'm displaying on screen the current `x` and `y` positions of the hero. These will be useful in computing for the `viewport` to identify which monsters, items and other objects should be shown on screen based on where the `viewport` is currently located in relation to the entire stage. This means that those that aren't inside the `viewport` don't need to be shown nor updated needlessly. I note that `margins` should be added as well, so that the objects don't simply pop into the `viewport`. 
 
+**Additional Note:**
+
+In Javascript, as well as in Java, the `y` axis is inverted, such that `(0,0)` for `(x,y)` is at the top-left. In most cases, we will use `(0,0)` or the `anchor` to identify the positions of the objects, instead of putting it at the exact center of the object to make the computations easier. Therefore, an object's center would be computed as `(0+myObjectWidth/2,0+myObjectHeight/2)`.
+
 **Unlocked Possibilities:**
 
 By adding the basic foundations of a side-scrolling engine, the stage could be made larger than the default `width` and `height` which are currently set to `640px` by `360px` respectively.
+
+25) 20260730; https://masarapmabuhay.itch.io/game-off-2025-post-test16
+
+**Key Lesson Learned:** 
+
+I've added background image tiles. There are 16 all in all, each having a size of `128x128` pixels (`width`x`height`). I note that the tiles are a lot bigger than the hero and the monsters, which are `64x64` pixels.
+
+**Unlocked Possibilities:**
+
+The other tiles are already outside the `viewport`. We will need to move the `viewport` to be able to see the rest of the tiles. We'll also need to see if there will be lags or other execution errors when we do this. At the moment, the entire `countInverted.png` tile sheet is only 22.9KB.
 
 # Additional Bug Fixes
 
@@ -298,6 +312,9 @@ By adding the basic foundations of a side-scrolling engine, the stage could be m
 
 3) 20260704 and 20260705;<br/>
 +fixed: bug when the hero continuously presses the attack button on a target monster even though he's exhausted all his stamina, thereby causing the monster to not change animation frames anymore, eventually leading to the monster's sudden death. The former was related to the value of `MONSTER_ANIMATION_INVINCIBLE_COUNT` found in the monster's walking and attacking animation functions, which prevented the animation counters from getting continuously counted. I've opted to simply remove this counter.
+
+3) 20260729 and 20260730;<br/>
++fixed: bug when `New Game` is selected. It was due to using `var hasInitMapLocation` twice at the global level. There should only be one `var hasInitMapLocation`. The rest could use `hasInitMapLocation`.
 
 ## Select Software Development Productivity Tools
 
