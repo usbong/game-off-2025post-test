@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260729; from 20260728
+' @date updated: 20260730; from 20260729
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -468,6 +468,16 @@
 			visibility: hidden;
 
 			z-index: 100; /*10;*/
+		}
+
+		.ImageBgTile {
+			position: absolute;
+
+			clip: rect(0px,128px,128px,0px);
+
+			visibility: hidden;
+
+			z-index: 3;
 		}
 
 		.ImageCoin {
@@ -1605,6 +1615,16 @@ const iCoinAnimationDelayCountMax=10;//1;
 var iCurrCoinCount=0;
 const iCurrCoinCountMax=16+1; //+1 for display icon
 
+//added by Mike, 20260730
+var iBgTileImageAnimationCount=-1; //0; //due to immediately +1 in execution;
+const iBgTileImageAnimationCountMax=4; //8
+var iBgTileImageAnimationDelayCount=0;
+const iBgTileImageAnimationDelayCountMax=10;//1;
+
+var iCurrBgTileImageCount=0;
+const iCurrBgTileImageCountMax=16;//+1; //+1 for display icon
+
+
 var iCurrParticleEffectCount=0;
 const iCurrParticleEffectCountMax=1;//10;
 
@@ -1699,6 +1719,11 @@ const iImageParticleEffectAnimationHeight=32;
 //added by Mike, 20260727
 const iImageCoinAnimationWidth=32;
 const iImageCoinAnimationHeight=32;
+
+//added by Mike, 20260730
+const iImageBgTileImageAnimationWidth=128;
+const iImageBgTileImageAnimationHeight=128;
+
 
 const iImageImpactParticleEffectAnimationWidth=32;
 const iImageImpactParticleEffectAnimationHeight=32;
@@ -1832,6 +1857,10 @@ var iImageFrameHeightLargeBoss=128;
 
 var iImageFrameWidthDefault=32;
 var iImageFrameHeightDefault=32;
+
+//added by Mike, 20260730
+const iImageFrameWidthBgTile=128;
+const iImageFrameHeightBgTile=128;
 
 //added by Mike, 20231121
 var iMouseInputImageWidth=64;
@@ -3897,7 +3926,8 @@ var bIsHeroFacingUp=false;
 			
 		var iCurrMapLocation=53;	
 		
-		var hasInitMapLocation=false;
+		//edited by Mike, 20260730
+		hasInitMapLocation=false;
 		
 		for (iRowCount=0; iRowCount<iRowCountMax; iRowCount++) {				
 			for (iColumnCount=0; iColumnCount<iColumnCountMax; iColumnCount++) {
@@ -4883,10 +4913,11 @@ alert("iInputY: "+iInputY);
 		
 		var coinImage = document.getElementById("coinImageId"+iCount);
 
+/*		//removed by Mike, 20260730; consider using checkVisibility(...); //visibilityProperty
 		if (coinImage.style.visibility=="visible") {
 		  return;
 		}
-
+*/
 		coinImage.style.objectPosition = "-" + 0 + "px -" + 0 + "px";
 
 		coinImage.style.visibility="visible";
@@ -4904,6 +4935,30 @@ alert("iInputY: "+iInputY);
 		
 		//added by Mike, 20260728
 		return coinImage;
+	}	
+
+	//added by Mike, 20260730
+	function setBgTileImagePosition(iInputX, iInputY, iCount) {
+		
+		var bgTileImage = document.getElementById("bgTileImageId"+iCount);
+
+		bgTileImage.style.objectPosition = "-" + 0 + "px -" + 0 + "px";
+
+		bgTileImage.style.visibility="visible";
+
+		iBgTileImageAnimationDelayCount=iBgTileImageAnimationDelayCountMax;
+
+		iBgTileImageAnimationCount=-1; //0;
+/*
+alert("iInputX: "+iInputX);
+alert("iInputY: "+iInputY);
+*/
+		bgTileImage.style.left = iInputX+"px";
+		bgTileImage.style.top = iInputY+"px";
+
+		
+		//added by Mike, 20260728
+		return bgTileImage;
 	}	
 	
 	function setInitFireballEffectPosition(iInputX, iInputY) {
@@ -9327,7 +9382,7 @@ alert("iInputY: "+iInputY);
 	}
 
 	//added by Mike, 20260727
-	function executeCoin(iCurrCoinCount) {
+	function drawCoin(iCurrCoinCount) {
 		var coinImage = document.getElementById("coinImageId"+iCurrCoinCount);
 
 		//var coinDisplayIconImage = document.getElementById("coinImageId16");
@@ -9398,6 +9453,47 @@ alert("iInputY: "+iInputY);
 		snowEffectImage.style.top=iSnowEffectPosY+"px";
 */		
 	}
+
+
+	//added by Mike, 20260730
+	function drawBgTileImage(iCurrBgTileImageCount) {
+		var bgTileImage = document.getElementById("bgTileImageId"+iCurrBgTileImageCount);
+
+		if (bgTileImage.style.visibility=="hidden") {
+			return;
+		}
+
+		if (iCurrMapLocation>62) { //after the portal
+			bgTileImage.style.visibility="hidden";
+			return;
+		}
+
+		bgTileImage.style.visibility="visible";
+
+/*
+		if (iCurrCoinCount==16) {
+			if (iCoinAnimationDelayCount==iCoinAnimationDelayCountMax) {
+				iCoinAnimationCount=(iCoinAnimationCount+1)%iCoinAnimationCountMax;//5; //last hidden
+
+				iCoinAnimationDelayCount=0;
+			}
+			else {
+				iCoinAnimationDelayCount++;
+			}
+		}
+		
+		if (iCoinAnimationCount<iCoinAnimationCountMax) {
+			coinImage.style.objectPosition = "-" + iImageCoinAnimationWidth*iCoinAnimationCount + "px -" + 0 + "px";
+		}
+		else {
+			iCoinAnimationCount=0;
+		}		
+*/
+		iBgTileImageAnimationCount=0;
+
+		bgTileImage.style.objectPosition = "-" + iImageBgTileImageAnimationWidth*iBgTileImageAnimationCount + "px -" + 0 + "px";
+	}
+
 	
 	function executeInitFireballEffect() {
 		var initFireballEffectImage = document.getElementById("initFireballEffectImageId");
@@ -11434,101 +11530,33 @@ if (arrayWalkOnSnowEffectCount==1) {
 			}
 		}
 	}			
-	
-	//buggy if checking against big boss
-	function updateArrayActorsZIndexBuggy() {
-		//var iCurrOutArraysActorsIndex=0;
-		var iCurrZIndex=iZIndexDefault;
 		
-		//alert (arrayActors.length);
-
-		//sort the array; from lowest to highest in z-index;
-		//based on y-axis position
-		//higher z-index means higher y-axis position; 
-		//therefore, should be drawn above the others;
-		for (iCount=0; iCount<iArrayActorsCount; iCount++) {
-			//aImageTilePosX=parseInt(arrayActors[iCount].style.left);
-			aImageTilePosY=parseInt(arrayActors[iCount].style.top);	
-
-			//alert(iCount+"; "+arrayActors[iCount].style.zIndex);
-
-			for (iCountTwo=iCount+1; iCountTwo<iArrayActorsCount; iCountTwo++) {
-				//bImageTilePosX=parseInt(arrayActors[iCountTwo].style.left);
-				bImageTilePosY=parseInt(arrayActors[iCountTwo].style.top);	
-				
-				var bIsMustSwap=false;
-				
-				//gets the entire spritesheet
-				//alert(arrayActors[iCountTwo].height)
-
-				//if a is the boss; double the size; 
-				if (parseInt(arrayActors[iCountTwo].height)<parseInt(arrayActors[iCount].height)) {
-				
-					//swap values in array; put b behind a
-					if (bImageTilePosY<aImageTilePosY) {				
-						bIsMustSwap=true;
-					}
-					else {
-						//check if bottom of b is lower than a's in the y-axis
-						//therefore, b should be behind a;
-						//if (bImageTilePosY+parseInt(arrayActors[iCountTwo].height)<aImageTilePosY+parseInt(arrayActors[iCount].height)) {
-	/*					
-						alert("actor b"+parseInt(arrayActors[iCountTwo].height));
-						alert("actor a"+parseInt(arrayActors[iCount].height));
-	*/					
-							//put b behind a
-							if ((bImageTilePosY+iImageFrameHeightLarge)<(aImageTilePosY+iImageFrameHeightLargeBoss)) {
-	/*						
-							alert("not boss"+(bImageTilePosY+iImageFrameHeightLarge));
-							alert("boss"+(aImageTilePosY+iImageFrameHeightLargeBoss));
-	*/						
-								bIsMustSwap=true;
-							}
-					}
-				}
-
-				if (bIsMustSwap) {
-					var objectTemp=arrayActors[iCount];
-				
-					arrayActors[iCount]=arrayActors[iCountTwo];
-					arrayActors[iCountTwo]=objectTemp;
-
-					//alert("SWAP!!!"+bImageTilePosY+"vs"+aImageTilePosY);
-
-					//iCurrOutArraysActorsIndex++;
-					break;
-				}
-			}
-		}
-		
-		for (iCount=0; iCount<iArrayActorsCount; iCount++) {
-			//alert("iCount: "+iCount+"; "+arrayActors[iCount].style.top);
-			arrayActors[iCount].style.zIndex=iCurrZIndex;
-			iCurrZIndex++;
-			
-			//alert(iCount+"; "+arrayActors[iCount].style.zIndex);
-			//alert(iCount+"; "+arrayActors[iCount].style.top);
-		}		
-	}	
-	
 	//OK if sprite images have the same height
 	function updateArrayActorsZIndex() {
 		//var iCurrOutArraysActorsIndex=0;
 		var iCurrZIndex=iZIndexDefault;
 		
 		//alert (arrayActors.length);
+		
+		//edited by Mike, 20260730
+		const iArrayActorsCountMax=arrayActors.length;
 
 		//sort the array; from lowest to highest in z-index;
 		//based on y-axis position
 		//higher z-index means higher y-axis position; 
 		//therefore, should be drawn above the others;
-		for (iCount=0; iCount<iArrayActorsCount; iCount++) {
+		//edited by Mike, 20260730
+		//for (iCount=0; iCount<iArrayActorsCount; iCount++) {
+		for (iCount=0; iCount<iArrayActorsCountMax; iCount++) {
+
 			//aImageTilePosX=parseInt(arrayActors[iCount].style.left);
 			aImageTilePosY=parseInt(arrayActors[iCount].style.top);	
 
 			//alert(iCount+"; "+arrayActors[iCount].style.zIndex);
 
-			for (iCountTwo=iCount+1; iCountTwo<iArrayActorsCount; iCountTwo++) {
+			//edited by Mike, 20260730
+			//for (iCountTwo=iCount+1; iCountTwo<iArrayActorsCount; iCountTwo++) {
+			for (iCountTwo=iCount+1; iCountTwo<iArrayActorsCountMax; iCountTwo++) {
 				//bImageTilePosX=parseInt(arrayActors[iCountTwo].style.left);
 				bImageTilePosY=parseInt(arrayActors[iCountTwo].style.top);	
 				
@@ -11546,8 +11574,10 @@ if (arrayWalkOnSnowEffectCount==1) {
 				}
 			}
 		}
-		
-		for (iCount=0; iCount<iArrayActorsCount; iCount++) {
+
+		//edited by Mike, 20260730		
+		//for (iCount=0; iCount<iArrayActorsCount; iCount++) {
+		for (iCount=0; iCount<iArrayActorsCountMax; iCount++) {
 			//alert("iCount: "+iCount+"; "+arrayActors[iCount].style.top);
 			arrayActors[iCount].style.zIndex=iCurrZIndex;
 			iCurrZIndex++;
@@ -11933,8 +11963,19 @@ if (arrayWalkOnSnowEffectCount==1) {
 
 		var coinImage = document.getElementById("coinImageId"+iCount);
 
-		if (!coinImage.checkVisibility()) { //note doesn't seem to be working;
-		
+		//reference: Google AI Overview; MDN Web Docs
+		const bIsVisible = coinImage.checkVisibility({
+/*
+		  visibilityProperty: true, // Checks for visibility: hidden or collapse
+		  opacityProperty: true,     // Checks for opacity: 0
+		  contentVisibilityAuto: true // Checks for content-visibility skips
+*/
+		  visibilityProperty: true // Checks for visibility: hidden or collapse
+		});
+
+		//edited by Mike, 20260730
+		//if (!coinImage.checkVisibility()) { //note doesn't seem to be working;
+		if (!bIsVisible) {
 		  //alert("NOT VISIBLE!: "+iCount);
 		
 		  return;
@@ -14943,8 +14984,8 @@ iCurrTextCharacterCountMax=sText.length;
 							iCurrSnowEffectCount++;
 						}
 					}
-					
-					//added by Mike, 20260727
+
+					//edited by Mike, 20260730; from 20260727
 					iCurrCoinCount=0;
 					
 					for (iCurrCoinRow=0; iCurrCoinRow<4; iCurrCoinRow++) {
@@ -14953,24 +14994,47 @@ iCurrTextCharacterCountMax=sText.length;
 							let iCoinOffsetX=iImageFrameWidthLarge*(iCurrCoinCount%4);
 							//setCoinPosition(0+iStageMaxWidth*0.20+iCurrCoinColumn*32+iCoinOffsetX,0+iStageMaxHeight*0.10+iCurrCoinRow*64,iCurrCoinCount);
 							
-							var currCoinImageObject=setCoinPosition(0+iStageMaxWidth*0.20+iCurrCoinColumn*16+iCoinOffsetX,0+iStageMaxHeight*0.10+iCurrCoinRow*48,iCurrCoinCount);
-							
+							var currCoinImageObject=setCoinPosition(0+iStageMaxWidth*0.20+iCurrCoinColumn*16+iCoinOffsetX,0+iStageMaxHeight*0.10+iCurrCoinRow*48,iCurrCoinCount);							
+
 							//alert(iCurrCoinCount);
-							
+							//alert(iArrayActorsCount);
+
 							//added by Mike, 20260728
 							//----------------------------------
 							arrayActors[iArrayActorsCount]=currCoinImageObject;
 							arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
 							iArrayActorsCount++;							
 							//----------------------------------
-							
+
 							iCurrCoinCount++;
 						}
 					}
 										
 					//setCoinPosition(0+iStageMaxWidth/2-iImageFrameWidthDefault*2,0+iStageMaxHeight*0.01,16); //display icon
 					setCoinPosition(0+iStageMaxWidth*0.02,0+iStageMaxHeight*0.87-iImageFrameHeightDefault,16); //display icon
-	
+
+					//added by Mike, 20260730
+					iCurrBgTileImageCount=0;
+					
+					for (iCurrBgTileImageRow=0; iCurrBgTileImageRow<3; iCurrBgTileImageRow++) {
+						for (iCurrBgTileImageColumn=0; iCurrBgTileImageColumn<5; iCurrBgTileImageColumn++) {
+						
+							//let iBgTileImageOffsetX=iImageFrameWidthBgTile*(iCurrBgTileImageCount%4);
+							
+							var currBgTileImageObject=setBgTileImagePosition(0+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount);
+
+/*							
+							//added by Mike, 20260728
+							//----------------------------------
+							arrayActors[iArrayActorsCount]=currCoinImageObject;
+							arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+							iArrayActorsCount++;							
+							//----------------------------------
+*/
+							iCurrBgTileImageCount++;
+						}
+					}
+
 					hasInitMapLocation=true;					
 				}
 /*				
@@ -15166,11 +15230,16 @@ iCurrTextCharacterCountMax=sText.length;
 				//added by Mike, 20260727
 				for (iCurrCoinCount=0; iCurrCoinCount<iCurrCoinCountMax; iCurrCoinCount++) {
 				
-					executeCoin(iCurrCoinCount);
+					drawCoin(iCurrCoinCount);
 
 					if (iCurrCoinCount!=16) {
 						verifyHeroCollideWithCoin(iCurrCoinCount);
 					}
+				}
+				
+				//added by Mike, 20260730
+				for (iCurrBgTileImageCount=0; iCurrBgTileImageCount<iCurrBgTileImageCountMax; iCurrBgTileImageCount++) {
+					drawBgTileImage(iCurrBgTileImageCount);
 				}
 
 				if (mainImageTilePosY<0+iInnerVerticalOffset+iImageFrameHeightLarge/2) {		
@@ -21374,7 +21443,7 @@ setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameW
 			//iCurrMapLocation=51;//75;//51;//53;		
 			iCurrMapLocation=START_MAP_LOCATION;//75;//51;//53;		
 			
-			//added by Mike, 20260727
+			//edited by Mike, 20260730; from 20260727
 			hasInitMapLocation=false;
 			
 			iStartTimeInMilliseconds=Date.now();	
@@ -22731,7 +22800,6 @@ opting to put assets folder in "html_application" folder instead
 
 	<img id="dustEffectImageId" class="ImageDust" src="assets/images/effectsSmall.png">
 
-
 	<img id="coinImageId0" class="ImageCoin" src="assets/images/coin.png?lastmod=20260727T1402">
 	<img id="coinImageId1" class="ImageCoin" src="assets/images/coin.png?lastmod=20260727T1402">
 	<img id="coinImageId2" class="ImageCoin" src="assets/images/coin.png?lastmod=20260727T1402">
@@ -22752,6 +22820,23 @@ opting to put assets folder in "html_application" folder instead
 	<!-- display icon only -->
 	<img id="coinImageId16" class="ImageCoinDisplayIcon" src="assets/images/coin.png?lastmod=20260727T1402">
 
+
+	<img id="bgTileImageId0" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId1" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId2" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId3" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId4" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId5" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId6" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId7" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId8" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId9" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId10" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId11" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId12" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId13" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId14" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId15" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
 
 	<img id="snowEffectImageId0" class="ImageSnow" src="assets/images/miscEffects.png?lastmod=20251115T1643">
 	<img id="snowEffectImageId1" class="ImageSnow" src="assets/images/miscEffects.png?lastmod=20251115T1643">
