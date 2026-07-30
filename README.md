@@ -296,11 +296,11 @@ By adding the basic foundations of a side-scrolling engine, the stage could be m
 
 **Key Lesson Learned:** 
 
-I've added background image tiles. There are 16 all in all, each having a size of `128x128` pixels (`width`x`height`). I note that the tiles are a lot bigger than the hero and the monsters, which are `64x64` pixels.
+I've added [background image tiles](https://github.com/usbong/game-off-2025post-test/blob/main/html_application/assets/images/countInverted.png). There are 16 all in all, each having a size of `128x128` pixels (`width`x`height`). I note that the tiles are a lot bigger than the hero and the monsters, which are `64x64` pixels.
 
 **Unlocked Possibilities:**
 
-The other tiles are already outside the `viewport`. We will need to move the `viewport` to be able to see the rest of the tiles. We'll also need to see if there will be lags or other execution errors when we do this. At the moment, the entire `countInverted.png` tile sheet is only 22.9KB.
+The other tiles are already outside the `viewport`. We will need to move the `viewport` to be able to see the rest of the tiles. We'll also need to see if there will be lags or other execution errors when we do this. At the moment, the entire [`countInverted.png`](https://github.com/usbong/game-off-2025post-test/blob/main/html_application/assets/images/countInverted.png) tile sheet is only 22.9KB.
 
 # Additional Bug Fixes
 
