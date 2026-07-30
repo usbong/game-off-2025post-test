@@ -314,7 +314,25 @@ The other tiles are already outside the `viewport`. We will need to move the `vi
 +fixed: bug when the hero continuously presses the attack button on a target monster even though he's exhausted all his stamina, thereby causing the monster to not change animation frames anymore, eventually leading to the monster's sudden death. The former was related to the value of `MONSTER_ANIMATION_INVINCIBLE_COUNT` found in the monster's walking and attacking animation functions, which prevented the animation counters from getting continuously counted. I've opted to simply remove this counter.
 
 3) 20260729 and 20260730;<br/>
-+fixed: bug when `New Game` is selected. It was due to using `var hasInitMapLocation` twice at the global level. There should only be one `var hasInitMapLocation`. The rest could use `hasInitMapLocation`.
++fixed: bug when `New Game` is selected. It was due to using this code in `setCoinPosition(iInputX, iInputY, iCount)`:<br/>
+
+```
+if (coinImage.style.visibility=="visible") {
+  return;
+}
+```
+
+I've removed it, because it throws an error when `coinImage.style.visibility` is already `hidden`.<br/>
+Alternatively, `checkVisibility(...)` could be modified as follows:<br/>
+
+```
+//reference: Google AI Overview; MDN Web Docs
+const bIsVisible = coinImage.checkVisibility({
+  visibilityProperty: true // Checks for visibility: hidden or collapse<br/>
+});
+```
+
+Incidentally, I found that I was using `var hasInitMapLocation` twice, with one already at the global level. There should only be one `var hasInitMapLocation`. The rest should use `hasInitMapLocation` to be clear.
 
 ## Select Software Development Productivity Tools
 
