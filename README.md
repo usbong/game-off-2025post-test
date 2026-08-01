@@ -302,6 +302,16 @@ I've added [background image tiles](https://github.com/usbong/game-off-2025post-
 
 The other tiles are already outside the `viewport`. We will need to move the `viewport` to be able to see the rest of the tiles. We'll also need to see if there will be lags or other execution errors when we do this. At the moment, the entire [`countInverted.png`](https://github.com/usbong/game-off-2025post-test/blob/main/html_application/assets/images/countInverted.png) tile sheet is only 22.9KB.
 
+25) 20260801; https://masarapmabuhay.itch.io/game-off-2025-post-test17
+
+**Key Lesson Learned:** 
+
+I've added basic horizontal scrolling wherein the monsters, items and the background tiles move accordingly based on the hero's movement in the `x` axis. The portion of the stage that is currently viewable scrolls as soon as the hero's `x` position goes beyond `60%` of the viewport, which is `640x360px` (`widthxheight`). Because of this, I've been able to make the entire stage larger than the viewport by adding two more background tile columns, each having `128px` for a total of `256px`. The entire stage, therefore, is now `896x360px`. 
+
+**Unlocked Possibilities:**
+
+To create an even larger stage, the viewport must be updated, so that the hero's position is at its center. Also, while the viewport only scrolls horizontally to the right at the moment, it is, of course, also possible to make the viewport scroll to the left given the correct equation to compute.
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
