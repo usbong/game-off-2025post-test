@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260730; from 20260729
+' @date updated: 20260801; from 20260730
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -1796,21 +1796,31 @@ var iCurrSnowFlakeCountPosY=0;
 
 //note: acceleration
 //min 2; not 1
-//edited by Mike, 20251102
-var mainImageTileProjectileStepYMaxDefault=3;//3;//5;//4;//3;
-var mainImageTileProjectileStepXMaxDefault=3;//5;//4;//3;
+//edited by Mike, 20260801; from 20251102
+/*
+var mainImageTileProjectileStepYMaxDefault=3;//3;//3;//5;//4;//3;
+var mainImageTileProjectileStepXMaxDefault=3;//3;//5;//4;//3;
 
 var mainImageTileProjectileVelocityYDefault=mainImageTileProjectileStepYMaxDefault-1;
 var mainImageTileProjectileVelocityXDefault=mainImageTileProjectileStepXMaxDefault-1;
-/*
-var mainImageTileProjectileStepYMinDefault=mainImageTileProjectileVelocityYDefault;
-var mainImageTileProjectileStepXMinDefault=mainImageTileProjectileVelocityXDefault;
 
-var mainImageTileProjectileStepYDefault=mainImageTileProjectileStepYMinDefault;
-var mainImageTileProjectileStepXDefault=mainImageTileProjectileStepXMinDefault;
-*/
 var mainImageTileProjectileStepYMax=mainImageTileProjectileStepYMaxDefault;
 var mainImageTileProjectileStepXMax=mainImageTileProjectileStepXMaxDefault;
+*/
+/*
+//removes sudden sprint/dash;
+var mainImageTileProjectileStepYMax=mainImageTileProjectileStepYMaxDefault-1;
+var mainImageTileProjectileStepXMax=mainImageTileProjectileStepXMaxDefault-1;
+*/
+var mainImageTileProjectileStepYMaxDefault=2;//3;//3;//5;//4;//3;
+var mainImageTileProjectileStepXMaxDefault=2;//3;//5;//4;//3;
+
+var mainImageTileProjectileVelocityYDefault=mainImageTileProjectileStepYMaxDefault;
+var mainImageTileProjectileVelocityXDefault=mainImageTileProjectileStepXMaxDefault;
+
+var mainImageTileProjectileStepYMax=mainImageTileProjectileStepYMaxDefault;
+var mainImageTileProjectileStepXMax=mainImageTileProjectileStepXMaxDefault;
+
 
 var mainImageTileProjectileVelocityY=mainImageTileProjectileVelocityYDefault;
 var mainImageTileProjectileVelocityX=mainImageTileProjectileVelocityXDefault;
@@ -2018,6 +2028,13 @@ var bIsHeroFacingUp=false;
 	const DEATH_STATE=4;
 	const IDLE_STATE=5;
 
+	//added by Mike, 20260801
+	//array actor roles
+	const BG_TILE_ARRAY_ACTOR_ROLE_TYPE=0;
+	const HERO_ARRAY_ACTOR_ROLE_TYPE=1;
+	const MONSTER_ARRAY_ACTOR_ROLE_TYPE=2;
+	const ITEM_ARRAY_ACTOR_ROLE_TYPE=3;
+	
 	//added by Mike, 20241111
 	var batMonsterImageTilePosX=0;
 	var batMonsterImageTilePosY=0;
@@ -2203,6 +2220,10 @@ var bIsHeroFacingUp=false;
 		
 	var iStageMaxWidth=640;
 	var iStageMaxHeight=360;
+	
+	//added by Mike, 20260801
+	var iCurrViewportX=0;
+	var iCurrViewportY=0;
 
 	var iVerticalOffset=0;
 
@@ -11530,7 +11551,67 @@ if (arrayWalkOnSnowEffectCount==1) {
 			}
 		}
 	}			
+	
+	//added by Mike, 20260801
+	function updateArrayActorsViewport() {
+		const iArrayActorsCountMax=arrayActors.length;
 		
+		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");
+		
+		heroImageTilePosX=parseInt(mainImageTileHeroBody.style.left);
+		heroImageTilePosY=parseInt(mainImageTileHeroBody.style.top);	
+
+
+		//if (mainImageTileProjectilePosX==newMainImageTileProjectilePosX) {
+		if (!bIsHeroWalking) {
+			return;
+		}
+
+		var iCurrDifferenceX=0;
+		
+		//always moving to the right; no going back to the left;		
+		if (heroImageTilePosX>iCurrViewportX+iStageMaxWidth/2) {
+			iCurrDifferenceX=heroImageTilePosX-(iCurrViewportX+iStageMaxWidth/2);
+/*
+		if (heroImageTilePosX>iCurrViewportX+iStageMaxWidth*0.6) {
+			iCurrDifferenceX=heroImageTilePosX-(iCurrViewportX+iStageMaxWidth*0.6);
+*/			
+			iCurrViewportX+=iCurrDifferenceX;
+			
+			/* //buggy
+			mainImageTilePosX=iCurrViewportX+iStageMaxWidth/2;
+			mainImageTileHeroBody.style.left=mainImageTilePosX+"px";
+			//resetProjectile();	
+			*/	
+		}
+
+		for (iCount=0; iCount<iArrayActorsCountMax; iCount++) {
+			if (arrayActors[iCount]["type"]==HERO_ARRAY_ACTOR_ROLE_TYPE) {
+				continue;
+			}
+
+			iActorPosX=parseInt(arrayActors[iCount].style.left);
+			iActorPosXUpdated=iActorPosX-iCurrDifferenceX;
+			
+			if (arrayActors[iCount]["type"]==MONSTER_ARRAY_ACTOR_ROLE_TYPE) {
+				//reference: Google AI Overview; MDN Web Docs
+				const bIsVisible = arrayActors[iCount].checkVisibility({
+				  visibilityProperty: true // Checks for visibility: hidden or collapse
+				});
+
+				if (!bIsVisible) {
+					continue;
+				}
+			
+				arrayWraithMonsterCountId[arrayActors[iCount]["iCount"]][MONSTER_POSX]=iActorPosXUpdated;
+				arrayActors[iCount].style.left=iActorPosXUpdated+"px";
+			}
+			else {
+				arrayActors[iCount].style.left=iActorPosXUpdated+"px";
+			}
+		}	
+	}
+	
 	//OK if sprite images have the same height
 	function updateArrayActorsZIndex() {
 		//var iCurrOutArraysActorsIndex=0;
@@ -11549,6 +11630,11 @@ if (arrayWalkOnSnowEffectCount==1) {
 		//for (iCount=0; iCount<iArrayActorsCount; iCount++) {
 		for (iCount=0; iCount<iArrayActorsCountMax; iCount++) {
 
+			//added by Mike, 20260801
+			if (arrayActors[iCount]["type"]==BG_TILE_ARRAY_ACTOR_ROLE_TYPE) {
+				continue;
+			}
+
 			//aImageTilePosX=parseInt(arrayActors[iCount].style.left);
 			aImageTilePosY=parseInt(arrayActors[iCount].style.top);	
 
@@ -11557,6 +11643,14 @@ if (arrayWalkOnSnowEffectCount==1) {
 			//edited by Mike, 20260730
 			//for (iCountTwo=iCount+1; iCountTwo<iArrayActorsCount; iCountTwo++) {
 			for (iCountTwo=iCount+1; iCountTwo<iArrayActorsCountMax; iCountTwo++) {
+
+				//removed by Mike, 20260801
+/*				
+				if (arrayActors[iCountTwo]["type"]==BG_TILE_ARRAY_ACTOR_ROLE_TYPE) {
+					//continue;
+				}
+*/				
+
 				//bImageTilePosX=parseInt(arrayActors[iCountTwo].style.left);
 				bImageTilePosY=parseInt(arrayActors[iCountTwo].style.top);	
 				
@@ -14873,6 +14967,9 @@ iCurrTextCharacterCountMax=sText.length;
 						arrayWraithMonsterCountId[iCount][MONSTER_IS_IN_RIVER]=false;
 						
 						arrayActors[iArrayActorsCount]=arrayWraithMonsterCountId[iCount][MONSTER_OBJECT];
+						
+						//added by Mike, 20260801
+						arrayActors[iArrayActorsCount]["iCount"]=iCount;
 
 						//-----
 /*						
@@ -14912,6 +15009,9 @@ iCurrTextCharacterCountMax=sText.length;
 						//-----
 
 						arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+						
+						//added by Mike, 20260801
+						arrayActors[iArrayActorsCount]["type"]=MONSTER_ARRAY_ACTOR_ROLE_TYPE;
 
 						iArrayActorsCount++;
 					}
@@ -14968,7 +15068,7 @@ iCurrTextCharacterCountMax=sText.length;
 					arrayWraithMonsterCountId[3][MONSTER_STEPX]=2;
 					arrayWraithMonsterCountId[3][MONSTER_STEPY]=2;
 */
-					
+
 	
 					iCurrSnowEffectCount=0;
 					//4x4
@@ -14982,6 +15082,29 @@ iCurrTextCharacterCountMax=sText.length;
 							setSnowEffectPosition(0+iCurrSnowColumn*64+iOffsetX,0+iCurrSnowRow*64,iCurrSnowEffectCount);
 							
 							iCurrSnowEffectCount++;
+						}
+					}
+
+					//added by Mike, 20260801
+					//put the bg tile images first;
+					iCurrBgTileImageCount=0;
+					
+					for (iCurrBgTileImageRow=0; iCurrBgTileImageRow<3; iCurrBgTileImageRow++) {
+						for (iCurrBgTileImageColumn=0; iCurrBgTileImageColumn<7; iCurrBgTileImageColumn++) {
+						
+							//let iBgTileImageOffsetX=iImageFrameWidthBgTile*(iCurrBgTileImageCount%4);
+							
+							var currBgTileImageObject=setBgTileImagePosition(0+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount);
+
+							//added by Mike, 20260801
+							//----------------------------------
+							arrayActors[iArrayActorsCount]=currBgTileImageObject;
+							arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+							arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_ACTOR_ROLE_TYPE;
+							iArrayActorsCount++;							
+							//----------------------------------
+
+							iCurrBgTileImageCount++;
 						}
 					}
 
@@ -15003,7 +15126,8 @@ iCurrTextCharacterCountMax=sText.length;
 							//----------------------------------
 							arrayActors[iArrayActorsCount]=currCoinImageObject;
 							arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-							iArrayActorsCount++;							
+							arrayActors[iArrayActorsCount]["type"]=ITEM_ARRAY_ACTOR_ROLE_TYPE;
+							iArrayActorsCount++;					
 							//----------------------------------
 
 							iCurrCoinCount++;
@@ -15012,28 +15136,6 @@ iCurrTextCharacterCountMax=sText.length;
 										
 					//setCoinPosition(0+iStageMaxWidth/2-iImageFrameWidthDefault*2,0+iStageMaxHeight*0.01,16); //display icon
 					setCoinPosition(0+iStageMaxWidth*0.02,0+iStageMaxHeight*0.87-iImageFrameHeightDefault,16); //display icon
-
-					//added by Mike, 20260730
-					iCurrBgTileImageCount=0;
-					
-					for (iCurrBgTileImageRow=0; iCurrBgTileImageRow<3; iCurrBgTileImageRow++) {
-						for (iCurrBgTileImageColumn=0; iCurrBgTileImageColumn<5; iCurrBgTileImageColumn++) {
-						
-							//let iBgTileImageOffsetX=iImageFrameWidthBgTile*(iCurrBgTileImageCount%4);
-							
-							var currBgTileImageObject=setBgTileImagePosition(0+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount);
-
-/*							
-							//added by Mike, 20260728
-							//----------------------------------
-							arrayActors[iArrayActorsCount]=currCoinImageObject;
-							arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-							iArrayActorsCount++;							
-							//----------------------------------
-*/
-							iCurrBgTileImageCount++;
-						}
-					}
 
 					hasInitMapLocation=true;					
 				}
@@ -15220,6 +15322,9 @@ iCurrTextCharacterCountMax=sText.length;
 				//put this here
 				updateHasHeroShotSniper();
 				executeMonsterDeathAnimation();
+				
+				//added by Mike, 20260801
+				updateArrayActorsViewport();
 
 				//added by Mike, 20251115
 				for (iCurrSnowEffectCount=0; iCurrSnowEffectCount<iCurrSnowEffectCountMax; iCurrSnowEffectCount++) {
@@ -21491,6 +21596,10 @@ setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameW
 			//added by Mike, 20260727
 			iCurrHeroCoinCount=0;
 			
+			//added by Mike, 20260801
+			iCurrViewportX=0;
+			iCurrViewportY=0;
+			
 			//added by Mike, 20251122
 			iTextStatusOffsetY=0;
 			
@@ -22837,6 +22946,15 @@ opting to put assets folder in "html_application" folder instead
 	<img id="bgTileImageId13" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
 	<img id="bgTileImageId14" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
 	<img id="bgTileImageId15" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+
+	<img id="bgTileImageId16" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId17" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId18" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId19" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId20" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId21" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+
+
 
 	<img id="snowEffectImageId0" class="ImageSnow" src="assets/images/miscEffects.png?lastmod=20251115T1643">
 	<img id="snowEffectImageId1" class="ImageSnow" src="assets/images/miscEffects.png?lastmod=20251115T1643">
