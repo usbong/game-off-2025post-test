@@ -302,7 +302,7 @@ I've added [background image tiles](https://github.com/usbong/game-off-2025post-
 
 The other tiles are already outside the `viewport`. We will need to move the `viewport` to be able to see the rest of the tiles. We'll also need to see if there will be lags or other execution errors when we do this. At the moment, the entire [`countInverted.png`](https://github.com/usbong/game-off-2025post-test/blob/main/html_application/assets/images/countInverted.png) tile sheet is only 22.9KB.
 
-25) 20260801; https://masarapmabuhay.itch.io/game-off-2025-post-test17
+26) 20260801 and 20260802; https://masarapmabuhay.itch.io/game-off-2025-post-test17
 
 **Key Lesson Learned:** 
 
@@ -311,6 +311,18 @@ I've added basic horizontal scrolling wherein the monsters, items and the backgr
 **Unlocked Possibilities:**
 
 To create an even larger stage, the viewport must be updated, so that the hero's position is at its center. Also, while the viewport only scrolls horizontally to the right at the moment, it is, of course, also possible to make the viewport scroll to the left given the correct equation to compute.
+
+27) 20260801 and 20260802; https://masarapmabuhay.itch.io/game-off-2025-post-test17
+
+**Key Lesson Learned:** 
+
+I've fixed the problem with the hero suddenly moving rapidly when the user mouse-clicks the same point in the coordinate system. However, after leveling up and if the user chooses the `speed-up` option, these sudden bursts of dashing movement would reappear.
+
+Next, when the hero reaches the right-most part of the screen, he is transitioned to the left-most part of the screen again, and all the items as well as the monsters are re-generated. I note here that I've added a fading transition that gradually sets the value of the `opacity` of the tint canvas from `1` to `0`.
+
+**Unlocked Possibilities:**
+
+While the current version only loops, at the code level, I think that the key elements of the game are already present. At this point, I'd want to point out that the size of the hero and the monsters could be further increased given that the hero now moves a lot slower by default to not cause any dizzying effect due to the background also moving. This task would require updating the code and the animation frames, the latter, I expect, would take a substantial amount of time. 
 
 # Additional Bug Fixes
 
@@ -323,7 +335,7 @@ To create an even larger stage, the viewport must be updated, so that the hero's
 3) 20260704 and 20260705;<br/>
 +fixed: bug when the hero continuously presses the attack button on a target monster even though he's exhausted all his stamina, thereby causing the monster to not change animation frames anymore, eventually leading to the monster's sudden death. The former was related to the value of `MONSTER_ANIMATION_INVINCIBLE_COUNT` found in the monster's walking and attacking animation functions, which prevented the animation counters from getting continuously counted. I've opted to simply remove this counter.
 
-3) 20260729 and 20260730;<br/>
+4) 20260729 and 20260730;<br/>
 +fixed: bug when `New Game` is selected. It was due to using this code in `setCoinPosition(iInputX, iInputY, iCount)`:<br/>
 
 ```
@@ -343,6 +355,10 @@ const bIsVisible = coinImage.checkVisibility({
 ```
 
 Incidentally, I found that I was using `var hasInitMapLocation` twice, with one already at the global level. There should only be one `var hasInitMapLocation`. The rest should use `hasInitMapLocation` to be clear.
+
+5) 20260801 and 20260802;<br/>
++fixed: bug that causes hero to suddenly dash at certain moments.  As it turns out, it was related to the value of `newMainImageTileProjectilePosX` after computing it based on `stepX` and the angle (whether its positive or negative) from the hero's current position toward his new position according to the point where the user clicked the mouse. If the maximum `stepX` is `2`, in most cases, the computed value of `newMainImageTileProjectilePosX` doesn't reach `2`. However, when it does, such as when the same point is clicked, the hero moves noticeably more rapidly. <br/>
++updated: the `y` position of the `drawHeroLifeBar(...)` and `drawHeroManaBar(...)`, so that they're not too low with respect to the image of the hero's head.
 
 ## Select Software Development Productivity Tools
 
