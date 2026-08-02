@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260801; from 20260730
+' @date updated: 20260802; from 20260801
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -113,7 +113,7 @@
 
 			border: 0px;
 
-			z-index: 99;
+			z-index: 100;
 		}		
 		
 		canvas.myEffectCanvas {		
@@ -1235,6 +1235,8 @@ var fCurrBgImageMoonOpacity=0;
 
 var fCurrDivStoryOpacity=1;
 
+//added by Mike, 20260802
+var fCurrCanvasTintOpacity=1;
 
 var bIsShowingStage1End=false;
 var bIsShowingStage2End=false;
@@ -4306,7 +4308,10 @@ var bIsHeroFacingUp=false;
 			iImageFrameWidth=iImageFrameWidthDefault;
 		}
 		
-		mainImageTilePosX=iStageMaxWidth/2-iImageFrameWidth/2;
+		//edited by Mike, 20260802
+		//mainImageTilePosX=iStageMaxWidth/2-iImageFrameWidth/2;
+		mainImageTilePosX=iStageMaxWidth*0.1-iImageFrameWidth/2;
+
 		mainImageTilePosY=iStageMaxHeight/2-iImageFrameHeight;
 
 		mainImageTile.style.left = (iHorizontalOffset+mainImageTilePosX)+"px";
@@ -11573,6 +11578,10 @@ if (arrayWalkOnSnowEffectCount==1) {
 		if (heroImageTilePosX>iCurrViewportX+iStageMaxWidth/2) {
 			iCurrDifferenceX=heroImageTilePosX-(iCurrViewportX+iStageMaxWidth/2);
 /*
+		if (heroImageTilePosX>iCurrViewportX+iStageMaxWidth/2-iImageFrameWidthLarge) {
+			iCurrDifferenceX=heroImageTilePosX-(iCurrViewportX+iStageMaxWidth/2-iImageFrameWidthLarge);
+*/
+/*
 		if (heroImageTilePosX>iCurrViewportX+iStageMaxWidth*0.6) {
 			iCurrDifferenceX=heroImageTilePosX-(iCurrViewportX+iStageMaxWidth*0.6);
 */			
@@ -13923,7 +13932,7 @@ iCurrTextCharacterCountMax=sText.length;
 			myCanvasTwoContext.fillStyle = "#111111"; //"#000000"; //"#000077";//"#550000";//red tint
 			myCanvasTwoContext.fillRect(0, 0, iStageMaxWidth, iStageMaxHeight);
 
-			drawHeroLifeBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/60,false); 
+			drawHeroLifeBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/76,false); 
 
 /*
 			if (bIsBossBattle) {
@@ -13931,7 +13940,7 @@ iCurrTextCharacterCountMax=sText.length;
 			}
 */
 
-			drawHeroManaBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/60+5,false);		
+			drawHeroManaBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/76+5,false);		
 			
 			//mainImageTileHeroBody.style.visibility="visible";
 		
@@ -13975,7 +13984,7 @@ iCurrTextCharacterCountMax=sText.length;
 
 			heroLifeBarStatusImageTile.style.visibility = "visible";
 
-			drawHeroLifeBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/60,false); 
+			drawHeroLifeBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/76,false); 
 /*
 			iCurrHeroLife=iCurrHeroLifeMax;
 			iCurrHeroLifeToBeDeducted=0;
@@ -13984,7 +13993,7 @@ iCurrTextCharacterCountMax=sText.length;
 			iCurrHeroManaToBeDeducted=0;
 			
 			//drawHeroManaBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left), 0+parseInt(heroLifeBarStatusImageTile.style.bottom)+5,false); 	
-			drawHeroManaBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/60+5,false);	
+			drawHeroManaBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/76+5,false);	
 
 			if (!bHasBeatenStage1Boss) {
 				iInputDelayAtStageTransitionCount++;
@@ -14090,14 +14099,14 @@ iCurrTextCharacterCountMax=sText.length;
 
 			heroLifeBarStatusImageTile.style.visibility = "visible";
 
-			drawHeroLifeBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/60,false); 
+			drawHeroLifeBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/76,false); 
 
 			iCurrHeroMana=iCurrHeroManaMax;
 			iCurrHeroManaToBeDeducted=0;
 			
 			//drawHeroManaBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left), 0+parseInt(heroLifeBarStatusImageTile.style.bottom)+5,false); 	
 			
-			drawHeroManaBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/60+5,false);	
+			drawHeroManaBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/76+5,false);	
 
 
 //alert(">>>DITO");
@@ -14184,7 +14193,7 @@ iCurrTextCharacterCountMax=sText.length;
 
 			heroLifeBarStatusImageTile.style.visibility = "visible";
 
-			drawHeroLifeBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/60,false); 
+			drawHeroLifeBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/76,false); 
 
 ////			iCurrHeroLife=iCurrHeroLifeMax;
 ////			iCurrHeroLifeToBeDeducted=0;
@@ -14193,7 +14202,7 @@ iCurrTextCharacterCountMax=sText.length;
 			iCurrHeroManaToBeDeducted=0;
 			
 			//drawHeroManaBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left), 0+parseInt(heroLifeBarStatusImageTile.style.bottom)+5,false); 	
-			drawHeroManaBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/60+5,false);	
+			drawHeroManaBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/76+5,false);	
 
 			if (!bHasBeatenLastBoss) {
 				iInputDelayAtStageTransitionCount++;
@@ -14538,23 +14547,23 @@ iCurrTextCharacterCountMax=sText.length;
 		
 		heroLifeBarStatusImageTile.style.visibility="visible";
 		
-		drawHeroLifeBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/60,false); 
+		drawHeroLifeBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/76,false); 
 
 		if (bIsBossBattle) {
 			drawBossLifeBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+50, 00+iStageMaxHeight*0.35,false); 
 		}
 
-		drawHeroManaBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/60+5,false);	
+		drawHeroManaBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/76+5,false);	
 	}
 	else {
 
-		drawHeroLifeBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/60,true); 
+		drawHeroLifeBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/76,true); 
 
 		if (bIsBossBattle) {
 			drawBossLifeBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+50, 00+iStageMaxHeight*0.35,false); 
 		}
 
-		drawHeroManaBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/60+5,true);	
+		drawHeroManaBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+10, 0+iStageMaxHeight/76+5,true);	
 
 	}
 	
@@ -14930,8 +14939,19 @@ iCurrTextCharacterCountMax=sText.length;
 				bossBattleBgImageBeach.style.visibility = "hidden";
 				bossBattleBgImagePart2.style.visibility = "hidden";
 				bossBattleBgImagePart3.style.visibility = "hidden";	
+				
+				//added by Mike, 20260802
+				var myCanvasTint = document.getElementById("myCanvasTintId");
 
 				if (!hasInitMapLocation) {				
+					//added by Mike, 20260802
+					myCanvasTint.style.visibility="visible";
+					fCurrCanvasTintOpacity=1.0;					
+					myCanvasTint.style.opacity=fCurrCanvasTintOpacity;
+					
+					iCurrViewportX=0;
+					iCurrViewportY=0;
+										
 					//added by Mike, 20251123
 					dustEffectImage.style.visibility="hidden";				
 					arrayWalkOnSnowEffect[MONSTER_OBJECT]=document.getElementById("walkOnSnowEffectImageId"+0);
@@ -15139,6 +15159,16 @@ iCurrTextCharacterCountMax=sText.length;
 
 					hasInitMapLocation=true;					
 				}
+				
+				
+				//added by Mike, 20260802
+				fCurrCanvasTintOpacity-=0.01;
+				if (fCurrCanvasTintOpacity<0.0) {
+					fCurrCanvasTintOpacity=0.0;
+					myCanvasTint.style.visibility="hidden";
+				}
+				myCanvasTint.style.opacity=fCurrCanvasTintOpacity;
+
 /*				
 				if (isSkelMonsterTileActive) {
 					skelMonsterImageTile.style.visibility="visible";
@@ -15377,10 +15407,23 @@ iCurrTextCharacterCountMax=sText.length;
 				}
 */				
 				//right-most
+/*				//edited by Mike, 20260802
 				//wall
 				if (mainImageTilePosX+iImageFrameWidthDefault>(iInnerHorizontalOffset)+iStageMaxWidth-iImageFrameWidthDefault*1.5) { 
 					mainImageTilePosX=(iInnerHorizontalOffset)+iStageMaxWidth-iImageFrameWidthDefault*1.5-iImageFrameWidthDefault;
 					resetProjectile();	
+				}
+*/
+				//right-most
+				if (mainImageTilePosX+iImageFrameWidthDefault>(iInnerHorizontalOffset)+iStageMaxWidth-iImageFrameWidthDefault*1.5) {
+					//OK;
+					mainImageTilePosX=(iInnerHorizontalOffset+iImageFrameWidthDefault/2)+0;
+					resetProjectile();	
+
+					iCurrMapLocation=53;
+					hasInitMapLocation=false;
+
+					verifyIfHeroLeveledUp();
 				}
 				//left-most
 				//wall
@@ -20569,7 +20612,7 @@ iCurrTextCharacterCountMax=sText.length;
       bossMonsterImageTile.style.objectPosition = "-" + 128*(iBossMonsterAnimationCount) + "px -" + 0 + "px";
     }
 */
-
+		
 		mainImageTile.style.left = (iHorizontalOffset+mainImageTilePosX)+"px";
 		mainImageTile.style.top = (iVerticalOffsetInnerScreen+mainImageTilePosY)+"px";
 
@@ -20708,10 +20751,10 @@ mainImageTileProjectilePosY=parseInt(mainImageTileProjectilePosY)+newMainImageTi
 			alert("mainImageTileProjectilePosY"+mainImageTileProjectilePosY);
 			alert("mainImageTilePosY"+mainImageTilePosY);
 */
+
 			mainImageTilePosX=mainImageTileProjectilePosX;		
 			mainImageTilePosY=mainImageTileProjectilePosY;
-			
-			
+						
 			if (bIsHeroInTank) {
 				executeTankWalkingAnimation();
 			}
@@ -20721,6 +20764,7 @@ mainImageTileProjectilePosY=parseInt(mainImageTileProjectilePosY)+newMainImageTi
 				
 				//edited by Mike, 20260722
 				if ((!bHasAttacked) || (!bHasHeroHitMonster)) {
+/*					//edited by Mike, 20260802
 					//edited by Mike, 20251123; from 20251119
 					if (mainImageTileProjectileStepY<mainImageTileProjectileStepYMax) {
 						//mainImageTileProjectileStepY+=mainImageTileProjectileVelocityY;//++;
@@ -20731,6 +20775,9 @@ mainImageTileProjectilePosY=parseInt(mainImageTileProjectilePosY)+newMainImageTi
 						//mainImageTileProjectileStepX+=mainImageTileProjectileVelocityX;//++;
 						mainImageTileProjectileStepX=mainImageTileProjectileStepXMax;
 					}				
+*/					
+					mainImageTileProjectileStepY=mainImageTileProjectileStepYMax;					
+					mainImageTileProjectileStepX=mainImageTileProjectileStepXMax;
 
 					executeHeroWalkingAnimation();
 				}
@@ -21216,13 +21263,47 @@ alert("iDeltaY: "+iDeltaY);
 	//removed by Mike, 20251119
     //mainImageTile.style.transform = "rotate("+ (iMainImageTileStepAngle % 360) +"deg)";
 
-
+/*		
+		//added by Mike, 20260802
+		mainImageTileProjectileStepY=mainImageTileProjectileStepYMax;					
+		mainImageTileProjectileStepX=mainImageTileProjectileStepXMax;
+*/
 	
 		newMainImageTileProjectilePosY=mainImageTileProjectileStepY*Math.cos(fMainImageTileStepAngleRad).toFixed(3);
 
 		newMainImageTileProjectilePosY*=-1;
 		
 		newMainImageTileProjectilePosX=mainImageTileProjectileStepX*Math.sin(fMainImageTileStepAngleRad).toFixed(3);
+
+		//added by Mike, 20260802
+		//note when value reaches 2; hero dashes;
+		//---------------------------------		
+		//alert(newMainImageTileProjectilePosX);
+	
+		if (mainImageTileProjectileStepXMax>2) { //if has leveled-up; and speed increased;
+		}
+		else {
+			if (newMainImageTileProjectilePosX>=2) {
+				newMainImageTileProjectilePosX=1.9;
+			}
+			else if (newMainImageTileProjectilePosX<=-2) {
+				newMainImageTileProjectilePosX=-1.9;
+			}
+		}
+
+		if (mainImageTileProjectileStepYMax>2) { //if has leveled-up; and speed increased;
+		}
+		else {
+			//alert(newMainImageTileProjectilePosY);
+
+			if (newMainImageTileProjectilePosY>=2) {
+				newMainImageTileProjectilePosY=1.9;
+			}
+			else if (newMainImageTileProjectilePosY<=-2) {
+				newMainImageTileProjectilePosY=-1.9;
+			}
+		}
+		//---------------------------------
 
 		//added by Mike, 20231125
 		mainImageTileProjectilePosX = parseInt(mainImageTile.style.left);
