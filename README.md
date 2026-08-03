@@ -324,6 +324,18 @@ Next, when the hero reaches the right-most part of the screen, he is transitione
 
 While the current version only loops, at the code level, I think that the key elements of the game are already present. At this point, I'd want to point out that the size of the hero and the monsters could be further increased given that the hero now moves a lot slower by default to not cause any dizzying effect due to the background also moving. This task would require updating the code and the animation frames, the latter, I expect, would take a substantial amount of time. 
 
+28) 20260803; https://masarapmabuhay.itch.io/game-off-2025-post-test18
+
+**Key Lesson Learned:** 
+
+I've increased the `width` of the entire stage from only `640px` to `1152px`. Also, the viewport which moves based on the hero's movement can now go to the left instead of only to the right. I note here having noticed an `acceleration` occurring at certain times, and having provided a fix, which I've detailed in the section below on `Additional Bug Fixes`.
+
+I intially wanted to get up to as much as `1280px` and more, but encountered difficulty in moving the viewport along with the hero, because the hero has to have an actual position in relation to the entire stage as well as another position that is displayed in relation to the viewport. Therefore, while the hero should ideally be seen to be moving only at the center of the viewport, in reality, he's already moving much further within the entire stage. Moreover, due to my having used multiple variables including `mainImageTileHeroBody`, `mainImageTile` and others, finding which one actually moved the hero's position on screen became a lot more time-consuming.
+
+**Unlocked Possibilities:**
+
+The size of the stage is now larger than the viewport. The hero could go left or right and scroll the viewport accordingly. The size of the stage also reminds me of 2D fighting games from Capcom and SNK back in the 90s to the early 2000s. 
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
@@ -359,6 +371,9 @@ Incidentally, I found that I was using `var hasInitMapLocation` twice, with one 
 5) 20260801 and 20260802;<br/>
 +fixed: bug that causes hero to suddenly dash at certain moments.  As it turns out, it was related to the value of `newMainImageTileProjectilePosX` after computing it based on `stepX` and the angle (whether its positive or negative) from the hero's current position toward his new position according to the point where the user clicked the mouse. If the maximum `stepX` is `2`, in most cases, the computed value of `newMainImageTileProjectilePosX` doesn't reach `2`. However, when it does, such as when the same point is clicked, the hero moves noticeably more rapidly. <br/>
 +updated: the `y` position of the `drawHeroLifeBar(...)` and `drawHeroManaBar(...)`, so that they're not too low with respect to the image of the hero's head.
+
+6) 20260803;<br/>
++fixed: partly the bug that causes the hero to move twice as fast when moving to the left; I simply did `newMainImageTileProjectilePosX/2` when the value is `negative`, although I'm not too certain why I needed to do so. Meanwhile, moving the viewport along with the hero makes the hero also move twice as fast. To partly solve this, I made the viewport move just when the hero's `x` position passes `iStageMaxWidth/10` where `iStageMaxWidth=640` pixels. At the moment, `stage` means the default viewport size, and not the expanded stage, which is now at `1152px` instead of `640px`.
 
 ## Select Software Development Productivity Tools
 
