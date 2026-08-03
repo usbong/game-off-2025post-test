@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260802; from 20260801
+' @date updated: 20260803; from 20260802
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -3467,14 +3467,18 @@ var bIsHeroFacingUp=false;
 	function drawHeroXYPosStatus(myCanvasContext, iXPos, iYPos) {		
 		var textHeroXPosStatusDiv = document.getElementById("textHeroXPosStatusDivId");
 		var textHeroYPosStatusDiv = document.getElementById("textHeroYPosStatusDivId");
-
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");
+		
+		//var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");
 		
 		textHeroXPosStatusDiv.style.visibility="visible";
 		textHeroYPosStatusDiv.style.visibility="visible";
 
+/*
 		heroImageTilePosX=parseInt(mainImageTileHeroBody.style.left);
 		heroImageTilePosY=parseInt(mainImageTileHeroBody.style.top);	
+*/
+		heroImageTilePosX=parseInt(mainImageTilePosX);
+		heroImageTilePosY=parseInt(mainImageTilePosY);	
 
 		textHeroXPosStatusDiv.style.left=0+iXPos+"px"
 		textHeroXPosStatusDiv.style.top=0+iYPos+"px";
@@ -3484,8 +3488,26 @@ var bIsHeroFacingUp=false;
 
 		textHeroXPosStatusDiv.innerHTML = "HX:"+heroImageTilePosX;
 		textHeroYPosStatusDiv.innerHTML = "HY:"+heroImageTilePosY;
+		
 	}
 	
+	//added by Mike, 20260803
+	function drawViewportXYPosStatus(myCanvasContext, iXPos, iYPos) {
+		var textViewportXPosStatusDiv = document.getElementById("textViewportXPosStatusDivId");
+		var textViewportYPosStatusDiv = document.getElementById("textViewportYPosStatusDivId");
+		
+		textViewportXPosStatusDiv.style.visibility="visible";
+		textViewportYPosStatusDiv.style.visibility="visible";
+
+		textViewportXPosStatusDiv.style.left=0+iXPos+"px"
+		textViewportXPosStatusDiv.style.top=0+iYPos+"px";
+
+		textViewportYPosStatusDiv.style.left=0+iXPos+"px"
+		textViewportYPosStatusDiv.style.top=0+iYPos+iImageFrameHeightDefault+"px";
+
+		textViewportXPosStatusDiv.innerHTML = "VX:"+iCurrViewportX;
+		textViewportYPosStatusDiv.innerHTML = "VY:"+iCurrViewportY;
+	}
 	
 	function drawKeyStatus(myCanvasContext, iXPos, iYPos) {	
 		var keyStatusImageTile = document.getElementById("keyStatusImageTileId");
@@ -11563,9 +11585,12 @@ if (arrayWalkOnSnowEffectCount==1) {
 		
 		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");
 		
+/*		//edited by Mike, 20260803		
 		heroImageTilePosX=parseInt(mainImageTileHeroBody.style.left);
 		heroImageTilePosY=parseInt(mainImageTileHeroBody.style.top);	
-
+*/
+		heroImageTilePosX=parseInt(mainImageTilePosX);
+		heroImageTilePosY=parseInt(mainImageTilePosY);	
 
 		//if (mainImageTileProjectilePosX==newMainImageTileProjectilePosX) {
 		if (!bIsHeroWalking) {
@@ -11574,24 +11599,24 @@ if (arrayWalkOnSnowEffectCount==1) {
 
 		var iCurrDifferenceX=0;
 		
-		//always moving to the right; no going back to the left;		
-		if (heroImageTilePosX>iCurrViewportX+iStageMaxWidth/2) {
+		//always moving to the right; no going back to the left;	
+		//edited by Mike, 20260803
+		//if (heroImageTilePosX>iCurrViewportX+iStageMaxWidth/2) {
+		//allows going to the left; but buggy; hero's movement again speeds-up by 2;
+/*
+		if (iCurrViewportX+heroImageTilePosX>iCurrViewportX+iStageMaxWidth/2) {
 			iCurrDifferenceX=heroImageTilePosX-(iCurrViewportX+iStageMaxWidth/2);
-/*
-		if (heroImageTilePosX>iCurrViewportX+iStageMaxWidth/2-iImageFrameWidthLarge) {
-			iCurrDifferenceX=heroImageTilePosX-(iCurrViewportX+iStageMaxWidth/2-iImageFrameWidthLarge);
 */
-/*
-		if (heroImageTilePosX>iCurrViewportX+iStageMaxWidth*0.6) {
-			iCurrDifferenceX=heroImageTilePosX-(iCurrViewportX+iStageMaxWidth*0.6);
+		if (iCurrViewportX+heroImageTilePosX>iCurrViewportX+iStageMaxWidth/10) {
+			iCurrDifferenceX=heroImageTilePosX-(iCurrViewportX+iStageMaxWidth/10);
+
+/*			
+			//keeps hero at the center of the viewport
+			newMainImageTileProjectilePosX=newMainImageTileProjectilePosX/2;
+			newMainImageTileProjectilePosY=newMainImageTileProjectilePosY/2;
 */			
+		
 			iCurrViewportX+=iCurrDifferenceX;
-			
-			/* //buggy
-			mainImageTilePosX=iCurrViewportX+iStageMaxWidth/2;
-			mainImageTileHeroBody.style.left=mainImageTilePosX+"px";
-			//resetProjectile();	
-			*/	
 		}
 
 		for (iCount=0; iCount<iArrayActorsCountMax; iCount++) {
@@ -11599,6 +11624,7 @@ if (arrayWalkOnSnowEffectCount==1) {
 				continue;
 			}
 
+			iActorPosX=parseInt(arrayActors[iCount].style.left);
 			iActorPosX=parseInt(arrayActors[iCount].style.left);
 			iActorPosXUpdated=iActorPosX-iCurrDifferenceX;
 			
@@ -11608,10 +11634,12 @@ if (arrayWalkOnSnowEffectCount==1) {
 				  visibilityProperty: true // Checks for visibility: hidden or collapse
 				});
 
+/*				//removed by Mike, 20260803; due to monster immediately spawned;
 				if (!bIsVisible) {
 					continue;
 				}
-			
+*/
+
 				arrayWraithMonsterCountId[arrayActors[iCount]["iCount"]][MONSTER_POSX]=iActorPosXUpdated;
 				arrayActors[iCount].style.left=iActorPosXUpdated+"px";
 			}
@@ -13873,6 +13901,9 @@ iCurrTextCharacterCountMax=sText.length;
 			//added by Mike, 20260729
 			drawHeroXYPosStatus(myCanvasTwoContext, 0+iStageMaxWidth*0.8, 0+iStageMaxHeight*0.77);
 			
+			//added by Mike, 20260803
+			drawViewportXYPosStatus(myCanvasTwoContext, 0+iStageMaxWidth*0.6, 0+iStageMaxHeight*0.77);
+			
 			return;
 		}
 
@@ -14600,6 +14631,9 @@ iCurrTextCharacterCountMax=sText.length;
 
 	//added by Mike, 20260729
 	drawHeroXYPosStatus(myCanvasTwoContext, 0+iStageMaxWidth*0.8, 0+iStageMaxHeight*0.77);
+
+	//added by Mike, 20260803
+	drawViewportXYPosStatus(myCanvasTwoContext, 0+iStageMaxWidth*0.6, 0+iStageMaxHeight*0.77);
 		
 	//alert(iHorizontalOffset);
 
@@ -15109,8 +15143,10 @@ iCurrTextCharacterCountMax=sText.length;
 					//put the bg tile images first;
 					iCurrBgTileImageCount=0;
 					
+					//iCurrBgTileImageColumn<12; max
+					
 					for (iCurrBgTileImageRow=0; iCurrBgTileImageRow<3; iCurrBgTileImageRow++) {
-						for (iCurrBgTileImageColumn=0; iCurrBgTileImageColumn<7; iCurrBgTileImageColumn++) {
+						for (iCurrBgTileImageColumn=0; iCurrBgTileImageColumn<9; iCurrBgTileImageColumn++) {
 						
 							//let iBgTileImageOffsetX=iImageFrameWidthBgTile*(iCurrBgTileImageCount%4);
 							
@@ -15415,7 +15451,12 @@ iCurrTextCharacterCountMax=sText.length;
 				}
 */
 				//right-most
+				//edited by Mike, 20260803
 				if (mainImageTilePosX+iImageFrameWidthDefault>(iInnerHorizontalOffset)+iStageMaxWidth-iImageFrameWidthDefault*1.5) {
+				//increased the stage width to 2x;
+				//note; viewport remains 640x320px;
+				//if (mainImageTilePosX+iImageFrameWidthDefault>(iInnerHorizontalOffset)+iStageMaxWidth*2-iImageFrameWidthDefault*1.5) {
+				
 					//OK;
 					mainImageTilePosX=(iInnerHorizontalOffset+iImageFrameWidthDefault/2)+0;
 					resetProjectile();	
@@ -15424,6 +15465,8 @@ iCurrTextCharacterCountMax=sText.length;
 					hasInitMapLocation=false;
 
 					verifyIfHeroLeveledUp();
+
+					//alert("MAX!!!");					
 				}
 				//left-most
 				//wall
@@ -20548,6 +20591,7 @@ iCurrTextCharacterCountMax=sText.length;
 		//added by Mike, 20251102
 		//TODO: -update: this
 
+/*		//removed by Mike, 20260803; max in map
 		//STAGE; MAX
 		if (mainImageTilePosX+iImageFrameWidthDefault>iStageMaxWidth) {
 			mainImageTilePosX=iStageMaxWidth-iImageFrameWidthDefault;
@@ -20555,6 +20599,7 @@ iCurrTextCharacterCountMax=sText.length;
 		else if (mainImageTilePosX<0) {
 			mainImageTilePosX=0;
 		}
+*/
 
 		if (mainImageTilePosY+iImageFrameHeightDefault>iStageMaxHeight) {
 			//edited by Mike, 20231126
@@ -20612,16 +20657,42 @@ iCurrTextCharacterCountMax=sText.length;
       bossMonsterImageTile.style.objectPosition = "-" + 128*(iBossMonsterAnimationCount) + "px -" + 0 + "px";
     }
 */
-		
+		//edited by Mike, 20260803
 		mainImageTile.style.left = (iHorizontalOffset+mainImageTilePosX)+"px";
+		mainImageTileHeroBody.style.left = mainImageTilePosX; //actually moves the hero;
+
+/*		still buggy; mainImageTilePosX; mainImageTile.style.left; actual position and what is displayed;
+		//not yet differentiated correctly
+		if (mainImageTilePosX-iCurrViewportX>=iStageMaxWidth/2) {			
+			//alert("DITO!!!");
+			mainImageTile.style.left = (iHorizontalOffset+iStageMaxWidth/2)+"px";
+			mainImageTileHeroBody.style.left = (iHorizontalOffset+iStageMaxWidth/2)+"px";
+		}
+		else {
+			mainImageTile.style.left = (iHorizontalOffset+mainImageTilePosX)+"px";
+			mainImageTileHeroBody.style.left = mainImageTilePosX;
+		}
+*/		
+
 		mainImageTile.style.top = (iVerticalOffsetInnerScreen+mainImageTilePosY)+"px";
 
-		//added by Mike, 20231125
+		//edited by Mike, 20260803; from 20231125
+/*
 		mainImageTileTankBody.style.left = mainImageTile.style.left;
 		mainImageTileTankBody.style.top = mainImageTile.style.top;
 
 		mainImageTileHeroBody.style.left = mainImageTile.style.left;
 		mainImageTileHeroBody.style.top = mainImageTile.style.top;
+*/
+
+/*		//removed by Mike, 20260803
+		mainImageTileTankBody.style.left = mainImageTilePosX;
+		mainImageTileTankBody.style.top = mainImageTilePosY;
+
+		mainImageTileHeroBody.style.left = mainImageTilePosX;
+		mainImageTileHeroBody.style.top = mainImageTilePosY;
+*/
+		mainImageTileHeroBody.style.top = mainImageTilePosY;
 
 /*
     mainImageMonster.style.left = (iHorizontalOffset+mainImageMonsterPosX)+"px";
@@ -20699,7 +20770,13 @@ iCurrTextCharacterCountMax=sText.length;
 
 mainImageTileProjectilePosY=parseInt(mainImageTileProjectilePosY)+newMainImageTileProjectilePosY;
 
-					mainImageTileProjectilePosX=parseInt(mainImageTileProjectilePosX)+newMainImageTileProjectilePosX;
+////alert("mainImageTileProjectilePosX: "+mainImageTileProjectilePosX);
+////alert("newMainImageTileProjectilePosX: "+newMainImageTileProjectilePosX);
+
+		mainImageTileProjectilePosX=parseInt(mainImageTileProjectilePosX)+newMainImageTileProjectilePosX;
+
+			//mainImageTileProjectilePosX=parseInt(mainImageTileProjectilePosX)-1;
+
 		
 
 		mainImageTileProjectile.style.left = mainImageTileProjectilePosX+"px";
@@ -20752,6 +20829,7 @@ mainImageTileProjectilePosY=parseInt(mainImageTileProjectilePosY)+newMainImageTi
 			alert("mainImageTilePosY"+mainImageTilePosY);
 */
 
+
 			mainImageTilePosX=mainImageTileProjectilePosX;		
 			mainImageTilePosY=mainImageTileProjectilePosY;
 						
@@ -20776,6 +20854,8 @@ mainImageTileProjectilePosY=parseInt(mainImageTileProjectilePosY)+newMainImageTi
 						mainImageTileProjectileStepX=mainImageTileProjectileStepXMax;
 					}				
 */					
+					//alert("dito!!!"+mainImageTileProjectileStepXMax);
+
 					mainImageTileProjectileStepY=mainImageTileProjectileStepYMax;					
 					mainImageTileProjectileStepX=mainImageTileProjectileStepXMax;
 
@@ -20833,6 +20913,7 @@ mainImageTileProjectilePosY=parseInt(mainImageTileProjectilePosY)+newMainImageTi
 				//if (mainImageTileProjectilePosX+iImageFrameWidth/2<=mainImageTileProjectileStepDestinationX) {
 				if (mainImageTileProjectilePosX+iImageFrameWidthLarge/2<=mainImageTileProjectileStepDestinationX) {
 				  //mainImageTileProjectilePosX=mainImageTileProjectileStepDestinationX-iImageFrameWidth/2;
+				  
 				  mainImageTileProjectilePosX=mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2;
 
 				  bHasReachedDestinationX=true;
@@ -21272,17 +21353,32 @@ alert("iDeltaY: "+iDeltaY);
 		newMainImageTileProjectilePosY=mainImageTileProjectileStepY*Math.cos(fMainImageTileStepAngleRad).toFixed(3);
 
 		newMainImageTileProjectilePosY*=-1;
-		
+				
 		newMainImageTileProjectilePosX=mainImageTileProjectileStepX*Math.sin(fMainImageTileStepAngleRad).toFixed(3);
 
-		//added by Mike, 20260802
+		//edited by Mike, 20260803; from 20260802
 		//note when value reaches 2; hero dashes;
+		
+		//edited by Mike, 20260803
+		//when negative, walking step to the left becomes twice as fast,
+		//so we divide by 2; TODO: -verify: the exact cause why this is so;
+
+		if (newMainImageTileProjectilePosX<0) {
+			newMainImageTileProjectilePosX=newMainImageTileProjectilePosX/2;
+		}
+		if (newMainImageTileProjectilePosY<0) {
+			newMainImageTileProjectilePosY=newMainImageTileProjectilePosY/2;
+		}
+			
 		//---------------------------------		
 		//alert(newMainImageTileProjectilePosX);
 	
 		if (mainImageTileProjectileStepXMax>2) { //if has leveled-up; and speed increased;
 		}
 		else {
+		
+			//alert(newMainImageTileProjectilePosX);
+		
 			if (newMainImageTileProjectilePosX>=2) {
 				newMainImageTileProjectilePosX=1.9;
 			}
@@ -21305,10 +21401,13 @@ alert("iDeltaY: "+iDeltaY);
 		}
 		//---------------------------------
 
-		//added by Mike, 20231125
+		//edited by Mike, 20260803; from 20231125
+/*
 		mainImageTileProjectilePosX = parseInt(mainImageTile.style.left);
 		mainImageTileProjectilePosY = parseInt(mainImageTile.style.top);
-
+*/
+		mainImageTileProjectilePosX = parseInt(mainImageTilePosX);
+		mainImageTileProjectilePosY = parseInt(mainImageTilePosY);
 
 		//added by Mike, 20241103
 		mainImageTileProjectileStepDestinationX=iXPos;//iDeltaX;//newMainImageTileProjectilePosX;//.iDeltaX;
@@ -23035,6 +23134,23 @@ opting to put assets folder in "html_application" folder instead
 	<img id="bgTileImageId20" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
 	<img id="bgTileImageId21" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
 
+	<img id="bgTileImageId22" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId23" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId24" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId25" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId26" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId27" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+
+	<img id="bgTileImageId28" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId29" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId30" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId31" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId32" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId33" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+
+	<img id="bgTileImageId34" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId35" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId36" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
 
 
 	<img id="snowEffectImageId0" class="ImageSnow" src="assets/images/miscEffects.png?lastmod=20251115T1643">
@@ -23182,10 +23298,10 @@ opting to put assets folder in "html_application" folder instead
 	<div id="textHeroCoinStatusDivId" class="DivTextCoin">0</div>
 
 	<div id="textHeroXPosStatusDivId" class="DivTextCoin">0</div>
-	<div id="textBackgroundXPosStatusDivId" class="DivTextCoin">0</div>
+	<div id="textViewportXPosStatusDivId" class="DivTextCoin">0</div>
 
 	<div id="textHeroYPosStatusDivId" class="DivTextCoin">0</div>
-	<div id="textBackgroundYPosStatusDivId" class="DivTextCoin">0</div>
+	<div id="textViewportYPosStatusDivId" class="DivTextCoin">0</div>
 
 
 <!--
