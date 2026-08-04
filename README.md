@@ -330,11 +330,25 @@ While the current version only loops, at the code level, I think that the key el
 
 I've increased the `width` of the entire stage from only `640px` to `1152px`. Also, the viewport which moves based on the hero's movement can now go to the left instead of only to the right. I note here having noticed an `acceleration` occurring at certain times, and having provided a fix, which I've detailed in the section below on `Additional Bug Fixes`.
 
-I intially wanted to get up to as much as `1280px` and more, but encountered difficulty in moving the viewport along with the hero, because the hero has to have an actual position in relation to the entire stage as well as another position that is displayed in relation to the viewport. Therefore, while the hero should ideally be seen to be moving only at the center of the viewport, in reality, he's already moving much further within the entire stage. Moreover, due to my having used multiple variables including `mainImageTileHeroBody`, `mainImageTile` and others, finding which one actually moved the hero's position on screen became a lot more time-consuming.
+I initially wanted to get up to as much as `1280px` and more, but encountered difficulty in moving the viewport along with the hero, because the hero has to have an actual position in relation to the entire stage as well as another position that is displayed in relation to the viewport. Therefore, while the hero should ideally be seen to be moving only at the center of the viewport, in reality, he's already moving much further within the entire stage. Moreover, due to my having used multiple variables including `mainImageTileHeroBody`, `mainImageTile` and others, finding which one actually moved the hero's position on screen became a lot more time-consuming.
 
 **Unlocked Possibilities:**
 
 The size of the stage is now larger than the viewport. The hero could go left or right and scroll the viewport accordingly. The size of the stage also reminds me of 2D fighting games from Capcom and SNK back in the 90s to the early 2000s. 
+
+29) 20260804; https://masarapmabuhay.itch.io/game-off-2025-post-test19
+
+**Key Lesson Learned:** 
+
+I found a jerking behavior when the hero moves diagonally toward the top-left or the top-right. I’ve moved the pertinent animation frames by a pixel or two to resolve this issue.
+
+Next, I’ve updated the code, so that when the hero casts a “fireball” by pressing the “F” key and doing a left mouse-click, he could still move around even before the fireball goes out of screen or hits a monster. Moreover, the fireball currently explodes upon hitting a monster, instead of continuously moving forward. Also, it now moves slower at a speed of `6` instead of `10`.
+
+I would certainly want to get the stage’s width to be much larger and resolve any more errors such as in the explosion animation, but I’ll already stop here for now.
+
+**Unlocked Possibilities:**
+
+The entire stage could be made larger vertical-wise, and the items as well as the monsters could be procedurally generated. At present, there aren’t any walls yet though. 
 
 # Additional Bug Fixes
 
