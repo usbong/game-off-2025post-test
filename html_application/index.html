@@ -92,7 +92,7 @@
 			/*background-color: #261912;*/
 			border: 2px dotted gray;
 
-			z-index: 80;/*50;//3;*/
+			z-index: 50;//3;
 		}
 		
 		canvas.myCanvasTint {
@@ -205,7 +205,7 @@
 			clip: rect(0px,32px,32px,0px);
 			visibility: hidden;
 			
-			z-index: 79; /*4;*/ /*2;*/
+			z-index: 4; /*2;*/
 		}
 
 		.ImageMousePointer {
@@ -224,7 +224,7 @@
 			clip: rect(0px,32px,32px,0px);
 			visibility: hidden;
 			
-			z-index: 79; /*2;*/ /*2;*/
+			z-index: 2; /*2;*/
 		}
 		
 		.ImageTileFrameDd1 { 
@@ -388,7 +388,7 @@
 
 			visibility: hidden;
 
-			z-index: 79; /*10;*/ /*4;*/
+			z-index: 10; /*4;*/
 		}
 
 		.ImageExplosionEffectResizedToSmall {
@@ -420,7 +420,7 @@
 			
 			visibility: hidden;
 
-			z-index: 81; /*51;*/
+			z-index: 51;
 		}		
 
 		.ImageBombSmall {
@@ -1840,8 +1840,8 @@ var mainImageTileProjectileStepDestinationX=0;
 //note: acceleration
 //min 2; not 1
 //can be sped-up;
-const mainImageTileFireballProjectileStepYMax=6;//10;//40;//10;//6;//4;//20;//20;
-const mainImageTileFireballProjectileStepXMax=6;//10;//40;//10;//6;//4;//20;//20;
+const mainImageTileFireballProjectileStepYMax=10;//40;//10;//6;//4;//20;//20;
+const mainImageTileFireballProjectileStepXMax=10;//40;//10;//6;//4;//20;//20;
 
 var mainImageTileFireballProjectileVelocityY=mainImageTileFireballProjectileStepYMax;//2;//4;//20;//4;//1;
 var mainImageTileFireballProjectileVelocityX=mainImageTileFireballProjectileStepXMax;//2;//4;//20;//4;//1;
@@ -2579,9 +2579,8 @@ var bIsHeroFacingUp=false;
 		mainImageTileFireballProjectile.style.visibility="hidden";
 
 		mainImageTileFireballProjectileHold.style.visibility="hidden";
-		
-		//removed by Mike, 20260804
-		//bHasFired=false;
+				
+		bHasFired=false;
 
 		//bHasAttacked=false; //removed by Mike, 20260615
 
@@ -10078,8 +10077,7 @@ if (arrayWalkOnSnowEffectCount==1) {
 		
 		setMonsterDeathAnimationPosition(iMonsterImageTilePosX,iMonsterImageTilePosY,MONSTER_TYPE_VAL_DEFAULT);
 		
-		//removed by Mike, 20260804
-		//resetProjectile();
+		resetProjectile();
 		
 		//edited by Mike, 22060615
 		//if removed; can hit multiple enemies until fireball leaves the screen;
@@ -12773,10 +12771,6 @@ if (arrayWalkOnSnowEffectCount==1) {
 			
 		var mainImageTileTankBody = document.getElementById("mainImageTileImageTankBodyId");
 		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
-		
-		//added by Mike, 20260804
-		var mainImageTileFireballProjectile = document.getElementById("mainImageTileFireballProjectileImageId");
-		
 	
 		//alert(inputArraySnakeMonsterWithIdCount[MONSTER_IS_ACTIVE]);
 		
@@ -12799,9 +12793,8 @@ if (arrayWalkOnSnowEffectCount==1) {
 			
 				//verify if hero attacked
 				//if (bHasFired && bHasHeroShotFireball) {
-				//edited by Mike, 20260804
-				//if (bHasHeroShotFireball) {
-				if (mainImageTileFireballProjectile.style.visibility=="visible") {
+				if (bHasHeroShotFireball) {
+				
 					//alert("HALLO"); 	
 					monsterHitByHeroFireball(parseInt(mainImageTileFireballProjectilePosX),parseInt(mainImageTileFireballProjectilePosY), inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY]);
 					//setExplosionEffectPosition(batMonsterImageTilePosX,batMonsterImageTilePosY);
@@ -12812,9 +12805,6 @@ if (arrayWalkOnSnowEffectCount==1) {
 					clearWraithMonsterFromStage(inputArrayWraithMonsterWithIdCount);
 
 					iCurrMonsterDeathCount++;
-					
-					//added by Mike, 20260804
-					resetFireballProjectile();
 				}
 			}
 		}
@@ -20718,42 +20708,23 @@ iCurrTextCharacterCountMax=sText.length;
 
 
 		//edited by Mike, 20260709; from 20230427			
-		if (bHasHeroShotFireball) {			
+		if (bHasHeroShotFireball) {		
 			resetProjectile();
 		
 			mainImageTileFireballProjectile.style.visibility = "visible";
 			
-/*			//removed by Mike, 20260804			
 			mainImageTileFireballProjectilePosY=parseInt(mainImageTileFireballProjectilePosY)+newMainImageTileFireballProjectilePosY;
 			
 			mainImageTileFireballProjectilePosX=parseInt(mainImageTileFireballProjectilePosX)+newMainImageTileFireballProjectilePosX;
 
 			mainImageTileFireballProjectile.style.left = mainImageTileFireballProjectilePosX+"px";
 			mainImageTileFireballProjectile.style.top = mainImageTileFireballProjectilePosY+"px";
-*/		
+		
 			//alert (mainImageTileFireballProjectilePosY);
 		
 			//return;
-			
-			bHasHeroShotFireball=false;
 		}
 		
-		//added by Mike, 20260804
-/*		//not working
-		const bIsFireballVisible = mainImageTileFireballProjectile.checkVisibility({
-		  visibilityProperty: true // Checks for visibility: hidden or collapse
-		});
-		
-		if (bIsFireballVisible) {
-*/		
-		if (mainImageTileFireballProjectile.style.visibility=="visible") {
-			mainImageTileFireballProjectilePosY=parseInt(mainImageTileFireballProjectilePosY)+newMainImageTileFireballProjectilePosY;
-			
-			mainImageTileFireballProjectilePosX=parseInt(mainImageTileFireballProjectilePosX)+newMainImageTileFireballProjectilePosX;
-
-			mainImageTileFireballProjectile.style.left = mainImageTileFireballProjectilePosX+"px";
-			mainImageTileFireballProjectile.style.top = mainImageTileFireballProjectilePosY+"px";
-		}			
 		
 		if (mainImageTileFireballProjectilePosX+iImageFrameWidth>iStageMaxWidth-iInnerHorizontalOffset) {//iHorizontalOffset		
 			//alert("DITO");
@@ -20811,12 +20782,22 @@ mainImageTileProjectilePosY=parseInt(mainImageTileProjectilePosY)+newMainImageTi
 		mainImageTileProjectile.style.left = mainImageTileProjectilePosX+"px";
 
 		mainImageTileProjectile.style.top = mainImageTileProjectilePosY+"px";
-
-/*		//removed by Mike, 20260804
+		
 		if (bHasHeroShotFireball) {
+/*
+			resetProjectile();
+		
+			mainImageTileFireballProjectile.style.visibility = "visible";
+			mainImageTileFireballProjectilePosY=parseInt(mainImageTileFireballProjectilePosY)+newMainImageTileFireballProjectilePosY;
+			mainImageTileFireballProjectilePosX=parseInt(mainImageTileFireballProjectilePosX)+newMainImageTileFireballProjectilePosX;
+
+			mainImageTileFireballProjectile.style.left = mainImageTileFireballProjectilePosX+"px";
+			mainImageTileFireballProjectile.style.top = mainImageTileFireballProjectilePosY+"px";
+		
+			//return;
+*/			
 		}
-		else {	
-*/		
+		else {				
 			//edited by Mike, 20251110
 			if ((mainImageTilePosX==mainImageTileProjectilePosX) && (mainImageTilePosY==mainImageTileProjectilePosY)) 
 			//if (((mainImageTilePosX>=mainImageTileProjectilePosX-iImageFrameWidthLarge/2) && (mainImageTilePosX<=mainImageTileProjectilePosX+iImageFrameWidthLarge/2)) && ((mainImageTilePosY>=mainImageTileProjectilePosY-iImageFrameHeightLarge/2) && (mainImageTilePosY<=mainImageTileProjectilePosY+iImageFrameHeightLarge/2))) 
@@ -20881,9 +20862,8 @@ mainImageTileProjectilePosY=parseInt(mainImageTileProjectilePosY)+newMainImageTi
 					executeHeroWalkingAnimation();
 				}
 			}
-/*			
 		}
-*/
+
 		
 //-----------------
 /*
@@ -21438,30 +21418,16 @@ alert("iYPos: "+iYPos);
 alert("iXPos: "+iXPos);
 */
 
-	//added by Mike, 20260804
-	var mainImageTileFireballProjectile = document.getElementById("mainImageTileFireballProjectileImageId");
-
 	if (bIsActionKeyPressed) {
 		if (bIsActionKeyFireballPressed) {
-			//edited by Mike, 20260804
 			//if (!bHasHeroShotFireball) {
-			//if (true) {
-			resetProjectile();			
-			iMouseClickStartTime=iMouseClickMaxElapsedTime+1;	
-			bHasHeroShotFireball=true;		
-
-			if (mainImageTileFireballProjectile.style.visibility=="visible") {
-				//bIsActionKeyFireballPressed=false;
-			}
-			else {
+			if (true) {
 				//edited by Mike, 20251116			
 				//part of command to create fireball
 				//-----------
-/*
 				resetProjectile();			
 				iMouseClickStartTime=iMouseClickMaxElapsedTime+1;	
 				bHasHeroShotFireball=true;		
-*/
 
 /*				
 				//iCurrHeroMana=0;//set to empty
