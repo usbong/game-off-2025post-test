@@ -350,6 +350,18 @@ I would certainly want to get the stage’s width to be much larger and resolve 
 
 The entire stage could be made larger vertical-wise, and the items as well as the monsters could be procedurally generated. At present, there aren’t any walls yet though. 
 
+30) 20260805; https://masarapmabuhay.itch.io/game-off-2025-post-test20
+
+**Key Lesson Learned:** 
+
+I've added movement of the viewport on the `y-axis`, such that the total `width` and `height` of the entire stage is now `1152px` x `640px`. Moreover, I've added a delay in the hero's steps, making him appear heavier. This update also led to another set of updates in the hero's existing animation delays to compensate for the said extra delay.
+
+I've also added a stamina cost when casting the fireball, the same cost when doing a melee attack. In addition, the hero has to press and hold the `F` key first in order to cast this fireball.
+
+**Unlocked Possibilities:**
+
+The entire stage is bigger now and while the gameplay is less fast-paced, it's certainly faster than a purely turn-based game.
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
@@ -388,6 +400,9 @@ Incidentally, I found that I was using `var hasInitMapLocation` twice, with one 
 
 6) 20260803;<br/>
 +fixed: partly the bug that causes the hero to move twice as fast when moving to the left; I simply did `newMainImageTileProjectilePosX/2` when the value is `negative`, although I'm not too certain why I needed to do so. Meanwhile, moving the viewport along with the hero makes the hero also move twice as fast. To partly solve this, I made the viewport move just when the hero's `x` position passes `iStageMaxWidth/10` where `iStageMaxWidth=640` pixels. At the moment, `stage` means the default viewport size, and not the expanded stage, which is now at `1152px` instead of `640px`.
+
+7) 20260805;<br/>
++fixed: fireball explosion not displayed in the correct position when the hero simultaneously moves and the viewport along with it. This took me longer to fix due to the pertinent object variable for this animation image wasn't yet initialized as I had thought. The current code size has increased to `23,610` lines of code. Performing `code refactoring` will be necessary.
 
 ## Select Software Development Productivity Tools
 
