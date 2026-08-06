@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260803; from 20260802
+' @date updated: 20260805; from 20260803
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -92,7 +92,7 @@
 			/*background-color: #261912;*/
 			border: 2px dotted gray;
 
-			z-index: 50;//3;
+			z-index: 80;/*50;//3;*/
 		}
 		
 		canvas.myCanvasTint {
@@ -205,7 +205,7 @@
 			clip: rect(0px,32px,32px,0px);
 			visibility: hidden;
 			
-			z-index: 4; /*2;*/
+			z-index: 79; /*4;*/ /*2;*/
 		}
 
 		.ImageMousePointer {
@@ -224,7 +224,7 @@
 			clip: rect(0px,32px,32px,0px);
 			visibility: hidden;
 			
-			z-index: 2; /*2;*/
+			z-index: 79; /*2;*/ /*2;*/
 		}
 		
 		.ImageTileFrameDd1 { 
@@ -388,7 +388,7 @@
 
 			visibility: hidden;
 
-			z-index: 10; /*4;*/
+			z-index: 79; /*10;*/ /*4;*/
 		}
 
 		.ImageExplosionEffectResizedToSmall {
@@ -420,7 +420,7 @@
 			
 			visibility: hidden;
 
-			z-index: 51;
+			z-index: 81; /*51;*/
 		}		
 
 		.ImageBombSmall {
@@ -1757,12 +1757,18 @@ var bHasHeroShotSniper=false;
 var iHeroAnimationCount=0;//-1; //0; //due to immediately +1 in execution;
 var iHeroAnimationCountMax=5;
 var iHeroAnimationDelayCount=0;
-const iHeroAnimationDelayCountMax=8;//10;//5;//2;//1; //TODO: -add: more dust effect if target walking distance is far
+//edited by Mike, 20260805; due to there's another movement delay
+const iHeroAnimationDelayCountMax=2;//8;//10;//5;//2;//1; //TODO: -add: more dust effect if target walking distance is far
 
 var iHeroAttackAnimationCount=0;//-1; //0; //due to immediately +1 in execution;
 const iHeroAttackAnimationCountMax=3;
 var iHeroAttackAnimationDelayCount=0;
 const iHeroAttackAnimationDelayCountMax=5;//2;//1; //TODO: -add: more dust effect if target walking distance 
+
+var iHeroIdleAnimationCount=0;//-1; //0; //due to immediately +1 in execution;
+const iHeroIdleAnimationCountMax=5;
+var iHeroIdleAnimationDelayCount=0;
+const iHeroIdleAnimationDelayCountMax=8;
 
 //removed by Mike, 20260626; from 20251106
 //var iHeroAttackComboCount=0;
@@ -1840,8 +1846,8 @@ var mainImageTileProjectileStepDestinationX=0;
 //note: acceleration
 //min 2; not 1
 //can be sped-up;
-const mainImageTileFireballProjectileStepYMax=10;//40;//10;//6;//4;//20;//20;
-const mainImageTileFireballProjectileStepXMax=10;//40;//10;//6;//4;//20;//20;
+const mainImageTileFireballProjectileStepYMax=6;//10;//40;//10;//6;//4;//20;//20;
+const mainImageTileFireballProjectileStepXMax=6;//10;//40;//10;//6;//4;//20;//20;
 
 var mainImageTileFireballProjectileVelocityY=mainImageTileFireballProjectileStepYMax;//2;//4;//20;//4;//1;
 var mainImageTileFireballProjectileVelocityX=mainImageTileFireballProjectileStepXMax;//2;//4;//20;//4;//1;
@@ -1978,6 +1984,10 @@ var mainImageTilePosY=0;
 var mainImageTileStepX=2;//0; //2;
 var mainImageTileStepY=2;//0; //2;
 
+//added by Mike, 20260805
+var mainImageTileStepDelay=0;	
+const mainImageTileStepDelayMax=1;
+
 var mainImageTileProjectilePosX=0;
 var mainImageTileProjectilePosY=0;
 
@@ -2036,6 +2046,7 @@ var bIsHeroFacingUp=false;
 	const HERO_ARRAY_ACTOR_ROLE_TYPE=1;
 	const MONSTER_ARRAY_ACTOR_ROLE_TYPE=2;
 	const ITEM_ARRAY_ACTOR_ROLE_TYPE=3;
+	const EFFECT_ARRAY_ACTOR_ROLE_TYPE=4;
 	
 	//added by Mike, 20241111
 	var batMonsterImageTilePosX=0;
@@ -2315,6 +2326,11 @@ var bIsHeroFacingUp=false;
 		iHeroAnimationCount=0;
 		iHeroAnimationDelayCount=0;
 
+		//added by Mike, 20260805
+		iHeroIdleAnimationCount=0;
+		iHeroIdleAnimationDelayCount=0;
+
+
 		iDustEffectAnimationCount=0;
 		iDustEffectAnimationDelayCount=0;
 		
@@ -2579,8 +2595,9 @@ var bIsHeroFacingUp=false;
 		mainImageTileFireballProjectile.style.visibility="hidden";
 
 		mainImageTileFireballProjectileHold.style.visibility="hidden";
-				
-		bHasFired=false;
+		
+		//removed by Mike, 20260804
+		//bHasFired=false;
 
 		//bHasAttacked=false; //removed by Mike, 20260615
 
@@ -4333,8 +4350,10 @@ var bIsHeroFacingUp=false;
 		//edited by Mike, 20260802
 		//mainImageTilePosX=iStageMaxWidth/2-iImageFrameWidth/2;
 		mainImageTilePosX=iStageMaxWidth*0.1-iImageFrameWidth/2;
-
-		mainImageTilePosY=iStageMaxHeight/2-iImageFrameHeight;
+		
+		//edited by Mike, 20260805
+		//mainImageTilePosY=iStageMaxHeight/2-iImageFrameHeight;
+		mainImageTilePosY=iStageMaxHeight*0.1-iImageFrameHeight/2;
 
 		mainImageTile.style.left = (iHorizontalOffset+mainImageTilePosX)+"px";
 		mainImageTile.style.top = (iVerticalOffsetInnerScreen+mainImageTilePosY)+"px";
@@ -4485,7 +4504,7 @@ var bIsHeroFacingUp=false;
 
   function setFireballExplosionEffectPosition(iInputX, iInputY) {
     var fireballExplosionEffectImage = document.getElementById("fireballExplosionEffectImageId"); 
-	
+		
     if (fireballExplosionEffectImage.style.visibility=="visible") {
       return;
     }
@@ -5552,19 +5571,16 @@ alert("iInputY: "+iInputY);
 		
 		//added by Mike, 20260723
 		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");
+		
+		//edited by Mike, 20260805
+		//if (iHeroAnimationDelayCount==iHeroAnimationDelayCountMax) {
+		if (iHeroIdleAnimationDelayCount==iHeroIdleAnimationDelayCountMax) {
+			iHeroIdleAnimationCount=(iHeroIdleAnimationCount+1)%2; //last hidden
 
-		if (iHeroAnimationDelayCount==iHeroAnimationDelayCountMax) {
-			iHeroAnimationCount=(iHeroAnimationCount+1)%2; //last hidden
-
-			//alert(iHeroAnimationCount);
-/*
-			//resetProjectile();
-*/			
-
-			iHeroAnimationDelayCount=0;
+			iHeroIdleAnimationDelayCount=0;
 		}
 		else {
-			iHeroAnimationDelayCount++;
+			iHeroIdleAnimationDelayCount++;
 		}
 
 		//edited by Mike, 20260723; from 20260721
@@ -5607,7 +5623,7 @@ alert("iInputY: "+iInputY);
 
 		//alert(iHeroAnimationCount);
 		
-		mainImageTileHeroBody.style.objectPosition = "-" + 0-iImageFrameWidthLarge*(iHeroAnimationCount-1) - 5*iImageFrameWidthLarge + "px -" + iFrameY + "px";
+		mainImageTileHeroBody.style.objectPosition = "-" + 0-iImageFrameWidthLarge*(iHeroIdleAnimationCount-1) - 5*iImageFrameWidthLarge + "px -" + iFrameY + "px";
 	}
 	
 	function executeHeroIdleAnimationPREV() {
@@ -10077,7 +10093,8 @@ if (arrayWalkOnSnowEffectCount==1) {
 		
 		setMonsterDeathAnimationPosition(iMonsterImageTilePosX,iMonsterImageTilePosY,MONSTER_TYPE_VAL_DEFAULT);
 		
-		resetProjectile();
+		//removed by Mike, 20260804
+		//resetProjectile();
 		
 		//edited by Mike, 22060615
 		//if removed; can hit multiple enemies until fireball leaves the screen;
@@ -11598,6 +11615,10 @@ if (arrayWalkOnSnowEffectCount==1) {
 		}
 
 		var iCurrDifferenceX=0;
+
+		//added by Mike, 20260805
+		var iCurrDifferenceY=0;
+
 		
 		//always moving to the right; no going back to the left;	
 		//edited by Mike, 20260803
@@ -11619,32 +11640,62 @@ if (arrayWalkOnSnowEffectCount==1) {
 			iCurrViewportX+=iCurrDifferenceX;
 		}
 
+		//added by Mike, 20260805
+		//note `iStageMaxHeight/2` is based on hero's position; 
+/*
+		if (iCurrViewportY+heroImageTilePosY>iCurrViewportY+iStageMaxHeight/2) {
+			iCurrDifferenceY=heroImageTilePosY-(iCurrViewportY+iStageMaxHeight/2);
+*/			
+		if (iCurrViewportY+heroImageTilePosY>iCurrViewportY+iStageMaxHeight/10) {
+			iCurrDifferenceY=heroImageTilePosY-(iCurrViewportY+iStageMaxHeight/10);
+			iCurrViewportY+=iCurrDifferenceY;
+		}
+
 		for (iCount=0; iCount<iArrayActorsCountMax; iCount++) {
 			if (arrayActors[iCount]["type"]==HERO_ARRAY_ACTOR_ROLE_TYPE) {
 				continue;
 			}
 
-			iActorPosX=parseInt(arrayActors[iCount].style.left);
-			iActorPosX=parseInt(arrayActors[iCount].style.left);
-			iActorPosXUpdated=iActorPosX-iCurrDifferenceX;
-			
-			if (arrayActors[iCount]["type"]==MONSTER_ARRAY_ACTOR_ROLE_TYPE) {
-				//reference: Google AI Overview; MDN Web Docs
-				const bIsVisible = arrayActors[iCount].checkVisibility({
-				  visibilityProperty: true // Checks for visibility: hidden or collapse
-				});
-
-/*				//removed by Mike, 20260803; due to monster immediately spawned;
-				if (!bIsVisible) {
-					continue;
-				}
+/*			
+			//removed by Mike, 20260805
+			//----------------------------
+			//reference: Google AI Overview; MDN Web Docs
+			const bIsVisible = arrayActors[iCount].checkVisibility({
+			  visibilityProperty: true // Checks for visibility: hidden or collapse
+			});
+			//removed; due to monster immediately spawned;
+			if (!bIsVisible) {
+				continue;
+			}
 */
 
+/*			
+			if (arrayActors[iCount].style.visibility=="hidden") {
+				continue;
+			}
+*/			
+			//----------------------------
+
+			iActorPosX=parseInt(arrayActors[iCount].style.left);
+			iActorPosXUpdated=iActorPosX-iCurrDifferenceX;
+
+			//added by Mike, 20260805
+			iActorPosY=parseInt(arrayActors[iCount].style.top);
+			iActorPosYUpdated=iActorPosY-iCurrDifferenceY; 
+
+			if (arrayActors[iCount]["type"]==MONSTER_ARRAY_ACTOR_ROLE_TYPE) {
 				arrayWraithMonsterCountId[arrayActors[iCount]["iCount"]][MONSTER_POSX]=iActorPosXUpdated;
 				arrayActors[iCount].style.left=iActorPosXUpdated+"px";
+
+				//added by Mike, 20260805
+				arrayWraithMonsterCountId[arrayActors[iCount]["iCount"]][MONSTER_POSY]=iActorPosYUpdated;
+				arrayActors[iCount].style.top=iActorPosYUpdated+"px";
 			}
 			else {
 				arrayActors[iCount].style.left=iActorPosXUpdated+"px";
+
+				//added by Mike, 20260805
+				arrayActors[iCount].style.top=iActorPosYUpdated+"px";
 			}
 		}	
 	}
@@ -12771,6 +12822,10 @@ if (arrayWalkOnSnowEffectCount==1) {
 			
 		var mainImageTileTankBody = document.getElementById("mainImageTileImageTankBodyId");
 		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
+		
+		//added by Mike, 20260804
+		var mainImageTileFireballProjectile = document.getElementById("mainImageTileFireballProjectileImageId");
+		
 	
 		//alert(inputArraySnakeMonsterWithIdCount[MONSTER_IS_ACTIVE]);
 		
@@ -12793,8 +12848,9 @@ if (arrayWalkOnSnowEffectCount==1) {
 			
 				//verify if hero attacked
 				//if (bHasFired && bHasHeroShotFireball) {
-				if (bHasHeroShotFireball) {
-				
+				//edited by Mike, 20260804
+				//if (bHasHeroShotFireball) {
+				if (mainImageTileFireballProjectile.style.visibility=="visible") {
 					//alert("HALLO"); 	
 					monsterHitByHeroFireball(parseInt(mainImageTileFireballProjectilePosX),parseInt(mainImageTileFireballProjectilePosY), inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY]);
 					//setExplosionEffectPosition(batMonsterImageTilePosX,batMonsterImageTilePosY);
@@ -12805,6 +12861,9 @@ if (arrayWalkOnSnowEffectCount==1) {
 					clearWraithMonsterFromStage(inputArrayWraithMonsterWithIdCount);
 
 					iCurrMonsterDeathCount++;
+					
+					//added by Mike, 20260804
+					resetFireballProjectile();
 				}
 			}
 		}
@@ -15145,7 +15204,9 @@ iCurrTextCharacterCountMax=sText.length;
 					
 					//iCurrBgTileImageColumn<12; max
 					
-					for (iCurrBgTileImageRow=0; iCurrBgTileImageRow<3; iCurrBgTileImageRow++) {
+					//edited by Mike, 20260805
+					//for (iCurrBgTileImageRow=0; iCurrBgTileImageRow<3; iCurrBgTileImageRow++) {
+					for (iCurrBgTileImageRow=0; iCurrBgTileImageRow<5; iCurrBgTileImageRow++) {
 						for (iCurrBgTileImageColumn=0; iCurrBgTileImageColumn<9; iCurrBgTileImageColumn++) {
 						
 							//let iBgTileImageOffsetX=iImageFrameWidthBgTile*(iCurrBgTileImageCount%4);
@@ -15192,6 +15253,20 @@ iCurrTextCharacterCountMax=sText.length;
 										
 					//setCoinPosition(0+iStageMaxWidth/2-iImageFrameWidthDefault*2,0+iStageMaxHeight*0.01,16); //display icon
 					setCoinPosition(0+iStageMaxWidth*0.02,0+iStageMaxHeight*0.87-iImageFrameHeightDefault,16); //display icon
+					
+					//added by Mike, 20260805
+					var explosionEffectImage2 = document.getElementById("explosionEffectImageId");
+					var fireballExplosionEffectImage2 = document.getElementById("fireballExplosionEffectImageId");
+
+					arrayActors[iArrayActorsCount]=explosionEffectImage2;
+					arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+					arrayActors[iArrayActorsCount]["type"]=EFFECT_ARRAY_ACTOR_ROLE_TYPE;
+					iArrayActorsCount++;
+
+					arrayActors[iArrayActorsCount]=fireballExplosionEffectImage2;
+					arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+					arrayActors[iArrayActorsCount]["type"]=EFFECT_ARRAY_ACTOR_ROLE_TYPE;
+					iArrayActorsCount++;										
 
 					hasInitMapLocation=true;					
 				}
@@ -15418,6 +15493,8 @@ iCurrTextCharacterCountMax=sText.length;
 					mainImageTilePosY=0+iInnerVerticalOffset+iImageFrameHeightLarge/2;
 					resetProjectile();
 				}					
+/*
+				//edited by Mike, 20260805
 				//bottom wall
 				else if (mainImageTilePosY+iImageFrameHeightLarge>iInnerVerticalOffset+iStageMaxHeight-iImageFrameHeightLarge) {
 					//OK;
@@ -15426,6 +15503,26 @@ iCurrTextCharacterCountMax=sText.length;
 					//alert("mainImageTilePosX: "+mainImageTilePosX);				
 					resetProjectile();
 				}
+*/
+/*
+				else if (mainImageTilePosY+iImageFrameHeightDefault>0+iStageMaxHeight-iInnerVerticalOffset-iImageFrameHeightDefault/2) {
+					//alert("DITO");
+						
+					//OK; wraps around
+					mainImageTilePosY=0+iInnerVerticalOffset+iImageFrameHeightDefault+iImageFrameHeightDefault/2;						
+					mainImageTilePosX=iDoorImageBottomPosStartX+iImageFrameWidthDefault/2;
+					
+					resetProjectile();			
+											
+					//DOOR
+					iCurrMapLocation=53;
+					hasInitMapLocation=false;
+					dustEffectImage.style.visibility="hidden";	
+					mainImageTileFireballProjectile.style.visibility="hidden";
+					mainImageTileFireballProjectilePosY=0;
+					mainImageTileFireballProjectilePosX=0;					
+				}	
+*/				
 				//edited by Mike, 20260616
 /*
 				//right-most
@@ -15443,13 +15540,17 @@ iCurrTextCharacterCountMax=sText.length;
 				}
 */				
 				//right-most
-/*				//edited by Mike, 20260802
+				//edited by Mike, 20260805; from 20260802
+				//due to teleport from right to left; wrong at times, messed up viewport position;
+				//viewport's y and x not yet centered;
 				//wall
 				if (mainImageTilePosX+iImageFrameWidthDefault>(iInnerHorizontalOffset)+iStageMaxWidth-iImageFrameWidthDefault*1.5) { 
+				
 					mainImageTilePosX=(iInnerHorizontalOffset)+iStageMaxWidth-iImageFrameWidthDefault*1.5-iImageFrameWidthDefault;
+					
 					resetProjectile();	
 				}
-*/
+/*
 				//right-most
 				//edited by Mike, 20260803
 				if (mainImageTilePosX+iImageFrameWidthDefault>(iInnerHorizontalOffset)+iStageMaxWidth-iImageFrameWidthDefault*1.5) {
@@ -15460,6 +15561,10 @@ iCurrTextCharacterCountMax=sText.length;
 					//OK;
 					mainImageTilePosX=(iInnerHorizontalOffset+iImageFrameWidthDefault/2)+0;
 					resetProjectile();	
+					
+					//added by Mike, 20260805
+					mainImageTilePosY=(iInnerHorizontalOffset+iImageFrameHeightDefault/2)+0;
+
 
 					iCurrMapLocation=53;
 					hasInitMapLocation=false;
@@ -15468,6 +15573,7 @@ iCurrTextCharacterCountMax=sText.length;
 
 					//alert("MAX!!!");					
 				}
+*/				
 				//left-most
 				//wall
 				else if (mainImageTilePosX<0+(iInnerHorizontalOffset)) {
@@ -20601,10 +20707,16 @@ iCurrTextCharacterCountMax=sText.length;
 		}
 */
 
+/*		//edited by Mike, 20260805
 		if (mainImageTilePosY+iImageFrameHeightDefault>iStageMaxHeight) {
 			//edited by Mike, 20231126
 			//mainImageTilePosY=iStageMaxHeight-iImageFrameHeightDefault;
 			mainImageTilePosY=iStageMaxHeight-iImageFrameHeightDefault-iImageFrameHeightDefault*0.25;
+		}
+*/		
+		if (mainImageTilePosY+iImageFrameHeightLarge>iStageMaxHeight) {
+			mainImageTilePosY=iStageMaxHeight-iImageFrameHeightLarge;
+			resetProjectile();
 		}
 		else if (mainImageTilePosY<0) {
 			mainImageTilePosY=0;
@@ -20708,23 +20820,42 @@ iCurrTextCharacterCountMax=sText.length;
 
 
 		//edited by Mike, 20260709; from 20230427			
-		if (bHasHeroShotFireball) {		
+		if (bHasHeroShotFireball) {			
 			resetProjectile();
 		
 			mainImageTileFireballProjectile.style.visibility = "visible";
 			
+/*			//removed by Mike, 20260804			
 			mainImageTileFireballProjectilePosY=parseInt(mainImageTileFireballProjectilePosY)+newMainImageTileFireballProjectilePosY;
 			
 			mainImageTileFireballProjectilePosX=parseInt(mainImageTileFireballProjectilePosX)+newMainImageTileFireballProjectilePosX;
 
 			mainImageTileFireballProjectile.style.left = mainImageTileFireballProjectilePosX+"px";
 			mainImageTileFireballProjectile.style.top = mainImageTileFireballProjectilePosY+"px";
-		
+*/		
 			//alert (mainImageTileFireballProjectilePosY);
 		
 			//return;
+			
+			bHasHeroShotFireball=false;
 		}
 		
+		//added by Mike, 20260804
+/*		//not working
+		const bIsFireballVisible = mainImageTileFireballProjectile.checkVisibility({
+		  visibilityProperty: true // Checks for visibility: hidden or collapse
+		});
+		
+		if (bIsFireballVisible) {
+*/		
+		if (mainImageTileFireballProjectile.style.visibility=="visible") {
+			mainImageTileFireballProjectilePosY=parseInt(mainImageTileFireballProjectilePosY)+newMainImageTileFireballProjectilePosY;
+			
+			mainImageTileFireballProjectilePosX=parseInt(mainImageTileFireballProjectilePosX)+newMainImageTileFireballProjectilePosX;
+
+			mainImageTileFireballProjectile.style.left = mainImageTileFireballProjectilePosX+"px";
+			mainImageTileFireballProjectile.style.top = mainImageTileFireballProjectilePosY+"px";
+		}			
 		
 		if (mainImageTileFireballProjectilePosX+iImageFrameWidth>iStageMaxWidth-iInnerHorizontalOffset) {//iHorizontalOffset		
 			//alert("DITO");
@@ -20765,6 +20896,17 @@ iCurrTextCharacterCountMax=sText.length;
 					mainImageTileProjectile.style.visibility = "hidden";
 				}
 */				
+				//added by Mike, 20260805
+				//slows down the hero's movement
+				if (mainImageTileStepDelay<mainImageTileStepDelayMax) {
+					mainImageTileStepDelay++;
+					return;
+				}
+				else {
+					mainImageTileStepDelay=0;
+				}
+		
+
 				mainImageTileProjectile.style.visibility = "hidden";
 
 
@@ -20782,22 +20924,12 @@ mainImageTileProjectilePosY=parseInt(mainImageTileProjectilePosY)+newMainImageTi
 		mainImageTileProjectile.style.left = mainImageTileProjectilePosX+"px";
 
 		mainImageTileProjectile.style.top = mainImageTileProjectilePosY+"px";
-		
-		if (bHasHeroShotFireball) {
-/*
-			resetProjectile();
-		
-			mainImageTileFireballProjectile.style.visibility = "visible";
-			mainImageTileFireballProjectilePosY=parseInt(mainImageTileFireballProjectilePosY)+newMainImageTileFireballProjectilePosY;
-			mainImageTileFireballProjectilePosX=parseInt(mainImageTileFireballProjectilePosX)+newMainImageTileFireballProjectilePosX;
 
-			mainImageTileFireballProjectile.style.left = mainImageTileFireballProjectilePosX+"px";
-			mainImageTileFireballProjectile.style.top = mainImageTileFireballProjectilePosY+"px";
-		
-			//return;
-*/			
+/*		//removed by Mike, 20260804
+		if (bHasHeroShotFireball) {
 		}
-		else {				
+		else {	
+*/		
 			//edited by Mike, 20251110
 			if ((mainImageTilePosX==mainImageTileProjectilePosX) && (mainImageTilePosY==mainImageTileProjectilePosY)) 
 			//if (((mainImageTilePosX>=mainImageTileProjectilePosX-iImageFrameWidthLarge/2) && (mainImageTilePosX<=mainImageTileProjectilePosX+iImageFrameWidthLarge/2)) && ((mainImageTilePosY>=mainImageTileProjectilePosY-iImageFrameHeightLarge/2) && (mainImageTilePosY<=mainImageTileProjectilePosY+iImageFrameHeightLarge/2))) 
@@ -20862,8 +20994,9 @@ mainImageTileProjectilePosY=parseInt(mainImageTileProjectilePosY)+newMainImageTi
 					executeHeroWalkingAnimation();
 				}
 			}
+/*			
 		}
-
+*/
 		
 //-----------------
 /*
@@ -21406,6 +21539,7 @@ alert("iDeltaY: "+iDeltaY);
 		mainImageTileProjectilePosX = parseInt(mainImageTile.style.left);
 		mainImageTileProjectilePosY = parseInt(mainImageTile.style.top);
 */
+
 		mainImageTileProjectilePosX = parseInt(mainImageTilePosX);
 		mainImageTileProjectilePosY = parseInt(mainImageTilePosY);
 
@@ -21413,21 +21547,36 @@ alert("iDeltaY: "+iDeltaY);
 		mainImageTileProjectileStepDestinationX=iXPos;//iDeltaX;//newMainImageTileProjectilePosX;//.iDeltaX;
 		mainImageTileProjectileStepDestinationY=iYPos;//iDeltaY;//newMainImageTileProjectilePosY;//iDeltaY;
 
+		
 /*
 alert("iYPos: "+iYPos);
 alert("iXPos: "+iXPos);
 */
 
+	//added by Mike, 20260804
+	var mainImageTileFireballProjectile = document.getElementById("mainImageTileFireballProjectileImageId");
+
 	if (bIsActionKeyPressed) {
 		if (bIsActionKeyFireballPressed) {
+			//edited by Mike, 20260804
 			//if (!bHasHeroShotFireball) {
-			if (true) {
+			//if (true) {
+			resetProjectile();			
+			iMouseClickStartTime=iMouseClickMaxElapsedTime+1;	
+			bHasHeroShotFireball=true;		
+
+			if (mainImageTileFireballProjectile.style.visibility=="visible") {
+				//bIsActionKeyFireballPressed=false;
+			}
+			else {
 				//edited by Mike, 20251116			
 				//part of command to create fireball
 				//-----------
+/*
 				resetProjectile();			
 				iMouseClickStartTime=iMouseClickMaxElapsedTime+1;	
 				bHasHeroShotFireball=true;		
+*/
 
 /*				
 				//iCurrHeroMana=0;//set to empty
@@ -21435,7 +21584,14 @@ alert("iXPos: "+iXPos);
 				if (iCurrHeroMana==iCurrHeroManaMax) {
 					reduceHeroMana(iCurrHeroManaMax);
 				}
-*/
+*/	
+				//added by Mike, 20260805
+				bHasReducedHeroManaOutput=reduceHeroMana(3);
+
+				if (!bHasReducedHeroManaOutput) {
+					return;
+				}
+
 
 				newMainImageTileFireballProjectilePosY=mainImageTileFireballProjectileStepY*Math.cos(fMainImageTileStepAngleRad).toFixed(3);
 
@@ -23151,7 +23307,73 @@ opting to put assets folder in "html_application" folder instead
 	<img id="bgTileImageId34" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
 	<img id="bgTileImageId35" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
 	<img id="bgTileImageId36" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId37" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId38" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId39" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId40" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
 
+	<img id="bgTileImageId41" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId42" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId43" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+
+	<img id="bgTileImageId44" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId45" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId46" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId47" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId48" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId49" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId50" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+
+	<img id="bgTileImageId51" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId52" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId53" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+
+	<img id="bgTileImageId54" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId55" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId56" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId57" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId58" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId59" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId60" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+
+	<img id="bgTileImageId61" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId62" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId63" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+
+	<img id="bgTileImageId64" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId65" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId66" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId67" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId68" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId69" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId70" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+
+
+	<img id="bgTileImageId71" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId72" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId73" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+
+	<img id="bgTileImageId74" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId75" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId76" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId77" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId78" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId79" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId70" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+
+	<img id="bgTileImageId71" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId72" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId73" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+
+	<img id="bgTileImageId74" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId75" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId76" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId77" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId78" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId79" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId80" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+
+	<img id="bgTileImageId81" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
 
 	<img id="snowEffectImageId0" class="ImageSnow" src="assets/images/miscEffects.png?lastmod=20251115T1643">
 	<img id="snowEffectImageId1" class="ImageSnow" src="assets/images/miscEffects.png?lastmod=20251115T1643">
