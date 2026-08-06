@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260805; from 20260803
+' @date updated: 20260806; from 20260805
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -1202,6 +1202,9 @@ var bIsLevelUp=false;
 const iInputDelayAtLeveledUpCountMax=100;
 var iInputDelayAtLeveledUpCount=0;
 
+//added by Mike, 20260806
+var bIsRightClickHeld=false;
+
 const iInputDelayAtStageTransitionCountMax=200;//100;
 var iInputDelayAtStageTransitionCount=0;
 
@@ -1256,6 +1259,10 @@ var bIsMiniBossMonsterHit=false;
 
 var bIsActionKeyPressed=false;
 var bIsActionKeyFireballPressed=false;
+
+//added by Mike, 20260806
+//reference; Google AI Overview
+let uliFireballProjectileHoldAnimationFrameId=null;
 
 var iInputDelayCountMax=100;//1000;//3;
 var iInputDelayCount=iInputDelayCountMax;
@@ -1573,7 +1580,7 @@ var iHeroFireballProjectileAnimationDelayCountMax=2;
 var iHeroFireballProjectileHoldAnimationCount=-1; //0; //due to immediately +1 in execution;
 var iHeroFireballProjectileHoldAnimationCountMax=5;
 var iHeroFireballProjectileHoldAnimationDelayCount=0;
-var iHeroFireballProjectileHoldAnimationDelayCountMax=1;//2;
+var iHeroFireballProjectileHoldAnimationDelayCountMax=2;//2;
 
 var iKeyStatusAnimationCount=-1; //0; //due to immediately +1 in execution;
 var iKeyStatusAnimationCountMax=5;
@@ -3612,6 +3619,10 @@ var bIsHeroFacingUp=false;
 		dElapsedTimeInSeconds=0;
 
 		bIsLevelUp=false;		
+
+		//added by Mike, 20260806
+		bIsRightClickHeld=false;
+
 		bHasHeroGottenSniperShot=false;
 
 		bHasReducedHeroManaOutput=false; //added by Mike, 20260704
@@ -4346,14 +4357,19 @@ var bIsHeroFacingUp=false;
 		else {
 			iImageFrameWidth=iImageFrameWidthDefault;
 		}
-		
-		//edited by Mike, 20260802
+
+/*		
+		//edited by Mike, 20260806; from 20260802
 		//mainImageTilePosX=iStageMaxWidth/2-iImageFrameWidth/2;
 		mainImageTilePosX=iStageMaxWidth*0.1-iImageFrameWidth/2;
 		
 		//edited by Mike, 20260805
 		//mainImageTilePosY=iStageMaxHeight/2-iImageFrameHeight;
 		mainImageTilePosY=iStageMaxHeight*0.1-iImageFrameHeight/2;
+*/
+
+		mainImageTilePosX=iStageMaxWidth/2-iImageFrameWidth/2;
+		mainImageTilePosY=iStageMaxHeight/2-iImageFrameHeight;
 
 		mainImageTile.style.left = (iHorizontalOffset+mainImageTilePosX)+"px";
 		mainImageTile.style.top = (iVerticalOffsetInnerScreen+mainImageTilePosY)+"px";
@@ -8877,6 +8893,15 @@ alert("iInputY: "+iInputY);
 			return;
 		}
 
+/*		//buggy	
+		//added by Mike, 20260806
+		var bHasReducedHeroManaOutput=reduceHeroMana(0.5);//3);
+		
+		if (!bHasReducedHeroManaOutput) {
+			return;
+		}
+*/
+
 
 /*
 		if (mainImageTileFireballProjectileHold.style.visibility=="hidden") {
@@ -8891,18 +8916,24 @@ alert("iInputY: "+iInputY);
 		//var iFrameY=0;
 		var iFrameY=iImageFrameHeight*3;		
 		
-		if (iHeroFireballProjectileHoldAnimationDelayCount>=iHeroFireballProjectileHoldAnimationDelayCountMax) {			
+		//removed by Mike, 20260806
+		
+		if (iHeroFireballProjectileHoldAnimationDelayCount>=iHeroFireballProjectileHoldAnimationDelayCountMax) {
+		
 			iHeroFireballProjectileHoldAnimationCount=(iHeroFireballProjectileHoldAnimationCount+1)%2;
 
 			iHeroFireballProjectileHoldAnimationDelayCount=0;
+		
 			
 			//wait before setting to visible
 			mainImageTileFireballProjectileHold.style.visibility="visible";
+
 		}
 		else {
 			iHeroFireballProjectileHoldAnimationDelayCount++;
 		}		
-		
+
+				
 		mainImageTileFireballProjectileHold.style.objectPosition = "-" + iImageFrameWidthDefault*iHeroFireballProjectileHoldAnimationCount + "px -" + iFrameY + "px";
 		
 /*		//edited by Mike, 20251124
@@ -8911,7 +8942,15 @@ alert("iInputY: "+iInputY);
 */
 		mainImageTileFireballProjectileHold.style.left=parseInt(mainImageTileHeroBody.style.left)+iImageFrameWidthDefault/2+"px";
 		mainImageTileFireballProjectileHold.style.top=parseInt(mainImageTileHeroBody.style.top)+iImageFrameHeightDefault/2+"px";
-		
+	
+/*		//buggy		
+		//added by Mike, 20260806
+		if (bIsRightClickHeld) {
+			return;
+		}
+		bIsRightClickHeld=true;
+		uliFireballProjectileHoldAnimationFrameId=requestAnimationFrame(executeHeroFireballProjectileHoldAnimation);
+*/		
   }			 
 
   function executeExplosionEffectToMonsterBoss() {
@@ -11628,9 +11667,17 @@ if (arrayWalkOnSnowEffectCount==1) {
 		if (iCurrViewportX+heroImageTilePosX>iCurrViewportX+iStageMaxWidth/2) {
 			iCurrDifferenceX=heroImageTilePosX-(iCurrViewportX+iStageMaxWidth/2);
 */
+/*		//edited by Mike, 20260806
 		if (iCurrViewportX+heroImageTilePosX>iCurrViewportX+iStageMaxWidth/10) {
 			iCurrDifferenceX=heroImageTilePosX-(iCurrViewportX+iStageMaxWidth/10);
-
+*/
+/*
+		if (iCurrViewportX+heroImageTilePosX>iCurrViewportX+iStageMaxWidth/2-iImageFrameWidth/2) {
+			iCurrDifferenceX=heroImageTilePosX-(iCurrViewportX+iStageMaxWidth/2-iImageFrameWidth/2);
+*/
+		if (iCurrViewportX+heroImageTilePosX>iCurrViewportX+0-iImageFrameWidth/2) {
+			iCurrDifferenceX=heroImageTilePosX-(iCurrViewportX+iStageMaxWidth/2-iImageFrameWidth/2);
+			
 /*			
 			//keeps hero at the center of the viewport
 			newMainImageTileProjectilePosX=newMainImageTileProjectilePosX/2;
@@ -11646,8 +11693,14 @@ if (arrayWalkOnSnowEffectCount==1) {
 		if (iCurrViewportY+heroImageTilePosY>iCurrViewportY+iStageMaxHeight/2) {
 			iCurrDifferenceY=heroImageTilePosY-(iCurrViewportY+iStageMaxHeight/2);
 */			
+/*		//edited by Mike, 20260806
 		if (iCurrViewportY+heroImageTilePosY>iCurrViewportY+iStageMaxHeight/10) {
 			iCurrDifferenceY=heroImageTilePosY-(iCurrViewportY+iStageMaxHeight/10);
+*/
+
+//		if (iCurrViewportY+heroImageTilePosY>iCurrViewportY+iStageMaxHeight/2-iImageFrameHeight) {
+		if (iCurrViewportY+heroImageTilePosY>iCurrViewportY+0-iImageFrameHeight) {
+			iCurrDifferenceY=heroImageTilePosY-(iCurrViewportY+iStageMaxHeight/2-iImageFrameHeight);
 			iCurrViewportY+=iCurrDifferenceY;
 		}
 
@@ -14585,7 +14638,14 @@ iCurrTextCharacterCountMax=sText.length;
 		
 		executeHeroFireballProjectileAnimation();
 
+		//edited by Mike, 20260806
 		//executeHeroFireballProjectileHoldAnimation();
+		if ((bIsRightClickHeld) || (bIsActionKeyFireballPressed)) {
+			if ((!bIsGameOver) && (bHasPressedStart) && (!bIsMissionDone)) {
+				executeHeroFireballProjectileHoldAnimation();
+			}					
+		}
+
 		updateHeroFireballProjectileHoldPositions();
 		
 	
@@ -15264,6 +15324,13 @@ iCurrTextCharacterCountMax=sText.length;
 					iArrayActorsCount++;
 
 					arrayActors[iArrayActorsCount]=fireballExplosionEffectImage2;
+					arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+					arrayActors[iArrayActorsCount]["type"]=EFFECT_ARRAY_ACTOR_ROLE_TYPE;
+					iArrayActorsCount++;										
+
+					//added by Mike, 20260806
+					//var mainImageTileFireballProjectile = document.getElementById("mainImageTileFireballProjectileImageId");
+					arrayActors[iArrayActorsCount]=mainImageTileFireballProjectile;
 					arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
 					arrayActors[iArrayActorsCount]["type"]=EFFECT_ARRAY_ACTOR_ROLE_TYPE;
 					iArrayActorsCount++;										
@@ -21823,6 +21890,9 @@ setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameW
 		bIsLevelUp=false;
 		iInputDelayAtLeveledUpCount=0;
 
+		//added by Mike, 20260806
+		bIsRightClickHeld=false;
+
 		iInputDelayAtStageTransitionCount=0;
 
 		iCurrHeroDeathCount++;
@@ -22170,10 +22240,12 @@ setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameW
 			
 			if (e.keyCode==70) { //key f
 				bIsActionKeyFireballPressed=true;
-								
+
+/*				//removed by Mike, 20260806								
 				if ((!bIsGameOver) && (bHasPressedStart) && (!bIsMissionDone)) {
 					executeHeroFireballProjectileHoldAnimation();
 				}
+*/				
 			}
 
 			
@@ -22398,11 +22470,18 @@ setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameW
 					break;
 			}
 		});
+		
+		//added by Mike, 20260806
+		//reference: Google AI Overview
+		//prevent right-click menu from getting displayed;
+		window.addEventListener('contextmenu', (e) => {
+			e.preventDefault();
+		});
 	
 		//reference: https://stackoverflow.com/questions/70827887/detect-click-vs-touch-in-javascript;
 		//last accessed: 20221110
 		//answer by:  Jacob, 20220124T0110
-		document.body.addEventListener('pointerdown', (event) => {
+		document.body.addEventListener('pointerdown', (event) => {	
 			if (bIsGameOver) {
 				if (iInputDelayAtGameOverCount<iInputDelayAtGameOverCountMax) {
 					return;
@@ -22440,7 +22519,6 @@ setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameW
 				}
 			}*/
 
-
 			//reference: https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent/pointerType;
 			//last accessed: 20221122
 			switch(event.pointerType) {
@@ -22454,9 +22532,23 @@ setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameW
 					//alert(event.which);
 					
 					if (event.which===3) { //right-click
-						break;						
+						//alert("HERE!!");
+						bIsActionKeyPressed=true;
+						bIsActionKeyFireballPressed=true;
+						bIsRightClickHeld=true;
+
+/*
+						if ((!bIsGameOver) && (bHasPressedStart) && (!bIsMissionDone)) {
+							executeHeroFireballProjectileHoldAnimation();
+						}					
+*/
+						
+						//processResultFromInput(iXPos, iYPos);
+						//break;						
 					}
+					//edited by Mike, 20260806
 					else { //if 1; left-click
+					//if (event.which===1) { //left-click
 /*
         //edited by Mike, 20230423
         alert("iXPos: "+iXPos);
@@ -22772,6 +22864,41 @@ setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameW
 						//alert(">>>>>: "+iCurrMapLocation);
 					}								
 					break;
+			}
+		});
+		
+		//added by Mike, 20260806
+		document.body.addEventListener('pointerup', (event) => {
+			//reference: https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent/pointerType;
+			//last accessed: 20221122
+			switch(event.pointerType) {
+				case 'mouse':
+					//note: ZOOM function causes position ERROR via screenX
+					var iXPos = event.clientX;//screenX;
+
+					//note: screenY includes BROWSER address bar, et cetera;
+					var iYPos = event.pageY; //screenY;
+
+					if (event.which===3) { //right-click
+						processResultFromInput(iXPos, iYPos);
+						resetProjectile();			
+
+						bIsActionKeyPressed=false;
+						bIsActionKeyFireballPressed=false;
+						bIsRightClickHeld=false;
+						
+						//buggy; REVERIFY
+						//cancelAnimationFrame(uliFireballProjectileHoldAnimationFrameId);
+
+						var mainImageTileFireballProjectileHold = document.getElementById("mainImageTileFireballProjectileHoldImageId");
+				
+						mainImageTileFireballProjectileHold.style.visibility="hidden";
+						iHeroFireballProjectileHoldAnimationDelayCount=0;					
+
+						//processResultFromInput(iXPos, iYPos);
+					
+						break;
+					}		
 			}
 		});
 	}
@@ -23266,114 +23393,114 @@ opting to put assets folder in "html_application" folder instead
 	<img id="coinImageId16" class="ImageCoinDisplayIcon" src="assets/images/coin.png?lastmod=20260727T1402">
 
 
-	<img id="bgTileImageId0" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId1" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId2" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId3" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId4" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId5" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId6" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId7" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId8" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId9" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId10" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId11" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId12" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId13" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId14" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId15" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId0" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId1" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId2" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId3" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId4" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId5" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId6" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId7" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId8" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId9" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId10" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId11" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId12" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId13" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId14" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId15" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
 
-	<img id="bgTileImageId16" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId17" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId18" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId19" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId20" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId21" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId16" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId17" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId18" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId19" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId20" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId21" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
 
-	<img id="bgTileImageId22" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId23" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId24" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId25" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId26" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId27" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId22" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId23" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId24" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId25" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId26" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId27" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
 
-	<img id="bgTileImageId28" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId29" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId30" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId31" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId32" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId33" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId28" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId29" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId30" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId31" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId32" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId33" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
 
-	<img id="bgTileImageId34" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId35" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId36" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId37" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId38" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId39" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId40" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId34" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId35" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId36" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId37" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId38" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId39" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId40" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
 
-	<img id="bgTileImageId41" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId42" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId43" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId41" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId42" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId43" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
 
-	<img id="bgTileImageId44" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId45" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId46" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId47" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId48" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId49" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId50" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId44" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId45" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId46" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId47" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId48" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId49" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId50" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
 
-	<img id="bgTileImageId51" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId52" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId53" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId51" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId52" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId53" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
 
-	<img id="bgTileImageId54" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId55" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId56" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId57" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId58" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId59" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId60" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId54" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId55" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId56" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId57" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId58" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId59" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId60" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
 
-	<img id="bgTileImageId61" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId62" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId63" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId61" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId62" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId63" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
 
-	<img id="bgTileImageId64" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId65" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId66" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId67" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId68" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId69" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId70" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId64" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId65" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId66" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId67" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId68" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId69" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId70" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
 
 
-	<img id="bgTileImageId71" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId72" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId73" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId71" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId72" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId73" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
 
-	<img id="bgTileImageId74" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId75" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId76" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId77" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId78" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId79" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId70" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId74" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId75" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId76" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId77" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId78" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId79" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId70" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
 
-	<img id="bgTileImageId71" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId72" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId73" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId71" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId72" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId73" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
 
-	<img id="bgTileImageId74" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId75" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId76" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId77" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId78" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId79" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
-	<img id="bgTileImageId80" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId74" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId75" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId76" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId77" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId78" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId79" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
+	<img id="bgTileImageId80" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
 
-	<img id="bgTileImageId81" class="ImageBgTile" src="assets/images/countInverted.png?lastmod=20260730T1536">
+	<img id="bgTileImageId81" class="ImageBgTile" src="assets/images/isometricTileSample.png?lastmod=20260806T1346">
 
 	<img id="snowEffectImageId0" class="ImageSnow" src="assets/images/miscEffects.png?lastmod=20251115T1643">
 	<img id="snowEffectImageId1" class="ImageSnow" src="assets/images/miscEffects.png?lastmod=20251115T1643">
