@@ -362,6 +362,20 @@ I've also added a stamina cost when casting the fireball, the same cost when doi
 
 The entire stage is bigger now and while the gameplay is less fast-paced, it's certainly faster than a purely turn-based game.
 
+31) 20260806; https://masarapmabuhay.itch.io/game-off-2025-post-test21
+
+**Key Lesson Learned:** 
+
+This update tests the new set of background tiles that I've made to show an isometric view of the stage. The pattern may look simple, but the pieces do form the outlines of the walls and the doors of the stage. I also note here that the characters appear slightly bigger, and while I know that the `scale` function in Javascript can create a better image quality than the one in Gimp, the computations for the collision detection would get messed up and would need to be recomputed accordingly. This is why I had opted to create a larger sprite image sheet for the "big boss" in Game Off 2025, instead of using Javascript's `scale` function. Still, if the scale would be only small and won't necessarily be double the original size, then Javascript's function would be worth checking out.
+
+Moreover, I've set the hero's starting position to be at the center instead of the top-left corner, even though I still haven't gotten the viewport to move while keeping the hero fixed at the center in this version of the prototype. The purpose of this is to supposedly create an even larger map. Also, because of this update, the viewport's `x` and `y` positions could turn negative. 
+
+I've also made use of the right mouse-click as an alternative to the "F" key and left mouse-click combination to do the fireball. Previously, during Game Off 2025, I had opted to not use the right mouse-click at all, because some people might not be using this button given their setup; however, I find the right mouse-click and the scroll wheel on the mouse both indispensable nowadays.
+
+**Unlocked Possibilities:**
+
+Now that we have a isometric tile pattern, we can create an isometric view of the stage. Collision detection, among other things, should come next.
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
