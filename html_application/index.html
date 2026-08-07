@@ -20834,6 +20834,11 @@ iCurrTextCharacterCountMax=sText.length;
 /*
 		//mainImageTilePosX; mainImageTile.style.left; actual position and what is displayed; 
 		//appears OK visually; but fails when performing collision detection;
+		
+		//reverified; mainImageTilePosX is used for many of the computations including the collision detection;
+		//while mainImageTileHeroBody's position remains at the center, mainImageTilePosX and mainImageTilePosY move farther away causing the miscalculations;
+		//the difference between the two in terms of x and y must be put in a variable that would be added to mainImageTilePosX and mainImageTilePosY as an offet during computation;
+		
 		if (mainImageTilePosX+iImageFrameWidthLarge/2>=iHorizontalOffset+iViewportMaxWidth/2) {
 			mainImageTileHeroBody.style.left = (iHorizontalOffset+iViewportMaxWidth/2-iImageFrameWidthLarge/2)+"px";
 		}
@@ -20843,15 +20848,16 @@ iCurrTextCharacterCountMax=sText.length;
 */		
 		//edited by Mike, 20260807; from 20260803
 		mainImageTile.style.top = (iVerticalOffsetInnerScreen+mainImageTilePosY)+"px";
+		mainImageTileHeroBody.style.top = mainImageTilePosY+"px";
 /*		
-		if (mainImageTilePosY+iImageFrameHeightLarge>=iVerticalOffsetInnerScreen+iViewportMaxHeight/2) {			
+		if (mainImageTilePosY+iImageFrameHeightLarge>=iVerticalOffsetInnerScreen+iViewportMaxHeight/2) {		
+		
 			mainImageTileHeroBody.style.top = (iVerticalOffsetInnerScreen+iViewportMaxHeight/2-iImageFrameHeightLarge)+"px";
 		}
 		else {
 			mainImageTileHeroBody.style.top = mainImageTilePosY+"px";
 		}
 */
-		mainImageTileHeroBody.style.top = mainImageTilePosY+"px";
 		
 /*
     mainImageMonster.style.left = (iHorizontalOffset+mainImageMonsterPosX)+"px";
