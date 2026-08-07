@@ -376,6 +376,23 @@ I've also made use of the right mouse-click as an alternative to the "F" key and
 
 Now that we have a isometric tile pattern, we can create an isometric view of the stage. Collision detection, among other things, should come next.
 
+
+32) 20260807; https://masarapmabuhay.itch.io/game-off-2025-post-test22
+
+**Key Lesson Learned:** 
+
+I've added an offset in the `x` and `y` positions of the background image tiles since the viewport's own `x` and `y` positions could turn negative.
+
+Moreover, I've done tests to get the hero fixed at the center of the viewport when he moves more than half of the viewport's `width` and `height`. I found that while the hero moves as expected visually, object interaction including collision detection fails when the hero has moved beyond the viewport's center. 
+
+After analysis, I note here that I use `mainImageTile` for many of the computations including the collision detection that occurs in the entire stage, not just the viewport, such that while the position of `mainImageTileHeroBody`, another object I use for the hero's displayed position, remains at the center, the `x` and `y` positions of `mainImageTile`, namely `mainImageTilePosX` and `mainImageTilePosY` respectively, move farther and farther away, causing the miscalculations.
+
+Therefore, I plan to put the difference between the two objects, `mainImageTile` and `mainImageTileHeroBody`, in terms of `x` and `y` in a variable that would be added to `mainImageTilePosX` and `mainImageTilePosY` as an `offet` during computation in order to solve this problem.
+
+**Unlocked Possibilities:**
+
+The hero can already move around the entire stage with no apparent problems in the collision detection whatsoever. However, the size of the current stage, which is at `10x6` background tiles or `1280px` x `768px`, can still be made larger as long as the hero could remain at the center after passing half of the viewport's `width` and `height`, which are only `640px` and `360px` respectively.
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
