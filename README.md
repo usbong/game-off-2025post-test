@@ -377,7 +377,7 @@ I've also made use of the right mouse-click as an alternative to the "F" key and
 Now that we have a isometric tile pattern, we can create an isometric view of the stage. Collision detection, among other things, should come next.
 
 
-32) 20260807; https://masarapmabuhay.itch.io/game-off-2025-post-test22
+32) 20260807 and 20260808; https://masarapmabuhay.itch.io/game-off-2025-post-test22
 
 **Key Lesson Learned:** 
 
@@ -392,6 +392,16 @@ Therefore, I plan to put the difference between the two objects, `mainImageTile`
 **Unlocked Possibilities:**
 
 The hero can already move around the entire stage with no apparent problems in the collision detection whatsoever. However, the size of the current stage, which is at `10x6` background tiles or `1280px` x `768px`, can still be made larger as long as the hero could remain at the center after passing half of the viewport's `width` and `height`, which are only `640px` and `360px` respectively.
+
+33) 20260807 and 20260808; https://masarapmabuhay.itch.io/game-off-2025-post-test22
+
+**Key Lesson Learned:** 
+
+I've tested whether using the computed distance between the `x` and `y` positions of the `mainImageTile` and the `mainImageTileHeroBody` would resolve the problem that occurs when the hero has gone over half of the viewport's `x` and `y` positions. I found that I could get the fireballs to launch in the correct position, where `mainImageTileHeroBody` is, instead of `mainImageTile`; however, while the hero does stay walking at the center, he also keeps on going back to his initial `x` and `y` positions back when the viewport hasn't yet moved at all upong doing another left-mouse click. 
+
+**Unlocked Possibilities:**
+
+Although I haven't yet gotten my plan to work, the current basic side-scrolling engine is already usable. I also admit to having caught myself just wandering around the stage and casting fireballs at the constantly reappearing enemies while thinking about the problem at hand.
 
 # Additional Bug Fixes
 
@@ -434,6 +444,9 @@ Incidentally, I found that I was using `var hasInitMapLocation` twice, with one 
 
 7) 20260805;<br/>
 +fixed: fireball explosion not displayed in the correct position when the hero simultaneously moves and the viewport along with it. This took me longer to fix due to the pertinent object variable for this animation image wasn't yet initialized as I had thought. The current code size has increased to `23,610` lines of code. Performing `code refactoring` will be necessary.
+
+8) 20260808;<br/>
++fixed: the z-index of effects like the fireball explosion getting put behind the coins by not including actors with type `EFFECT_ARRAY_ACTOR_ROLE_TYPE` in the list of actors whose z-index values are to be interchanged. I also note here that as the number of actors increases, certain objects like those for showing the hero's image and status bars could get displayed incorrectly;
 
 ## Select Software Development Productivity Tools
 
