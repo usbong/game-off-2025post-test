@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260807; from 20260806
+' @date updated: 20260808; from 20260807
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -388,7 +388,7 @@
 
 			visibility: hidden;
 
-			z-index: 79; /*10;*/ /*4;*/
+			z-index: 90; /*79; 10;*/ /*4;*/
 		}
 
 		.ImageExplosionEffectResizedToSmall {
@@ -420,7 +420,7 @@
 			
 			visibility: hidden;
 
-			z-index: 81; /*51;*/
+			z-index: 91; /*51;*/
 		}		
 
 		.ImageBombSmall {
@@ -1240,6 +1240,10 @@ var fCurrDivStoryOpacity=1;
 
 //added by Mike, 20260802
 var fCurrCanvasTintOpacity=1;
+
+//added by Mike, 20260808
+var fHeroBodySoulDistanceX=0;
+var fHeroBodySoulDistanceY=0;
 
 var bIsShowingStage1End=false;
 var bIsShowingStage2End=false;
@@ -3639,6 +3643,10 @@ var bIsHeroFacingUp=false;
 		bIsHeroAttacked=false;
 		bIsExecutingShake=false;
 		iDestroyHumanShakeDelayCount=0;
+		
+		//added by Mike, 20260808
+		fHeroBodySoulDistanceX=0;
+		fHeroBodySoulDistanceY=0;
 		
 /*		//edited by Mike, 20260615; debug		
 		bHasPressedStart=false;
@@ -11644,15 +11652,20 @@ if (arrayWalkOnSnowEffectCount==1) {
 	function updateArrayActorsViewport() {
 		const iArrayActorsCountMax=arrayActors.length;
 		
-		//removed by Mike, 20260807
-		//var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");
+		//added by Mike, 202600808; from 20260807
+		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");
 		
-/*		//edited by Mike, 20260803		
-		heroImageTilePosX=parseInt(mainImageTileHeroBody.style.left);
-		heroImageTilePosY=parseInt(mainImageTileHeroBody.style.top);	
-*/
+		//edited by Mike, 20260808
 		heroImageTilePosX=parseInt(mainImageTilePosX);
 		heroImageTilePosY=parseInt(mainImageTilePosY);	
+
+		heroBodyImageTilePosX=parseInt(mainImageTileHeroBody.style.left);
+		heroBodyImageTilePosY=parseInt(mainImageTileHeroBody.style.top);	
+		
+		//reference: Google AI Overview; Khan Academy
+		//fHeroBodySoulDistanceX=Math.sqrt(((heroImageTilePosX-heroBodyImageTilePosX)**2)+((heroImageTilePosY-heroBodyImageTilePosY)**2));
+		fHeroBodySoulDistanceX=Math.sqrt(((heroImageTilePosX-heroBodyImageTilePosX)**2));
+		fHeroBodySoulDistanceY=Math.sqrt(((heroImageTilePosY-heroBodyImageTilePosY)**2));
 
 		//if (mainImageTileProjectilePosX==newMainImageTileProjectilePosX) {
 		if (!bIsHeroWalking) {
@@ -11689,7 +11702,7 @@ if (arrayWalkOnSnowEffectCount==1) {
 			newMainImageTileProjectilePosX=newMainImageTileProjectilePosX/2;
 			newMainImageTileProjectilePosY=newMainImageTileProjectilePosY/2;
 */			
-		
+
 			iCurrViewportX+=iCurrDifferenceX;
 		}
 
@@ -11797,6 +11810,12 @@ if (arrayWalkOnSnowEffectCount==1) {
 					//continue;
 				}
 */				
+
+				//added by Mike, 20260808
+				//always put the effects above the other actors
+				if (arrayActors[iCountTwo]["type"]==EFFECT_ARRAY_ACTOR_ROLE_TYPE) {
+					continue;
+				}
 
 				//bImageTilePosX=parseInt(arrayActors[iCountTwo].style.left);
 				bImageTilePosY=parseInt(arrayActors[iCountTwo].style.top);	
@@ -15146,6 +15165,7 @@ iCurrTextCharacterCountMax=sText.length;
 
 					arrayActors[iArrayActorsCount]=mainImageTileHeroBody;//mainImageTile;
 					arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+					arrayActors[iArrayActorsCount]["type"]=HERO_ARRAY_ACTOR_ROLE_TYPE;
 					iArrayActorsCount++;
 
 /*
@@ -20831,34 +20851,41 @@ iCurrTextCharacterCountMax=sText.length;
 
 		//edited by Mike, 20260807
 		mainImageTileHeroBody.style.left = mainImageTilePosX; //actually moves the hero;
-/*
+
 		//mainImageTilePosX; mainImageTile.style.left; actual position and what is displayed; 
 		//appears OK visually; but fails when performing collision detection;
 		
 		//reverified; mainImageTilePosX is used for many of the computations including the collision detection;
 		//while mainImageTileHeroBody's position remains at the center, mainImageTilePosX and mainImageTilePosY move farther away causing the miscalculations;
 		//the difference between the two in terms of x and y must be put in a variable that would be added to mainImageTilePosX and mainImageTilePosY as an offet during computation;
-		
+/*		
 		if (mainImageTilePosX+iImageFrameWidthLarge/2>=iHorizontalOffset+iViewportMaxWidth/2) {
 			mainImageTileHeroBody.style.left = (iHorizontalOffset+iViewportMaxWidth/2-iImageFrameWidthLarge/2)+"px";
 		}
 		else {
 			mainImageTileHeroBody.style.left = mainImageTilePosX+"px";
 		}
-*/		
+*/
+/*		
+		mainImageTileHeroBody.style.left = (mainImageTilePosX-fHeroBodySoulDistanceX)+"px";
+*/
+		
 		//edited by Mike, 20260807; from 20260803
 		mainImageTile.style.top = (iVerticalOffsetInnerScreen+mainImageTilePosY)+"px";
 		mainImageTileHeroBody.style.top = mainImageTilePosY+"px";
+
 /*		
 		if (mainImageTilePosY+iImageFrameHeightLarge>=iVerticalOffsetInnerScreen+iViewportMaxHeight/2) {		
-		
 			mainImageTileHeroBody.style.top = (iVerticalOffsetInnerScreen+iViewportMaxHeight/2-iImageFrameHeightLarge)+"px";
 		}
 		else {
 			mainImageTileHeroBody.style.top = mainImageTilePosY+"px";
 		}
 */
-		
+/*			
+		mainImageTileHeroBody.style.top = (mainImageTilePosY-fHeroBodySoulDistanceY)+"px";
+*/
+
 /*
     mainImageMonster.style.left = (iHorizontalOffset+mainImageMonsterPosX)+"px";
     mainImageMonster.style.top = (iVerticalOffsetInnerScreen+mainImageMonsterPosY)+"px";
@@ -21376,71 +21403,31 @@ alert(Date.now()-iMouseClickStartTime);
 	}
 
 
-	//added by Mike, 20251102
-	//TODO: -update: dash 
-/*	
-	if (mainImageTileProjectileStepY>=mainImageTileProjectileStepYMax) {
-		mainImageTileProjectileStepY=mainImageTileProjectileStepYMax;
-	}
-	if (mainImageTileProjectileStepX>=mainImageTileProjectileStepXMax) {
-		mainImageTileProjectileStepX=mainImageTileProjectileStepXMax;
-	}
-*/
-
-
-/*	//removed by Mike, 20251119
-	//edited by Mike, 20251104
-	//if (mainImageTileProjectileStepY>mainImageTileProjectileStepYMax) {
-	if (mainImageTileProjectileStepY>mainImageTileProjectileStepYMin) {
-	mainImageTileProjectileStepY=mainImageTileProjectileStepYMin;
-	}
-	//if (mainImageTileProjectileStepX>mainImageTileProjectileStepXMax) {
-	if (mainImageTileProjectileStepX>mainImageTileProjectileStepXMin) {
-		mainImageTileProjectileStepX=mainImageTileProjectileStepXMin;
-	}
-*/	
-	
-
-/*	
-	if (bIsActionKeyPressed) {
-		if (!bHasHeroShotFireball) {
-			//part of command to create fireball
-			mainImageTileProjectilePosY=mainImageTilePosY;
-			mainImageTileProjectilePosX=mainImageTilePosX;
-
-			resetProjectile();
-			
-			iMouseClickStartTime=iMouseClickMaxElapsedTime+1;
-			
-			//bHasHeroShotFireball=true;
-			//return;
-		}
-	}
-*/	
-
-/*
-	//added by Mike, 20251110
-	var iDeltaX=(iXPos-iHorizontalOffset)-(mainImageTilePosX+iImageFrameWidthLarge/2);
-	var iDeltaY=(iYPos-iVerticalOffset)-(mainImageTilePosY+iImageFrameHeightLarge/2);
-*/
-
 
     //reference: https://stackoverflow.com/questions/15994194/how-to-convert-x-y-coordinates-to-an-angle; last accessed: 20230428;
     //--> answer by: Mohsen, 20130413T2357; from 20150322T2246;
 
     //start position @center
     //note: subtract margine offset
-    /*
-    var iDeltaX=iXPos-mainImageTilePosX;
-    var iDeltaY=iYPos-mainImageTilePosY;
-    */
-    /*
-    var iDeltaX=(iXPos-iHorizontalOffset)-mainImageTilePosX;
-    var iDeltaY=(iYPos-iVerticalOffset)-mainImageTilePosY;
-    */
+	//edited by Mike, 20260808
+/*	
 	var iDeltaX=(iXPos-iHorizontalOffset)-(mainImageTilePosX+iImageFrameWidthLarge/2);
 	var iDeltaY=(iYPos-iVerticalOffset)-(mainImageTilePosY+iImageFrameHeightLarge/2);
+*/
 
+
+	var iDeltaX=(iXPos-iHorizontalOffset)-(mainImageTilePosX-fHeroBodySoulDistanceX+iImageFrameWidthLarge/2);
+	var iDeltaY=(iYPos-iVerticalOffset)-(mainImageTilePosY-fHeroBodySoulDistanceY+iImageFrameHeightLarge/2);
+/*
+	var iDeltaX=(iXPos-iHorizontalOffset)-(iViewportMaxWidth/2-iImageFrameWidthLarge/2);
+	var iDeltaY=(iYPos-iVerticalOffset)-(iViewportMaxHeight/2-iImageFrameHeightLarge/2);
+*/
+
+/*
+alert("iDeltaX: "+iDeltaX);
+alert("iXPos: "+iXPos);
+alert("mainImageTilePosX-fHeroBodySoulDistanceX: "+(mainImageTilePosX-fHeroBodySoulDistanceX));
+*/
 /*
 alert("iDeltaX: "+iDeltaX);
 alert("iDeltaY: "+iDeltaY);
@@ -21594,9 +21581,15 @@ alert("iDeltaY: "+iDeltaY);
 		mainImageTileProjectilePosX = parseInt(mainImageTile.style.left);
 		mainImageTileProjectilePosY = parseInt(mainImageTile.style.top);
 */
-
+		//edited by Mike, 20260808
+/*
 		mainImageTileProjectilePosX = parseInt(mainImageTilePosX);
 		mainImageTileProjectilePosY = parseInt(mainImageTilePosY);
+*/
+		mainImageTileProjectilePosX = parseInt(mainImageTilePosX)-fHeroBodySoulDistanceX;
+		mainImageTileProjectilePosY = parseInt(mainImageTilePosY)-fHeroBodySoulDistanceY;
+
+		//alert(fHeroBodySoulDistanceX);
 
 		//added by Mike, 20241103
 		mainImageTileProjectileStepDestinationX=iXPos;//iDeltaX;//newMainImageTileProjectilePosX;//.iDeltaX;
@@ -21652,16 +21645,22 @@ alert("iXPos: "+iXPos);
 
 				newMainImageTileFireballProjectilePosY*=-1;
 				newMainImageTileFireballProjectilePosX=mainImageTileFireballProjectileStepX*Math.sin(fMainImageTileStepAngleRad).toFixed(3);
-				
+
+/*				//edited by Mike, 20260808
 				mainImageTileFireballProjectilePosX=mainImageTilePosX+iImageFrameWidthDefault/2;
 				mainImageTileFireballProjectilePosY=mainImageTilePosY+iImageFrameHeightDefault/2;
+*/
+				mainImageTileFireballProjectilePosX=mainImageTilePosX-fHeroBodySoulDistanceX+iImageFrameWidthDefault/2;
+				mainImageTileFireballProjectilePosY=mainImageTilePosY-fHeroBodySoulDistanceY+iImageFrameHeightDefault/2;
 				
 				mainImageTileFireballProjectileStepDestinationX=iXPos;
 				mainImageTileFireballProjectileStepDestinationY=iYPos;
 				
-				
-				
+/*								
 				setInitFireballEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/2,mainImageTilePosY+iImageFrameHeightLarge/2);				
+*/
+				setInitFireballEffectPosition(mainImageTilePosX-fHeroBodySoulDistanceX+iImageFrameWidthLarge/2,mainImageTilePosY-fHeroBodySoulDistanceY+iImageFrameHeightLarge/2);				
+			
 			}
 		}
 		else {		
@@ -21671,8 +21670,12 @@ alert("iXPos: "+iXPos);
 					//resetProjectile();
 					//----------------				
 					//keep hero in-place
+/*					//edited by Mike, 20260808
 					mainImageTileProjectileStepDestinationY=mainImageTilePosY+iImageFrameHeightLarge/2;
 					mainImageTileProjectileStepDestinationX=mainImageTilePosX+iImageFrameWidthLarge/2;
+*/
+					mainImageTileProjectileStepDestinationY=mainImageTilePosY-fHeroBodySoulDistanceY+iImageFrameHeightLarge/2;
+					mainImageTileProjectileStepDestinationX=mainImageTilePosX-fHeroBodySoulDistanceX+iImageFrameWidthLarge/2;
 					//----------------
 
 					iMouseClickStartTime=iMouseClickMaxElapsedTime+1;	
@@ -21937,6 +21940,10 @@ setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameW
 			//start from the beginning;
 			//reset; new game
 			dElapsedTimeInSeconds=0;
+			
+			//added by Mike, 20260808
+			fHeroBodySoulDistanceX=0;
+			fHeroBodySoulDistanceY=0;
 
 			//edited by Mike, 20260616
 			//iCurrMapLocation=51;//75;//51;//53;		
