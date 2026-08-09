@@ -403,6 +403,26 @@ I've tested whether using the computed distance between the `x` and `y` position
 
 Although I haven't yet gotten my plan to work, the current basic side-scrolling engine is already usable. I also admit to having caught myself just wandering around the stage and casting fireballs at the constantly reappearing enemies while thinking about the problem at hand.
 
+34) 20260809; https://masarapmabuhay.itch.io/game-off-2025-post-test23
+
+**Key Lesson Learned:** 
+
+I've opted to verify increasing the `width` and `height` of both the viewport and the stage as a whole, instead of putting in more time into getting the hero to move correctly at the viewport's center. Right now, here are their values:
+
+```
+var iStageMaxWidth=2560;
+var iStageMaxHeight=1440;
+	
+var iViewportMaxWidth=1280;
+var iViewportMaxHeight=720;
+```
+
+When the viewport is made larger, the hero could go an even farther distance within the stage. 
+
+**Unlocked Possibilities:**
+
+I've added the `Fullscreen button` on the itch.io settings as a test, even though, just like with prior Game Off tournaments, I couldn't yet get the browser to automatically zoom to my intended value without ruining my DIY game engine's collision detection, among other things that calculate the positions of the objects.
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
