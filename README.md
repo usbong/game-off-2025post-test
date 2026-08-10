@@ -441,7 +441,7 @@ if (mainImageTilePosX%1>0) {
 
 **Unlocked Possibilities:**
 
-Being able to get the hero to remain at the center while moving around the stage means that the stage could be made even larger than only double the viewport's `width` and `height` max. Most Japanese 2D games appear to have made use of this technique until the arrival of the Sony PlayStation and the Sega Saturn when there were more action games using an isometric point of view that came out. Unfortunately, perhaps due to the configuration of the D-pad, yet even with the introduction of the analog stick, most of these games weren't as financially successful as was initially expected. 
+Being able to get the hero to remain at the center while moving around the stage means that the stage could be made even larger than only double the viewport's `width` and `height` max. Most Japanese 2D games in the 90s appear to have made use of this technique until the arrival of the Sony PlayStation and the Sega Saturn when there were more action games using an isometric point of view that came out. Unfortunately, perhaps due to the configuration of the D-pad, and even with the introduction of the analog stick, most of these games weren't as financially successful as was initially expected. 
 
 # Additional Bug Fixes
 
