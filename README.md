@@ -423,6 +423,26 @@ When the viewport is made larger, the hero could go an even farther distance wit
 
 I've added the `Fullscreen button` on the itch.io settings as a test, even though, just like with prior Game Off tournaments, I couldn't yet get the browser to automatically zoom to my intended value without ruining my DIY game engine's collision detection, among other things that calculate the positions of the objects.
 
+35) 20260810; work-in-progress
+
+**Key Lesson Learned:** 
+
+I again attempted to figure out why the hero seemed to move faster than the viewport could move. While looking at the [code](https://github.com/usbong/blue-sapphire-galaxy-java-nogl/blob/main/javaNoGL/src/UsbongMain.java#L4944) I wrote a year or so ago, I was somehow reminded that I was able to solve this problem before, only what would frequently come to mind is that I got it to work as long as the hero is always at the center of the viewport. Not that it's fundamentally flawed or anything like that, given that most old and recent 2D games seem to do just that, but perhaps I wanted to try to see for myself if I could improve it even further.
+
+I did find a crucial hint to the cause of the problem though: I'm using two types of variables, whole integers (`int`) and another with fractions. In particular, I use `mainImageTilePosX` and `mainImageTileProjectilePosX` to move the hero and, along with him, the viewport whenever the user does a left-click with the mouse. While `mainImageTilePosX` could be, for example, `1`, `mainImageTileProjectilePosX` could get something like `1.6`. This is why the viewport always seems to be unable to catch up with the hero's position.
+
+I will need more time to find out how to really get it to work, but for now this is what I've learned today. By the way, I used the following lines of code with the modulo (`%`) operator to measure the difference. This would output whole numbers, while the one for `mainImageTileProjectilePosX` would give me numbers with fractions.
+
+```
+if (mainImageTilePosX%1>0) {
+	alert(mainImageTilePosX);
+}
+```
+
+**Unlocked Possibilities:**
+
+Being able to get the hero to remain at the center while moving around the stage means that the stage could be made even larger than only double the viewport's `width` and `height` max. Most Japanese 2D games appear to have made use of this technique until the arrival of the Sony PlayStation and the Sega Saturn when there were more action games using an isometric point of view that came out. Unfortunately, perhaps due to the configuration of the D-pad, yet even with the introduction of the analog stick, most of these games weren't as financially successful as was initially expected. 
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
