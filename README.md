@@ -443,6 +443,22 @@ if (mainImageTilePosX%1>0) {
 
 Being able to get the hero to remain at the center while moving around the stage means that the stage could be made even larger than only double the viewport's `width` and `height` max. Most Japanese 2D games in the 90s appear to have made use of this technique until the arrival of the Sony PlayStation and the Sega Saturn when there were more action games using an isometric point of view that came out. Unfortunately, perhaps due to the configuration of the D-pad, and even with the introduction of the analog stick, most of these games weren't as financially successful as was initially expected. 
 
+36) 20260813; https://masarapmabuhay.itch.io/game-off-2025-post-test24
+
+**Key Lesson Learned:** 
+
+I've returned the width and height values to `640px` and `360px` respectively, while putting the editable variables in the `init()` function, just in case I'd want to change them again.
+
+The new feature in this version is the addition of three extra hero bodies, which move according to the hero's movement in a train-like fashion. I was thinking about the Sega Dreamcast game, ChuChu Rocket!, which I remember seeing in magazines like Gamers' Republic back in around the 2000s. 
+
+After trying to use a delay to get the extra hero bodies to not be exactly where the hero is at, I ended up checking instead where the hero's body is currently at and moving the extra hero body's `x` and `y` positions accordingly. Also, instead of setting the extra hero body's position where the hero is located immediately, which resulted in an odd display behavior, where the extra hero body is seen in one location and then immediately in another, I opted to simply increase or decrease the extra hero body's position incrementally using the `stepX` and `stepY`. I note here that the display error is likely caused by multiple threads doing the display and another the logic part of the code separately or non-linearly, thereby causing a `race condition`, such that the display could at times be correct, while other times not.
+
+Finally, I added two extra hero bodies besides the first one. More could be added, of course, given that the power of present-day computer processors could already allow `2147483647` z-index values on modern web browsers, says Google AI Overview.
+
+**Unlocked Possibilities:**
+
+Extra bodies that move in a train-like fashion.
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
