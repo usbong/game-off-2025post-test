@@ -459,6 +459,23 @@ Finally, I added two extra hero bodies besides the first one. More could be adde
 
 Extra bodies that move in a train-like fashion.
 
+
+37) 20260814-20260816; work-in-progress
+
+**Key Lesson Learned:** 
+
+I've updated the viewport's movement according to what I understand my [code](https://github.com/usbong/blue-sapphire-galaxy-java-nogl/blob/main/javaNoGL/src/UsbongMain.java#L4944) a year or so ago did; however, the result is the same: `mainImageTile`'s `x` and `y` positions appear to move so much faster than moving the viewport and the monsters in the stage did.
+
+Furthermore, simply measuring how far the hero moved with respect to the viewport's `x` and `y` positions, or just measuring the difference between the viewport's previous and current `x` and `y` positions, didn't solve the problem.
+
+I also tried using non-whole numbers to compute the positions, but with no success.  
+
+In the end, I'm taking too long to get this to work. 
+
+**Unlocked Possibilities:**
+
+I can work on other useful elements for my DIY engine and set this part aside for later.
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
