@@ -476,6 +476,27 @@ In the end, I'm taking too long to get this to work.
 
 I can work on other useful elements for my DIY engine and set this part aside for later.
 
+38) 20260817; https://masarapmabuhay.itch.io/game-off-2025-post-test25
+
+**Key Lesson Learned:** 
+
+I've finally gotten the viewport to center on the hero, while still moving the objects and the monsters along with the viewport's movements accordingly.
+
+I learned that I needed to not anymore update`mainImageTile`'s `x` and `y` positions, which the monsters and the other objects on the stage base their movements. Instead, I've opted to update the viewport's `x` and `y` positions, namely `iCurrViewportX` and `iCurrViewportY` respectively, according to the mouse's positions, which are `newMainImageTileProjectilePosX` and `newMainImageTileProjectilePosY`, after the user clicks the target location. 
+
+Moreover, their values would have fractions, such that doing the following instead of using `parseInt(...)` solved the problem of getting a messed up display of the objects that included the background tiles, which I thought was related to the z-index, but wasn't, apparently.
+
+```
+fActorPosX=parseFloat(arrayActors[iCount].style.left);
+fActorPosY=parseFloat(arrayActors[iCount].style.top);
+```
+
+Finally, I'm not using the `isTileInsideViewport(...)` function at all at the moment, unlike in my prior [code](https://github.com/usbong/blue-sapphire-galaxy-java-nogl/blob/main/javaNoGL/src/UsbongMain.java#L4944) in Java. 
+
+**Unlocked Possibilities:**
+
+This side-scrolling engine places the hero at the center, thereby allowing for a much larger stage than only double the viewport's `width` and `height`. Still, the prior version is still useful for when the stage need not be too big and the developer would prefer that the hero could move away from the center of the viewport much more than the updated engine.
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
