@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260817; from 20260813
+' @date updated: 20260818; from 20260817
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -503,7 +503,7 @@
 
 			visibility: hidden;
 
-			z-index: 10; /*4;*/
+			z-index: 999999; /*4;*/
 		}
 
 		.ImageSnow, .ImageParticle {
@@ -5092,6 +5092,10 @@ var bIsHeroFacingUp=false;
 		iDustEffectAnimationDelayCount=iDustEffectAnimationDelayCountMax;
 
 		iDustEffectAnimationCount=0;//-1; //0;
+		
+		//added by Mike, 20260818
+		dustEffectImage.style.left = (-999999)+"px";
+		dustEffectImage.style.top = (-999999)+"px";
 /*
 alert("iInputX: "+iInputX);
 alert("iInputY: "+iInputY);
@@ -5101,7 +5105,8 @@ alert("iInputY: "+iInputY);
 		dustEffectImage.style.left = iInputX;//+iImageDustEffectAnimationWidth/2;
 		dustEffectImage.style.top = iInputY+iImageDustEffectAnimationHeight/4; //near feet
 */	
-	
+
+/* //edited by Mike, 20260818
 		if (bIsHeroFacingLeftOrRight) {
 			//if facing right;
 			if (!bIsHeroFacingLeft) {
@@ -5125,6 +5130,36 @@ alert("iInputY: "+iInputY);
 				dustEffectImage.style.top = iInputY-iImageFrameHeightLarge/8+"px";
 			}
 		}
+*/
+		if (bIsHeroFacingLeftOrRight) {
+			if (bIsHeroFacingUpOrDown) {
+			}
+			//directly facing left or right
+			else {
+				//if facing right;
+				if (!bIsHeroFacingLeft) {
+					dustEffectImage.style.left = iInputX+iImageFrameWidthLarge*0.75+"px";
+					dustEffectImage.style.top = iInputY+iImageDustEffectAnimationHeight/4+"px";
+				}
+				else {
+					dustEffectImage.style.left = iInputX+iImageFrameWidthLarge*0.25+"px";
+					dustEffectImage.style.top = iInputY+iImageDustEffectAnimationHeight/4+"px";
+				}
+			}
+		}
+/*
+		else if (bIsHeroFacingUpOrDown) {
+			if (!bIsHeroFacingUp) {
+				//OK
+				dustEffectImage.style.left = iInputX+"px";
+				dustEffectImage.style.top = iInputY+iImageDustEffectAnimationHeight/4+"px";
+			}
+			else {
+				dustEffectImage.style.left = iInputX+"px";
+				dustEffectImage.style.top = iInputY-iImageFrameHeightLarge/8+"px";
+			}
+		}
+*/		
 	}
 	
 	//added by Mike, 20251115
@@ -7035,8 +7070,8 @@ alert("iInputY: "+iInputY);
 	function clearWraithMonsterFromStage(inputArrayWraithMonsterWithIdCount) {	
 		//added by Mike, 20260617
 		//set outside the viewable canvas
-		inputArrayWraithMonsterWithIdCount[MONSTER_POSX]=-1000;
-		inputArrayWraithMonsterWithIdCount[MONSTER_POSY]=-1000;		
+		inputArrayWraithMonsterWithIdCount[MONSTER_POSX]=-999999;
+		inputArrayWraithMonsterWithIdCount[MONSTER_POSY]=-999999;		
 		inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.top = 0+inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+"px";
 		inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.left = 0+inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+"px"; 					
 		inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.visibility="hidden";				
@@ -7061,8 +7096,8 @@ alert("iInputY: "+iInputY);
 					clearWraithMonsterFromStage(inputArrayWraithMonsterWithIdCount);
 /*					
 					//set outside the viewable canvas
-					inputArrayWraithMonsterWithIdCount[MONSTER_POSX]=-1000;
-					inputArrayWraithMonsterWithIdCount[MONSTER_POSY]=-1000;		
+					inputArrayWraithMonsterWithIdCount[MONSTER_POSX]=-999999;
+					inputArrayWraithMonsterWithIdCount[MONSTER_POSY]=-999999;		
 					inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.top = 0+inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+"px";
 					inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.left = 0+inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+"px"; 					
 					inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.visibility="hidden";				
@@ -7377,8 +7412,8 @@ alert("iInputY: "+iInputY);
 					clearWraithMonsterFromStage(inputArrayWraithMonsterWithIdCount);
 /*					
 					//set outside the viewable canvas
-					inputArrayWraithMonsterWithIdCount[MONSTER_POSX]=-1000;
-					inputArrayWraithMonsterWithIdCount[MONSTER_POSY]=-1000;		
+					inputArrayWraithMonsterWithIdCount[MONSTER_POSX]=-999999;
+					inputArrayWraithMonsterWithIdCount[MONSTER_POSY]=-999999;		
 					inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.top = 0+inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+"px";
 					inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.left = 0+inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+"px"; 					
 					inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.visibility="hidden";				
@@ -12127,109 +12162,6 @@ if (fDifferenceInXPos!=0) {
 		}		
 	}
 	
-	//OK if sprite images have the same height
-	function updateArrayActorsZIndexBUGGY() {
-		//var iCurrOutArraysActorsIndex=0;
-		var iCurrZIndex=iZIndexDefault;
-		
-		//alert (arrayActors.length);
-		
-		//edited by Mike, 20260730
-		const iArrayActorsCountMax=arrayActors.length;
-
-		//added by Mike, 20260817
-		//-----------------------------------------
-		heroImageTilePosX=parseInt(mainImageTilePosX);
-		heroImageTilePosY=parseInt(mainImageTilePosY);	
-/*
-		heroBodyImageTilePosX=parseInt(mainImageTileHeroBody.style.left);
-		heroBodyImageTilePosY=parseInt(mainImageTileHeroBody.style.top);	
-*/		
-		iCurrViewportX=heroImageTilePosX-iViewportMaxWidth/2;
-		iCurrViewportY=heroImageTilePosY-iViewportMaxHeight/2;
-
-		var fDifferenceInXPos=newMainImageTileProjectilePosX;	
-		var fDifferenceInYPos=newMainImageTileProjectilePosY;
-
-		//reversed
-		fDifferenceInXPos=fDifferenceInXPos*(-1);
-		fDifferenceInYPos=fDifferenceInYPos*(-1); //TODO: -reverify: y
-		//-----------------------------------------
-
-		//sort the array; from lowest to highest in z-index;
-		//based on y-axis position
-		//higher z-index means higher y-axis position; 
-		//therefore, should be drawn above the others;
-		//edited by Mike, 20260730
-		//for (iCount=0; iCount<iArrayActorsCount; iCount++) {
-		for (iCount=0; iCount<iArrayActorsCountMax; iCount++) {
-
-/*			//edited by Mike, 20260817
-			//added by Mike, 20260801
-			if (arrayActors[iCount]["type"]==BG_TILE_ARRAY_ACTOR_ROLE_TYPE) {
-				continue;
-			}
-*/
-
-			fActorPosX=parseInt(arrayActors[iCount].style.left);
-			fActorPosY=parseInt(arrayActors[iCount].style.top);
-			
-			if (isTileInsideViewport(iCurrViewportX,iCurrViewportY, fActorPosX-fDifferenceInXPos,fActorPosY-fDifferenceInYPos))	
-			{
-
-				//aImageTilePosX=parseInt(arrayActors[iCount].style.left);
-				aImageTilePosY=parseInt(arrayActors[iCount].style.top);	
-
-				//alert(iCount+"; "+arrayActors[iCount].style.zIndex);
-
-				//edited by Mike, 20260730
-				//for (iCountTwo=iCount+1; iCountTwo<iArrayActorsCount; iCountTwo++) {
-				for (iCountTwo=iCount+1; iCountTwo<iArrayActorsCountMax; iCountTwo++) {
-
-					//removed by Mike, 20260801
-	/*				
-					if (arrayActors[iCountTwo]["type"]==BG_TILE_ARRAY_ACTOR_ROLE_TYPE) {
-						//continue;
-					}
-	*/				
-
-					//added by Mike, 20260808
-					//always put the effects above the other actors
-					if (arrayActors[iCountTwo]["type"]==EFFECT_ARRAY_ACTOR_ROLE_TYPE) {
-						continue;
-					}
-
-					//bImageTilePosX=parseInt(arrayActors[iCountTwo].style.left);
-					bImageTilePosY=parseInt(arrayActors[iCountTwo].style.top);	
-					
-					//swap values in array
-					if (bImageTilePosY<aImageTilePosY) {				
-						var objectTemp=arrayActors[iCount];
-					
-						arrayActors[iCount]=arrayActors[iCountTwo];
-						arrayActors[iCountTwo]=objectTemp;
-
-						//alert("SWAP!!!"+bImageTilePosY+"vs"+aImageTilePosY);
-
-						//iCurrOutArraysActorsIndex++;
-						break;
-					}
-				}
-			}
-		}
-
-		//edited by Mike, 20260730		
-		//for (iCount=0; iCount<iArrayActorsCount; iCount++) {
-		for (iCount=0; iCount<iArrayActorsCountMax; iCount++) {
-			//alert("iCount: "+iCount+"; "+arrayActors[iCount].style.top);
-			arrayActors[iCount].style.zIndex=iCurrZIndex;
-			iCurrZIndex++;
-			
-			//alert(iCount+"; "+arrayActors[iCount].style.zIndex);
-			//alert(iCount+"; "+arrayActors[iCount].style.top);
-		}		
-	}
-
 	function updateHeroFacingDirection() {
 /*		//edited by Mike, 20260807	
 		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");
@@ -12658,8 +12590,8 @@ if (fDifferenceInXPos!=0) {
 					iCurrHeroCoinCount++;
 				}
 */												
-				coinImage.style.left="-1000px";
-				coinImage.style.top="-1000px";
+				coinImage.style.left="-999999px";
+				coinImage.style.top="-999999px";
 
 				iCurrHeroCoinCount++;
 				
@@ -12669,6 +12601,25 @@ if (fDifferenceInXPos!=0) {
 
 				//bIsExecutingShake=true;
 				//setExplosionEffectPosition(inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidthLarge/2,inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/2);	
+			}
+			//added by Mike, 20260818
+			else {
+				//coin automatically approaches the hero
+				if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, parseFloat(coinImage.style.left),parseFloat(coinImage.style.top)+coinImageOffsetY, iImageFrameWidthLarge*1, iImageFrameHeightLarge*1, iImageFrameWidthDefault*1, iImageFrameHeightDefault*1)) {
+					if (parseFloat(coinImage.style.left)<parseFloat(mainImageTileHeroBody.style.left)-mainImageTileStepX) { //coin is to the left of body
+						coinImage.style.left = (parseFloat(coinImage.style.left)+mainImageTileStepX*1)+"px";
+					}
+					else if (parseFloat(coinImage.style.left)>parseFloat(mainImageTileHeroBody.style.left)+mainImageTileStepX) { 
+						coinImage.style.left = (parseFloat(coinImage.style.left)-mainImageTileStepX*1)+"px";
+					}
+
+					if (parseFloat(coinImage.style.top)<parseFloat(mainImageTileHeroBody.style.top)-mainImageTileStepY) { //body0 is above body
+						coinImage.style.top = (parseFloat(coinImage.style.top)+mainImageTileStepY*1)+"px";
+					}
+					else if (parseFloat(coinImage.style.top)>parseFloat(coinImage.style.top)+mainImageTileStepY) {
+						coinImage.style.top = (parseFloat(mainImageTileHeroBody.style.top)-mainImageTileStepY*1)+"px";
+					}
+				}
 			}
 		}
 	}
@@ -21414,62 +21365,62 @@ iCurrTextCharacterCountMax=sText.length;
 */
 		if (bIsHeroWalking) {
 			//body0
-			if (parseInt(mainImageTileHeroBody0.style.left)<parseInt(mainImageTileHeroBody.style.left)-iImageFrameWidthLarge/2) { //body0 is to the left body
-				mainImageTileHeroBody0.style.left = (parseInt(mainImageTileHeroBody0.style.left)+mainImageTileStepX*1)+"px";
+			if (parseFloat(mainImageTileHeroBody0.style.left)<parseFloat(mainImageTileHeroBody.style.left)-iImageFrameWidthLarge/2) { //body0 is to the left body
+				mainImageTileHeroBody0.style.left = (parseFloat(mainImageTileHeroBody0.style.left)+mainImageTileStepX*1)+"px";
 			}
-			else if (parseInt(mainImageTileHeroBody0.style.left)>parseInt(mainImageTileHeroBody.style.left)+iImageFrameWidthLarge/2) { 
-				mainImageTileHeroBody0.style.left = (parseInt(mainImageTileHeroBody0.style.left)-mainImageTileStepX*1)+"px";
+			else if (parseFloat(mainImageTileHeroBody0.style.left)>parseFloat(mainImageTileHeroBody.style.left)+iImageFrameWidthLarge/2) { 
+				mainImageTileHeroBody0.style.left = (parseFloat(mainImageTileHeroBody0.style.left)-mainImageTileStepX*1)+"px";
 			}
 			
 			if (bIsHeroFacingLeftOrRight) {
 			}
 			//if directly facing up or down
 			else {
-				if (parseInt(mainImageTileHeroBody0.style.left)<parseInt(mainImageTileHeroBody.style.left)) {
-					mainImageTileHeroBody0.style.left = (parseInt(mainImageTileHeroBody0.style.left)+mainImageTileStepX*1)+"px";
+				if (parseFloat(mainImageTileHeroBody0.style.left)<parseFloat(mainImageTileHeroBody.style.left)-mainImageTileStepX/2) {
+					mainImageTileHeroBody0.style.left = (parseFloat(mainImageTileHeroBody0.style.left)+mainImageTileStepX*1)+"px";
 				}
-				else if (parseInt(mainImageTileHeroBody0.style.left)>parseInt(mainImageTileHeroBody.style.left)) { 
-					mainImageTileHeroBody0.style.left = (parseInt(mainImageTileHeroBody0.style.left)-mainImageTileStepX*1)+"px";
+				else if (parseFloat(mainImageTileHeroBody0.style.left)>parseFloat(mainImageTileHeroBody.style.left)+mainImageTileStepX/2) { 
+					mainImageTileHeroBody0.style.left = (parseFloat(mainImageTileHeroBody0.style.left)-mainImageTileStepX*1)+"px";
 				}
 			}		
 			
 			//body1
-			if (parseInt(mainImageTileHeroBody1.style.left)<parseInt(mainImageTileHeroBody0.style.left)-iImageFrameWidthLarge/2) { //body1 is to the left body
-				mainImageTileHeroBody1.style.left = (parseInt(mainImageTileHeroBody1.style.left)+mainImageTileStepX*1)+"px";
+			if (parseFloat(mainImageTileHeroBody1.style.left)<parseFloat(mainImageTileHeroBody0.style.left)-iImageFrameWidthLarge/2) { //body1 is to the left body
+				mainImageTileHeroBody1.style.left = (parseFloat(mainImageTileHeroBody1.style.left)+mainImageTileStepX*1)+"px";
 			}
-			else if (parseInt(mainImageTileHeroBody1.style.left)>parseInt(mainImageTileHeroBody0.style.left)+iImageFrameWidthLarge/2) { 
-				mainImageTileHeroBody1.style.left = (parseInt(mainImageTileHeroBody1.style.left)-mainImageTileStepX*1)+"px";
+			else if (parseFloat(mainImageTileHeroBody1.style.left)>parseFloat(mainImageTileHeroBody0.style.left)+iImageFrameWidthLarge/2) { 
+				mainImageTileHeroBody1.style.left = (parseFloat(mainImageTileHeroBody1.style.left)-mainImageTileStepX*1)+"px";
 			}
 			
 			if (bIsHeroFacingLeftOrRight) {
 			}
 			//if directly facing up or down
 			else {
-				if (parseInt(mainImageTileHeroBody1.style.left)<parseInt(mainImageTileHeroBody0.style.left)) {
-					mainImageTileHeroBody1.style.left = (parseInt(mainImageTileHeroBody1.style.left)+mainImageTileStepX*1)+"px";
+				if (parseFloat(mainImageTileHeroBody1.style.left)<parseFloat(mainImageTileHeroBody0.style.left)-mainImageTileStepX/2) {
+					mainImageTileHeroBody1.style.left = (parseFloat(mainImageTileHeroBody1.style.left)+mainImageTileStepX*1)+"px";
 				}
-				else if (parseInt(mainImageTileHeroBody1.style.left)>parseInt(mainImageTileHeroBody0.style.left)) { 
-					mainImageTileHeroBody1.style.left = (parseInt(mainImageTileHeroBody1.style.left)-mainImageTileStepX*1)+"px";
+				else if (parseFloat(mainImageTileHeroBody1.style.left)>parseFloat(mainImageTileHeroBody0.style.left)+mainImageTileStepX/2) { 
+					mainImageTileHeroBody1.style.left = (parseFloat(mainImageTileHeroBody1.style.left)-mainImageTileStepX*1)+"px";
 				}
 			}
 
 			//body2
-			if (parseInt(mainImageTileHeroBody2.style.left)<parseInt(mainImageTileHeroBody1.style.left)-iImageFrameWidthLarge/2) { //body2 is to the left body
-				mainImageTileHeroBody2.style.left = (parseInt(mainImageTileHeroBody2.style.left)+mainImageTileStepX*1)+"px";
+			if (parseFloat(mainImageTileHeroBody2.style.left)<parseFloat(mainImageTileHeroBody1.style.left)-iImageFrameWidthLarge/2) { //body2 is to the left body
+				mainImageTileHeroBody2.style.left = (parseFloat(mainImageTileHeroBody2.style.left)+mainImageTileStepX*1)+"px";
 			}
-			else if (parseInt(mainImageTileHeroBody2.style.left)>parseInt(mainImageTileHeroBody1.style.left)+iImageFrameWidthLarge/2) { 
-				mainImageTileHeroBody2.style.left = (parseInt(mainImageTileHeroBody2.style.left)-mainImageTileStepX*1)+"px";
+			else if (parseFloat(mainImageTileHeroBody2.style.left)>parseFloat(mainImageTileHeroBody1.style.left)+iImageFrameWidthLarge/2) { 
+				mainImageTileHeroBody2.style.left = (parseFloat(mainImageTileHeroBody2.style.left)-mainImageTileStepX*1)+"px";
 			}
 			
 			if (bIsHeroFacingLeftOrRight) {
 			}
 			//if directly facing up or down
 			else {
-				if (parseInt(mainImageTileHeroBody2.style.left)<parseInt(mainImageTileHeroBody1.style.left)) {
-					mainImageTileHeroBody2.style.left = (parseInt(mainImageTileHeroBody2.style.left)+mainImageTileStepX*1)+"px";
+				if (parseFloat(mainImageTileHeroBody2.style.left)<parseFloat(mainImageTileHeroBody1.style.left)-mainImageTileStepX/2) {
+					mainImageTileHeroBody2.style.left = (parseFloat(mainImageTileHeroBody2.style.left)+mainImageTileStepX*1)+"px";
 				}
-				else if (parseInt(mainImageTileHeroBody2.style.left)>parseInt(mainImageTileHeroBody1.style.left)) { 
-					mainImageTileHeroBody2.style.left = (parseInt(mainImageTileHeroBody2.style.left)-mainImageTileStepX*1)+"px";
+				else if (parseFloat(mainImageTileHeroBody2.style.left)>parseFloat(mainImageTileHeroBody1.style.left)+mainImageTileStepX/2) { 
+					mainImageTileHeroBody2.style.left = (parseFloat(mainImageTileHeroBody2.style.left)-mainImageTileStepX*1)+"px";
 				}
 			}			
 		}
@@ -21592,62 +21543,62 @@ iCurrTextCharacterCountMax=sText.length;
 */
 		if (bIsHeroWalking) {
 			//body0
-			if (parseInt(mainImageTileHeroBody0.style.top)<parseInt(mainImageTileHeroBody.style.top)-iImageFrameHeightLarge/2/2) { //body0 is above body
-				mainImageTileHeroBody0.style.top = (parseInt(mainImageTileHeroBody0.style.top)+mainImageTileStepY*1)+"px";
+			if (parseFloat(mainImageTileHeroBody0.style.top)<parseFloat(mainImageTileHeroBody.style.top)-iImageFrameHeightLarge/2/2) { //body0 is above body
+				mainImageTileHeroBody0.style.top = (parseFloat(mainImageTileHeroBody0.style.top)+mainImageTileStepY*1)+"px";
 			}
-			else if (parseInt(mainImageTileHeroBody0.style.top)>parseInt(mainImageTileHeroBody.style.top)+iImageFrameHeightLarge/2/2) {
-				mainImageTileHeroBody0.style.top = (parseInt(mainImageTileHeroBody0.style.top)-mainImageTileStepY*1)+"px";
+			else if (parseFloat(mainImageTileHeroBody0.style.top)>parseFloat(mainImageTileHeroBody.style.top)+iImageFrameHeightLarge/2/2) {
+				mainImageTileHeroBody0.style.top = (parseFloat(mainImageTileHeroBody0.style.top)-mainImageTileStepY*1)+"px";
 			}
 
 			if (bIsHeroFacingUpOrDown) {
 			}
 			//if directly facing left or right
 			else {
-				if (parseInt(mainImageTileHeroBody0.style.top)<parseInt(mainImageTileHeroBody.style.top)) { //body0 is above body
-					mainImageTileHeroBody0.style.top = (parseInt(mainImageTileHeroBody0.style.top)+mainImageTileStepY*1)+"px";
+				if (parseFloat(mainImageTileHeroBody0.style.top)<parseFloat(mainImageTileHeroBody.style.top)-mainImageTileStepY/2) { //body0 is above body
+					mainImageTileHeroBody0.style.top = (parseFloat(mainImageTileHeroBody0.style.top)+mainImageTileStepY*1)+"px";
 				}
-				else if (parseInt(mainImageTileHeroBody0.style.top)>parseInt(mainImageTileHeroBody.style.top)) {
-					mainImageTileHeroBody0.style.top = (parseInt(mainImageTileHeroBody0.style.top)-mainImageTileStepY*1)+"px";
+				else if (parseFloat(mainImageTileHeroBody0.style.top)>parseFloat(mainImageTileHeroBody.style.top)+mainImageTileStepY/2) {
+					mainImageTileHeroBody0.style.top = (parseFloat(mainImageTileHeroBody0.style.top)-mainImageTileStepY*1)+"px";
 				}
 			}		
 			
 			//body1
-			if (parseInt(mainImageTileHeroBody1.style.top)<parseInt(mainImageTileHeroBody0.style.top)-iImageFrameHeightLarge/2/2) { //body0 is above body
-				mainImageTileHeroBody1.style.top = (parseInt(mainImageTileHeroBody1.style.top)+mainImageTileStepY*1)+"px";
+			if (parseFloat(mainImageTileHeroBody1.style.top)<parseFloat(mainImageTileHeroBody0.style.top)-iImageFrameHeightLarge/2/2) { //body0 is above body
+				mainImageTileHeroBody1.style.top = (parseFloat(mainImageTileHeroBody1.style.top)+mainImageTileStepY*1)+"px";
 			}
-			else if (parseInt(mainImageTileHeroBody1.style.top)>parseInt(mainImageTileHeroBody0.style.top)+iImageFrameHeightLarge/2/2) {
-				mainImageTileHeroBody1.style.top = (parseInt(mainImageTileHeroBody1.style.top)-mainImageTileStepY*1)+"px";
+			else if (parseFloat(mainImageTileHeroBody1.style.top)>parseFloat(mainImageTileHeroBody0.style.top)+iImageFrameHeightLarge/2/2) {
+				mainImageTileHeroBody1.style.top = (parseFloat(mainImageTileHeroBody1.style.top)-mainImageTileStepY*1)+"px";
 			}
 
 			if (bIsHeroFacingUpOrDown) {
 			}
 			//if directly facing left or right
 			else {
-				if (parseInt(mainImageTileHeroBody1.style.top)<parseInt(mainImageTileHeroBody0.style.top)) { //body0 is above body
-					mainImageTileHeroBody1.style.top = (parseInt(mainImageTileHeroBody1.style.top)+mainImageTileStepY*1)+"px";
+				if (parseFloat(mainImageTileHeroBody1.style.top)<parseFloat(mainImageTileHeroBody0.style.top)-mainImageTileStepY/2) { //body0 is above body
+					mainImageTileHeroBody1.style.top = (parseFloat(mainImageTileHeroBody1.style.top)+mainImageTileStepY*1)+"px";
 				}
-				else if (parseInt(mainImageTileHeroBody1.style.top)>parseInt(mainImageTileHeroBody0.style.top)) {
-					mainImageTileHeroBody1.style.top = (parseInt(mainImageTileHeroBody1.style.top)-mainImageTileStepY*1)+"px";
+				else if (parseFloat(mainImageTileHeroBody1.style.top)>parseFloat(mainImageTileHeroBody0.style.top)+mainImageTileStepY/2) {
+					mainImageTileHeroBody1.style.top = (parseFloat(mainImageTileHeroBody1.style.top)-mainImageTileStepY*1)+"px";
 				}
 			}
 			
 			//body2
-			if (parseInt(mainImageTileHeroBody2.style.top)<parseInt(mainImageTileHeroBody1.style.top)-iImageFrameHeightLarge/2/2) { //body2 is above body
-				mainImageTileHeroBody2.style.top = (parseInt(mainImageTileHeroBody2.style.top)+mainImageTileStepY*1)+"px";
+			if (parseFloat(mainImageTileHeroBody2.style.top)<parseFloat(mainImageTileHeroBody1.style.top)-iImageFrameHeightLarge/2/2) { //body2 is above body
+				mainImageTileHeroBody2.style.top = (parseFloat(mainImageTileHeroBody2.style.top)+mainImageTileStepY*1)+"px";
 			}
-			else if (parseInt(mainImageTileHeroBody2.style.top)>parseInt(mainImageTileHeroBody1.style.top)+iImageFrameHeightLarge/2/2) {
-				mainImageTileHeroBody2.style.top = (parseInt(mainImageTileHeroBody2.style.top)-mainImageTileStepY*1)+"px";
+			else if (parseFloat(mainImageTileHeroBody2.style.top)>parseFloat(mainImageTileHeroBody1.style.top)+iImageFrameHeightLarge/2/2) {
+				mainImageTileHeroBody2.style.top = (parseFloat(mainImageTileHeroBody2.style.top)-mainImageTileStepY*1)+"px";
 			}
 
 			if (bIsHeroFacingUpOrDown) {
 			}
 			//if directly facing left or right
 			else {
-				if (parseInt(mainImageTileHeroBody2.style.top)<parseInt(mainImageTileHeroBody1.style.top)) { //body0 is above body
-					mainImageTileHeroBody2.style.top = (parseInt(mainImageTileHeroBody2.style.top)+mainImageTileStepY*1)+"px";
+				if (parseFloat(mainImageTileHeroBody2.style.top)<parseFloat(mainImageTileHeroBody1.style.top)-mainImageTileStepY/2) { //body0 is above body
+					mainImageTileHeroBody2.style.top = (parseFloat(mainImageTileHeroBody2.style.top)+mainImageTileStepY*1)+"px";
 				}
-				else if (parseInt(mainImageTileHeroBody2.style.top)>parseInt(mainImageTileHeroBody1.style.top)) {
-					mainImageTileHeroBody2.style.top = (parseInt(mainImageTileHeroBody2.style.top)-mainImageTileStepY*1)+"px";
+				else if (parseFloat(mainImageTileHeroBody2.style.top)>parseFloat(mainImageTileHeroBody1.style.top)+mainImageTileStepY/2) {
+					mainImageTileHeroBody2.style.top = (parseFloat(mainImageTileHeroBody2.style.top)-mainImageTileStepY*1)+"px";
 				}
 			}			
 		}
@@ -22616,7 +22567,11 @@ alert("iXPos: "+iXPos);
 			bIsHeroFacingLeftOrRight=false;
 		}
 */		
-		const iDeltaXOffset=-8;//-10; //added by Mike, 20260727
+		
+		//edited by Mike, 20260818
+		//alert(iDeltaX);
+
+		const iDeltaXOffset=0;//iImageFrameWidthLarge/4;//-8;//-10; //added by Mike, 20260727
 
 		if (iDeltaX+iDeltaXOffset<0-iImageFrameWidthLarge/8) {
 			bIsHeroFacingLeft=true;
