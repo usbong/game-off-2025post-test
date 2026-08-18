@@ -476,7 +476,7 @@ In the end, I'm taking too long to get this to work.
 
 I can work on other useful elements for my DIY engine and set this part aside for later.
 
-38) 20260817; https://masarapmabuhay.itch.io/game-off-2025-post-test25
+38) 20260817 and 20260818; https://masarapmabuhay.itch.io/game-off-2025-post-test25
 
 **Key Lesson Learned:** 
 
@@ -496,6 +496,16 @@ Finally, I'm not using the `isTileInsideViewport(...)` function at all at the mo
 **Unlocked Possibilities:**
 
 This side-scrolling engine places the hero at the center, thereby allowing for a much larger stage than only double the viewport's `width` and `height`. Still, the prior version is still useful for when the stage need not be too big and the developer would prefer that the hero could move away from the center of the viewport much more than the updated engine.
+
+39) 20260817 and 20260818; https://masarapmabuhay.itch.io/game-off-2025-post-test25
+
+**Key Lesson Learned:** 
+
+I've made the coins move automatically toward the hero when the hero is nearby. I've also updated the hero's breath animation, such that it only appears when the hero is moving directly toward the left or right, and set both its `x` and `y` to `-999999` otherwise. This number is to be kept in mind especially when creating the size of the stage, so that the hero doesn't inadvertently walk toward that point. Previously, I was setting `visibility` to `hidden`, but I learned that this creates strange behavior when the object is knowingly or unknowingly accessed when its `visibility` is currently `hidden`. As for the hero's bouncing extra bodies, I've put my notes in the `Additional Bug Fixes` section.
+
+**Unlocked Possibilities:**
+
+I've further improved the side-scrolling engine, so that the hero's extra bodies don't bounce up or down or shake left and right. Items like the coins now automatically move toward the hero to make them easier to pick up, reminiscent of the "Lego Batman 2: DC Super Heroes" for the PS3, a game that I played with my nephew, but never got to finish after we reached the maze in the park.
 
 # Additional Bug Fixes
 
@@ -541,6 +551,9 @@ Incidentally, I found that I was using `var hasInitMapLocation` twice, with one 
 
 8) 20260808;<br/>
 +fixed: the z-index of effects like the fireball explosion getting put behind the coins by not including actors with type `EFFECT_ARRAY_ACTOR_ROLE_TYPE` in the list of actors whose z-index values are to be interchanged. I also note here that as the number of actors increases, certain objects like those for showing the hero's image and status bars could get displayed incorrectly;
+
+9) 20260818;<br/>
++fixed: extra bodies shaking when the hero's main body moves directly to the left, right, up and down by setting all `parseInt(...)` functions to `parseFloat(...)` and using `mainImageTileStepX` and `mainImageTileStepY` as the offsets in order to eliminate any event that the extra bodies would be bounced up and down or moved left and right repeatedly due to the `if-else` conditions, which would always push the hero over the allotted limit before it's again pushed the other way.
 
 ## Select Software Development Productivity Tools
 
