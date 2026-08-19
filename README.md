@@ -476,7 +476,7 @@ In the end, I'm taking too long to get this to work.
 
 I can work on other useful elements for my DIY engine and set this part aside for later.
 
-38) 20260817 and 20260818; https://masarapmabuhay.itch.io/game-off-2025-post-test25
+38) 20260817-20260819; https://masarapmabuhay.itch.io/game-off-2025-post-test25
 
 **Key Lesson Learned:** 
 
@@ -497,7 +497,7 @@ Finally, I'm not using the `isTileInsideViewport(...)` function at all at the mo
 
 This side-scrolling engine places the hero at the center, thereby allowing for a much larger stage than only double the viewport's `width` and `height`. Still, the prior version is still useful for when the stage need not be too big and the developer would prefer that the hero could move away from the center of the viewport much more than the updated engine.
 
-39) 20260817 and 20260818; https://masarapmabuhay.itch.io/game-off-2025-post-test25
+39) 20260817-20260819; https://masarapmabuhay.itch.io/game-off-2025-post-test25
 
 **Key Lesson Learned:** 
 
@@ -506,6 +506,18 @@ I've made the coins move automatically toward the hero when the hero is nearby. 
 **Unlocked Possibilities:**
 
 I've further improved the side-scrolling engine, so that the hero's extra bodies don't bounce up or down or shake left and right. Items like the coins now automatically move toward the hero to make them easier to pick up, reminiscent of the "Lego Batman 2: DC Super Heroes" for the PS3, a game that I played with my nephew, but never got to finish after we reached the maze in the park.
+
+40) 20260817-20260819; https://masarapmabuhay.itch.io/game-off-2025-post-test25
+
+**Key Lesson Learned:** 
+
+In this version, the hero now stops more quickly when the target `x` and `y` positions that the user clicked are near his starting point, and then walks further as the target is set farther from where the hero is located.
+
+I've also stopped the extra bodies from moving toward the hero's exact position if the target destination is where the hero is already at or very near. This is to prevent excess movements when the hero himself is clicked.
+
+**Unlocked Possibilities:**
+
+As I was updating the code, I found that I could set the hero to face diagonally even though he appears to be moving more directly toward the left, right, up or down. However, I've kept the code to make the hero still face directly left or right when he should.
 
 # Additional Bug Fixes
 
