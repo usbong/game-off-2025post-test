@@ -519,6 +519,18 @@ I've also stopped the extra bodies from moving toward the hero's exact position 
 
 As I was updating the code, I found that I could set the hero to face diagonally even though he appears to be moving more directly toward the left, right, up or down. However, I've kept the code to make the hero still face directly left or right when he should.
 
+41) 20260820; https://masarapmabuhay.itch.io/game-off-2025-post-test26
+
+**Key Lesson Learned:** 
+
+I've set the coins to not automatically approach the hero anymore. I'll need to create an `array` for each of them just to set whether the hero himself has approached them or not; if so, they'll have to go to the hero's position all the way through in order to prevent any coins from "hanging" or attaching themselves to the hero without disappearing.
+
+I've again updated the `if-else` conditions to determine whether the hero was clicked, meaning that the extra bodies shouldn't need to move; I found that this part of the code had been conflicting with the collision detection to determine whether the hero would attack a monster or not. Right now, I've set the hit boxes to be more lenient in that the monsters could be attacked even though there might still be a noticeable amount of space between them and the hero.
+
+**Unlocked Possibilities:**
+
+I've been polishing the engine gameplay-wise, so that there's no movement or some other action that would get halted whatsoever; however, I admit that there are still plenty of other things that I'll need to add. Examples of which are the walls and the doors. 
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
