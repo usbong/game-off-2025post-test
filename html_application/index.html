@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260819; from 20260818
+' @date updated: 20260820; from 20260819
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -2040,6 +2040,9 @@ var mainImageTilePosY=0;
 var mainImageTileStepX=2;//0; //2;
 var mainImageTileStepY=2;//0; //2;
 
+//added by Mike, 20260820
+const mainImageTilePosXOffset=iImageFrameWidthLarge/2;
+
 //added by Mike, 20260805
 var mainImageTileStepDelay=0;	
 const mainImageTileStepDelayMax=1;
@@ -2502,8 +2505,8 @@ var bIsHeroFacingUp=false;
 		//removed by Mike, 20251102
 		var iFrameY=0;
 
-		mainImageTileProjectilePosX=parseInt(mainImageTile.style.left);
-		mainImageTileProjectilePosY=parseInt(mainImageTile.style.top);
+		mainImageTileProjectilePosX=parseFloat(mainImageTile.style.left);
+		mainImageTileProjectilePosY=parseFloat(mainImageTile.style.top);
 		
 		newMainImageTileProjectilePosX=parseFloat(mainImageTileProjectilePosX);
 		newMainImageTileProjectilePosY=parseFloat(mainImageTileProjectilePosY);
@@ -4081,6 +4084,7 @@ var bIsHeroFacingUp=false;
 		myCanvasTint.style.top = (iVerticalOffsetInnerScreen+0)+"px";
 		myCanvasTint.style.left = iHorizontalOffset+"px";
 
+		//edited by Mike, 20260820
 		mainImageTilePosX=iViewportMaxWidth/2-iImageFrameWidth/2;
 		mainImageTilePosY=iViewportMaxHeight/2-iImageFrameHeight;
 
@@ -4514,7 +4518,7 @@ var bIsHeroFacingUp=false;
 		//mainImageTilePosY=iViewportMaxHeight/2-iImageFrameHeight;
 		mainImageTilePosY=iViewportMaxHeight*0.1-iImageFrameHeight/2;
 */
-
+		//edited by Mike, 20260820
 		mainImageTilePosX=iViewportMaxWidth/2-iImageFrameWidth/2;
 		mainImageTilePosY=iViewportMaxHeight/2-iImageFrameHeight;
 
@@ -12309,8 +12313,11 @@ if (fDifferenceInXPos!=0) {
 				var offsetX=iImageFrameWidth/2;
 				var offsetY=iImageFrameHeight;
 */
-				//edited by Mike, 20260807; from 20260619
+				//edited by Mike, 20260820; from 20260807
+				//keep the space
 				if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75)) {
+				
+				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX+mainImageTilePosXOffset,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75)) {
 			
 				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX+offsetX,mainImageTilePosY+offsetY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75)) {
 			
@@ -12581,7 +12588,7 @@ if (fDifferenceInXPos!=0) {
 			//edited by Mike, 20260817
 			//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, parseInt(coinImage.style.left),parseInt(coinImage.style.top)+coinImageOffsetY, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthDefault*0.75, iImageFrameHeightDefault*0.75)) {
 
-			if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, parseFloat(coinImage.style.left),parseFloat(coinImage.style.top)+coinImageOffsetY, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthDefault*0.75, iImageFrameHeightDefault*0.75)) {
+			if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX+mainImageTilePosXOffset,mainImageTilePosY, parseFloat(coinImage.style.left),parseFloat(coinImage.style.top)+coinImageOffsetY, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthDefault*0.75, iImageFrameHeightDefault*0.75)) {
 
 				//alert("HERE!!!");
 /*
@@ -12606,22 +12613,36 @@ if (fDifferenceInXPos!=0) {
 			}
 			//added by Mike, 20260818
 			else {
+/*			
+			alert("mainImageTilePosX: "+mainImageTilePosX);
+			alert("parseFloat(mainImageTileHeroBody.style.left): "+parseFloat(mainImageTileHeroBody.style.left));
+*/
+/*
+			if (newMainImageTileProjectilePosX!=0) {
+				alert("mainImageTileProjectileStepDestinationX: "+mainImageTileProjectileStepDestinationX);
+			}
+			
+			//edited by Mike, 20260820; update to automatically go to hero after hero has approach it; otherwise, some coins don't disappear; will need to use an array;
+*/			
+/*
 				//coin automatically approaches the hero
-				if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, parseFloat(coinImage.style.left),parseFloat(coinImage.style.top)+coinImageOffsetY, iImageFrameWidthLarge*1, iImageFrameHeightLarge*1, iImageFrameWidthDefault*1, iImageFrameHeightDefault*1)) {
-					if (parseFloat(coinImage.style.left)<parseFloat(mainImageTileHeroBody.style.left)-mainImageTileStepX) { //coin is to the left of body
+				if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX+mainImageTilePosXOffset,mainImageTilePosY, parseFloat(coinImage.style.left),parseFloat(coinImage.style.top)+coinImageOffsetY, iImageFrameWidthLarge*1, iImageFrameHeightLarge*1, iImageFrameWidthDefault*2, iImageFrameHeightDefault*2)) {
+				
+					if (parseFloat(coinImage.style.left)<(mainImageTilePosX+mainImageTilePosXOffset)-mainImageTileStepX*20) { //coin is to the left of body
 						coinImage.style.left = (parseFloat(coinImage.style.left)+mainImageTileStepX*1)+"px";
 					}
-					else if (parseFloat(coinImage.style.left)>parseFloat(mainImageTileHeroBody.style.left)+mainImageTileStepX) { 
+					else if (parseFloat(coinImage.style.left)>(mainImageTilePosX+mainImageTilePosXOffset)+mainImageTileStepX*20) { 
 						coinImage.style.left = (parseFloat(coinImage.style.left)-mainImageTileStepX*1)+"px";
 					}
 
-					if (parseFloat(coinImage.style.top)<parseFloat(mainImageTileHeroBody.style.top)-mainImageTileStepY) { //body0 is above body
+					if (parseFloat(coinImage.style.top)<(mainImageTilePosY)-mainImageTileStepY*20) { //body0 is above body
 						coinImage.style.top = (parseFloat(coinImage.style.top)+mainImageTileStepY*1)+"px";
 					}
-					else if (parseFloat(coinImage.style.top)>parseFloat(coinImage.style.top)+mainImageTileStepY) {
-						coinImage.style.top = (parseFloat(mainImageTileHeroBody.style.top)-mainImageTileStepY*1)+"px";
+					else if (parseFloat(coinImage.style.top)>(mainImageTilePosY)+mainImageTileStepY*20) {
+						coinImage.style.top = (parseFloat(coinImage.style.top)-mainImageTileStepY*1)+"px";
 					}
 				}
+*/				
 			}
 		}
 	}
@@ -21271,116 +21292,9 @@ iCurrTextCharacterCountMax=sText.length;
 */		
 		mainImageTileHeroBody.style.left=iViewportMaxWidth/2;
 		mainImageTileHeroBody.style.top=iViewportMaxHeight/2;
-		
-/*
-		if (mainImageTileShadowStepDelay<mainImageTileShadowStepDelayMax) {
-			if (mainImageTileShadowStepDelay>mainImageTileShadowStepDelayMax*0.25) {
-				if (mainImageTileShadowStepDelay<mainImageTileShadowStepDelayMax*0.5) {
-					if (bIsHeroWalking) {
-						if (parseInt(mainImageTileHeroBody0.style.left)<parseInt(mainImageTileHeroBody.style.left)) { //body0 is to the left body
-							mainImageTileHeroBody0.style.left = (parseInt(mainImageTileHeroBody0.style.left)+mainImageTileStepX*1.5)+"px";
-						}
-						else if (parseInt(mainImageTileHeroBody0.style.left)>parseInt(mainImageTileHeroBody.style.left)) { 
-							mainImageTileHeroBody0.style.left = (parseInt(mainImageTileHeroBody0.style.left)-mainImageTileStepX*1.5)+"px";
-						}
-					}
-					
-					//mainImageTileHeroBody0.style.left = mainImageTileProjectilePosX+"px";//mainImageTileHeroBody.style.left;
-				}
-				else if (mainImageTileShadowStepDelay<mainImageTileShadowStepDelayMax*0.75) {
-					//mainImageTileHeroBody1.style.left = mainImageTileHeroBody0.style.left;
-				}
-				else {
-					//mainImageTileHeroBody2.style.left = mainImageTileHeroBody1.style.left;
-				}
-			}
-			
-			mainImageTileShadowStepDelay++;
-		}
-		else {
-			mainImageTileShadowStepDelay=0;
-		}
-*/
 
-/*		//OK
 		if (bIsHeroWalking) {
-			//body0
-			if (parseInt(mainImageTileHeroBody0.style.left)<parseInt(mainImageTileHeroBody.style.left)-iImageFrameWidthLarge) { //body0 is to the left body
-				mainImageTileHeroBody0.style.left = (parseInt(mainImageTileHeroBody0.style.left)+mainImageTileStepX*1)+"px";
-			}
-			else if (parseInt(mainImageTileHeroBody0.style.left)>parseInt(mainImageTileHeroBody.style.left)+iImageFrameWidthLarge) { 
-				mainImageTileHeroBody0.style.left = (parseInt(mainImageTileHeroBody0.style.left)-mainImageTileStepX*1)+"px";
-			}
-			
-			if (bIsHeroFacingLeftOrRight) {
-			}
-			//if directly facing up or down
-			else {
-				if (parseInt(mainImageTileHeroBody0.style.left)<parseInt(mainImageTileHeroBody.style.left)) {
-					mainImageTileHeroBody0.style.left = (parseInt(mainImageTileHeroBody0.style.left)+mainImageTileStepX*1)+"px";
-				}
-				else if (parseInt(mainImageTileHeroBody0.style.left)>parseInt(mainImageTileHeroBody.style.left)) { 
-					mainImageTileHeroBody0.style.left = (parseInt(mainImageTileHeroBody0.style.left)-mainImageTileStepX*1)+"px";
-				}
-			}		
-			
-			//body1
-			if (parseInt(mainImageTileHeroBody1.style.left)<parseInt(mainImageTileHeroBody0.style.left)-iImageFrameWidthLarge) { //body1 is to the left body
-				mainImageTileHeroBody1.style.left = (parseInt(mainImageTileHeroBody1.style.left)+mainImageTileStepX*1)+"px";
-			}
-			else if (parseInt(mainImageTileHeroBody1.style.left)>parseInt(mainImageTileHeroBody0.style.left)+iImageFrameWidthLarge) { 
-				mainImageTileHeroBody1.style.left = (parseInt(mainImageTileHeroBody1.style.left)-mainImageTileStepX*1)+"px";
-			}
-			
-			if (bIsHeroFacingLeftOrRight) {
-			}
-			//if directly facing up or down
-			else {
-				if (parseInt(mainImageTileHeroBody1.style.left)<parseInt(mainImageTileHeroBody0.style.left)) {
-					mainImageTileHeroBody1.style.left = (parseInt(mainImageTileHeroBody1.style.left)+mainImageTileStepX*1)+"px";
-				}
-				else if (parseInt(mainImageTileHeroBody1.style.left)>parseInt(mainImageTileHeroBody0.style.left)) { 
-					mainImageTileHeroBody1.style.left = (parseInt(mainImageTileHeroBody1.style.left)-mainImageTileStepX*1)+"px";
-				}
-			}
 
-			//body2
-			if (parseInt(mainImageTileHeroBody2.style.left)<parseInt(mainImageTileHeroBody1.style.left)-iImageFrameWidthLarge) { //body2 is to the left body
-				mainImageTileHeroBody2.style.left = (parseInt(mainImageTileHeroBody2.style.left)+mainImageTileStepX*1)+"px";
-			}
-			else if (parseInt(mainImageTileHeroBody2.style.left)>parseInt(mainImageTileHeroBody1.style.left)+iImageFrameWidthLarge) { 
-				mainImageTileHeroBody2.style.left = (parseInt(mainImageTileHeroBody2.style.left)-mainImageTileStepX*1)+"px";
-			}
-			
-			if (bIsHeroFacingLeftOrRight) {
-			}
-			//if directly facing up or down
-			else {
-				if (parseInt(mainImageTileHeroBody2.style.left)<parseInt(mainImageTileHeroBody1.style.left)) {
-					mainImageTileHeroBody2.style.left = (parseInt(mainImageTileHeroBody2.style.left)+mainImageTileStepX*1)+"px";
-				}
-				else if (parseInt(mainImageTileHeroBody2.style.left)>parseInt(mainImageTileHeroBody1.style.left)) { 
-					mainImageTileHeroBody2.style.left = (parseInt(mainImageTileHeroBody2.style.left)-mainImageTileStepX*1)+"px";
-				}
-			}			
-		}
-*/
-		if (bIsHeroWalking) {
-/*
-			alert("newMainImageTileProjectilePosX: "+newMainImageTileProjectilePosX);
-			alert("mainImageTileProjectileStepDestinationX: "+mainImageTileProjectileStepDestinationX)
-*/
-/*
-			alert("mainImageTileProjectilePosX: "+mainImageTileProjectilePosX);
-			alert("mainImageTileProjectileStepDestinationX: "+mainImageTileProjectileStepDestinationX);
-			alert(parseFloat(mainImageTileHeroBody0.style.left));
-*/
-/*			
-			if ((mainImageTileProjectilePosX+iImageFrameWidthLarge/2>parseFloat(mainImageTileHeroBody0.style.left)) && (mainImageTileProjectilePosX+iImageFrameWidthLarge/2<parseFloat(mainImageTileHeroBody0.style.left)+iImageFrameWidthLarge)) {
-				//alert("DITO!!");
-			}
-			else {
-*/			
 				//body0
 				if (parseFloat(mainImageTileHeroBody0.style.left)<parseFloat(mainImageTileHeroBody.style.left)-iImageFrameWidthLarge/2) { //body0 is to the left body
 					mainImageTileHeroBody0.style.left = (parseFloat(mainImageTileHeroBody0.style.left)+mainImageTileStepX*1)+"px";
@@ -21439,135 +21353,18 @@ iCurrTextCharacterCountMax=sText.length;
 					else if (parseFloat(mainImageTileHeroBody2.style.left)>parseFloat(mainImageTileHeroBody1.style.left)+mainImageTileStepX/2) { 
 						mainImageTileHeroBody2.style.left = (parseFloat(mainImageTileHeroBody2.style.left)-mainImageTileStepX*1)+"px";
 					}
-				}			
+				}		
+				
 /*
 			}
 */			
 		}
 
-	
-		//mainImageTilePosX; mainImageTile.style.left; actual position and what is displayed; 
-		//appears OK visually; but fails when performing collision detection;
-		
-		//reverified; mainImageTilePosX is used for many of the computations including the collision detection;
-		//while mainImageTileHeroBody's position remains at the center, mainImageTilePosX and mainImageTilePosY move farther away causing the miscalculations;
-		//the difference between the two in terms of x and y must be put in a variable that would be added to mainImageTilePosX and mainImageTilePosY as an offet during computation;
-/*		
-		if (mainImageTilePosX+iImageFrameWidthLarge/2>=iHorizontalOffset+iViewportMaxWidth/2) {
-			mainImageTileHeroBody.style.left = (iHorizontalOffset+iViewportMaxWidth/2-iImageFrameWidthLarge/2)+"px";
-		}
-		else {
-			mainImageTileHeroBody.style.left = mainImageTilePosX+"px";
-		}
-*/
-/*		
-		mainImageTileHeroBody.style.left = (mainImageTilePosX-fHeroBodySoulDistanceX)+"px";
-*/
-		
 		//edited by Mike, 20260807; from 20260803
 		mainImageTile.style.top = (iVerticalOffsetInnerScreen+mainImageTilePosY)+"px";
 		mainImageTileHeroBody.style.top = mainImageTilePosY+"px";
 
-/*
-		if (mainImageTileShadowStepDelay<mainImageTileShadowStepDelayMax) {
-			if (mainImageTileShadowStepDelay>mainImageTileShadowStepDelayMax*0.25) {
-				if (mainImageTileShadowStepDelay<mainImageTileShadowStepDelayMax*0.5) {
-					if (bIsHeroWalking) {
-						if (parseInt(mainImageTileHeroBody0.style.top)<parseInt(mainImageTileHeroBody.style.top)) { //body0 is above body
-							mainImageTileHeroBody0.style.top = (parseInt(mainImageTileHeroBody0.style.top)+mainImageTileStepY*1.5)+"px";
-						}
-						else if (parseInt(mainImageTileHeroBody0.style.top)>parseInt(mainImageTileHeroBody.style.top)) {
-							mainImageTileHeroBody0.style.top = (parseInt(mainImageTileHeroBody0.style.top)-mainImageTileStepY*1.5)+"px";
-						}
-					}
-					
-					//mainImageTileHeroBody0.style.top = mainImageTileProjectilePosY+"px";//mainImageTileHeroBody.style.top;
-				}
-				else if (mainImageTileShadowStepDelay<mainImageTileShadowStepDelayMax*0.75) {
-					//mainImageTileHeroBody1.style.top = mainImageTileHeroBody0.style.top;
-				}
-				else {
-					//mainImageTileHeroBody2.style.top = mainImageTileHeroBody1.style.top;
-				}
-			}
-
-			mainImageTileShadowStepDelay++;
-		}
-		else {
-			mainImageTileShadowStepDelay=0;
-		}
-*/
-
-/*		//OK
 		if (bIsHeroWalking) {
-			//body0
-			if (parseInt(mainImageTileHeroBody0.style.top)<parseInt(mainImageTileHeroBody.style.top)-iImageFrameHeightLarge/2) { //body0 is above body
-				mainImageTileHeroBody0.style.top = (parseInt(mainImageTileHeroBody0.style.top)+mainImageTileStepY*1)+"px";
-			}
-			else if (parseInt(mainImageTileHeroBody0.style.top)>parseInt(mainImageTileHeroBody.style.top)+iImageFrameHeightLarge/2) {
-				mainImageTileHeroBody0.style.top = (parseInt(mainImageTileHeroBody0.style.top)-mainImageTileStepY*1)+"px";
-			}
-
-			if (bIsHeroFacingUpOrDown) {
-			}
-			//if directly facing left or right
-			else {
-				if (parseInt(mainImageTileHeroBody0.style.top)<parseInt(mainImageTileHeroBody.style.top)) { //body0 is above body
-					mainImageTileHeroBody0.style.top = (parseInt(mainImageTileHeroBody0.style.top)+mainImageTileStepY*1)+"px";
-				}
-				else if (parseInt(mainImageTileHeroBody0.style.top)>parseInt(mainImageTileHeroBody.style.top)) {
-					mainImageTileHeroBody0.style.top = (parseInt(mainImageTileHeroBody0.style.top)-mainImageTileStepY*1)+"px";
-				}
-			}		
-			
-			//body1
-			if (parseInt(mainImageTileHeroBody1.style.top)<parseInt(mainImageTileHeroBody0.style.top)-iImageFrameHeightLarge/2) { //body0 is above body
-				mainImageTileHeroBody1.style.top = (parseInt(mainImageTileHeroBody1.style.top)+mainImageTileStepY*1)+"px";
-			}
-			else if (parseInt(mainImageTileHeroBody1.style.top)>parseInt(mainImageTileHeroBody0.style.top)+iImageFrameHeightLarge/2) {
-				mainImageTileHeroBody1.style.top = (parseInt(mainImageTileHeroBody1.style.top)-mainImageTileStepY*1)+"px";
-			}
-
-			if (bIsHeroFacingUpOrDown) {
-			}
-			//if directly facing left or right
-			else {
-				if (parseInt(mainImageTileHeroBody1.style.top)<parseInt(mainImageTileHeroBody0.style.top)) { //body0 is above body
-					mainImageTileHeroBody1.style.top = (parseInt(mainImageTileHeroBody1.style.top)+mainImageTileStepY*1)+"px";
-				}
-				else if (parseInt(mainImageTileHeroBody1.style.top)>parseInt(mainImageTileHeroBody0.style.top)) {
-					mainImageTileHeroBody1.style.top = (parseInt(mainImageTileHeroBody1.style.top)-mainImageTileStepY*1)+"px";
-				}
-			}
-			
-			//body2
-			if (parseInt(mainImageTileHeroBody2.style.top)<parseInt(mainImageTileHeroBody1.style.top)-iImageFrameHeightLarge/2) { //body2 is above body
-				mainImageTileHeroBody2.style.top = (parseInt(mainImageTileHeroBody2.style.top)+mainImageTileStepY*1)+"px";
-			}
-			else if (parseInt(mainImageTileHeroBody2.style.top)>parseInt(mainImageTileHeroBody1.style.top)+iImageFrameHeightLarge/2) {
-				mainImageTileHeroBody2.style.top = (parseInt(mainImageTileHeroBody2.style.top)-mainImageTileStepY*1)+"px";
-			}
-
-			if (bIsHeroFacingUpOrDown) {
-			}
-			//if directly facing left or right
-			else {
-				if (parseInt(mainImageTileHeroBody2.style.top)<parseInt(mainImageTileHeroBody1.style.top)) { //body0 is above body
-					mainImageTileHeroBody2.style.top = (parseInt(mainImageTileHeroBody2.style.top)+mainImageTileStepY*1)+"px";
-				}
-				else if (parseInt(mainImageTileHeroBody2.style.top)>parseInt(mainImageTileHeroBody1.style.top)) {
-					mainImageTileHeroBody2.style.top = (parseInt(mainImageTileHeroBody2.style.top)-mainImageTileStepY*1)+"px";
-				}
-			}			
-		}
-*/
-		if (bIsHeroWalking) {
-/*		
-			if ((mainImageTileProjectilePosX+iImageFrameWidthLarge/2>parseFloat(mainImageTileHeroBody0.style.left)) && (mainImageTileProjectilePosX+iImageFrameWidthLarge/2<parseFloat(mainImageTileHeroBody0.style.left)+iImageFrameWidthLarge)) {
-				//alert("DITO!!");
-			}
-			else {
-*/		
 				//body0
 				if (parseFloat(mainImageTileHeroBody0.style.top)<parseFloat(mainImageTileHeroBody.style.top)-iImageFrameHeightLarge/2/2) { //body0 is above body
 					mainImageTileHeroBody0.style.top = (parseFloat(mainImageTileHeroBody0.style.top)+mainImageTileStepY*1)+"px";
@@ -21626,35 +21423,9 @@ iCurrTextCharacterCountMax=sText.length;
 					else if (parseFloat(mainImageTileHeroBody2.style.top)>parseFloat(mainImageTileHeroBody1.style.top)+mainImageTileStepY/2) {
 						mainImageTileHeroBody2.style.top = (parseFloat(mainImageTileHeroBody2.style.top)-mainImageTileStepY*1)+"px";
 					}
-				}		
-/*
-			}
-*/
+				}						
 		}
-		
-
-/*		
-		if (mainImageTilePosY+iImageFrameHeightLarge>=iVerticalOffsetInnerScreen+iViewportMaxHeight/2) {		
-			mainImageTileHeroBody.style.top = (iVerticalOffsetInnerScreen+iViewportMaxHeight/2-iImageFrameHeightLarge)+"px";
-		}
-		else {
-			mainImageTileHeroBody.style.top = mainImageTilePosY+"px";
-		}
-*/
-/*			
-		mainImageTileHeroBody.style.top = (mainImageTilePosY-fHeroBodySoulDistanceY)+"px";
-*/
-
-/*
-    mainImageMonster.style.left = (iHorizontalOffset+mainImageMonsterPosX)+"px";
-    mainImageMonster.style.top = (iVerticalOffsetInnerScreen+mainImageMonsterPosY)+"px";
-*/
-
-/*
-    bossMonsterImageTile.style.left = (iHorizontalOffset+bossMonsterImageTilePosX)+"px";
-    bossMonsterImageTile.style.top = (iVerticalOffsetInnerScreen+bossMonsterImageTilePosY)+"px";
-*/
-
+	
 //-----------------------
 
 
@@ -22584,14 +22355,15 @@ alert(parseFloat(iXPos));
 /*
 		}
 */			
+
+/*		
 			//edited by Mike, 20260819
 			//note iXPos appears to need an offset;
 			const iXPosOffset=-iImageFrameWidthLarge/6;
-/*			
-			alert("iXPos: "+iXPos);
-			alert("mainImageTilePosX:"+mainImageTilePosX);
-*/			
-		
+			
+////			alert("iXPos: "+iXPos);
+////			alert("mainImageTilePosX:"+mainImageTilePosX);
+			
 			if ((iXPos+iXPosOffset>parseFloat(mainImageTilePosX)) && (iXPos+iXPosOffset<parseFloat(mainImageTilePosX)+iImageFrameWidthLarge)) {
 			
 				if ((iYPos>parseFloat(mainImageTilePosY)) && (iYPos<parseFloat(mainImageTilePosY)+iImageFrameHeightLarge)) {
@@ -22601,6 +22373,23 @@ alert(parseFloat(iXPos));
 					return;
 				}
 			}
+*/
+
+/*
+			//edited by Mike, 20260820
+			if ((iXPos>parseFloat(mainImageTilePosX)
+			+mainImageTilePosXOffset/2) && (iXPos<parseFloat(mainImageTilePosX)+iImageFrameWidthLarge)) {
+			
+				if ((iYPos>parseFloat(mainImageTilePosY)) && (iYPos<parseFloat(mainImageTilePosY)+iImageFrameHeightLarge)) {
+					
+					if (!bHasHeroHitMonster) {
+						//alert("DITO!!");
+						resetProjectile();
+						//return;
+					}
+				}
+			}
+*/
 			
 /*
 alert("iYPos: "+iYPos);
@@ -22719,55 +22508,48 @@ alert("iXPos: "+iXPos);
 	}
 	
 	
+			
 		bHasFired=true;
 		//bIsHeroWalking=true;
 
-
+		//edited by Mike, 20260820
+		if ((iXPos>parseFloat(mainImageTilePosX)
+		+mainImageTilePosXOffset/2) && (iXPos<parseFloat(mainImageTilePosX)+iImageFrameWidthLarge)) {
 		
+			if ((iYPos>parseFloat(mainImageTilePosY)) && (iYPos<parseFloat(mainImageTilePosY)+iImageFrameHeightLarge)) {
+				
+				if (!bHasHeroHitMonster) {
+					//alert("DITO!!");
+					//resetProjectile();
+/*					
+					bIsHeroFacingLeftOrRight=false;
+					bIsHeroFacingLeft=false;
+					bIsHeroFacingUpOrDown=false;
+					bIsHeroFacingUp=false;
+*/					
+
+					mainImageTileProjectilePosX=parseFloat(mainImageTile.style.left);
+					mainImageTileProjectilePosY=parseFloat(mainImageTile.style.top);
+					
+					newMainImageTileProjectilePosX=parseFloat(mainImageTileProjectilePosX);
+					newMainImageTileProjectilePosY=parseFloat(mainImageTileProjectilePosY);
+
+					bIsHeroWalking=false;
+					bHasReachedDestinationY=false;
+					bHasReachedDestinationX=false;
+					
+					bHasFired=true;	//allow hero to hit monsters at melee-range
+					
+					return;
+				}
+			}
+		}
+			
+			
 		//added by Mike, 20251102
 		bIsHeroFacingLeftOrRight=true;
 		
 
-		//edited by Mike, 20251113
-		//causes the error; facing to right
-		//if (iDeltaX<0-iImageFrameWidthLarge/2) {
-		
-		//edited by Mike, 20260727
-/*
-		if (iDeltaX<0-iImageFrameWidthLarge/4) {
-			bIsHeroFacingLeft=true;
-		}
-		//else if (iDeltaX>0+iImageFrameWidthLarge/2) {
-		else if (iDeltaX>0+iImageFrameWidthLarge/4) {
-			bIsHeroFacingLeft=false;
-			
-			//alert("LEFT iDeltaX: "+iDeltaX);
-		}
-		else {
-			bIsHeroFacingLeftOrRight=false;
-		}
-*/		
-		
-		//edited by Mike, 20260819; from 20260818
-		//alert(iDeltaX);
-
-/*
-		const iDeltaXOffset=0;//iImageFrameWidthLarge/4;//-8;//-10; //added by Mike, 20260727
-
-		if (iDeltaX+iDeltaXOffset<0-iImageFrameWidthLarge/8) {
-			bIsHeroFacingLeft=true;
-
-			//alert("LEFT iDeltaX: "+iDeltaX);
-		}
-		else if (iDeltaX>0+iImageFrameWidthLarge/8) {
-			bIsHeroFacingLeft=false;
-			
-			//alert("LEFT iDeltaX: "+iDeltaX);
-		}
-		else {
-			bIsHeroFacingLeftOrRight=false;
-		}
-*/
 		const iDeltaXOffset=0;//iImageFrameWidthLarge/4;//-8;//-10; //added by Mike, 20260727
 
 		//note this makes the hero face directly left or right more or not; diagonal; isometric
@@ -22788,28 +22570,6 @@ alert("iXPos: "+iXPos);
 		}
 		
 		
-		
-		//edited by Mike, 20251120; from 20251102
-/*
-		bIsHeroFacingUpOrDown=false;
-
-		//if (iDeltaY<0-iImageFrameHeightLarge/2) {
-		if (iDeltaY<0-iImageFrameHeightLarge) {
-		//if (iDeltaY<0) {
-			bIsHeroFacingUp=false;
-			bIsHeroFacingUpOrDown=true;
-		}
-		//else if (iDeltaY>0+iImageFrameHeightLarge/2) {
-		else if (iDeltaY>0+iImageFrameHeightLarge) {
-		//else if (iDeltaY>0) {
-			bIsHeroFacingUp=true;
-			bIsHeroFacingUpOrDown=true;
-		}
-		else {
-			bIsHeroFacingUpOrDown=false;
-		}
-*/
-
 		//edited by Mike, 20260819
 		//if (Math.abs(iDeltaY)>iViewportMaxHeight*0.75) {
 		if (Math.abs(iDeltaY)>iViewportMaxHeight*0.75) {
@@ -22820,23 +22580,7 @@ alert("iXPos: "+iXPos);
 		}
 		else {
 			bIsHeroFacingUpOrDown=true;
-			
-			//edited by Mike, 20260819; from 20251119
-/*
-			if (iDeltaY<0-iImageFrameHeightLarge/2) {
-			//if (iDeltaY<0-iImageFrameHeightLarge/4) {
-			//if (iDeltaY<mainImageTilePosY-iImageFrameHeightLarge/2) {
-				bIsHeroFacingUp=false;
-			}
-			else if (iDeltaY>0+iImageFrameHeightLarge/2) {
-			//else if (iDeltaY>0+iImageFrameHeightLarge/4) {
-			//else if (iDeltaY>mainImageTilePosY+iImageFrameHeightLarge/2) {
-				bIsHeroFacingUp=true;
-			}
-			else {
-				bIsHeroFacingUpOrDown=false;
-			}
-*/
+
 			//if (iDeltaY<0-mainImageTileProjectileStepY) {
 			if (iDeltaY<0-iImageFrameHeightLarge/4) {
 			//if (iDeltaY<mainImageTilePosY-iImageFrameHeightLarge/2) {
@@ -22856,31 +22600,10 @@ alert("iXPos: "+iXPos);
 		
 		//edited by Mike, 20251121; from 20241105
 		setDustEffectPosition(mainImageTilePosX,mainImageTilePosY);
-		//setDustEffectPosition(parseInt(mainImageTile.style.left),parseInt(mainImageTile.style.top));
-		
-		//setDustEffectPosition(mainImageTileProjectilePosX,mainImageTileProjectilePosY);
-
-		
-		
-		
-		//added by Mike, 20251113
-		//var walkOnSnowEffectImage = document.getElementById("walkOnSnowEffectImageId");
-/*		
-		setWalkOnSnowEffectPosition(mainImageTilePosX,mainImageTilePosY,walkOnSnowEffectImage);
-		setWalkOnSnowEffectPosition(mainImageTilePosX-iImageFrameWidthDefault/2,mainImageTilePosY,walkOnSnowEffectImage2);
-*/
-
-		//setWalkOnSnowEffectPosition(mainImageTilePosX,mainImageTilePosY,0);
 		
 //added by Mike, 20241113
 setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameWidthDefault/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightDefault/2); //mainImageTilePosX,mainImageTilePosY);
 
-////heroAttackEffectImage.style.left = mainImageTile.style.left;
-////heroAttackEffectImage.style.top = mainImageTile.style.top;
-
-/*		
-    }
-*/
   }
   
 	function playSolvedTune() {
@@ -22989,6 +22712,7 @@ setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameW
 			//NEW GAME
 			iCurrBossMonsterLife=iCurrBossMonsterLifeMax;
 			
+			//edited by Mike, 20260820
 			mainImageTilePosX=iViewportMaxWidth/2-iImageFrameWidth/2;
 			mainImageTilePosY=iViewportMaxHeight/2-iImageFrameHeight;
 			
@@ -23960,6 +23684,23 @@ setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameW
 					}		
 			}
 		});
+
+/*		//buggy		
+		//added by Mike, 20260820
+		//reference: MDN Web Docs
+		document.body.addEventListener('wheel', (event) => {
+			if (event.deltaY > 0) {
+				alert('Scrolling Down ⬇️');
+			} else if (event.deltaY < 0) {
+				alert('Scrolling Up ⬆️');
+			}
+			
+			//event.preventDefault();
+			
+			return false;
+			
+		}, false);
+*/		
 	}
 
 
