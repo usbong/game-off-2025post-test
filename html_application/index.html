@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260820; from 20260819
+' @date updated: 20260821; from 20260820
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -1680,7 +1680,8 @@ var iBgTileImageAnimationDelayCount=0;
 const iBgTileImageAnimationDelayCountMax=10;//1;
 
 var iCurrBgTileImageCount=0;
-const iCurrBgTileImageCountMax=16;//+1; //+1 for display icon
+//const iCurrBgTileImageCountMax=60;//16;//+1; //+1 for display icon
+var iCurrBgTileImageCountMax=60;
 
 
 var iCurrParticleEffectCount=0;
@@ -2110,6 +2111,23 @@ var bIsHeroFacingUp=false;
 	const MONSTER_ARRAY_ACTOR_ROLE_TYPE=2;
 	const ITEM_ARRAY_ACTOR_ROLE_TYPE=3;
 	const EFFECT_ARRAY_ACTOR_ROLE_TYPE=4;
+
+/*	TODO: -update; this	
+	//added by Mike, 20260821
+	//column x row
+	const BG_TILE_BLANK_TYPE=03; //A0
+	const BG_TILE_BLANK_WALL_TUL=01; //top-up-left
+	const BG_TILE_BLANK_WALL_TUT=11; //top-up-top
+	const BG_TILE_BLANK_WALL_TUT=12; //top-up-top
+	const BG_TILE_BLANK_WALL_TUR=13; //top-up-right
+	const BG_TILE_BLANK_WALL_TDL=11; //top-down-left
+	const BG_TILE_BLANK_WALL_ML=02; //top-down-top
+	const BG_TILE_BLANK_WALL_ML=02; //top-down-right
+
+	const BG_TILE_BLANK_WALL_BL=01; //bottom-left
+	const BG_TILE_BLANK_WALL_BB=11; //bottom-bottom
+	const BG_TILE_BLANK_WALL_BR=12; //bottom-right
+*/
 	
 	//added by Mike, 20241111
 	var batMonsterImageTilePosX=0;
@@ -5224,6 +5242,7 @@ alert("iInputY: "+iInputY);
 		var bgTileImage = document.getElementById("bgTileImageId"+iCount);
 
 		bgTileImage.style.objectPosition = "-" + 0 + "px -" + 0 + "px";
+		
 
 		bgTileImage.style.visibility="visible";
 
@@ -9830,7 +9849,10 @@ alert("iInputY: "+iInputY);
 */
 		iBgTileImageAnimationCount=0;
 
-		bgTileImage.style.objectPosition = "-" + iImageBgTileImageAnimationWidth*iBgTileImageAnimationCount + "px -" + 0 + "px";
+		//edited by Mike, 20260821
+		//bgTileImage.style.objectPosition = "-" + iImageBgTileImageAnimationWidth*iBgTileImageAnimationCount + "px -" + 0 + "px";
+
+		bgTileImage.style.objectPosition = "-" + iImageBgTileImageAnimationWidth*iBgTileImageAnimationCount + "px -" + iImageBgTileImageAnimationHeight*2 + "px";
 	}
 
 	
@@ -15733,24 +15755,27 @@ iCurrTextCharacterCountMax=sText.length;
 					
 					//iCurrBgTileImageColumn<12; max
 					
-					//added by Mike, 20260807
+					//edited by Mike, 20260821; from 20260807
+/*
 					var iStageOffsetX=iViewportMaxWidth/2-iImageFrameWidth/2;
 					var iStageOffsetY=iViewportMaxHeight/2;//-iImageFrameHeightLarge/2;//-iImageFrameWidth/2;
+*/
+
+
+/*
+					var iStageOffsetX=0;//iViewportMaxWidth/2-iImageFrameWidth/2;
+					var iStageOffsetY=0;//iViewportMaxHeight/2;//-iImageFrameHeightLarge/2;//-iImageFrameWidth/2;
 										
-					//edited by Mike, 20260813; from 20260809
+					//edited by Mike, 20260821; from 20260813
 					//for (iCurrBgTileImageRow=0; iCurrBgTileImageRow<3; iCurrBgTileImageRow++) {
 	
 					for (iCurrBgTileImageRow=0; iCurrBgTileImageRow<6; iCurrBgTileImageRow++) {
 						for (iCurrBgTileImageColumn=0; iCurrBgTileImageColumn<10; iCurrBgTileImageColumn++) {
-
-/*
-					for (iCurrBgTileImageRow=0; iCurrBgTileImageRow<12; iCurrBgTileImageRow++) {
-						for (iCurrBgTileImageColumn=0; iCurrBgTileImageColumn<20; iCurrBgTileImageColumn++) {
-*/						
 							//let iBgTileImageOffsetX=iImageFrameWidthBgTile*(iCurrBgTileImageCount%4);
 							
 							//edited by Mike, 20260807
 							//var currBgTileImageObject=setBgTileImagePosition(0+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount);
+							
 							
 							var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount);
 
@@ -15767,6 +15792,31 @@ iCurrTextCharacterCountMax=sText.length;
 							iCurrBgTileImageCount++;
 						}
 					}
+*/
+/*					
+					//edited by Mike, 20260821
+					iCurrBgTileImageRow=0;
+					iCurrBgTileImageColumn=0;
+					
+					var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount);
+
+					//added by Mike, 20260801
+					//----------------------------------
+					arrayActors[iArrayActorsCount]=currBgTileImageObject;
+					arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+					arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_ACTOR_ROLE_TYPE;
+					
+					//removed by Mike, 20260807; use same z-index for bg tiles
+					iArrayActorsCount++;							
+					//----------------------------------
+					iCurrBgTileImageCount++;
+										
+					iCurrBgTileImageCountMax=iCurrBgTileImageRow*iCurrBgTileImageColumn;
+*/					
+					initBgTileMap();
+					
+					//alert(iCurrBgTileImageCountMax);
+					
 					//iArrayActorsCount++; //added by Mike, 20260807
 
 					//edited by Mike, 20260730; from 20260727
@@ -16042,6 +16092,8 @@ iCurrTextCharacterCountMax=sText.length;
 				for (iCurrBgTileImageCount=0; iCurrBgTileImageCount<iCurrBgTileImageCountMax; iCurrBgTileImageCount++) {
 					drawBgTileImage(iCurrBgTileImageCount);
 				}
+				
+				//alert(iCurrBgTileImageCount);
 
 				if (mainImageTilePosY<0+iInnerVerticalOffset+iImageFrameHeightLarge/2) {		
 					//OK
@@ -23911,6 +23963,30 @@ function initTouchInput() {
 
     return true;
   }  
+  
+  //added by Mike, 20260821
+  function initBgTileMap() {
+	var iStageOffsetX=0;//iViewportMaxWidth/2-iImageFrameWidth/2;
+	var iStageOffsetY=0;//iViewportMaxHeight/2;//-iImageFrameHeightLarge/2;//-iImageFrameWidth/2;
+
+	iCurrBgTileImageRow=1;
+	iCurrBgTileImageColumn=1;
+
+	//---	
+	var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount);
+
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_ACTOR_ROLE_TYPE;
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//---
+	
+	iCurrBgTileImageCountMax=iCurrBgTileImageRow*iCurrBgTileImageColumn;
+  }
 
 	function onLoad() {
 //alert(navigator.userAgent);
