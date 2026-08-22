@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260821; from 20260820
+' @date updated: 20260822; from 20260821
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -38,7 +38,8 @@
 			width: 100%;
 			height: 100%;
 
-			background-color: black; /*white; transparent*/
+			background-color: #261912; /*white; transparent*/
+
 			border: none;
 
 			padding: 0;
@@ -513,7 +514,7 @@
 
 			visibility: hidden;
 
-			z-index: 100; /*10;*/
+			z-index: 999999; /*10;*/
 		}
 
 		.ImageBgTile {
@@ -552,7 +553,7 @@
 
 			visibility: hidden;
 
-			z-index: 10; /*10;*/
+			z-index: 999999; /*10;*/
 		}
 
 		
@@ -2112,22 +2113,37 @@ var bIsHeroFacingUp=false;
 	const ITEM_ARRAY_ACTOR_ROLE_TYPE=3;
 	const EFFECT_ARRAY_ACTOR_ROLE_TYPE=4;
 
-/*	TODO: -update; this	
-	//added by Mike, 20260821
-	//column x row
-	const BG_TILE_BLANK_TYPE=03; //A0
-	const BG_TILE_BLANK_WALL_TUL=01; //top-up-left
-	const BG_TILE_BLANK_WALL_TUT=11; //top-up-top
-	const BG_TILE_BLANK_WALL_TUT=12; //top-up-top
-	const BG_TILE_BLANK_WALL_TUR=13; //top-up-right
-	const BG_TILE_BLANK_WALL_TDL=11; //top-down-left
-	const BG_TILE_BLANK_WALL_ML=02; //top-down-top
-	const BG_TILE_BLANK_WALL_ML=02; //top-down-right
 
-	const BG_TILE_BLANK_WALL_BL=01; //bottom-left
-	const BG_TILE_BLANK_WALL_BB=11; //bottom-bottom
-	const BG_TILE_BLANK_WALL_BR=12; //bottom-right
-*/
+	//added by Mike, 20260822; from 20260821
+	//row x column
+	const BG_TILE_BLANK_TYPE=30;
+	const BG_TILE_BLANK_WALL_TL=00; //top-up-left
+	const BG_TILE_BLANK_WALL_TT=01; //top-up-top
+	const BG_TILE_BLANK_WALL_TTT=02; //top-up-top
+	const BG_TILE_BLANK_WALL_TR=03; //top-up-right
+	const BG_TILE_BLANK_WALL_TRR=04;
+	const BG_TILE_BLANK_WALL_TRRR=05;
+
+	const BG_TILE_BLANK_WALL_MUL=10; //top-down-left
+	const BG_TILE_BLANK_WALL_MUT=11;
+	const BG_TILE_BLANK_WALL_MUTT=12;
+	const BG_TILE_BLANK_WALL_MUR=13;
+	const BG_TILE_BLANK_WALL_MURR=14;
+	const BG_TILE_BLANK_WALL_MURRR=15;
+
+	const BG_TILE_BLANK_WALL_MDL=20;
+	const BG_TILE_BLANK_WALL_MDT=21;
+	const BG_TILE_BLANK_WALL_MDTT=22;
+	const BG_TILE_BLANK_WALL_MDR=23;
+	const BG_TILE_BLANK_WALL_MDRR=24;
+	const BG_TILE_BLANK_WALL_MDRRR=25;
+
+	const BG_TILE_BLANK_WALL_BDL=30;
+	const BG_TILE_BLANK_WALL_BDT=31;
+	const BG_TILE_BLANK_WALL_BDTT=32;
+	const BG_TILE_BLANK_WALL_BDR=33;
+	const BG_TILE_BLANK_WALL_BDRR=34;
+	const BG_TILE_BLANK_WALL_BDRRR=35;
 	
 	//added by Mike, 20241111
 	var batMonsterImageTilePosX=0;
@@ -5236,13 +5252,15 @@ alert("iInputY: "+iInputY);
 		return coinImage;
 	}	
 
-	//added by Mike, 20260730
-	function setBgTileImagePosition(iInputX, iInputY, iCount) {
+	//edited by Mike, 20260822; from 20260730
+	//function setBgTileImagePosition(iInputX, iInputY, iCount) {
+	function setBgTileImagePosition(iInputX, iInputY, iCount, iCurrBgTileImageRow, iCurrBgTileImageColumn) {
 		
 		var bgTileImage = document.getElementById("bgTileImageId"+iCount);
 
-		bgTileImage.style.objectPosition = "-" + 0 + "px -" + 0 + "px";
-		
+		//bgTileImage.style.objectPosition = "-" + 0 + "px -" + 0 + "px";
+
+		bgTileImage.style.objectPosition = "-" + iImageBgTileImageAnimationWidth*iCurrBgTileImageColumn + "px -" + iImageBgTileImageAnimationHeight*iCurrBgTileImageRow + "px";
 
 		bgTileImage.style.visibility="visible";
 
@@ -9851,8 +9869,9 @@ alert("iInputY: "+iInputY);
 
 		//edited by Mike, 20260821
 		//bgTileImage.style.objectPosition = "-" + iImageBgTileImageAnimationWidth*iBgTileImageAnimationCount + "px -" + 0 + "px";
-
-		bgTileImage.style.objectPosition = "-" + iImageBgTileImageAnimationWidth*iBgTileImageAnimationCount + "px -" + iImageBgTileImageAnimationHeight*2 + "px";
+		
+		//removed by Mike, 20260822;
+		//bgTileImage.style.objectPosition = "-" + iImageBgTileImageAnimationWidth*iBgTileImageAnimationCount + "px -" + iImageBgTileImageAnimationHeight*2 + "px";
 	}
 
 	
@@ -13866,9 +13885,7 @@ if (fDifferenceInXPos!=0) {
 	//edited by Mike, 20251105
     //myCanvasContext.fillStyle = "#f3f3f3"; //"#f9f9f9"; //"#f3f3f3"; //"#ffffff"; //white background//stage
     myCanvasContext.fillStyle = "#000000"; //black background//stage
-    
 	myCanvasContext.fillRect(0, 0, iViewportMaxWidth, iViewportMaxHeight);
-
 
     //added by Mike, 20231126
     var myCanvasTwo = document.getElementById("myCanvasTwoId");
@@ -15851,11 +15868,16 @@ iCurrTextCharacterCountMax=sText.length;
 
 					setCoinPosition(0+iViewportMaxWidth*0.02,0+iViewportMaxHeight-iImageFrameHeightLarge*1.5+iImageFrameHeightLarge*0.04,16); //display icon
 
-					
-					//added by Mike, 20260805
+					//added by Mike, 20260822; from 20260805
+					var impactParticleEffectImage = document.getElementById("impactParticleEffectImageId");
 					var explosionEffectImage2 = document.getElementById("explosionEffectImageId");
 					var fireballExplosionEffectImage2 = document.getElementById("fireballExplosionEffectImageId");
 
+					arrayActors[iArrayActorsCount]=impactParticleEffectImage;
+					arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+					arrayActors[iArrayActorsCount]["type"]=EFFECT_ARRAY_ACTOR_ROLE_TYPE;
+					iArrayActorsCount++;
+					
 					arrayActors[iArrayActorsCount]=explosionEffectImage2;
 					arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
 					arrayActors[iArrayActorsCount]["type"]=EFFECT_ARRAY_ACTOR_ROLE_TYPE;
@@ -15871,7 +15893,9 @@ iCurrTextCharacterCountMax=sText.length;
 					arrayActors[iArrayActorsCount]=mainImageTileFireballProjectile;
 					arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
 					arrayActors[iArrayActorsCount]["type"]=EFFECT_ARRAY_ACTOR_ROLE_TYPE;
-					iArrayActorsCount++;										
+					iArrayActorsCount++;	
+
+					
 
 					hasInitMapLocation=true;					
 				}
@@ -23969,6 +23993,7 @@ function initTouchInput() {
 	var iStageOffsetX=0;//iViewportMaxWidth/2-iImageFrameWidth/2;
 	var iStageOffsetY=0;//iViewportMaxHeight/2;//-iImageFrameHeightLarge/2;//-iImageFrameWidth/2;
 
+/*
 	iCurrBgTileImageRow=1;
 	iCurrBgTileImageColumn=1;
 
@@ -23984,7 +24009,27 @@ function initTouchInput() {
 	//----------------------------------
 	iCurrBgTileImageCount++;
 	//---
-	
+*/
+
+	for (iCurrBgTileImageRow=0; iCurrBgTileImageRow<4; iCurrBgTileImageRow++) {
+		for (iCurrBgTileImageColumn=0; iCurrBgTileImageColumn<6; iCurrBgTileImageColumn++) {
+			
+			var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,iCurrBgTileImageRow,iCurrBgTileImageColumn);
+
+			//added by Mike, 20260801
+			//----------------------------------
+			arrayActors[iArrayActorsCount]=currBgTileImageObject;
+			arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+			arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_ACTOR_ROLE_TYPE;
+			
+			//removed by Mike, 20260807; use same z-index for bg tiles
+			iArrayActorsCount++;							
+			//----------------------------------
+
+			iCurrBgTileImageCount++;
+		}
+	}
+					
 	iCurrBgTileImageCountMax=iCurrBgTileImageRow*iCurrBgTileImageColumn;
   }
 
