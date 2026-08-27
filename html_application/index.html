@@ -745,7 +745,7 @@
 			margin: 0px;
 			padding: 0px;
 
-			z-index: 2;
+			z-index: 999999;
 		}		
 		
 		.ImageRiverTile {
@@ -1277,6 +1277,9 @@ var iInputDelayAtLeveledUpCount=0;
 
 //added by Mike, 20260806
 var bIsRightClickHeld=false;
+
+//added by Mike, 20260827
+var iTotalFontCharUsed=0;
 
 const iInputDelayAtStageTransitionCountMax=200;//100;
 var iInputDelayAtStageTransitionCount=0;
@@ -2526,6 +2529,7 @@ var bIsHeroFacingUp=false;
 		fontImage.style.top=iInputY+"px"; 
 	}
   
+	//note iTotalFontCharUsed has to be reset to 0 after use; or when no more spare is available;
 	function drawString(iInputX, iInputY, sInput) {
 	  const iFrameWidth=32;
 	  let iStringInputLength=sInput.length;
@@ -2538,21 +2542,33 @@ var bIsHeroFacingUp=false;
 	  var fontImage5 = document.getElementById("fontImageId5");
 */
 	  var fontImageArray = [];
-	  const iFontImageCountMax=6;
+	  const iFontImageCountMax=60;//6;
 	  
+	  //init
 	  for (iCount=0; iCount<iFontImageCountMax; iCount++) {
 		fontImageArray[iCount]=document.getElementById("fontImageId"+iCount);
 	  }
+	  
+	  //added by Mike, 20260827; reset;
+	  if (iTotalFontCharUsed>=iFontImageCountMax) {
+		iTotalFontCharUsed=0;
+	  }
 
 	  for (var i=0; i<iStringInputLength; i++) {
-	  
-		//alert("A".charCodeAt(0));
-	  
+/*	  
+		alert("A".charCodeAt(0));
+		alert("a".charCodeAt(0));
+*/	  
 		let cFontChar=sInput.charCodeAt(i);	
 
 		//alert(cFontChar);
 
-		drawChar(iInputX+iFrameWidth*i, iInputY, cFontChar, fontImageArray[i]);
+		//alert(iTotalFontCharUsed);
+
+		//drawChar(iInputX+iFrameWidth*i, iInputY, cFontChar, fontImageArray[i]);
+		drawChar(iInputX+iFrameWidth*i, iInputY, cFontChar, fontImageArray[iTotalFontCharUsed]);
+		
+		iTotalFontCharUsed++;
 	  }
 	}
 
@@ -5158,6 +5174,10 @@ var bIsHeroFacingUp=false;
 
 		if (dustEffectImage.style.visibility=="visible") {
 		  return;
+		}
+		
+		if (bIsActionKeyControlPressed) {
+			return;
 		}
 
 		dustEffectImage.style.objectPosition = "-" + 0 + "px -" + 0 + "px";
@@ -14113,8 +14133,13 @@ if (fDifferenceInXPos!=0) {
 	//added by Mike, 20251103
 	//drawChar(iImageFrameWidthDefault*5,iImageFrameHeightDefault*0,"5");
 	
-	//removed by Mike, 20251125
+	//added by Mike, 20260827
 	//drawString(iImageFrameWidthDefault*7,iImageFrameHeightDefault*0,"ABC123");
+	//drawString(iImageFrameWidthDefault*7,iImageFrameHeightDefault*0,"aBC123");
+/*	//removed by Mike, 20260827
+	drawString(iImageFrameWidthDefault*0,iImageFrameHeightDefault*1,"THE QUICK BROWN FOX");
+	drawString(iImageFrameWidthDefault*0,iImageFrameHeightDefault*2,"JUMPED OVER THE LAZY DOG.");
+*/
 
 /*
 	//edited by Mike, 20241114	
@@ -14647,7 +14672,7 @@ iCurrTextCharacterCountMax=sText.length;
 			
 			//added by Mike, 20260809; from 20260727
 			//drawHeroCoinStatus(myCanvasTwoContext,0+iViewportMaxWidth*0.02, 0+iViewportMaxHeight*0.87); 
-			drawHeroCoinStatus(myCanvasTwoContext,0+iViewportMaxWidth*0.02, 0+iViewportMaxHeight-iImageFrameHeightLarge*1.5); 
+			drawHeroCoinStatus(myCanvasTwoContext,0+iViewportMaxWidth*0.02, 0+iViewportMaxHeight-iImageFrameHeightLarge*1.25); 
 
 /*			//edited by Mike, 20260809
 			drawHeroXYPosStatus(myCanvasTwoContext, 0+iViewportMaxWidth*0.8, 0+iViewportMaxHeight*0.77);			
@@ -14655,10 +14680,11 @@ iCurrTextCharacterCountMax=sText.length;
 */
 			//drawHeroXYPosStatus(myCanvasTwoContext, 0+iViewportMaxWidth*0.85, 0+iViewportMaxHeight-iImageFrameHeightLarge*1.5);			
 
-			drawHeroXYPosStatus(myCanvasTwoContext, 0+iViewportMaxWidth-iImageFrameHeightLarge*2, 0+iViewportMaxHeight-iImageFrameHeightLarge*1.5);			
+			drawHeroXYPosStatus(myCanvasTwoContext, 0+iViewportMaxWidth-iImageFrameHeightLarge*2, 0+iViewportMaxHeight-iImageFrameHeightLarge*1.25);			
 
-			drawViewportXYPosStatus(myCanvasTwoContext, 0+iViewportMaxWidth*0.6, 0+iViewportMaxHeight-iImageFrameHeightLarge*1.5);
-			
+/*			//removed by Mike, 20260827
+			drawViewportXYPosStatus(myCanvasTwoContext, 0+iViewportMaxWidth*0.6, 0+iViewportMaxHeight-iImageFrameHeightLarge*1.25);
+*/			
 			return;
 		}
 
@@ -15422,7 +15448,7 @@ iCurrTextCharacterCountMax=sText.length;
 
 	//edited by Mike, 20260809; from 20260727
 	//drawHeroCoinStatus(myCanvasTwoContext,0+iViewportMaxWidth*0.02, 0+iViewportMaxHeight*0.77); 
-	drawHeroCoinStatus(myCanvasTwoContext,0+iViewportMaxWidth*0.02, 0+iViewportMaxHeight-iImageFrameHeightLarge*1.5); 
+	drawHeroCoinStatus(myCanvasTwoContext,0+iViewportMaxWidth*0.02, 0+iViewportMaxHeight-iImageFrameHeightLarge*1.25); 
 
 /*	//edited by Mike, 20260809
 	//added by Mike, 20260729
@@ -15434,9 +15460,11 @@ iCurrTextCharacterCountMax=sText.length;
 	//edited by Mike, 20260813
 	//drawHeroXYPosStatus(myCanvasTwoContext, 0+iViewportMaxWidth*0.85, 0+iViewportMaxHeight-iImageFrameHeightLarge*1.5);			
 
-	drawHeroXYPosStatus(myCanvasTwoContext, 0+iViewportMaxWidth-iImageFrameHeightLarge*2, 0+iViewportMaxHeight-iImageFrameHeightLarge*1.5);			
-	
-	drawViewportXYPosStatus(myCanvasTwoContext, 0+iViewportMaxWidth*0.6, 0+iViewportMaxHeight-iImageFrameHeightLarge*1.5);
+	drawHeroXYPosStatus(myCanvasTwoContext, 0+iViewportMaxWidth-iImageFrameHeightLarge*2, 0+iViewportMaxHeight-iImageFrameHeightLarge*1.25);			
+
+/*	//removed by Mike, 20260827
+	drawViewportXYPosStatus(myCanvasTwoContext, 0+iViewportMaxWidth*0.6, 0+iViewportMaxHeight-iImageFrameHeightLarge*1.25);
+*/
 		
 	//alert(iHorizontalOffset);
 
@@ -16054,7 +16082,7 @@ iCurrTextCharacterCountMax=sText.length;
 					//edited by Mike, 20260809
 					//setCoinPosition(0+iViewportMaxWidth*0.02,0+iViewportMaxHeight*0.87-iImageFrameHeightDefault,16); //display icon
 
-					setCoinPosition(0+iViewportMaxWidth*0.02,0+iViewportMaxHeight-iImageFrameHeightLarge*1.5+iImageFrameHeightLarge*0.04,16); //display icon
+					setCoinPosition(0+iViewportMaxWidth*0.02,0+iViewportMaxHeight-iImageFrameHeightLarge*1.25+iImageFrameHeightLarge*0.04,16); //display icon
 
 					//added by Mike, 20260822; from 20260805
 					var impactParticleEffectImage = document.getElementById("impactParticleEffectImageId");
@@ -16083,7 +16111,10 @@ iCurrTextCharacterCountMax=sText.length;
 					arrayActors[iArrayActorsCount]["type"]=FIREBALL_ARRAY_ACTOR_ROLE_TYPE;
 					iArrayActorsCount++;	
 
-					
+					//added by Mike, 20260827
+					drawString(iImageFrameWidthDefault*0,iImageFrameHeightDefault*2,"THE QUICK BROWN FOX");
+					drawString(iImageFrameWidthDefault*0,iImageFrameHeightDefault*3,"JUMPED OVER THE LAZY");
+					drawString(iImageFrameWidthDefault*0,iImageFrameHeightDefault*4,"DOG.");
 
 					hasInitMapLocation=true;					
 				}
@@ -24523,13 +24554,79 @@ opting to put assets folder in "html_application" folder instead
 	<img id="wolfImageTileId" class="ImageAnimalFrame1" src="assets/images/quest.png">
 	<img id="summonEffectsSniperShotTargetId" class="ImageMousePointer" src="assets/images/summonEffects.png">
 	
-	<img id="fontImageId0" class="FontImage32x32Tile" src="assets/images/font512x512Rescaled.png?lastmod=20251103T1556">	
-	<img id="fontImageId1" class="FontImage32x32Tile" src="assets/images/font512x512Rescaled.png?lastmod=20251103T1556">	
-	<img id="fontImageId2" class="FontImage32x32Tile" src="assets/images/font512x512Rescaled.png?lastmod=20251103T1556">	
-	<img id="fontImageId3" class="FontImage32x32Tile" src="assets/images/font512x512Rescaled.png?lastmod=20251103T1556">	
-	<img id="fontImageId4" class="FontImage32x32Tile" src="assets/images/font512x512Rescaled.png?lastmod=20251103T1556">	
-	<img id="fontImageId5" class="FontImage32x32Tile" src="assets/images/font512x512Rescaled.png?lastmod=20251103T1556">	
+	<img id="fontImageId0" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId1" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId2" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId3" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId4" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId5" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
 
+	<img id="fontImageId6" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId7" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId8" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId9" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId10" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId11" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+
+	<img id="fontImageId12" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId13" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId14" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId15" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId16" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId17" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+
+	<img id="fontImageId18" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId19" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId20" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId21" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId22" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId23" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">		
+
+	<img id="fontImageId24" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId25" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId26" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId27" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId28" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId29" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+
+	<img id="fontImageId30" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId31" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId32" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId33" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId34" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId35" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+
+	<img id="fontImageId36" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId37" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId38" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId39" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId40" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId41" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+
+	<img id="fontImageId42" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId43" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId44" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId45" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId46" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId47" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+
+	<img id="fontImageId48" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId49" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId50" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId51" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId52" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId53" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+
+	<img id="fontImageId54" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId55" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId56" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId57" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId58" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId59" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+<!--	
+	<img id="fontImageId60" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+-->
+	
 	<img id="doorImageRightId" class="Image64x64Tile" src="assets/images/tile.png">
 	<img id="doorImageLeftId" class="Image64x64Tile" src="assets/images/tile.png">
 	<img id="doorImageTopId" class="Image64x64Tile" src="assets/images/tile.png?lastmod=20241120T2053">
