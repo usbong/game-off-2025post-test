@@ -376,7 +376,6 @@ I've also made use of the right mouse-click as an alternative to the "F" key and
 
 Now that we have a isometric tile pattern, we can create an isometric view of the stage. Collision detection, among other things, should come next.
 
-
 32) 20260807 and 20260808; https://masarapmabuhay.itch.io/game-off-2025-post-test22
 
 **Key Lesson Learned:** 
@@ -519,7 +518,7 @@ I've also stopped the extra bodies from moving toward the hero's exact position 
 
 As I was updating the code, I found that I could set the hero to face diagonally even though he appears to be moving more directly toward the left, right, up or down. However, I've kept the code to make the hero still face directly left or right when he should.
 
-41) 20260820; https://masarapmabuhay.itch.io/game-off-2025-post-test26
+41) 20260820-20260825; https://masarapmabuhay.itch.io/game-off-2025-post-test26
 
 **Key Lesson Learned:** 
 
@@ -530,6 +529,20 @@ I've again updated the `if-else` conditions to determine whether the hero was cl
 **Unlocked Possibilities:**
 
 I've been polishing the engine gameplay-wise, so that there's no movement or some other action that would get halted whatsoever; however, I admit that there are still plenty of other things that I'll need to add. Examples of which are the walls and the doors. 
+
+42) 20260820-20260825; https://masarapmabuhay.itch.io/game-off-2025-post-test26
+
+**Key Lesson Learned:** 
+
+I've updated what I could given the time. I lost my internet connectivity as I was using Google's search engine to look up PhilWeb and other related online gaming businesses in which Filipino tycoons invest. Having said this, I've added a change in the background color when the user hovers on any of the two choices available while in the `Game Over` state.
+
+I've also forcibly made the hero face the monster that he's hit, given that the currently lenient collision detection system allows the hero to hit the monster even while he's facing the other direction. At the moment, monsters that have hit the hero don't do this.
+
+Finally, I've made the coin icon show its full face, rather than whatever animation frame it happens to show once the hero enters the `Game Over` state. Furthermore, the life and mana bars aren't anymore removed.
+
+**Unlocked Possibilities:**
+
+I've made little improvements that could be further improved to create a more animated-rich aesthetic.
 
 # Additional Bug Fixes
 
