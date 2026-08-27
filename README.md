@@ -518,7 +518,7 @@ I've also stopped the extra bodies from moving toward the hero's exact position 
 
 As I was updating the code, I found that I could set the hero to face diagonally even though he appears to be moving more directly toward the left, right, up or down. However, I've kept the code to make the hero still face directly left or right when he should.
 
-41) 20260820-20260825; https://masarapmabuhay.itch.io/game-off-2025-post-test26
+41) 20260820-20260827; https://masarapmabuhay.itch.io/game-off-2025-post-test26
 
 **Key Lesson Learned:** 
 
@@ -530,7 +530,7 @@ I've again updated the `if-else` conditions to determine whether the hero was cl
 
 I've been polishing the engine gameplay-wise, so that there's no movement or some other action that would get halted whatsoever; however, I admit that there are still plenty of other things that I'll need to add. Examples of which are the walls and the doors. 
 
-42) 20260820-20260825; https://masarapmabuhay.itch.io/game-off-2025-post-test26
+42) 20260820-20260827; https://masarapmabuhay.itch.io/game-off-2025-post-test26
 
 **Key Lesson Learned:** 
 
@@ -543,6 +543,18 @@ Finally, I've made the coin icon show its full face, rather than whatever animat
 **Unlocked Possibilities:**
 
 I've made little improvements that could be further improved to create a more animated-rich aesthetic.
+
+43) 20260820-20260827; https://masarapmabuhay.itch.io/game-off-2025-post-test26
+
+**Key Lesson Learned:** 
+
+Playing the prototype over and over lets me figure out what else to add or improve. I've been updating the code to make sure that the hero is facing the monster when he throws a punch. Along the way, I thought of adding strafing by pressing the `Ctrl` key while moving the hero around. Previously, I was trying out the `Shift` key until I couldn't get rid of the default menu window whenever I did a right-click with the mouse. Here effectively using on-off switches in the form of `if-else` conditions as well as knowing where to put them were crucial, something which software programs were made to do better than the electronics hardware of old. Nowadays, robot action figures from China appear to make use of even more `articulation` and if-else conditions than ever before.
+
+Afterward, I added custom fonts that I'm still updating in order to make sure that each character in the sentences would be aligned. I'm still also adding the non-capital letters. I note here that drawing the sentences continuously upon every update by reusing font images in an array pool creates a noticeable lag that affects the other objects on the stage.
+
+**Unlocked Possibilities:**
+
+My DIY engine now has more basic components that would be useful when building any type game. Still, I admit that the engine and its sample prototype could hardly be called a game yet.
 
 # Additional Bug Fixes
 
