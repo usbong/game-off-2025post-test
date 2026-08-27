@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260822; from 20260821
+' @date updated: 20260826; from 20260822
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -1116,6 +1116,33 @@
 				position: absolute;
 
 				background-color: #4d4d4d;
+
+				color: #fff484; /*#fff484; #ffffff;*/
+
+				opacity: 80%;
+
+				font-size: 20px;
+				font-weight: bold;
+
+				/* //noted by Mike, 20230130 */
+				padding: 10px;
+				padding-right: 40px;
+				padding-left: 40px;
+				
+    			border: 4px solid #ffffff; /*#4d4d4d;*/
+    			border-radius: 3px;
+
+
+				visibility: hidden;
+				
+				z-index: 999999;				
+			}
+			
+			div.DivTextClickContinue:hover
+			{
+				position: absolute;
+
+				background-color: #ff0000; /*#4d4d4d;*/
 
 				color: #fff484; /*#fff484; #ffffff;*/
 
@@ -5637,7 +5664,9 @@ alert("iInputY: "+iInputY);
 			//if (!hasInitMapLocation) {
 				if (bIsHeroFacingLeftOrRight) {
 					if (bIsHeroFacingLeft) {
+						//edited by Mike, 20260826
 						iFrameY=iImageFrameHeightLarge*1;
+						//iFrameY=iImageFrameHeightLarge*2;
 
 						if (bIsHeroFacingUpOrDown) {
 							if (!bIsHeroFacingUp) {
@@ -5649,7 +5678,9 @@ alert("iInputY: "+iInputY);
 						}
 					}
 					else {
+						//edited by Mike, 20260826
 						iFrameY=iImageFrameHeightLarge*0;
+						//iFrameY=iImageFrameHeightLarge*3;
 
 						if (bIsHeroFacingUpOrDown) {
 							if (!bIsHeroFacingUp) {
@@ -12426,8 +12457,53 @@ if (fDifferenceInXPos!=0) {
 							//it now attacks; if the hero continues to press the attack button despite having exhausted his stamina;
 							inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_INVINCIBLE_COUNT]=WRAITH_ANIMATION_INVINCIBLE_COUNT_MAX;
 */							
-						}
+							
+							//added by Mike, 20260825
+							//make sure that hero faces the enemy;
+							//TODO: -make: reusable function;
+							//TODO: -add: for monsters who've hit the hero
+							//------------------------------
+							var heroImageTilePosX=parseInt(mainImageTilePosX);
+							var heroImageTilePosY=parseInt(mainImageTilePosY);	
+							var monsterImageTilePosX=parseInt(inputArrayWraithMonsterWithIdCount[MONSTER_POSX]);
+							var monsterImageTilePosY=parseInt(inputArrayWraithMonsterWithIdCount[MONSTER_POSY]);
+		
+							var iHeroImageTilePosYOffset=iImageFrameHeightLarge/5; //0
+								
+							if (heroImageTilePosY-iHeroImageTilePosYOffset>monsterImageTilePosY) {
+								bIsHeroFacingUp=true;
+								bIsHeroFacingUpOrDown=true;					
+							}
+							else if (heroImageTilePosY+iHeroImageTilePosYOffset<monsterImageTilePosY) { 		
+								bIsHeroFacingUp=false;
+								bIsHeroFacingUpOrDown=true;					
+							}
+							else { //hero is on top of monster in y-axis;
+								bIsHeroFacingUp=false;
 
+								if (bIsHeroFacingUpOrDown) {
+								}				
+								//hero facing only left or right
+								else {
+									bIsHeroFacingUpOrDown=false;//true;			
+								}
+							}
+							
+							//if (!bHasHeroChangedFacingLeftOrRight) {
+								//if (!bIsHeroFacingUpOrDown) {
+									if (heroImageTilePosX>monsterImageTilePosX) {	
+										bIsHeroFacingLeft=true;
+										bIsHeroFacingLeftOrRight=true;					
+									}
+									else { //hero is on top of monster in y-axis;
+										bIsHeroFacingLeft=false;
+										bIsHeroFacingLeftOrRight=true;					
+									}
+								//}
+								//bHasHeroChangedFacingLeftOrRight=true;
+							//}
+							//------------------------------
+						}
 
 						if (!bHasReducedHeroManaOutput) {
 							return;
@@ -15079,10 +15155,15 @@ iCurrTextCharacterCountMax=sText.length;
 				textContinueGameDiv.style.visibility="visible";
 			}
 			iInputDelayAtGameOverCount++;
+			
+			//added by Mike, 20260825
+			iCoinAnimationCount=-1;
 
+/*			//removed by Mike, 20260825
 			if (iInputDelayAtGameOverCount>=iInputDelayAtGameOverCountMax*2) {
 				return;
 			}			
+*/
 			
 			//fire; cat and hat;
 			/*return;
@@ -21453,11 +21534,40 @@ iCurrTextCharacterCountMax=sText.length;
 				}
 				//if directly facing left or right
 				else {
+						
+					//edited by Mike, 20260826
+/*
 					if (parseFloat(mainImageTileHeroBody0.style.top)<parseFloat(mainImageTileHeroBody.style.top)-mainImageTileStepY/2) { //body0 is above body
 						mainImageTileHeroBody0.style.top = (parseFloat(mainImageTileHeroBody0.style.top)+mainImageTileStepY*1)+"px";
 					}
 					else if (parseFloat(mainImageTileHeroBody0.style.top)>parseFloat(mainImageTileHeroBody.style.top)+mainImageTileStepY/2) {
 						mainImageTileHeroBody0.style.top = (parseFloat(mainImageTileHeroBody0.style.top)-mainImageTileStepY*1)+"px";
+					}
+*/
+					//if body is still ahead of the hero; horizontally
+					if (bIsHeroFacingLeft) {
+						if (parseFloat(mainImageTileHeroBody0.style.left)<parseFloat(mainImageTileHeroBody.style.left)) {
+						}
+						else {
+							if (parseFloat(mainImageTileHeroBody0.style.top)<parseFloat(mainImageTileHeroBody.style.top)-mainImageTileStepY/2) { //body0 is above body
+								mainImageTileHeroBody0.style.top = (parseFloat(mainImageTileHeroBody0.style.top)+mainImageTileStepY*1)+"px";
+							}
+							else if (parseFloat(mainImageTileHeroBody0.style.top)>parseFloat(mainImageTileHeroBody.style.top)+mainImageTileStepY/2) {
+								mainImageTileHeroBody0.style.top = (parseFloat(mainImageTileHeroBody0.style.top)-mainImageTileStepY*1)+"px";
+							}
+						}
+					}
+					else { //hero facing right
+						if (parseFloat(mainImageTileHeroBody0.style.left)>parseFloat(mainImageTileHeroBody.style.left)) {
+						}
+						else {
+							if (parseFloat(mainImageTileHeroBody0.style.top)<parseFloat(mainImageTileHeroBody.style.top)-mainImageTileStepY/2) { //body0 is above body
+								mainImageTileHeroBody0.style.top = (parseFloat(mainImageTileHeroBody0.style.top)+mainImageTileStepY*1)+"px";
+							}
+							else if (parseFloat(mainImageTileHeroBody0.style.top)>parseFloat(mainImageTileHeroBody.style.top)+mainImageTileStepY/2) {
+								mainImageTileHeroBody0.style.top = (parseFloat(mainImageTileHeroBody0.style.top)-mainImageTileStepY*1)+"px";
+							}
+						}
 					}
 				}		
 				
@@ -21473,11 +21583,38 @@ iCurrTextCharacterCountMax=sText.length;
 				}
 				//if directly facing left or right
 				else {
+/*				
 					if (parseFloat(mainImageTileHeroBody1.style.top)<parseFloat(mainImageTileHeroBody0.style.top)-mainImageTileStepY/2) { //body0 is above body
 						mainImageTileHeroBody1.style.top = (parseFloat(mainImageTileHeroBody1.style.top)+mainImageTileStepY*1)+"px";
 					}
 					else if (parseFloat(mainImageTileHeroBody1.style.top)>parseFloat(mainImageTileHeroBody0.style.top)+mainImageTileStepY/2) {
 						mainImageTileHeroBody1.style.top = (parseFloat(mainImageTileHeroBody1.style.top)-mainImageTileStepY*1)+"px";
+					}
+*/
+					//if body is still ahead of the hero; horizontally
+					if (bIsHeroFacingLeft) {
+						if (parseFloat(mainImageTileHeroBody1.style.left)<parseFloat(mainImageTileHeroBody0.style.left)) {
+						}
+						else {
+							if (parseFloat(mainImageTileHeroBody1.style.top)<parseFloat(mainImageTileHeroBody0.style.top)-mainImageTileStepY/2) { //body0 is above body
+								mainImageTileHeroBody1.style.top = (parseFloat(mainImageTileHeroBody1.style.top)+mainImageTileStepY*1)+"px";
+							}
+							else if (parseFloat(mainImageTileHeroBody1.style.top)>parseFloat(mainImageTileHeroBody0.style.top)+mainImageTileStepY/2) {
+								mainImageTileHeroBody1.style.top = (parseFloat(mainImageTileHeroBody1.style.top)-mainImageTileStepY*1)+"px";
+							}
+						}
+					}
+					else { //hero facing right
+						if (parseFloat(mainImageTileHeroBody1.style.left)>parseFloat(mainImageTileHeroBody0.style.left)) {
+						}
+						else {
+							if (parseFloat(mainImageTileHeroBody1.style.top)<parseFloat(mainImageTileHeroBody0.style.top)-mainImageTileStepY/2) { //body0 is above body
+								mainImageTileHeroBody1.style.top = (parseFloat(mainImageTileHeroBody1.style.top)+mainImageTileStepY*1)+"px";
+							}
+							else if (parseFloat(mainImageTileHeroBody1.style.top)>parseFloat(mainImageTileHeroBody0.style.top)+mainImageTileStepY/2) {
+								mainImageTileHeroBody1.style.top = (parseFloat(mainImageTileHeroBody1.style.top)-mainImageTileStepY*1)+"px";
+							}
+						}
 					}
 				}
 				
@@ -21493,11 +21630,38 @@ iCurrTextCharacterCountMax=sText.length;
 				}
 				//if directly facing left or right
 				else {
+/*					//edited by Mike, 20260826				
 					if (parseFloat(mainImageTileHeroBody2.style.top)<parseFloat(mainImageTileHeroBody1.style.top)-mainImageTileStepY/2) { //body0 is above body
 						mainImageTileHeroBody2.style.top = (parseFloat(mainImageTileHeroBody2.style.top)+mainImageTileStepY*1)+"px";
 					}
 					else if (parseFloat(mainImageTileHeroBody2.style.top)>parseFloat(mainImageTileHeroBody1.style.top)+mainImageTileStepY/2) {
 						mainImageTileHeroBody2.style.top = (parseFloat(mainImageTileHeroBody2.style.top)-mainImageTileStepY*1)+"px";
+					}
+*/
+					//if body is still ahead of the hero; horizontally
+					if (bIsHeroFacingLeft) {
+						if (parseFloat(mainImageTileHeroBody2.style.left)<parseFloat(mainImageTileHeroBody1.style.left)) {
+						}
+						else {
+							if (parseFloat(mainImageTileHeroBody2.style.top)<parseFloat(mainImageTileHeroBody1.style.top)-mainImageTileStepY/2) { //body0 is above body
+								mainImageTileHeroBody2.style.top = (parseFloat(mainImageTileHeroBody2.style.top)+mainImageTileStepY*1)+"px";
+							}
+							else if (parseFloat(mainImageTileHeroBody2.style.top)>parseFloat(mainImageTileHeroBody1.style.top)+mainImageTileStepY/2) {
+								mainImageTileHeroBody2.style.top = (parseFloat(mainImageTileHeroBody2.style.top)-mainImageTileStepY*1)+"px";
+							}
+						}
+					}
+					else {
+						if (parseFloat(mainImageTileHeroBody2.style.left)>parseFloat(mainImageTileHeroBody1.style.left)) {
+						}
+						else {
+							if (parseFloat(mainImageTileHeroBody2.style.top)<parseFloat(mainImageTileHeroBody1.style.top)-mainImageTileStepY/2) { //body0 is above body
+								mainImageTileHeroBody2.style.top = (parseFloat(mainImageTileHeroBody2.style.top)+mainImageTileStepY*1)+"px";
+							}
+							else if (parseFloat(mainImageTileHeroBody2.style.top)>parseFloat(mainImageTileHeroBody1.style.top)+mainImageTileStepY/2) {
+								mainImageTileHeroBody2.style.top = (parseFloat(mainImageTileHeroBody2.style.top)-mainImageTileStepY*1)+"px";
+							}
+						}
 					}
 				}						
 		}
@@ -22280,7 +22444,9 @@ alert("iDeltaY: "+iDeltaY);
     alert("iDeltaX: "+iDeltaX);
     */
 
-	//edited by Mike, 20251124
+/*
+	//edited by Mike, 20260826; from 20251124
+	//note controls whether hero faces directly left or right
 	if (!bIsActionKeyFireballPressed) {
 		//added by Mike, 20251119
 		//alert("iDeltaX: "+iDeltaX);
@@ -22303,6 +22469,29 @@ alert("iDeltaY: "+iDeltaY);
 			}
 		}
 	}
+*/	
+	if (!bIsActionKeyFireballPressed) {
+		if (Math.abs(iDeltaX)>iViewportMaxHeight/2) {
+		//if (Math.abs(iDeltaX)>iViewportMaxHeight/4) {
+//		if (Math.abs(iDeltaX)>0) {
+		//if ((Math.abs(iDeltaX)>0) && (Math.abs(iDeltaX)<iViewportMaxHeight/2)) {
+
+			//alert("iDeltaY: "+iDeltaY);
+		
+			//if still too far; just move forward;
+			let iDeltaYOffset=1;//Math.abs(iDeltaX)/180;
+		
+			//alert("iDeltaYOffset: "+iDeltaYOffset);
+		
+			if (iDeltaY<0) { //if negative
+				iDeltaY-=90*iDeltaYOffset;
+			}
+			if (iDeltaY>0) { //if positive
+				iDeltaY+=90*iDeltaYOffset;
+			}
+		}
+	}
+
 
     iDeltaY*=-1;
 
@@ -22645,7 +22834,6 @@ alert("iXPos: "+iXPos);
 			bIsHeroFacingLeftOrRight=false;
 		}
 		
-		
 		//edited by Mike, 20260819
 		//if (Math.abs(iDeltaY)>iViewportMaxHeight*0.75) {
 		if (Math.abs(iDeltaY)>iViewportMaxHeight*0.75) {
@@ -22737,7 +22925,7 @@ setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameW
 		iCurrHeroManaToBeDeducted=0;
 		iCurrHeroManaToBeDeductedAnimation=0;
 		iCurrHeroManaToBeDeductedAnimationMain=0;
-		
+				
 		bIsGameOver=false;
 		iInputDelayAtGameOverCount=0;
 
@@ -23420,7 +23608,7 @@ setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameW
 
 							textNewGameDiv.style.visibility="visible";
 							textContinueGameDiv.style.visibility="visible";
-						
+													
 							//init(); //note: error; iCurrMapLocation could not be set;
 							//restarts where hero died;						
 							//current working solution
