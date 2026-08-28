@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260827; from 20260826
+' @date updated: 20260828; from 20260827
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -746,6 +746,9 @@
 			padding: 0px;
 
 			z-index: 999999;
+/*			
+			transform: scale(0.85);
+*/			
 		}		
 		
 		.ImageRiverTile {
@@ -2523,7 +2526,10 @@ var bIsHeroFacingUp=false;
 */
 		const iFrameXOffset=0;
 
-		fontImage.style.objectPosition = "-" + iFrameXOffset-iImageFrameWidth*iColumn + "px -" + iImageFrameHeight*iRow + "px";
+		//fontImage.style.objectPosition = "-" + iFrameXOffset-iImageFrameWidth*iColumn + "px -" + iImageFrameHeight*iRow + "px";
+		
+		fontImage.style.objectPosition = "-" + iImageFrameWidth*iColumn + "px -" + iImageFrameHeight*iRow + "px";
+
 		
 		fontImage.style.left=iInputX+"px"; 
 		fontImage.style.top=iInputY+"px"; 
@@ -2532,7 +2538,9 @@ var bIsHeroFacingUp=false;
 	//note iTotalFontCharUsed has to be reset to 0 after use; or when no more spare is available;
 	function drawString(iInputX, iInputY, sInput) {
 	  const iFrameWidth=32;
+	  const iFrameHeight=32;
 	  let iStringInputLength=sInput.length;
+
 /*
 	  var fontImage0 = document.getElementById("fontImageId0");
 	  var fontImage1 = document.getElementById("fontImageId1");
@@ -2542,23 +2550,23 @@ var bIsHeroFacingUp=false;
 	  var fontImage5 = document.getElementById("fontImageId5");
 */
 	  var fontImageArray = [];
-	  const iFontImageCountMax=60;//6;
+	  const iFontImageCountMax=100;//60;//6;
 	  
 	  //init
 	  for (iCount=0; iCount<iFontImageCountMax; iCount++) {
 		fontImageArray[iCount]=document.getElementById("fontImageId"+iCount);
 	  }
-	  
-	  //added by Mike, 20260827; reset;
-	  if (iTotalFontCharUsed>=iFontImageCountMax) {
-		iTotalFontCharUsed=0;
-	  }
+
+	  var fFontOffsetX=0;
 
 	  for (var i=0; i<iStringInputLength; i++) {
 /*	  
 		alert("A".charCodeAt(0));
 		alert("a".charCodeAt(0));
 */	  
+		//alert("h".charCodeAt(0)); //104
+		//alert(" ".charCodeAt(0)); //104
+
 		let cFontChar=sInput.charCodeAt(i);	
 
 		//alert(cFontChar);
@@ -2566,9 +2574,44 @@ var bIsHeroFacingUp=false;
 		//alert(iTotalFontCharUsed);
 
 		//drawChar(iInputX+iFrameWidth*i, iInputY, cFontChar, fontImageArray[i]);
-		drawChar(iInputX+iFrameWidth*i, iInputY, cFontChar, fontImageArray[iTotalFontCharUsed]);
+		
+		//edited by Mike, 20260828
+		//drawChar(iInputX+iFrameWidth*i, iInputY, cFontChar, fontImageArray[iTotalFontCharUsed]);
+		
+		//drawChar(iInputX+iFrameWidth*i*0.85, iInputY, cFontChar, fontImageArray[iTotalFontCharUsed]);
+
+		var fFontOffsetY=0;
+		
+		//alert(sInput[i]);
+		
+		if ((sInput[i]==="g") || (sInput[i]==="p") || (sInput[i]==="q") || (sInput[i]==="y") || (sInput[i]===",") || (sInput[i]==="g")) {
+			fFontOffsetY=iFrameHeight/4;
+		}		
+		else if (sInput[i]===" ") {
+			fFontOffsetX-=iFrameWidth/4;
+		}
+		
+		drawChar(iInputX+iFrameWidth*i*0.85+fFontOffsetX, iInputY+fFontOffsetY, cFontChar, fontImageArray[iTotalFontCharUsed]);
+		
+		//put this here; "." is always followed by a space;
+		//so reduce the width of that space;
+		if (sInput[i]===".") {
+			//alert("HERE!");
+			fFontOffsetX-=iFrameWidth/2;
+		}
+		else if ((sInput[i]==="i") || (sInput[i]==="j")) {
+			fFontOffsetX-=iFrameWidth/4;
+		}
+		else if ((sInput[i]==="a")  || (sInput[i]==="b")  || (sInput[i]==="l")) {
+			fFontOffsetX-=iFrameWidth/8;
+		}
 		
 		iTotalFontCharUsed++;
+		
+	    //added by Mike, 20260827; reset;
+		if (iTotalFontCharUsed>=iFontImageCountMax) {
+		  iTotalFontCharUsed=0;
+		}
 	  }
 	}
 
@@ -16112,9 +16155,21 @@ iCurrTextCharacterCountMax=sText.length;
 					iArrayActorsCount++;	
 
 					//added by Mike, 20260827
-					drawString(iImageFrameWidthDefault*0,iImageFrameHeightDefault*2,"THE QUICK BROWN FOX");
-					drawString(iImageFrameWidthDefault*0,iImageFrameHeightDefault*3,"JUMPED OVER THE LAZY");
-					drawString(iImageFrameWidthDefault*0,iImageFrameHeightDefault*4,"DOG.");
+/*
+					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*2,"THE QUICK BROWN FOX");
+					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*3,"JUMPED OVER THE LAZY");
+					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*4,"DOG. 0123456789,%");
+*/
+					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*2,"The quick brown fox");
+					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*3,"jumped over the lazy");
+					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*4,"dog. 0123456789,%");
+
+					
+					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*5,"abcdefghijklmnopqrs");
+					//drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*6,"abcdefghijklmnopqrs");
+					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*6,"tuvwxyz,abcd");
+
+					//drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*7,"the quick brown fox");
 
 					hasInitMapLocation=true;					
 				}
@@ -24554,77 +24609,122 @@ opting to put assets folder in "html_application" folder instead
 	<img id="wolfImageTileId" class="ImageAnimalFrame1" src="assets/images/quest.png">
 	<img id="summonEffectsSniperShotTargetId" class="ImageMousePointer" src="assets/images/summonEffects.png">
 	
-	<img id="fontImageId0" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId1" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId2" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId3" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId4" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId5" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId0" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId1" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId2" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId3" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId4" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId5" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
 
-	<img id="fontImageId6" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId7" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId8" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId9" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId10" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId11" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId6" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId7" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId8" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId9" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId10" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId11" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
 
-	<img id="fontImageId12" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId13" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId14" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId15" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId16" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId17" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId12" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId13" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId14" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId15" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId16" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId17" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
 
-	<img id="fontImageId18" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId19" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId20" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId21" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId22" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId23" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">		
+	<img id="fontImageId18" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId19" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId20" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId21" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId22" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId23" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">		
 
-	<img id="fontImageId24" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId25" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId26" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId27" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId28" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId29" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId24" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId25" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId26" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId27" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId28" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId29" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
 
-	<img id="fontImageId30" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId31" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId32" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId33" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId34" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId35" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId30" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId31" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId32" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId33" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId34" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId35" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
 
-	<img id="fontImageId36" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId37" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId38" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId39" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId40" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId41" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId36" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId37" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId38" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId39" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId40" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId41" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
 
-	<img id="fontImageId42" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId43" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId44" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId45" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId46" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId47" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId42" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId43" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId44" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId45" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId46" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId47" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
 
-	<img id="fontImageId48" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId49" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId50" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId51" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId52" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId53" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId48" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId49" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId50" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId51" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId52" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId53" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
 
-	<img id="fontImageId54" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId55" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId56" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId57" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId58" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
-	<img id="fontImageId59" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId54" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId55" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId56" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId57" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId58" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId59" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	
+	<img id="fontImageId60" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId61" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId62" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId63" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId64" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId65" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId66" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId67" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId68" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId69" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	
+	<img id="fontImageId70" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId71" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId72" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId73" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId74" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId75" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId76" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId77" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId78" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId79" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+
+	<img id="fontImageId80" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId81" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId82" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId83" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId84" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId85" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId86" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId87" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId88" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId89" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+
+	<img id="fontImageId90" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId91" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId92" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId93" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId94" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId95" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId96" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId97" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId98" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+	<img id="fontImageId99" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
+
 <!--	
-	<img id="fontImageId60" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260827T1439">	
+	<img id="fontImageId60" class="FontImage32x32Tile" src="assets/images/font2026.png?lastmod=20260828T1518">	
 -->
 	
 	<img id="doorImageRightId" class="Image64x64Tile" src="assets/images/tile.png">
