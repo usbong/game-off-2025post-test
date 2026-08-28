@@ -556,6 +556,16 @@ Afterward, I added custom fonts that I'm still updating in order to make sure th
 
 My DIY engine now has more basic components that would be useful when building any type game. Still, I admit that the engine and its sample prototype could hardly be called a game yet.
 
+44) 20260828; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+
+**Key Lesson Learned:** 
+
+I've been adding more letters in the font image tile set, which now include letters in lower case. I note that I had to write code to automatically reduce the space between the characters including the one for the space to make them more compact, as well as bring down letters such as "g" and "j" in terms of their `y-axis` positions.
+
+**Unlocked Possibilities:**
+
+My handwriting on the computer using GIMP surprisingly appears cartoony, something that I could certainly use in a cartoony game that I'd want to share with family and friends. 
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
