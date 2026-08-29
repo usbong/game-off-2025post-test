@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260828; from 20260827
+' @date updated: 20260829; from 20260828
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -1381,6 +1381,7 @@ const iHeroInvincibileCountMax=200;//100;//50;
 var iHeroInvincibileCount=iHeroInvincibileCountMax;
 
 var iHeroFrameY=0;
+var iHeroFrameX=0;
 var iHeroFrameXOffset=0;
 
 //increase this per level-up
@@ -2079,8 +2080,10 @@ var mainImageTilePosY=0;
 var mainImageTileStepX=2;//0; //2;
 var mainImageTileStepY=2;//0; //2;
 
-//added by Mike, 20260820
-const mainImageTilePosXOffset=iImageFrameWidthLarge/2;
+/*
+//removed by Mike, 20260829; from 20260820
+const mainImageTilePosXOffset=iImageFrameWidthLarge/2; //0
+*/
 
 //added by Mike, 20260805
 var mainImageTileStepDelay=0;	
@@ -2536,7 +2539,8 @@ var bIsHeroFacingUp=false;
 	}
   
 	//note iTotalFontCharUsed has to be reset to 0 after use; or when no more spare is available;
-	function drawString(iInputX, iInputY, sInput) {
+	//scale(1.0)
+	function drawStringOK(iInputX, iInputY, sInput) {
 	  const iFrameWidth=32;
 	  const iFrameHeight=32;
 	  let iStringInputLength=sInput.length;
@@ -2614,6 +2618,105 @@ var bIsHeroFacingUp=false;
 		}
 	  }
 	}
+
+	//added by Mike, 20260829
+	//scale(0.8)	
+	function drawString(iInputX, iInputY, sInput) {
+	  const iFrameWidth=32;
+	  const iFrameHeight=32;
+	  let iStringInputLength=sInput.length;
+
+/*
+	  var fontImage0 = document.getElementById("fontImageId0");
+	  var fontImage1 = document.getElementById("fontImageId1");
+	  var fontImage2 = document.getElementById("fontImageId2");
+	  var fontImage3 = document.getElementById("fontImageId3");
+	  var fontImage4 = document.getElementById("fontImageId4");
+	  var fontImage5 = document.getElementById("fontImageId5");
+*/
+	  var fontImageArray = [];
+	  const iFontImageCountMax=100;//60;//6;
+	  
+	  //added by Mike, 20260829
+	  const fTransitionScale=0.8;//1;//0.8;
+	  
+	  //init
+	  for (iCount=0; iCount<iFontImageCountMax; iCount++) {
+		fontImageArray[iCount]=document.getElementById("fontImageId"+iCount);
+		
+		//added by Mike, 20260829
+		fontImageArray[iCount].style.transform = "scale("+fTransitionScale+","+fTransitionScale+")";	
+		fontImageArray[iCount].style.transformOrigin = "12.5% 12.5%";
+	  }
+
+	  var fFontOffsetX=0;
+
+	  for (var i=0; i<iStringInputLength; i++) {
+/*	  
+		alert("A".charCodeAt(0));
+		alert("a".charCodeAt(0));
+*/	  
+		//alert("h".charCodeAt(0)); //104
+		//alert(" ".charCodeAt(0)); //104
+
+		let cFontChar=sInput.charCodeAt(i);	
+
+		//alert(cFontChar);
+
+		//alert(iTotalFontCharUsed);
+
+		//drawChar(iInputX+iFrameWidth*i, iInputY, cFontChar, fontImageArray[i]);
+		
+		//edited by Mike, 20260828
+		//drawChar(iInputX+iFrameWidth*i, iInputY, cFontChar, fontImageArray[iTotalFontCharUsed]);
+		
+		//drawChar(iInputX+iFrameWidth*i*0.85, iInputY, cFontChar, fontImageArray[iTotalFontCharUsed]);
+
+		var fFontOffsetY=0;
+		
+		//alert(sInput[i]);
+		
+		if ((sInput[i]==="g") || (sInput[i]==="p") || (sInput[i]==="q") || (sInput[i]==="y") || (sInput[i]===",")) {
+			fFontOffsetY=iFrameHeight/6*(2-fTransitionScale);
+			//fFontOffsetX-=iFrameWidth/8*(2-fTransitionScale);
+		}		
+		
+		if ((sInput[i]==="g") || (sInput[i]==="y")) {
+			fFontOffsetX-=iFrameWidth/8*(2-fTransitionScale);
+		}	
+		else if ((sInput[i]==="i") || (sInput[i]==="o") || (sInput[i]==="x") || (sInput[i]==="v") || (sInput[i]==="h") || (sInput[i]==="k") || (sInput[i]==="t") || (sInput[i]==="l")) {
+			fFontOffsetX-=iFrameWidth/8*(2-fTransitionScale);
+		}		
+		else if ((sInput[i]===" ") || (sInput[i]==="b") || (sInput[i]==="f") || (sInput[i]===",")) {
+			fFontOffsetX-=iFrameWidth/4*(2-fTransitionScale);
+		}
+		
+		drawChar(iInputX+iFrameWidth*i*0.85+fFontOffsetX, iInputY+fFontOffsetY, cFontChar, fontImageArray[iTotalFontCharUsed]);
+		
+		//put this here; "." is always followed by a space;
+		//so reduce the width of that space;
+		if (sInput[i]===".") {
+			//alert("HERE!");
+			fFontOffsetX-=iFrameWidth/2*(2-fTransitionScale);
+		}
+		else if ((sInput[i]==="i") || (sInput[i]==="j") || (sInput[i]==="l") || (sInput[i]==="v") || (sInput[i]==="b")) {
+			fFontOffsetX-=iFrameWidth/4*(2-fTransitionScale);
+		}
+		else if ((sInput[i]==="a") || (sInput[i]==="l")) {
+			fFontOffsetX-=iFrameWidth/8*(2-fTransitionScale);
+		}
+		else if ((sInput[i]==="g") || (sInput[i]==="p") || (sInput[i]==="q") || (sInput[i]==="y") || (sInput[i]===",") || (sInput[i]==="e") || (sInput[i]==="h")) {
+			fFontOffsetX-=iFrameWidth/8*(2-fTransitionScale);
+		}		
+		
+		iTotalFontCharUsed++;
+		
+	    //added by Mike, 20260827; reset;
+		if (iTotalFontCharUsed>=iFontImageCountMax) {
+		  iTotalFontCharUsed=0;
+		}
+	  }
+	}	
 
 	function resetProjectile() {
 		var mainImageTile = document.getElementById("mainImageTileImageId");
@@ -4214,8 +4317,8 @@ var bIsHeroFacingUp=false;
 		myCanvasTint.style.top = (iVerticalOffsetInnerScreen+0)+"px";
 		myCanvasTint.style.left = iHorizontalOffset+"px";
 
-		//edited by Mike, 20260820
-		mainImageTilePosX=iViewportMaxWidth/2-iImageFrameWidth/2;
+		//edited by Mike, 20260829; from 20260820
+		mainImageTilePosX=iViewportMaxWidth/2-iImageFrameWidthLarge/2;
 		mainImageTilePosY=iViewportMaxHeight/2-iImageFrameHeight;
 
 		mainImageTile.style.left = (iHorizontalOffset+mainImageTilePosX)+"px";
@@ -4648,8 +4751,8 @@ var bIsHeroFacingUp=false;
 		//mainImageTilePosY=iViewportMaxHeight/2-iImageFrameHeight;
 		mainImageTilePosY=iViewportMaxHeight*0.1-iImageFrameHeight/2;
 */
-		//edited by Mike, 20260820
-		mainImageTilePosX=iViewportMaxWidth/2-iImageFrameWidth/2;
+		//edited by Mike, 20260829; from 20260820
+		mainImageTilePosX=iViewportMaxWidth/2-iImageFrameWidthLarge/2;
 		mainImageTilePosY=iViewportMaxHeight/2-iImageFrameHeight;
 
 		mainImageTile.style.left = (iHorizontalOffset+mainImageTilePosX)+"px";
@@ -5269,6 +5372,8 @@ alert("iInputY: "+iInputY);
 			}
 		}
 */
+
+/*		//edited by Mike, 20260829
 		if (bIsHeroFacingLeftOrRight) {
 			if (bIsHeroFacingUpOrDown) {
 			}
@@ -5285,6 +5390,25 @@ alert("iInputY: "+iInputY);
 				}
 			}
 		}
+*/		
+		if (bIsHeroFacingLeftOrRight) {
+			if (bIsHeroFacingUpOrDown) {
+			}
+			//directly facing left or right
+			else {
+				//if facing right;
+				if (!bIsHeroFacingLeft) {
+					dustEffectImage.style.left = iInputX+iImageFrameWidthLarge/2+"px";
+					dustEffectImage.style.top = iInputY+iImageDustEffectAnimationHeight/4+"px";
+				}
+				else {
+					dustEffectImage.style.left = iInputX+"px";
+					dustEffectImage.style.top = iInputY+iImageDustEffectAnimationHeight/4+"px";
+				}
+			}
+		}
+
+		
 /*
 		else if (bIsHeroFacingUpOrDown) {
 			if (!bIsHeroFacingUp) {
@@ -5717,8 +5841,10 @@ alert("iInputY: "+iInputY);
 		
 		if (!bIsActionKeyControlPressed) {
 		//if ((!bIsActionKeyControlPressed) || (bIsActionKeyFireballPressed)) {
-
+				
 			iHeroFrameY=0;
+			iHeroFrameX=0;
+
 			iHeroFrameXOffset=0;
 					
 		//added by Mike, 20251102
@@ -5810,15 +5936,88 @@ alert("iInputY: "+iInputY);
 */			
 
 		} //added by Mike, 20260827
+		else {
+			//!bIsHeroFacingUp
+			//if (iHeroFrameY/iImageFrameHeightLarge==6) { //row 6
+			if ((iHeroFrameY/iImageFrameHeightLarge==6) || (iHeroFrameY/iImageFrameHeightLarge==14)) { 
+				if (bIsHeroFacingLeftOrRight) {
+					if (!bIsHeroFacingLeft) {
+						iHeroFrameY=iImageFrameHeightLarge*3;//13;
+					}
+					else {
+						iHeroFrameY=iImageFrameHeightLarge*2;//12;
+					}		
+				}
+				else {
+					iHeroFrameY=iImageFrameHeightLarge*14;
+				}
+				
+			} //bIsHeroFacingUp
+			//else if (iHeroFrameY/iImageFrameHeightLarge==7) { //row 7
+			else if ((iHeroFrameY/iImageFrameHeightLarge==7) || (iHeroFrameY/iImageFrameHeightLarge==15)) { //row 7
+				if (bIsHeroFacingLeftOrRight) {
+					if (!bIsHeroFacingLeft) {
+						iHeroFrameY=iImageFrameHeightLarge*5;
+					}
+					else {
+						iHeroFrameY=iImageFrameHeightLarge*4;
+					}		
+				}
+				else {
+					iHeroFrameY=iImageFrameHeightLarge*15;
+				}
+			}
 
-		mainImageTileHeroBody.style.objectPosition = "-" + iHeroFrameXOffset-iImageFrameWidthLarge*iHeroAnimationCount + "px -" + iHeroFrameY + "px";
+			//!bIsHeroFacingLeft
+			if (iHeroFrameY/iImageFrameHeightLarge==0) { //row 0
+			//if ((iHeroFrameY/iImageFrameHeightLarge==0) || ((iHeroFrameY/iImageFrameHeightLarge==14) && (iHeroFrameX/iImageFrameWidthLarge==4))) {
+			//if ((iHeroFrameY/iImageFrameHeightLarge==0) || ((iHeroFrameY/iImageFrameHeightLarge==14))) {
+				if (bIsHeroFacingUpOrDown) {
+					if (!bIsHeroFacingUp) {
+						iHeroFrameY=iImageFrameHeightLarge*3;
+					}
+					else {
+						iHeroFrameY=iImageFrameHeightLarge*5;
+					}		
+				}
+/*
+				//TODO: -add: new image frames; else
+				else {
+					iHeroFrameY=iImageFrameHeightLarge*14;
+					//iHeroFrameX=iImageFrameWidthLarge*4;
+				}				
+*/
+			} //bIsHeroFacingLeft
+			else if (iHeroFrameY/iImageFrameHeightLarge==1) { //row 1
+			//else if ((iHeroFrameY/iImageFrameHeightLarge==1) || ((iHeroFrameY/iImageFrameHeightLarge==15) && (iHeroFrameX/iImageFrameWidthLarge==4))) { //row 1
+			//else if ((iHeroFrameY/iImageFrameHeightLarge==1) || ((iHeroFrameY/iImageFrameHeightLarge==15))) { //row 1
+				if (bIsHeroFacingUpOrDown) {
+					if (!bIsHeroFacingUp) {
+						iHeroFrameY=iImageFrameHeightLarge*2;
+					}
+					else {
+						iHeroFrameY=iImageFrameHeightLarge*4;
+					}		
+				}
+/*				
+				//TODO: -add: new image frames; else
+				else {
+					iHeroFrameY=iImageFrameHeightLarge*15;
+					//iHeroFrameX=iImageFrameWidthLarge*4;
+				}				
+*/				
+			}
+		}
+		
+
+		mainImageTileHeroBody.style.objectPosition = "-" + iHeroFrameXOffset-iImageFrameWidthLarge*iHeroAnimationCount-iHeroFrameX + "px -" + iHeroFrameY + "px";
 
 
-		mainImageTileHeroBody0.style.objectPosition = "-" + iHeroFrameXOffset-iImageFrameWidthLarge*iHeroAnimationCount + "px -" + iHeroFrameY + "px";
+		mainImageTileHeroBody0.style.objectPosition = "-" + iHeroFrameXOffset-iImageFrameWidthLarge*iHeroAnimationCount-iHeroFrameX + "px -" + iHeroFrameY + "px";
 
-		mainImageTileHeroBody1.style.objectPosition = "-" + iHeroFrameXOffset-iImageFrameWidthLarge*iHeroAnimationCount + "px -" + iHeroFrameY + "px";
+		mainImageTileHeroBody1.style.objectPosition = "-" + iHeroFrameXOffset-iImageFrameWidthLarge*iHeroAnimationCount-iHeroFrameX + "px -" + iHeroFrameY + "px";
 
-		mainImageTileHeroBody2.style.objectPosition = "-" + iHeroFrameXOffset-iImageFrameWidthLarge*iHeroAnimationCount + "px -" + iHeroFrameY + "px";
+		mainImageTileHeroBody2.style.objectPosition = "-" + iHeroFrameXOffset-iImageFrameWidthLarge*iHeroAnimationCount-iHeroFrameX + "px -" + iHeroFrameY + "px";
 	}
 	
 	//added by Mike, 20251105
@@ -12533,8 +12732,8 @@ if (fDifferenceInXPos!=0) {
 				
 				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*1, iImageFrameHeightLarge, iImageFrameWidthLarge*1, iImageFrameHeightLarge)) {
 
-				//added by Mike, 20260827; from 20260807
-				var offsetX=iImageFrameWidth/2;
+				//added by Mike, 20260829; from 20260827
+				var offsetX=0;//iImageFrameWidth/2;
 				var offsetY=iImageFrameHeight;
 
 				//edited by Mike, 20260820; from 20260807
@@ -12869,13 +13068,18 @@ if (fDifferenceInXPos!=0) {
 		else {
 			//added by Mike, 20260728
 			//note we added a blank square space above the tile to get the correct z-index during auto-update
-			const coinImageOffsetY=iImageFrameWidthDefault;
+			const coinImageOffsetY=iImageFrameHeightDefault;
 			
 			//TODO: -update: this; consider adding auto-approach hero;
 			//edited by Mike, 20260817
 			//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, parseInt(coinImage.style.left),parseInt(coinImage.style.top)+coinImageOffsetY, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthDefault*0.75, iImageFrameHeightDefault*0.75)) {
+			
 
-			if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX+mainImageTilePosXOffset,mainImageTilePosY, parseFloat(coinImage.style.left),parseFloat(coinImage.style.top)+coinImageOffsetY, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthDefault*0.75, iImageFrameHeightDefault*0.75)) {
+			//edited by Mike, 20260829
+			//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX+mainImageTilePosXOffset,mainImageTilePosY, parseFloat(coinImage.style.left),parseFloat(coinImage.style.top)+coinImageOffsetY, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthDefault*0.75, iImageFrameHeightDefault*0.75)) {
+
+			if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, parseFloat(coinImage.style.left),parseFloat(coinImage.style.top)+coinImageOffsetY, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthDefault*0.75, iImageFrameHeightDefault*0.75)) {
+
 
 				//alert("HERE!!!");
 /*
@@ -16160,16 +16364,18 @@ iCurrTextCharacterCountMax=sText.length;
 					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*3,"JUMPED OVER THE LAZY");
 					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*4,"DOG. 0123456789,%");
 */
+					//removed by Mike, 20260829
 					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*2,"The quick brown fox");
 					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*3,"jumped over the lazy");
 					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*4,"dog. 0123456789,%");
 
-					
+/*					
 					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*5,"abcdefghijklmnopqrs");
 					//drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*6,"abcdefghijklmnopqrs");
 					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*6,"tuvwxyz,abcd");
 
 					//drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*7,"the quick brown fox");
+*/
 
 					hasInitMapLocation=true;					
 				}
@@ -21640,8 +21846,15 @@ iCurrTextCharacterCountMax=sText.length;
 		//edited by Mike, 20260807
 		mainImageTileHeroBody.style.left = mainImageTilePosX; //actually moves the hero;
 */		
+
+		//edited by Mike, 20260829
+/*
 		mainImageTileHeroBody.style.left=iViewportMaxWidth/2;
 		mainImageTileHeroBody.style.top=iViewportMaxHeight/2;
+*/
+
+		mainImageTileHeroBody.style.left=iViewportMaxWidth/2-iImageFrameWidthLarge/2;
+		mainImageTileHeroBody.style.top=iViewportMaxHeight/2-iImageFrameHeightLarge/2;
 
 		if (bIsHeroWalking) {
 
@@ -22977,9 +23190,9 @@ alert("iXPos: "+iXPos);
 		bHasFired=true;
 		//bIsHeroWalking=true;
 		
-		//edited by Mike, 20260820
+		//edited by Mike, 20260829; from 20260820
 		if ((iXPos>parseFloat(mainImageTilePosX)
-		+mainImageTilePosXOffset/2) && (iXPos<parseFloat(mainImageTilePosX)+iImageFrameWidthLarge)) {
+		+iImageFrameWidthLarge/2) && (iXPos<parseFloat(mainImageTilePosX)+iImageFrameWidthLarge)) {
 		
 			if ((iYPos>parseFloat(mainImageTilePosY)) && (iYPos<parseFloat(mainImageTilePosY)+iImageFrameHeightLarge)) {
 				
@@ -23227,8 +23440,8 @@ setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameW
 			//NEW GAME
 			iCurrBossMonsterLife=iCurrBossMonsterLifeMax;
 			
-			//edited by Mike, 20260820
-			mainImageTilePosX=iViewportMaxWidth/2-iImageFrameWidth/2;
+			//edited by Mike, 20260829; from 20260820
+			mainImageTilePosX=iViewportMaxWidth/2-iImageFrameWidthLarge/2;
 			mainImageTilePosY=iViewportMaxHeight/2-iImageFrameHeight;
 			
 			mainImageTile.style.left = (iHorizontalOffset+mainImageTilePosX)+"px";
