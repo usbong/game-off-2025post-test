@@ -556,7 +556,7 @@ Afterward, I added custom fonts that I'm still updating in order to make sure th
 
 My DIY engine now has more basic components that would be useful when building any type game. Still, I admit that the engine and its sample prototype could hardly be called a game yet.
 
-44) 20260828; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+44) 20260828-20260829; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 **Key Lesson Learned:** 
 
@@ -565,6 +565,18 @@ I've been adding more letters in the font image tile set, which now include lett
 **Unlocked Possibilities:**
 
 My handwriting on the computer using GIMP surprisingly appears cartoony, something that I could certainly use in a cartoony game that I'd want to share with family and friends. 
+
+45) 20260828-20260829; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+
+**Key Lesson Learned:** 
+
+I've adjusted programmatically the spacing between the characters in the font image tile set, particularly with regard to the letters in lower case. I can now also set the scaling down to 80% of the actual size without noticeable problems in the position of each letter in terms of their `x` and `y` coordinate positions.
+
+I've added new walking animation frames depending on whether the user is pressing the `Ctrl` key for strafing or not. This was to resolve the issue when the hero is directly moving downward and then the user strafes directly toward the left or the right. I've yet to put the one for when the user is walking directly toward the left or the right and then presses the `Ctrl` key.
+
+**Unlocked Possibilities:**
+
+The amount of animation frames that would be needed to cover all the possible movements based on the combination of keyboard and mouse clicks is substantially more than the one used with a traditional 2D side-scroller without any isometric movements at all. Nonetheless, having a template like this already at hand makes the process a lot faster than having to again start from scratch.
 
 # Additional Bug Fixes
 
