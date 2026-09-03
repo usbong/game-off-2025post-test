@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260902; from 20260901
+' @date updated: 20260903; from 20260902
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -287,10 +287,20 @@
 		}
 
 		
-		.ImageHeroFrame1 {
+		.ImageHeroFrame1, .ImageHeroBody {
 			position: absolute;
 
 			clip: rect(0px,64px,64px,0px);
+			
+			visibility: hidden;
+						
+			z-index: 3;
+		}
+		
+		.ImageHeroBodyDouble {
+			position: absolute;
+
+			clip: rect(0px,128px,128px,0px);
 			
 			visibility: hidden;
 						
@@ -1963,8 +1973,9 @@ var bossMonsterImageTilePosY=10;
 var iImageFrameWidth=32;// 64; //0;
 var iImageFrameHeight=32;// 64;
 
-var iImageFrameWidthLarge=64;
-var iImageFrameHeightLarge=64;
+//edited by Mike, 20260903
+var iImageFrameWidthLarge=64;//128;
+var iImageFrameHeightLarge=64;//128;
 
 var iImageFrameWidthLargeBoss=128;
 var iImageFrameHeightLargeBoss=128;
@@ -2697,7 +2708,8 @@ var bIsHeroFacingUp=false;
 		//so reduce the width of that space;
 		if (sInput[i]===".") {
 			//alert("HERE!");
-			fFontOffsetX-=iFrameWidth/2*(2-fTransitionScale);
+			//edited by Mike, 20260903
+			fFontOffsetX-=iFrameWidth/3*(2-fTransitionScale);
 		}
 		else if ((sInput[i]==="i") || (sInput[i]==="j") || (sInput[i]==="l") || (sInput[i]==="v") || (sInput[i]==="b")) {
 			fFontOffsetX-=iFrameWidth/4*(2-fTransitionScale);
@@ -5093,8 +5105,14 @@ var bIsHeroFacingUp=false;
 			
 //---------------------------------
 				var impactParticleEffectImage = document.getElementById("impactParticleEffectImageId");
+
+/*				//edited by Mike, 20260903
 				impactParticleEffectImage.style.left=iInputX+iImageFrameWidthDefault/2+iImageFrameWidthLarge/2*0+"px";
 				impactParticleEffectImage.style.top=iInputY+iImageFrameHeightDefault/2+iImageFrameHeightLarge/2*0+"px";
+*/
+				impactParticleEffectImage.style.left=iInputX+iImageFrameWidthLarge/2-iImageFrameWidthDefault/2+"px";
+				impactParticleEffectImage.style.top=iInputY+iImageFrameHeightLarge/2-iImageFrameHeightDefault/2+"px";
+
 			
 				impactParticleEffectImage.style.visibility="visible";
 
@@ -5410,6 +5428,8 @@ alert("iInputY: "+iInputY);
 			}
 		}
 */		
+
+/*		//removed by Mike, 20260903
 		if (bIsHeroFacingLeftOrRight) {
 			if (bIsHeroFacingUpOrDown) {
 			}
@@ -5426,6 +5446,7 @@ alert("iInputY: "+iInputY);
 				}
 			}
 		}
+*/
 
 		
 /*
@@ -5546,13 +5567,13 @@ alert("iInputY: "+iInputY);
 		initFireballEffectImage.style.left = iInputX-iImageFrameWidthLarge/2-iImageFrameWidthDefault/2;
 		initFireballEffectImage.style.top = iInputY-iImageFrameHeightLarge/2-iImageFrameHeightDefault/2;
 */		
-		//edited by Mike, 20260817
+/*
+		//edited by Mike, 20260903; from 20260817
 		initFireballEffectImage.style.left = iInputX-iImageFrameWidthLarge;
 		initFireballEffectImage.style.top = iInputY-iImageFrameHeightLarge;
-/*
-		initFireballEffectImage.style.left = iInputX;//-iImageFrameWidthLarge;
-		initFireballEffectImage.style.top = iInputY;//-iImageFrameHeightLarge;
 */
+		initFireballEffectImage.style.left = iInputX;//-iImageFrameWidthLarge/2;
+		initFireballEffectImage.style.top = iInputY;//-iImageFrameHeightLarge/2;
 	}
 	
   
@@ -9473,8 +9494,12 @@ alert("iInputY: "+iInputY);
 		mainImageTileFireballProjectileHold.style.left=mainImageTileHeroBody.style.left;
 		mainImageTileFireballProjectileHold.style.top=mainImageTileHeroBody.style.top;
 */
+/*		//edited by Mike, 20260903
 		mainImageTileFireballProjectileHold.style.left=parseFloat(mainImageTileHeroBody.style.left)+iImageFrameWidthDefault/2+"px";
 		mainImageTileFireballProjectileHold.style.top=parseFloat(mainImageTileHeroBody.style.top)+iImageFrameHeightDefault/2+"px";
+*/
+		mainImageTileFireballProjectileHold.style.left=parseFloat(mainImageTileHeroBody.style.left)+iImageFrameWidthLarge/2-iImageFrameWidthDefault/2+"px";
+		mainImageTileFireballProjectileHold.style.top=parseFloat(mainImageTileHeroBody.style.top)+iImageFrameHeightLarge/2-iImageFrameHeightDefault/2+"px";
 		
 
 /*		
@@ -13822,10 +13847,10 @@ if (fDifferenceInXPos!=0) {
 				//if (bHasHeroShotFireball) {
 				if (mainImageTileFireballProjectile.style.visibility=="visible") {
 					//alert("HALLO"); 	
-					monsterHitByHeroFireball(parseInt(mainImageTileFireballProjectilePosX),parseInt(mainImageTileFireballProjectilePosY), inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY]);
+					monsterHitByHeroFireball(parseFloat(mainImageTileFireballProjectilePosX),parseFloat(mainImageTileFireballProjectilePosY), inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY]);
 					//setExplosionEffectPosition(batMonsterImageTilePosX,batMonsterImageTilePosY);
 					
-					setFireballExplosionEffectPosition(inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidth/2,inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeight/2);
+					setFireballExplosionEffectPosition(inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidthLarge/2-iImageFrameWidth/2,inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/2-iImageFrameHeight/2);
 
 					//edited by Mike, 20260625; from 20260618; debug					
 					clearWraithMonsterFromStage(inputArrayWraithMonsterWithIdCount);
@@ -14400,18 +14425,6 @@ if (fDifferenceInXPos!=0) {
     //myCanvasTwoContext.fillRect(0, 0, iViewportMaxWidth, 120);//iViewportMaxHeight/2);
     
 	//myCanvasTwoContext.fillRect(0, 0, iViewportMaxWidth, iViewportMaxHeight);//iViewportMaxHeight/2);
-	
-
-	//added by Mike, 20251103
-	//drawChar(iImageFrameWidthDefault*5,iImageFrameHeightDefault*0,"5");
-	
-	//added by Mike, 20260827
-	//drawString(iImageFrameWidthDefault*7,iImageFrameHeightDefault*0,"ABC123");
-	//drawString(iImageFrameWidthDefault*7,iImageFrameHeightDefault*0,"aBC123");
-/*	//removed by Mike, 20260827
-	drawString(iImageFrameWidthDefault*0,iImageFrameHeightDefault*1,"THE QUICK BROWN FOX");
-	drawString(iImageFrameWidthDefault*0,iImageFrameHeightDefault*2,"JUMPED OVER THE LAZY DOG.");
-*/
 
 /*
 	//edited by Mike, 20241114	
@@ -16389,10 +16402,13 @@ iCurrTextCharacterCountMax=sText.length;
 					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*3,"JUMPED OVER THE LAZY");
 					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*4,"DOG. 0123456789,%");
 */
-					//removed by Mike, 20260829
+/*
+					//removed by Mike, 20260903; from 20260829
 					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*2,"The quick brown fox");
 					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*3,"jumped over the lazy");
 					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*4,"dog. 0123456789,%");
+*/
+					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*2,"The quick brown fox...");
 
 /*					
 					drawString(iImageFrameWidthDefault*1,iImageFrameHeightDefault*5,"abcdefghijklmnopqrs");
@@ -21881,8 +21897,8 @@ iCurrTextCharacterCountMax=sText.length;
 		mainImageTileHeroBody.style.left=iViewportMaxWidth/2-iImageFrameWidthLarge/2;
 		mainImageTileHeroBody.style.top=iViewportMaxHeight/2-iImageFrameHeightLarge/2;
 
+/*		//removed by Mike, 20260903; debug
 		if (bIsHeroWalking) {
-
 				//body0
 				if (parseFloat(mainImageTileHeroBody0.style.left)<parseFloat(mainImageTileHeroBody.style.left)-iImageFrameWidthLarge/2) { //body0 is to the left body
 					mainImageTileHeroBody0.style.left = (parseFloat(mainImageTileHeroBody0.style.left)+mainImageTileStepX*1)+"px";
@@ -21942,16 +21958,21 @@ iCurrTextCharacterCountMax=sText.length;
 						mainImageTileHeroBody2.style.left = (parseFloat(mainImageTileHeroBody2.style.left)-mainImageTileStepX*1)+"px";
 					}
 				}		
-				
-/*
-			}
-*/			
 		}
+*/
 
 		//edited by Mike, 20260807; from 20260803
 		mainImageTile.style.top = (iVerticalOffsetInnerScreen+mainImageTilePosY)+"px";
 		mainImageTileHeroBody.style.top = mainImageTilePosY+"px";
 
+		mainImageTileHeroBody0.style.left = mainImageTilePosX+"px";
+		mainImageTileHeroBody0.style.top = mainImageTilePosY+"px";
+		mainImageTileHeroBody1.style.left = mainImageTilePosX+"px";
+		mainImageTileHeroBody1.style.top = mainImageTilePosY+"px";
+		mainImageTileHeroBody2.style.left = mainImageTilePosX+"px";
+		mainImageTileHeroBody2.style.top = mainImageTilePosY+"px";
+
+/*	//removed by Mike, 20260903; debug
 		if (bIsHeroWalking) {
 				//body0
 				if (parseFloat(mainImageTileHeroBody0.style.top)<parseFloat(mainImageTileHeroBody.style.top)-iImageFrameHeightLarge/2/2) { //body0 is above body
@@ -21965,16 +21986,6 @@ iCurrTextCharacterCountMax=sText.length;
 				}
 				//if directly facing left or right
 				else {
-						
-					//edited by Mike, 20260826
-/*
-					if (parseFloat(mainImageTileHeroBody0.style.top)<parseFloat(mainImageTileHeroBody.style.top)-mainImageTileStepY/2) { //body0 is above body
-						mainImageTileHeroBody0.style.top = (parseFloat(mainImageTileHeroBody0.style.top)+mainImageTileStepY*1)+"px";
-					}
-					else if (parseFloat(mainImageTileHeroBody0.style.top)>parseFloat(mainImageTileHeroBody.style.top)+mainImageTileStepY/2) {
-						mainImageTileHeroBody0.style.top = (parseFloat(mainImageTileHeroBody0.style.top)-mainImageTileStepY*1)+"px";
-					}
-*/
 					//if body is still ahead of the hero; horizontally
 					if (bIsHeroFacingLeft) {
 						if (parseFloat(mainImageTileHeroBody0.style.left)<parseFloat(mainImageTileHeroBody.style.left)) {
@@ -22014,14 +22025,6 @@ iCurrTextCharacterCountMax=sText.length;
 				}
 				//if directly facing left or right
 				else {
-/*				
-					if (parseFloat(mainImageTileHeroBody1.style.top)<parseFloat(mainImageTileHeroBody0.style.top)-mainImageTileStepY/2) { //body0 is above body
-						mainImageTileHeroBody1.style.top = (parseFloat(mainImageTileHeroBody1.style.top)+mainImageTileStepY*1)+"px";
-					}
-					else if (parseFloat(mainImageTileHeroBody1.style.top)>parseFloat(mainImageTileHeroBody0.style.top)+mainImageTileStepY/2) {
-						mainImageTileHeroBody1.style.top = (parseFloat(mainImageTileHeroBody1.style.top)-mainImageTileStepY*1)+"px";
-					}
-*/
 					//if body is still ahead of the hero; horizontally
 					if (bIsHeroFacingLeft) {
 						if (parseFloat(mainImageTileHeroBody1.style.left)<parseFloat(mainImageTileHeroBody0.style.left)) {
@@ -22061,14 +22064,6 @@ iCurrTextCharacterCountMax=sText.length;
 				}
 				//if directly facing left or right
 				else {
-/*					//edited by Mike, 20260826				
-					if (parseFloat(mainImageTileHeroBody2.style.top)<parseFloat(mainImageTileHeroBody1.style.top)-mainImageTileStepY/2) { //body0 is above body
-						mainImageTileHeroBody2.style.top = (parseFloat(mainImageTileHeroBody2.style.top)+mainImageTileStepY*1)+"px";
-					}
-					else if (parseFloat(mainImageTileHeroBody2.style.top)>parseFloat(mainImageTileHeroBody1.style.top)+mainImageTileStepY/2) {
-						mainImageTileHeroBody2.style.top = (parseFloat(mainImageTileHeroBody2.style.top)-mainImageTileStepY*1)+"px";
-					}
-*/
 					//if body is still ahead of the hero; horizontally
 					if (bIsHeroFacingLeft) {
 						if (parseFloat(mainImageTileHeroBody2.style.left)<parseFloat(mainImageTileHeroBody1.style.left)) {
@@ -22096,7 +22091,7 @@ iCurrTextCharacterCountMax=sText.length;
 					}
 				}						
 		}
-	
+*/	
 //-----------------------
 
 
@@ -23152,8 +23147,13 @@ alert("iXPos: "+iXPos);
 				mainImageTileFireballProjectilePosX=mainImageTilePosX+iImageFrameWidthDefault/2;
 				mainImageTileFireballProjectilePosY=mainImageTilePosY+iImageFrameHeightDefault/2;
 */
+
+/*				//edited by Mike, 20260903
 				mainImageTileFireballProjectilePosX=iFireballMainImageTilePosX+iImageFrameWidthDefault/2;
 				mainImageTileFireballProjectilePosY=iFireballMainImageTilePosY+iImageFrameHeightDefault/2;
+*/
+				mainImageTileFireballProjectilePosX=iFireballMainImageTilePosX+iImageFrameWidthLarge/2-iImageFrameWidthDefault/2;
+				mainImageTileFireballProjectilePosY=iFireballMainImageTilePosY+iImageFrameHeightLarge/2-iImageFrameHeightDefault/2;
 
 
 /*
@@ -23164,10 +23164,12 @@ alert("iXPos: "+iXPos);
 				mainImageTileFireballProjectileStepDestinationY=iYPos;
 				
 			
-				//edited by Mike, 20260817
+				//edited by Mike, 20260903; from 20260817
 				//setInitFireballEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/2,mainImageTilePosY+iImageFrameHeightLarge/2);				
 			
-				setInitFireballEffectPosition(iFireballMainImageTilePosX+iImageFrameWidthLarge/2,iFireballMainImageTilePosY+iImageFrameHeightLarge/2);				
+				//setInitFireballEffectPosition(iFireballMainImageTilePosX,iFireballMainImageTilePosY);			
+				
+				setInitFireballEffectPosition(mainImageTilePosX-iImageFrameWidthLarge/2,mainImageTilePosY-iImageFrameHeightLarge/2);				
 			
 			//setInitFireballEffectPosition(mainImageTilePosX-fHeroBodySoulDistanceX+iImageFrameWidthLarge/2,mainImageTilePosY-fHeroBodySoulDistanceY+iImageFrameHeightLarge/2);				
 			
@@ -24326,107 +24328,6 @@ setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameW
 						//alert(">>>>>: "+iCurrMapLocation);
 					}
 					break;
-				case 'touch':
-/*
-					//alert("TOUCH");
-					if (bIsUsingAppleWebKit) {
-					  //added by Mike, 20221111; removed by Mike, 20221118
-					  //note: NOT yet set
-					  if (bIsUsingAppleMac) {
-						toggleFullScreen();
-					  }
-
-					  bIsUsingAppleMac=false;
-					  bIsMobile=true; //added by Mike, 20221110
-
-					  //added by Mike, 20230111
-					  bHasSetMaxWidthHeight=true;
-					}
-*/
-//note: ZOOM function causes position ERROR via screenX
-					var iXPos = event.clientX;//screenX;
-
-					//note: screenY includes BROWSER address bar, et cetera;
-					var iYPos = event.pageY; //screenY;
-
-					//alert(event.which);
-					
-					if (event.which===3) { //right-click
-						break;						
-					}
-					else { //if 1; left-click
-/*
-        //edited by Mike, 20230423
-        alert("iXPos: "+iXPos);
-        alert("iYPos: "+iYPos);
-*/
-						if (bIsGameOver) {
-							var textNewGameDiv = document.getElementById("textNewGameDivId");
-							var textContinueGameDiv = document.getElementById("textContinueGameDivId");
-
-							textNewGameDiv.style.visibility="visible";
-							textContinueGameDiv.style.visibility="visible";
-						
-							//init(); //note: error; iCurrMapLocation could not be set;
-							//restarts where hero died;						
-							//current working solution
-							//executeHeroContinue();
-							//return;
-							
-							//alert("iXPos"+iXPos);
-													
-							if (isPointsOfRectIntersectingPointsOfRectDoor(iXPos,iYPos, parseInt(textNewGameDiv.style.left),parseInt(textNewGameDiv.style.top),textNewGameDiv.clientWidth,textNewGameDiv.clientHeight)) {
-							
-								executeHeroContinue(false);
-							
-								return;
-							}
-							else if (isPointsOfRectIntersectingPointsOfRectDoor(iXPos,iYPos, parseInt(textContinueGameDiv.style.left),parseInt(textContinueGameDiv.style.top),textContinueGameDiv.clientWidth,textContinueGameDiv.clientHeight)) {
-							
-								executeHeroContinue(true);
-							
-								return;
-							}
-
-							return;
-						}
-
-						//added by Mike, 20231122
-						if (bHasPressedStart) {
-						
-						if (iInputDelayCount<iInputDelayCountMax) {
-							//iInputDelayCount++;
-							return;
-						}
-			
-						  //alert(">");
-						  if (!bHasViewedHowToPlayGuide) {
-							bHasViewedHowToPlayGuide=true;
-							playSolvedTune();
-							
-							iInputDelayCount=0;
-							return;
-						  }
-						  else {
-							  if (!bHasViewedMissionIntro) {
-								bHasViewedMissionIntro=true;
-								return;
-							  }
-						  }
-						}
-						else {
-						  bHasPressedStart=true;
-						  playSolvedTune();
-						  iInputDelayCount=0;
-						  return;
-						}
-
-						//added by Mike, 20231107
-						processResultFromInput(iXPos, iYPos);
-					
-						//alert(">>>>>: "+iCurrMapLocation);
-					}								
-					break;
 			}
 		});
 		
@@ -24991,15 +24892,24 @@ opting to put assets folder in "html_application" folder instead
 	
 	
 		<img id="mainImageTileImageTankBodyId" class="ImageTankFrame1" src="assets/images/inputImageLarge.png?lastmod=20241110">
-		
-		<img id="mainImageTileImageHeroBodyId" class="ImageHeroFrame1" src="assets/images/inputImageLarge2026.png?lastmod=20260721T1429">		
 
-		<img id="mainImageTileImageHeroBodyId0" class="ImageHeroFrame1" src="assets/images/inputImageLarge2026.png?lastmod=20260721T1429">		
+		<img id="mainImageTileImageHeroBodyId" class="ImageHeroBody" src="assets/images/inputImageLarge2026.png?lastmod=20260721T1429">		
 
-		<img id="mainImageTileImageHeroBodyId1" class="ImageHeroFrame1" src="assets/images/inputImageLarge2026.png?lastmod=20260721T1429">		
+		<img id="mainImageTileImageHeroBodyId0" class="ImageHeroBody" src="assets/images/inputImageLarge2026.png?lastmod=20260721T1429">		
 
-		<img id="mainImageTileImageHeroBodyId2" class="ImageHeroFrame1" src="assets/images/inputImageLarge2026.png?lastmod=20260721T1429">		
+		<img id="mainImageTileImageHeroBodyId1" class="ImageHeroBody" src="assets/images/inputImageLarge2026.png?lastmod=20260721T1429">		
 
+		<img id="mainImageTileImageHeroBodyId2" class="ImageHeroBody" src="assets/images/inputImageLarge2026.png?lastmod=20260721T1429">		
+
+<!--
+		<img id="mainImageTileImageHeroBodyId" class="ImageHeroBodyDouble" src="assets/images/inputImageLarge2026Double.png?lastmod=20260721T1429">		
+
+		<img id="mainImageTileImageHeroBodyId0" class="ImageHeroBodyDouble" src="assets/images/inputImageLarge2026Double.png?lastmod=20260721T1429">		
+
+		<img id="mainImageTileImageHeroBodyId1" class="ImageHeroBodyDouble" src="assets/images/inputImageLarge2026Double.png?lastmod=20260721T1429">		
+
+		<img id="mainImageTileImageHeroBodyId2" class="ImageHeroBodyDouble" src="assets/images/inputImageLarge2026Double.png?lastmod=20260721T1429">		
+-->
 
 
 		<img id="RunningWraithMonsterImageId" class="ImageHeroFrame1" src="assets/images/inputImageLarge2025RunningWraith.png?lastmod=20251123T0943">		
@@ -25033,11 +24943,11 @@ opting to put assets folder in "html_application" folder instead
 		<img id="runningWraithMonsterImageId2" class="ImageHeroFrame1" src="assets/images/inputImageLarge2025RunningWraith.png?lastmod=20251123T0946">
 		<img id="runningWraithMonsterImageId3" class="ImageHeroFrame1" src="assets/images/inputImageLarge2025RunningWraith.png?lastmod=20251123T0946">
 -->
-		<img id="wraithMonsterImageId0" class="ImageHeroFrame1" src="assets/images/inputImageLarge2026Boxer.png?lastmod=20260702T1501">
-		<img id="wraithMonsterImageId1" class="ImageHeroFrame1" src="assets/images/inputImageLarge2026Boxer.png?lastmod=20260702T1501">
+		<img id="wraithMonsterImageId0" class="ImageHeroBody" src="assets/images/inputImageLarge2026Boxer.png?lastmod=20260903T1556">
+		<img id="wraithMonsterImageId1" class="ImageHeroBody" src="assets/images/inputImageLarge2026Boxer.png?lastmod=20260903T1556">
 
-		<img id="wraithMonsterImageId2" class="ImageHeroFrame1" src="assets/images/inputImageLarge2026Boxer.png?lastmod=20260702T1501">
-		<img id="wraithMonsterImageId3" class="ImageHeroFrame1" src="assets/images/inputImageLarge2026Boxer.png?lastmod=20260702T1501">
+		<img id="wraithMonsterImageId2" class="ImageHeroBody" src="assets/images/inputImageLarge2026Boxer.png?lastmod=20260903T1556">
+		<img id="wraithMonsterImageId3" class="ImageHeroBody" src="assets/images/inputImageLarge2026Boxer.png?lastmod=20260903T1556">
 
 		<img id="runningWraithMonsterImageId0" class="ImageHeroFrame1" src="assets/images/inputImageLarge2025RunningWraith.png?lastmod=20251123T0946">
 		<img id="runningWraithMonsterImageId1" class="ImageHeroFrame1" src="assets/images/inputImageLarge2025RunningWraith.png?lastmod=20251123T0946">
