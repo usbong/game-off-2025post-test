@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260903; from 20260902
+' @date updated: 20260904; from 20260903
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -1299,6 +1299,10 @@ var iInputDelayAtStageTransitionCount=0;
 
 var bHasHeroGottenSniperShot=false;
 
+//added by Mike, 20260904
+var bHasHeroHitWallFacingLeftOrRight=false;
+var bHasHeroHitWallFacingUpOrDown=false;
+
 //added by Mike, 20260704
 var bHasReducedHeroManaOutput=false;
 
@@ -2159,13 +2163,15 @@ var bIsHeroFacingUp=false;
 	//added by Mike, 20260801
 	//array actor roles
 	const BG_TILE_ARRAY_ACTOR_ROLE_TYPE=0;
-	const HERO_ARRAY_ACTOR_ROLE_TYPE=1;
-	const MONSTER_ARRAY_ACTOR_ROLE_TYPE=2;
-	const ITEM_ARRAY_ACTOR_ROLE_TYPE=3;
-	const EFFECT_ARRAY_ACTOR_ROLE_TYPE=4;
-	const FIREBALL_ARRAY_ACTOR_ROLE_TYPE=5;
+	const BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE=1;
 
-
+	const HERO_ARRAY_ACTOR_ROLE_TYPE=2;
+	const MONSTER_ARRAY_ACTOR_ROLE_TYPE=3;
+	const ITEM_ARRAY_ACTOR_ROLE_TYPE=4;
+	const EFFECT_ARRAY_ACTOR_ROLE_TYPE=5;
+	const FIREBALL_ARRAY_ACTOR_ROLE_TYPE=6;
+	
+/*	//removed by Mike, 20260904
 	//added by Mike, 20260822; from 20260821
 	//row x column
 	const BG_TILE_BLANK_TYPE=30;
@@ -2196,6 +2202,7 @@ var bIsHeroFacingUp=false;
 	const BG_TILE_BLANK_WALL_BDR=33;
 	const BG_TILE_BLANK_WALL_BDRR=34;
 	const BG_TILE_BLANK_WALL_BDRRR=35;
+*/	
 	
 	//added by Mike, 20241111
 	var batMonsterImageTilePosX=0;
@@ -4049,9 +4056,12 @@ var bIsHeroFacingUp=false;
 		bIsHeroInTank=false;
 		bIsHeroDash=false;
 		bHasHeroShotFireball=false;
-		
+				
 		bHasPlayedSolvedTune=false;
 		bHasShotSniper=false;
+		
+		bHasHeroHitWallFacingLeftOrRight=false;
+		bHasHeroHitWallFacingUpOrDown=false;
 		
 		iBatMonsterAnimationCount=-1;//0; start at -1
 		iBatMonsterAnimationCountMax=2;//5;
@@ -12355,6 +12365,17 @@ if (newMainImageTileProjectilePosX!=0) {
 			return;
 		}
 
+		//added by Mike, 20260904
+		if (bHasHeroHitWallFacingLeftOrRight) {
+			resetProjectile();
+			return;
+		}
+		
+		if (bHasHeroHitWallFacingUpOrDown) {
+			resetProjectile();
+			return;
+		}
+
 		var fDifferenceInXPos=newMainImageTileProjectilePosX;	
 		var fDifferenceInYPos=newMainImageTileProjectilePosY;
 		
@@ -12529,8 +12550,9 @@ if (fDifferenceInXPos!=0) {
 		//for (iCount=0; iCount<iArrayActorsCount; iCount++) {
 		for (iCount=0; iCount<iArrayActorsCountMax; iCount++) {
 
-			//added by Mike, 20260801
-			if (arrayActors[iCount]["type"]==BG_TILE_ARRAY_ACTOR_ROLE_TYPE) {
+			//edited by Mike, 20260904; from 20260801
+			//if (arrayActors[iCount]["type"]==BG_TILE_ARRAY_ACTOR_ROLE_TYPE) {
+			if (arrayActors[iCount]["type"]<=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE) {
 				continue;
 			}
 
@@ -13089,6 +13111,141 @@ if (fDifferenceInXPos!=0) {
 			}
 			
 		//}
+	}
+	
+	//added by Mike, 20260904
+	function verifyHeroCollideWithBgTileWall(iCount) {
+		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
+		
+		var bgTileImage = document.getElementById("bgTileImageId"+iCount);
+		
+		
+		//TODO: -update: this; these locations in the sprite image are walls
+/*
+1-0
+1-1
+1-2
+1-3
+1-4
+2-1
+2-5
+3-2
+3-3
+3-4
+3-5
+*/
+		if (iCount>11) {
+			return;
+		}
+
+		//reference: Google AI Overview; MDN Web Docs
+		const bIsVisible = bgTileImage.checkVisibility({
+/*
+		  visibilityProperty: true, // Checks for visibility: hidden or collapse
+		  opacityProperty: true,     // Checks for opacity: 0
+		  contentVisibilityAuto: true // Checks for content-visibility skips
+*/
+		  visibilityProperty: true // Checks for visibility: hidden or collapse
+		});
+				
+		//edited by Mike, 20260730
+		//if (!coinImage.checkVisibility()) { //note doesn't seem to be working;
+		if (!bIsVisible) {
+		  //alert("NOT VISIBLE!: "+iCount);
+		
+		  return;
+		}
+		else {
+			//added by Mike, 20260728
+			//note we added a blank square space above the tile to get the correct z-index during auto-update
+			//const bgTileImageOffsetY=iImageFrameHeightLarge;
+
+			if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthBgTile*0.75, iImageFrameHeightBgTile*0.75)) {
+			
+/*						
+				bgTileImage.style.left="-999999px";
+				bgTileImage.style.top="-999999px";
+
+				iCurrHeroCoinCount++;
+				
+				bgTileImage.style.visibility="hidden";
+*/
+				
+				var iOffsetX=iImageFrameWidthLarge/4;
+				var iOffsetY=iImageFrameHeightLarge/4;
+				
+				if (bIsHeroFacingLeftOrRight) {
+					if (bIsHeroFacingLeft) {
+						//alert(newMainImageTileProjectilePosX);
+
+						//if hero is stuck on the left side
+						if (mainImageTilePosX>parseFloat(bgTileImage.style.left)+iImageFrameWidthLarge*0.75+iOffsetX) {
+							if (newMainImageTileProjectilePosX<0) { //still going to the left
+								bHasHeroHitWallFacingLeftOrRight=true;
+							}
+							else {
+								bHasHeroHitWallFacingLeftOrRight=false;
+							}
+						}
+						else {
+							bHasHeroHitWallFacingLeftOrRight=false;
+						}
+					}
+					else {
+						//alert(newMainImageTileProjectilePosX);
+						
+						//if hero is stuck on the right side
+						if (mainImageTilePosX<parseFloat(bgTileImage.style.left)-iOffsetX) { //+iImageFrameWidthLarge*0.75
+							if (newMainImageTileProjectilePosX<0) { //going to the left
+								bHasHeroHitWallFacingLeftOrRight=false;
+							}
+							else {
+								bHasHeroHitWallFacingLeftOrRight=true;
+							}
+						}
+						else {
+							bHasHeroHitWallFacingLeftOrRight=false;
+						}
+					}
+				}
+				
+				if (bIsHeroFacingUpOrDown) {
+					if (bIsHeroFacingUp) {
+						//alert(newMainImageTileProjectilePosY);
+
+						//if hero is stuck on the bottom side
+						if (mainImageTilePosY>parseFloat(bgTileImage.style.top)+iImageFrameHeightLarge*0.75+iOffsetY) {
+							if (newMainImageTileProjectilePosY<0) { //still going up
+								bHasHeroHitWallFacingUpOrDown=true;
+							}
+							else {
+								bHasHeroHitWallFacingUpOrDown=false;
+							}
+						}
+						else {
+							bHasHeroHitWallFacingUpOrDown=false;
+						}
+					}
+					else { //if facing down
+						//alert(newMainImageTileProjectilePosY);
+
+						//if hero is stuck on the top side
+						if (mainImageTilePosY<parseFloat(bgTileImage.style.top)-iOffsetY) {
+							if (newMainImageTileProjectilePosY<0) { //going up
+								bHasHeroHitWallFacingUpOrDown=false;
+							}
+							else {
+								bHasHeroHitWallFacingUpOrDown=true;
+							}
+						}
+						else {
+							bHasHeroHitWallFacingUpOrDown=false;
+						}
+					}
+				}
+
+			}
+		}
 	}
 	
 	//added by Mike, 20260727
@@ -16632,10 +16789,16 @@ iCurrTextCharacterCountMax=sText.length;
 						verifyHeroCollideWithCoin(iCurrCoinCount);
 					}
 				}
-				
+/*				
+				alert("iCurrBgTileImageCount: "+iCurrBgTileImageCount);
+				alert("iCurrBgTileImageCountMax: "+iCurrBgTileImageCountMax);
+*/				
 				//added by Mike, 20260730
 				for (iCurrBgTileImageCount=0; iCurrBgTileImageCount<iCurrBgTileImageCountMax; iCurrBgTileImageCount++) {
 					drawBgTileImage(iCurrBgTileImageCount);
+											
+					//added by Mike, 20260904
+					verifyHeroCollideWithBgTileWall(iCurrBgTileImageCount);
 				}
 				
 				//alert(iCurrBgTileImageCount);
@@ -24621,10 +24784,13 @@ function initTouchInput() {
 	//---
 */
 
+/*	//edited by Mike, 20260904
 	for (iCurrBgTileImageRow=0; iCurrBgTileImageRow<4; iCurrBgTileImageRow++) {
 		for (iCurrBgTileImageColumn=0; iCurrBgTileImageColumn<6; iCurrBgTileImageColumn++) {
 			
 			var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,iCurrBgTileImageRow,iCurrBgTileImageColumn);
+
+			//var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
 
 			//added by Mike, 20260801
 			//----------------------------------
@@ -24639,8 +24805,27 @@ function initTouchInput() {
 			iCurrBgTileImageCount++;
 		}
 	}
-					
+	
 	iCurrBgTileImageCountMax=iCurrBgTileImageRow*iCurrBgTileImageColumn;
+*/
+	var iCurrBgTileImageColumn=0;
+	var iCurrBgTileImageRow=0;
+	
+	var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
+
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+
+	iCurrBgTileImageCount++;
+			
+	iCurrBgTileImageCountMax=iCurrBgTileImageCount;
   }
 
 	function onLoad() {
