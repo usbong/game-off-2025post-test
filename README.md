@@ -600,6 +600,22 @@ I've gotten the hero to stop his movement when he's hit a wall tile. He can also
 
 We now have a basic wall tile. This is part of the set of tiles that we'll need to create our walls in isometric view.
 
+48) 20260828-20260906; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+
+**Key Lesson Learned:** 
+
+I was surprised to learn that checking the collision detection between the hero and the wall is taking me hours longer than I'd expect it to be. I'd attribute it to my using the mouse instead of a directional keypad to move the hero from point A to B, combined with a viewport that always centers on the hero's position. 
+
+Having said this, I've had to check the hero's `x` and `y` coordinate positions against each of the sides of the wall and then allow the hero to move in certain directions. Previously, I would just push the hero back a step if he attempts to pass through a wall. In this case, the technique that I've used is different in that I simply stop the hero from moving. Also, the corners became a problem for me because of this, such that I now have to check whether the hero is in a corner of the wall tile or not.
+
+Right now, I'm connecting more wall tiles with each other to see whether the collision detection would still work, while also noting that depending on the type of wall, a corner could allow the hero to move diagonally or in a certain direction.
+
+I also note here my knee-jerk idea to simply make the walls longer given that my main problem is with the corners, so that by using rectangles instead of squares, the hero would therfore encounter less corners.
+
+**Unlocked Possibilities:**
+
+We're now stitching more wall tiles together. 
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
