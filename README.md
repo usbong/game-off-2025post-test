@@ -556,7 +556,7 @@ Afterward, I added custom fonts that I'm still updating in order to make sure th
 
 My DIY engine now has more basic components that would be useful when building any type game. Still, I admit that the engine and its sample prototype could hardly be called a game yet.
 
-44) 20260828-20260904; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+44) 20260828-20260907; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 **Key Lesson Learned:** 
 
@@ -566,7 +566,7 @@ I've been adding more letters in the font image tile set, which now include lett
 
 My handwriting on the computer using GIMP surprisingly appears cartoony, something that I could certainly use in a cartoony game that I'd want to share with family and friends. 
 
-45) 20260828-20260904; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+45) 20260828-20260907; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 **Key Lesson Learned:** 
 
@@ -578,7 +578,7 @@ I've added new walking animation frames depending on whether the user is pressin
 
 The amount of animation frames that would be needed to cover all the possible movements based on the combination of keyboard and mouse clicks is substantially more than the one used with a traditional 2D side-scroller without any isometric movements at all. Nonetheless, having a template like this already at hand makes the process a lot faster than having to again start from scratch.
 
-46) 20260828-20260904; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+46) 20260828-20260907; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 **Key Lesson Learned:** 
 
@@ -590,7 +590,7 @@ This update took longer than I had wanted to, because of the many on-off switche
 
 This version allows for strafing as seen on the sprite images displayed on-screen as well as the controls using both keyboard and mouse.
 
-47) 20260828-20260904; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+47) 20260828-20260907; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 **Key Lesson Learned:** 
 
@@ -600,7 +600,7 @@ I've gotten the hero to stop his movement when he's hit a wall tile. He can also
 
 We now have a basic wall tile. This is part of the set of tiles that we'll need to create our walls in isometric view.
 
-48) 20260828-20260906; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+48) 20260828-20260907; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 **Key Lesson Learned:** 
 
@@ -614,7 +614,65 @@ I also note here my knee-jerk idea to simply make the walls longer given that my
 
 **Unlocked Possibilities:**
 
-We're now stitching more wall tiles together. 
+We're now stitching more wall tiles together.
+
+49) 20260828-20260906; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+
+**Key Lesson Learned:** 
+
+In this update, I mainly focused on getting the app to run on the iPad and on Android mobile. I learned that using the the `checkVisibility(...)` function fails on iPad, so I wrote an equivalent version of it that worked.
+
+## Prior
+```
+		//reference: Google AI Overview; MDN Web Docs
+		const bIsVisible = coinImage.checkVisibility({
+		  visibilityProperty: true // Checks for visibility: hidden or collapse
+		});
+```
+## Current
+```
+		bIsVisible=true;
+		if (coinImage.style.visible=="hidden") {
+			bIsVisible=false;
+		}
+```
+
+Next, I noticed that the app noticeably lags whenever I touch the screen on Android. I learned that the solution was to prevent `touchstart`, `touchend` and `touchmove` from performing their default behaviors; however, I kept them on the iPad, which doesn't have the lag, in order to make use of the double tap, which rescales the viewport to fit the width of the iPad, especially when it's on landscape mode. 
+
+```
+if (bIsMobile) {
+	if (!bIsUsingAppleWebKit) {
+		if (!bIsUsingAppleMac) {
+			//prevent additional touch inputs causing lags
+			//reference: Google AI Overview; Babylon.js
+			document.addEventListener('touchstart', function(e) {
+				// Safely prevent default browser scrolling/panning
+				e.preventDefault(); 
+				
+			}, { passive: false }); // <--- Crucial for Android / Chrome
+			
+			document.addEventListener('touchend', function(e) {
+				// Safely prevent default browser scrolling/panning
+				e.preventDefault(); 
+				
+			}, { passive: false }); // <--- Crucial for Android / Chrome
+			
+			
+			document.addEventListener('touchmove', function(e) {
+				// Safely prevent default browser scrolling/panning
+				e.preventDefault(); 
+				
+			}, { passive: false }); // <--- Crucial for Android / Chrome
+		}
+	}
+}
+```
+
+I also note here that, as I had previously observed, moving from landscape to portrait, and then back to landscape mode again by hand on the iPad causes the viewport to be too big, something that doesn't seem to have a solution available at the moment.
+
+**Unlocked Possibilities:**
+
+The app runs on mobile with a few issues including slower movement on Android and the viewport not yet centered on landscape mode, while on the iPad, it seems somewhat choppy like doing a screen recording on Linux with only an i3 Intel processor.
 
 # Additional Bug Fixes
 
