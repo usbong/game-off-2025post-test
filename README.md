@@ -618,6 +618,8 @@ We're now stitching more wall tiles together.
 
 49) 20260828-20260906; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
+Also available: http://store.usbong.ph/server/gameoff/index.html
+
 **Key Lesson Learned:** 
 
 In this update, I mainly focused on getting the app to run on the iPad and on Android mobile. I learned that using the the `checkVisibility(...)` function fails on iPad, so I wrote an equivalent version of it that worked.
@@ -672,7 +674,7 @@ I also note here that, as I had previously observed, moving from landscape to po
 
 **Unlocked Possibilities:**
 
-The app runs on mobile with a few issues including slower movement on Android and the viewport not yet centered on landscape mode, while on the iPad, it seems somewhat choppy like doing a screen recording on Linux with only an i3 Intel processor.
+The app runs on mobile with a few issues including slower movement on Android and the viewport not yet centered on landscape mode, while on the iPad, it seems somewhat choppy like doing a screen recording on Linux with only a used Intel Celeron N2940 processor.
 
 # Additional Bug Fixes
 
