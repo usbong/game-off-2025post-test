@@ -21,7 +21,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-	<meta name="viewport" content="width=device-width, initial-scale=0.75, maximum-scale=1.0, user-scalable=no" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   </head>
 
   <title>
@@ -68,6 +68,9 @@
 
 			/* added by Mike, 20221119 */
 			touch-action: none;
+			
+			/* Disables both vertical and horizontal scrolling; Google AI Overview */
+			overflow: hidden; 
 		}
 
 		canvas.myCanvas {
@@ -18279,15 +18282,17 @@ alert("iXPos: "+iXPos);
 		bHasFired=true;
 		//bIsHeroWalking=true;
 		
-		//edited by Mike, 20260829; from 20260820
+		//edited by Mike, 20260908; from 20260829
+/*
 		if ((iXPos>parseFloat(mainImageTilePosX)
 		+iImageFrameWidthLarge/2) && (iXPos<parseFloat(mainImageTilePosX)+iImageFrameWidthLarge)) {
+*/
+		//otherwise, hero favors looking to the right; even when it should toward the left;
+		if ((iXPos>parseFloat(mainImageTilePosX)) && (iXPos<parseFloat(mainImageTilePosX)+iImageFrameWidthLarge)) {
 		
 			if ((iYPos>parseFloat(mainImageTilePosY)) && (iYPos<parseFloat(mainImageTilePosY)+iImageFrameHeightLarge)) {
 				
 				if (!bHasHeroHitMonster) {
-				
-				
 					//alert("DITO!!");
 					//resetProjectile();
 /*					
@@ -19855,52 +19860,63 @@ function initTouchInput() {
 	iCurrBgTileImageCountMax=iCurrBgTileImageCount;
   }
 
-	function onLoad() {
+  function onLoad() {
 //alert(navigator.userAgent);
 
+  //added by Mike, 20260908
+  //reference: Google AI Overview
+  let meta = document.querySelector('meta[name="viewport"]');
 
   if (/Macintosh|Mac|Mobile|Android|webOS|iPhone|iPad|iPod|AppleWebKit|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
 
 //		alert("detected: Mobile Browser!");
 
-  //added by Mike, 20220925
-  bIsMobile=true;
+	  //added by Mike, 20220925
+	  bIsMobile=true;
 
-  //added by Mike, 20221108
-  if (navigator.userAgent.includes("AppleWebKit")) {
-    bIsUsingAppleWebKit=true;
-    //added by Mike, 20221109
-    bIsUsingAppleMac=false; //default
-  }
+	  //added by Mike, 20221108
+	  if (navigator.userAgent.includes("AppleWebKit")) {
+		bIsUsingAppleWebKit=true;
+		//added by Mike, 20221109
+		bIsUsingAppleMac=false; //default
+	  }
 
-  //added by Mike, 20221113
-  //notes: "AppleWebKit" to exist even with "Android"
-  if (navigator.userAgent.includes("Android")) {
-    bIsUsingAppleWebKit=false;
-  }
+	  //added by Mike, 20221113
+	  //notes: "AppleWebKit" to exist even with "Android"
+	  if (navigator.userAgent.includes("Android")) {
+		bIsUsingAppleWebKit=false;
+	  }
 
-  //added by Mike, 20221113
-  //example: Linux x86_64 (desktop)
-  if (navigator.userAgent.includes("Linux x")) {
-    bIsMobile=false;
-  }
+	  //added by Mike, 20221113
+	  //example: Linux x86_64 (desktop)
+	  if (navigator.userAgent.includes("Linux x")) {
+		bIsMobile=false;
+	  }
 
-  //note: iPAD and MacBookPro OS : Mac OS X
-  //adds: to be re-classified as iPAD via TOUCH command
-  if ((navigator.userAgent.includes("Macintosh")) || navigator.userAgent.includes("Mac")) {
-    bIsUsingAppleMac=true;
-  }
+	  //note: iPAD and MacBookPro OS : Mac OS X
+	  //adds: to be re-classified as iPAD via TOUCH command
+	  if ((navigator.userAgent.includes("Macintosh")) || navigator.userAgent.includes("Mac")) {
+		bIsUsingAppleMac=true;
+	  }
 
-  //added by Mike, 20230111
-  //note: TO-DO: -add: touch/mouse click ACTION COMMANDS
-  //if using EDGE browser;
-  //observed: shaking on EDGE browser via desktop,
-  //caused by bIsMobile=true;
-  if (navigator.userAgent.includes("Edge")) { //not "Edg"
-    bIsMobile=false;
-  }
-  
-}
+	  //added by Mike, 20230111
+	  //note: TO-DO: -add: touch/mouse click ACTION COMMANDS
+	  //if using EDGE browser;
+	  //observed: shaking on EDGE browser via desktop,
+	  //caused by bIsMobile=true;
+	  if (navigator.userAgent.includes("Edge")) { //not "Edg"
+		bIsMobile=false;
+	  }
+
+	  //added by Mike, 20260908
+	  if ((bIsMobile) && (!bIsUsingAppleWebKit)) { //and Android
+		//added by Mike, 20260908
+		//reference: Google AI Overview
+		if (meta) {
+			meta.setAttribute('content', 'width=device-width, initial-scale=0.75, maximum-scale=1.0, user-scalable=no');
+		}
+	  }
+    }
 
 /*
 //note:

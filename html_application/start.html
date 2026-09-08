@@ -1,0 +1,140 @@
+<!--
+/*
+' Copyright 2026 USBONG
+'
+' Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You ' may obtain a copy of the License at
+'
+' http://www.apache.org/licenses/LICENSE-2.0
+'
+' Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, ' WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing ' permissions and limitations under the License.
+'
+' @company: USBONG
+' @author: SYSON, MICHAEL B.
+' @date created: 20260908
+' @date updated: 20260908
+' @website: www.usbong.ph
+'
+' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
+'
+'*/
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  </head>
+<html>
+ <style type="text/css">
+		html, body
+        {
+            font-family: Arial;
+			font-size: 11pt;
+
+			width: 100%;
+			height: 100%;
+			
+			background-color: #261912; /*white; transparent*/
+
+			border: none;
+
+			padding: 0;
+			margin: 0;
+						
+			min-height: 100vh;          /* Forces the body to fill the full viewport height */
+			display: flex;
+			justify-content: center;   /* Centers horizontally */
+			/*align-items: center;*/       /* Centers vertically */
+
+			/* //added by Mike, 20221002
+			//reference: https://www.w3schools.com/howto/howto_css_disable_text_selection.asp;
+			//last accessed: 20221002
+			*/
+
+			-webkit-user-select: none; /* Safari */
+			-ms-user-select: none; /* IE 10 and IE 11 */
+			user-select: none; /* Standard syntax */
+
+			/* edited by Mike, 20260809; from 20221012 */
+			transform: scale(1);
+			transform-origin: top left;  
+
+			/*zoom: 0.8;*/
+
+			/* added by Mike, 20221119 */
+			touch-action: none;
+		}
+		
+		iframe
+		{
+			border: 0;
+/*
+			border: 2px dotted gray;
+*/			
+		}
+</style>
+<script>
+  function onLoad() {
+//alert(navigator.userAgent);
+
+    //added by Mike, 20260908
+	//reference: Google AI Overview
+    let meta = document.querySelector('meta[name="viewport"]');
+
+    if (/Macintosh|Mac|Mobile|Android|webOS|iPhone|iPad|iPod|AppleWebKit|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+
+//		alert("detected: Mobile Browser!");
+
+	  //added by Mike, 20220925
+	  bIsMobile=true;
+
+	  //added by Mike, 20221108
+	  if (navigator.userAgent.includes("AppleWebKit")) {
+		bIsUsingAppleWebKit=true;
+		//added by Mike, 20221109
+		bIsUsingAppleMac=false; //default
+	  }
+
+	  //added by Mike, 20221113
+	  //notes: "AppleWebKit" to exist even with "Android"
+	  if (navigator.userAgent.includes("Android")) {
+		bIsUsingAppleWebKit=false;
+	  }
+
+	  //added by Mike, 20221113
+	  //example: Linux x86_64 (desktop)
+	  if (navigator.userAgent.includes("Linux x")) {
+		bIsMobile=false;
+	  }
+
+	  //note: iPAD and MacBookPro OS : Mac OS X
+	  //adds: to be re-classified as iPAD via TOUCH command
+	  if ((navigator.userAgent.includes("Macintosh")) || navigator.userAgent.includes("Mac")) {
+		bIsUsingAppleMac=true;
+	  }
+
+	  //added by Mike, 20230111
+	  //note: TO-DO: -add: touch/mouse click ACTION COMMANDS
+	  //if using EDGE browser;
+	  //observed: shaking on EDGE browser via desktop,
+	  //caused by bIsMobile=true;
+	  if (navigator.userAgent.includes("Edge")) { //not "Edg"
+		bIsMobile=false;
+	  }
+
+	  //added by Mike, 20260908
+	  if ((bIsMobile) && (!bIsUsingAppleWebKit)) { //and Android
+		//added by Mike, 20260908
+		//reference: Google AI Overview
+		if (meta) {
+			meta.setAttribute('content', 'width=device-width, initial-scale=0.75, maximum-scale=1.0, user-scalable=no');
+		}
+	  }
+	}
+  }	
+</script>
+<body id="myBodyId" onload="onLoad();">
+	<div class="my-container">
+		<iframe src="index.html" width="644px" height="364px"></iframe>
+	</div>
+</body>
+</html>
