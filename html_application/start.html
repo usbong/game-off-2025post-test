@@ -40,7 +40,7 @@
 			padding: 0;
 			margin: 0;
 						
-			min-height: 100vh;          /* Forces the body to fill the full viewport height */
+			min-height: 100dvh;          /* Forces the body to fill the full viewport height */
 			display: flex;
 			justify-content: center;   /* Centers horizontally */
 			/*align-items: center;*/       /* Centers vertically */
@@ -79,7 +79,29 @@
     //added by Mike, 20260908
 	//reference: Google AI Overview
     let meta = document.querySelector('meta[name="viewport"]');
+	
+	//alert(document.body.scrollHeight); //386px
+	//alert(window.innerHeight); //386px
+	//alert(document.documentElement.offsetHeight);
+	//alert(document.documentElement.clientHeight); //386
+	
+	//alert(window.outerHeight); //477 toshiba; //768 ipad;
 
+	const iViewportMaxWidth=640;
+	const iViewportMaxHeight=480;
+	
+	//var fInitialScale=window.outerHeight/iViewportMaxHeight;
+	//var fInitialScale=iViewportMaxHeight/window.outerHeight;
+	//var fInitialScale=iViewportMaxHeight/window.innerHeight;
+	//var fInitialScale=iViewportMaxHeight/document.documentElement.clientHeight;
+
+	//alert(fInitialScale);
+
+	fInitialScale=0.75;
+
+	//fails on iPad
+	//meta.setAttribute('content', 'width=device-width, initial-scale='+fInitialScale+', maximum-scale='+fInitialScale+', user-scalable=no');
+			
     if (/Macintosh|Mac|Mobile|Android|webOS|iPhone|iPad|iPod|AppleWebKit|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
 
 //		alert("detected: Mobile Browser!");
@@ -120,13 +142,15 @@
 	  if (navigator.userAgent.includes("Edge")) { //not "Edg"
 		bIsMobile=false;
 	  }
-
+	  
 	  //added by Mike, 20260908
 	  if ((bIsMobile) && (!bIsUsingAppleWebKit)) { //and Android
 		//added by Mike, 20260908
 		//reference: Google AI Overview
 		if (meta) {
-			meta.setAttribute('content', 'width=device-width, initial-scale=0.75, maximum-scale=1.0, user-scalable=no');
+			//meta.setAttribute('content', 'width=device-width, initial-scale=0.75, maximum-scale=1.0, user-scalable=no');
+			
+			meta.setAttribute('content', 'width=device-width, initial-scale='+fInitialScale+', maximum-scale='+fInitialScale+', user-scalable=no');
 		}
 	  }
 	}
