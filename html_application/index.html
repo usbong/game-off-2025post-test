@@ -12856,11 +12856,6 @@ if (fDifferenceInXPos!=0) {
 					
 					bHasAttacked=true;
 					
-					//added by Mike, 20260909
-					bIsActionKeyControlPressed=true;
-					fHeroHitMonsterViewportX=fCurrViewportX;
-					fHeroHitMonsterViewportY=fCurrViewportY;
-					
 					//alert("inputArrayWraithMonsterWithIdCount[MONSTER_POSX]"+inputArrayWraithMonsterWithIdCount[MONSTER_POSX]);
 																
 					//hero can no longer escape; only attacks
@@ -12886,6 +12881,11 @@ if (fDifferenceInXPos!=0) {
 									inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]--;
 								}
 							}
+												
+							//added by Mike, 20260909
+							bIsActionKeyControlPressed=true;
+							fHeroHitMonsterViewportX=fCurrViewportX;
+							fHeroHitMonsterViewportY=fCurrViewportY;
 
 /*							//removed by Mike, 20260705							
 							//added by Mike, 20260704
