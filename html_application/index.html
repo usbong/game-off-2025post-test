@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260909; from 20260907
+' @date updated: 20260910; from 20260909
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -1385,6 +1385,9 @@ var bIsMiniBossMonsterHit=false;
 var bIsActionKeyPressed=false;
 var bIsActionKeyFireballPressed=false;
 var bIsActionKeyControlPressed=false;
+
+//added by Mike, 20260910
+var bHasHeroHitWall=false;
 
 //added by Mike, 20260806
 //reference; Google AI Overview
@@ -12343,28 +12346,47 @@ if (arrayWalkOnSnowEffectCount==1) {
 		if (!bIsHeroWalking) {
 			return;
 		}
-		
-		//added by Mike, 20260904
+
+/*		
+		//removed by Mike, 20260910; from 20260904
 		if (bHasHeroHitWallFacingLeftOrRight) {
-/*
-			alert("bHasHeroHitWallFacingLeftOrRight!!");
-			alert("bIsHeroStuckOnTheTopOrBottomOfBGTile: "+bIsHeroStuckOnTheTopOrBottomOfBGTile);
-			alert("bIsHeroStuckOnTheLeftOrRightOfBGTile: "+bIsHeroStuckOnTheLeftOrRightOfBGTile);
-*/		
+			////alert("bHasHeroHitWallFacingLeftOrRight!!");
+			////alert("bIsHeroStuckOnTheTopOrBottomOfBGTile: "+bIsHeroStuckOnTheTopOrBottomOfBGTile);
+			////alert("bIsHeroStuckOnTheLeftOrRightOfBGTile: "+bIsHeroStuckOnTheLeftOrRightOfBGTile);
+
 			resetProjectile();
 			return;
 		}
 		
 		if (bHasHeroHitWallFacingUpOrDown) {
-/*
-			alert("bHasHeroHitWallFacingUpOrDown!!");
-			alert("bIsHeroStuckOnTheTopOrBottomOfBGTile: "+bIsHeroStuckOnTheTopOrBottomOfBGTile);
-			alert("bIsHeroStuckOnTheLeftOrRightOfBGTile: "+bIsHeroStuckOnTheLeftOrRightOfBGTile);
-*/
+			////alert("bHasHeroHitWallFacingUpOrDown!!");
+			////alert("bIsHeroStuckOnTheTopOrBottomOfBGTile: "+bIsHeroStuckOnTheTopOrBottomOfBGTile);
+			////alert("bIsHeroStuckOnTheLeftOrRightOfBGTile: "+bIsHeroStuckOnTheLeftOrRightOfBGTile);
 
 			resetProjectile();
 			return;
 		}		
+*/		
+
+		//added by Mike, 20260910
+		if (bHasHeroHitWall) {
+			var fDifferenceInXPos=Math.abs(fCurrViewportX-fHeroHitWallViewportX);
+			var fDifferenceInYPos=Math.abs(fCurrViewportY-fHeroHitWallViewportY);
+			
+			const fDifferenceInXPosMax=iImageFrameWidthLarge/2;//iImageFrameWidthLarge/4;
+			const fDifferenceInYPosMax=iImageFrameHeightLarge/2;//iImageFrameHeightLarge/4;
+			
+			//if ((!bIsActionKeyPressed) && (bIsActionKeyControlPressed)) {
+				if ((fDifferenceInXPos>=fDifferenceInXPosMax) || (fDifferenceInYPos>=fDifferenceInYPosMax)) {
+					bIsActionKeyControlPressed=false;
+					bHasHeroHitWall=false;
+
+					resetProjectile();
+					return;
+				}
+			//}
+		}
+		
 			
 		var fDifferenceInXPos=newMainImageTileProjectilePosX;	
 		var fDifferenceInYPos=newMainImageTileProjectilePosY;
@@ -13126,7 +13148,7 @@ if (fDifferenceInXPos!=0) {
 	}
 	
 	//added by Mike, 20260904
-	function verifyHeroCollideWithBgTileWall(iCount) {
+	function verifyHeroCollideWithBgTileWallPREV(iCount) {
 		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
 		
 		var bgTileImage = document.getElementById("bgTileImageId"+iCount);
@@ -13180,7 +13202,6 @@ if (fDifferenceInXPos!=0) {
 
 			if (isPointsOfRectIntersectingPointsOfRectWall(mainImageTilePosX,mainImageTilePosY, parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*0.8, iImageFrameHeightLarge*0.75, iImageFrameWidthBgTile*0.9, iImageFrameHeightBgTile*0.8)) {
 
-			
 /*						
 				bgTileImage.style.left="-999999px";
 				bgTileImage.style.top="-999999px";
@@ -13477,6 +13498,111 @@ if (fDifferenceInXPos!=0) {
 			}
 		}
 	}
+	
+	//added by Mike, 20260910
+	function verifyHeroCollideWithBgTileWall(iCount) {
+		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
+		
+		var bgTileImage = document.getElementById("bgTileImageId"+iCount);
+		
+		
+		//TODO: -update: this; these locations in the sprite image are walls
+/*
+1-0
+1-1
+1-2
+1-3
+1-4
+2-1
+2-5
+3-2
+3-3
+3-4
+3-5
+*/
+		if (iCount>11) {
+			return;
+		}
+
+/*
+		//reference: Google AI Overview; MDN Web Docs
+		const bIsVisible = bgTileImage.checkVisibility({
+		  visibilityProperty: true // Checks for visibility: hidden or collapse
+		});
+*/
+		bIsVisible=true;
+		if (bgTileImage.style.visible=="hidden") {
+			bIsVisible=false;
+		}
+			
+		//edited by Mike, 20260730
+		//if (!coinImage.checkVisibility()) { //note doesn't seem to be working;
+		if (!bIsVisible) {
+		  //alert("NOT VISIBLE!: "+iCount);
+		
+		  return;
+		}
+		else {
+			//edited by Mike, 20260910
+			//if (isPointsOfRectIntersectingPointsOfRectWall(mainImageTilePosX,mainImageTilePosY, parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*0.8, iImageFrameHeightLarge*0.75, iImageFrameWidthBgTile*0.9, iImageFrameHeightBgTile*0.8)) {
+
+			if (isPointsOfRectIntersectingPointsOfRectWall(parseFloat(mainImageTilePosX),parseFloat(mainImageTilePosY), parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*1, iImageFrameHeightLarge*1, iImageFrameWidthBgTile*1, iImageFrameHeightBgTile*1)) {
+				
+				var iOffsetX=0;//iImageFrameWidthLarge/4;
+				var iOffsetY=0;//iImageFrameHeightLarge/4;
+				
+				//var fMainImageTileOffsetY=iImageFrameHeightLarge/4;
+				
+				bIsActionKeyControlPressed=true;
+				//bHasHeroHitWall=true;
+
+/*
+				if (bHasHeroHitWall) {
+					//return;
+				}
+*/
+
+				fHeroHitWallViewportX=fCurrViewportX;				
+				fHeroHitWallViewportY=fCurrViewportY;
+				
+				bHasHeroHitWall=true;
+				
+				if (newMainImageTileProjectilePosX<0) {//going to the left
+					//fCurrViewportX+=iImageFrameWidthLarge*1;///2;
+					mainImageTileProjectileStepDestinationX+=iImageFrameWidthLarge*2;
+				}
+				//else { //going to the right
+				else if (newMainImageTileProjectilePosX>0) {//going to the right
+
+					//fCurrViewportX-=iImageFrameWidthLarge*1;///2;
+					mainImageTileProjectileStepDestinationX-=iImageFrameWidthLarge*2;
+				}
+
+				if (newMainImageTileProjectilePosY<0) {//going up
+					//fCurrViewportY+=iImageFrameHeightLarge*1;///2;
+					mainImageTileProjectileStepDestinationY+=iImageFrameHeightLarge*2;
+				}
+//				else { //going down
+				else if (newMainImageTileProjectilePosY>0) {//going down
+					//fCurrViewportY-=iImageFrameHeightLarge*1;///2;
+					mainImageTileProjectileStepDestinationY-=iImageFrameHeightLarge*2;
+				}
+/*
+				newMainImageTileProjectilePosX*=(-1.5); //reverse
+				newMainImageTileProjectilePosY*=(-1.5); //reverse
+*/
+				//alert("newMainImageTileProjectilePosX: "+newMainImageTileProjectilePosX);
+				//alert("mainImageTileProjectileStepDestinationX: "+mainImageTileProjectileStepDestinationX);
+
+				//mainImageTileProjectileStepDestinationX=newMainImageTileProjectilePosX*
+
+				newMainImageTileProjectilePosX*=(-1.2); //reverse
+				newMainImageTileProjectilePosY*=(-1.2); //reverse
+				
+				
+			}
+		}
+	}	
 	
 	//added by Mike, 20260727
 	function verifyHeroCollideWithCoin(iCount) {
@@ -18642,7 +18768,8 @@ setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameW
 			bHasHeroReachedTopOfRoomRiver=false;
 			bIsActionKeyPressed=false;
 			bIsActionKeyFireballPressed=false;
-			bIsActionKeyControlPressed=false
+			bIsActionKeyControlPressed=false;
+			bHasHeroHitWall=false;
 
 			bHasPlayedSolvedTune=false;			
 			
@@ -19718,9 +19845,9 @@ function initTouchInput() {
   	let mdo2Width = iImageFrameWidth2; //iPuzzleTileWidth;
   	let mdo2Height = iImageFrameHeight2; //iPuzzleTileHeight;
 
-  	let iOffsetXPosAsPixel = iImageFrameWidth1*0.1;//0;
+  	let iOffsetXPosAsPixel = 0;//iImageFrameWidth1*0.1;//0;
 	//edited by Mike, 20260618
-  	let iOffsetYPosAsPixel = iImageFrameHeight1*0.1;//0; //iImageFrameHeight1*0.25;
+  	let iOffsetYPosAsPixel = 0;//iImageFrameHeight1*0.1;//0; //iImageFrameHeight1*0.25;
 
   	//alert("mdo1XPos: "+mdo1XPos);
 
@@ -19846,7 +19973,7 @@ function initTouchInput() {
 
 	iCurrBgTileImageCount++;
 	//----------------------------------
-	
+/*	
 	iCurrBgTileImageColumn=1;
 	iCurrBgTileImageRow=1;
 	
@@ -19882,7 +20009,7 @@ function initTouchInput() {
 
 	iCurrBgTileImageCount++;
 	//----------------------------------
-
+*/
 
 	iCurrBgTileImageCountMax=iCurrBgTileImageCount;
   }
