@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260910; from 20260909
+' @date updated: 20260911; from 20260910
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -1512,6 +1512,9 @@ var iCurrMonsterDeathCount=0;
 //added by Mike, 20260625
 var iCurrHeroComboCount=0;
 
+//added by Mike, 20260911
+var iCurrHeroWallBounceCount=0;
+
 //added by Mike, 20260727
 var iCurrHeroCoinCount=0;
 
@@ -2845,6 +2848,9 @@ var bIsHeroFacingUp=false;
 		bHasHeroHitWallFacingLeftOrRight=false;
 		bHasHeroHitWallFacingUpOrDown=false;
 	
+		//added by Mike, 20260911
+		iCurrHeroWallBounceCount=0;
+	
 		//TODO: -add: idle animation	
 		iHeroAnimationCount=0; 
 		
@@ -3880,7 +3886,12 @@ var bIsHeroFacingUp=false;
 		textHeroComboStatusDiv.style.top=0+iYPos+"px";
 */		
 		//iCurrHeroComboCount=iHeroAttackComboCount; //TODO: -update: this
-		textHeroComboStatusDiv.innerHTML = "Cx"+iCurrHeroComboCount;		
+		
+		//edited by Mike, 20260911
+		//textHeroComboStatusDiv.innerHTML = "Cx"+iCurrHeroComboCount;		
+		
+		textHeroComboStatusDiv.innerHTML = "Wx"+iCurrHeroWallBounceCount;		
+
 	}
 	
 	function drawHeroCoinStatus(myCanvasContext, iXPos, iYPos) {		
@@ -4948,7 +4959,10 @@ var bIsHeroFacingUp=false;
 
 		//added by Mike, 2026025
 		iCurrHeroComboCount=0;
-				
+		
+		//added by Mike, 20260911
+		iCurrHeroWallBounceCount=0;
+	
 		//resetProjectile()				
 
 /*		
@@ -12368,28 +12382,34 @@ if (arrayWalkOnSnowEffectCount==1) {
 		}		
 */		
 
+		var fDifferenceInXPos=0;
+		var fDifferenceInXPos=0;
+
 		//added by Mike, 20260910
 		if (bHasHeroHitWall) {
-			var fDifferenceInXPos=Math.abs(fCurrViewportX-fHeroHitWallViewportX);
-			var fDifferenceInYPos=Math.abs(fCurrViewportY-fHeroHitWallViewportY);
-			
-			const fDifferenceInXPosMax=iImageFrameWidthLarge/2;//iImageFrameWidthLarge/4;
-			const fDifferenceInYPosMax=iImageFrameHeightLarge/2;//iImageFrameHeightLarge/4;
-			
-			//if ((!bIsActionKeyPressed) && (bIsActionKeyControlPressed)) {
-				if ((fDifferenceInXPos>=fDifferenceInXPosMax) || (fDifferenceInYPos>=fDifferenceInYPosMax)) {
-					bIsActionKeyControlPressed=false;
-					bHasHeroHitWall=false;
+			if (iCurrHeroWallBounceCount!=0) {
+				fDifferenceInXPos=Math.abs(fCurrViewportX-fHeroHitWallViewportX);
+				fDifferenceInYPos=Math.abs(fCurrViewportY-fHeroHitWallViewportY);
 
-					resetProjectile();
-					return;
-				}
-			//}
+				//max before hero is forcibly stopped;
+				const fDifferenceInXPosMax=iImageFrameWidthLarge/8;
+				const fDifferenceInYPosMax=iImageFrameHeightLarge/8;
+				
+				//if ((!bIsActionKeyPressed) && (bIsActionKeyControlPressed)) {
+					if ((fDifferenceInXPos>=fDifferenceInXPosMax) || (fDifferenceInYPos>=fDifferenceInYPosMax)) {
+						bIsActionKeyControlPressed=false;
+						bHasHeroHitWall=false;
+						
+						resetProjectile();
+						return;
+					}
+				//}
+			}
 		}
 		
 			
-		var fDifferenceInXPos=newMainImageTileProjectilePosX;	
-		var fDifferenceInYPos=newMainImageTileProjectilePosY;
+		fDifferenceInXPos=newMainImageTileProjectilePosX;	
+		fDifferenceInYPos=newMainImageTileProjectilePosY;
 		
 		//put this here before reversing the values;
 		fCurrViewportX=fCurrViewportX+fDifferenceInXPos; //heroImageTilePosX-iViewportMaxWidth/2;
@@ -13534,6 +13554,13 @@ if (fDifferenceInXPos!=0) {
 		if (bgTileImage.style.visible=="hidden") {
 			bIsVisible=false;
 		}
+
+/*		
+		//added by Mike, 20260911
+		if (bHasHeroHitWall) {
+			//return;
+		}
+*/
 			
 		//edited by Mike, 20260730
 		//if (!coinImage.checkVisibility()) { //note doesn't seem to be working;
@@ -13553,40 +13580,209 @@ if (fDifferenceInXPos!=0) {
 				
 				//var fMainImageTileOffsetY=iImageFrameHeightLarge/4;
 				
-				bIsActionKeyControlPressed=true;
-				//bHasHeroHitWall=true;
-
-/*
-				if (bHasHeroHitWall) {
-					//return;
-				}
+/*				
+				newMainImageTileProjectilePosX*=(-1.2); //reverse
+				newMainImageTileProjectilePosY*=(-1.2); //reverse
 */
 
-				fHeroHitWallViewportX=fCurrViewportX;				
-				fHeroHitWallViewportY=fCurrViewportY;
+				//bHasHeroHitWall=true;
 				
-				bHasHeroHitWall=true;
+				if (iCurrHeroWallBounceCount==0) {
+						//alert("DITO!!!");
+					
+						bIsActionKeyControlPressed=true;
+						
+						bHasHeroHitWall=true;
+
+						fHeroHitWallViewportX=fCurrViewportX;				
+						fHeroHitWallViewportY=fCurrViewportY;
+						
+
+						if (newMainImageTileProjectilePosX<0) {//going to the left
+							//fCurrViewportX+=iImageFrameWidthLarge*1;///2;
+							mainImageTileProjectileStepDestinationX+=iImageFrameWidthLarge*2;
+
+							//alert(">>>GOING LEFT!!!");
+
+							//if (iCurrHeroWallBounceCount==0) {
+								if (bIsHeroFacingLeftOrRight) {
+									if (bIsHeroFacingLeft) {
+										newMainImageTileProjectilePosX*=(-1.2); //reverse
+										iCurrHeroWallBounceCount++;
+									}
+									else { //moving away to the opposite direction;
+										bIsHeroFacingLeft=true;
+										newMainImageTileProjectilePosX*=(-1.2);
+										iCurrHeroWallBounceCount=0;
+									}
+								}
+							//}
+						}
+						//else { //going to the right
+						else if (newMainImageTileProjectilePosX>0) {//going to the right
+							//fCurrViewportX-=iImageFrameWidthLarge*1;///2;
+/*
+							if (iCurrHeroWallBounceCount==0) {
+								mainImageTileProjectileStepDestinationX-=iImageFrameWidthLarge*2;
+							}
+*/
+							mainImageTileProjectileStepDestinationX-=iImageFrameWidthLarge*2;
+
+							//alert(">>>GOING RIGHT!!!");
+
+							//if (iCurrHeroWallBounceCount==0) {
+								if (bIsHeroFacingLeftOrRight) {
+									if (!bIsHeroFacingLeft) {
+										newMainImageTileProjectilePosX*=(-1.2); //reverse
+										iCurrHeroWallBounceCount++;
+									}
+									else { //moving away to the opposite direction;
+										bIsHeroFacingLeft=false;
+										newMainImageTileProjectilePosX*=(-1.2);
+										iCurrHeroWallBounceCount=0;
+									}
+								}
+							//}
+						}
+
+						if (newMainImageTileProjectilePosY<0) {//going up
+							//fCurrViewportY+=iImageFrameHeightLarge*1;///2;
+							mainImageTileProjectileStepDestinationY+=iImageFrameHeightLarge*2;
+
+							//if (iCurrHeroWallBounceCount==0) {
+								if (bIsHeroFacingUpOrDown) {
+									if (bIsHeroFacingUp) {
+										newMainImageTileProjectilePosY*=(-1.2); //reverse
+										iCurrHeroWallBounceCount++;
+									}
+									else { //moving away to the opposite direction;
+										bIsHeroFacingUp=true;
+										newMainImageTileProjectilePosY*=(-1.2);
+										iCurrHeroWallBounceCount=0;
+									}									
+								}
+							//}
+						}
+		//				else { //going down
+						else if (newMainImageTileProjectilePosY>0) {//going down
+							//fCurrViewportY-=iImageFrameHeightLarge*1;///2;
+							mainImageTileProjectileStepDestinationY-=iImageFrameHeightLarge*2;
+
+							//if (iCurrHeroWallBounceCount==0) {
+								if (bIsHeroFacingUpOrDown) {
+									if (!bIsHeroFacingUp) {
+										newMainImageTileProjectilePosY*=(-1.2); //reverse
+										iCurrHeroWallBounceCount++;
+									}
+									else { //moving away to the opposite direction;
+										bIsHeroFacingUp=false;
+										newMainImageTileProjectilePosY*=(-1.2);
+										iCurrHeroWallBounceCount=0;
+									}									
+								}
+							//}
+						}
+				}
+				//if hero gets stuck, help him get out
+				else {
+					//TODO: -update: this
+					
+					//alert("DITO!!!");
+/*
+					
+					bIsActionKeyControlPressed=true;
+					bHasHeroHitWall=false;
+
+						fHeroHitWallViewportX=fCurrViewportX;				
+						fHeroHitWallViewportY=fCurrViewportY;
+
+						if (newMainImageTileProjectilePosX<0) {//going to the left
+							//fCurrViewportX+=iImageFrameWidthLarge*1;///2;
+							mainImageTileProjectileStepDestinationX-=iImageFrameWidthLarge*2.5;
+
+							//alert(">>>GOING LEFT!!!");
+
+							//if (iCurrHeroWallBounceCount==0) {
+								if (bIsHeroFacingLeftOrRight) {
+									if (bIsHeroFacingLeft) {
+										newMainImageTileProjectilePosX*=(1.2); 
+										//iCurrHeroWallBounceCount++;
+									}
+									else { //moving away to the opposite direction;
+										bIsHeroFacingLeft=true;
+										newMainImageTileProjectilePosX*=(-1.2);
+										iCurrHeroWallBounceCount=0;
+									}
+								}
+							//}
+						}
+						//else { //going to the right
+						else if (newMainImageTileProjectilePosX>0) {//going to the right
+							mainImageTileProjectileStepDestinationX+=iImageFrameWidthLarge*2.5;
+
+							//alert(">>>GOING RIGHT!!!");
+
+							//if (iCurrHeroWallBounceCount==0) {
+								if (bIsHeroFacingLeftOrRight) {
+									if (!bIsHeroFacingLeft) {
+										newMainImageTileProjectilePosX*=(1.2); 
+										//iCurrHeroWallBounceCount++;
+									}
+									else { //moving away to the opposite direction;
+										bIsHeroFacingLeft=false;
+										newMainImageTileProjectilePosX*=(-1.2);
+										iCurrHeroWallBounceCount=0;
+									}
+								}
+							//}
+						}
+
+						if (newMainImageTileProjectilePosY<0) {//going up
+							//fCurrViewportY+=iImageFrameHeightLarge*1;///2;
+							mainImageTileProjectileStepDestinationY-=iImageFrameHeightLarge*2.5;
+
+							//if (iCurrHeroWallBounceCount==0) {
+								if (bIsHeroFacingUpOrDown) {
+									if (bIsHeroFacingUp) {
+										newMainImageTileProjectilePosY*=(1.2);
+										//iCurrHeroWallBounceCount++;
+									}
+									else { //moving away to the opposite direction;
+										bIsHeroFacingUp=true;
+										newMainImageTileProjectilePosY*=(-1.2);
+										iCurrHeroWallBounceCount=0;
+									}									
+								}
+							//}
+						}
+		//				else { //going down
+						else if (newMainImageTileProjectilePosY>0) {//going down
+							//fCurrViewportY-=iImageFrameHeightLarge*1;///2;
+							mainImageTileProjectileStepDestinationY+=iImageFrameHeightLarge*2.5;
+
+							//if (iCurrHeroWallBounceCount==0) {
+								if (bIsHeroFacingUpOrDown) {
+									if (!bIsHeroFacingUp) {
+										newMainImageTileProjectilePosY*=(1.2);
+										//iCurrHeroWallBounceCount++;
+									}
+									else { //moving away to the opposite direction;
+										bIsHeroFacingUp=false;
+										newMainImageTileProjectilePosY*=(-1.2);
+										iCurrHeroWallBounceCount=0;
+									}									
+								}
+							//}
+						}
+*/						
+				}
+
+
+				if (iCurrHeroWallBounceCount>0) { //0) {
+					//alert("DITO!!!");
+					bHasHeroHitWall=true;
+				}
 				
-				if (newMainImageTileProjectilePosX<0) {//going to the left
-					//fCurrViewportX+=iImageFrameWidthLarge*1;///2;
-					mainImageTileProjectileStepDestinationX+=iImageFrameWidthLarge*2;
-				}
-				//else { //going to the right
-				else if (newMainImageTileProjectilePosX>0) {//going to the right
-
-					//fCurrViewportX-=iImageFrameWidthLarge*1;///2;
-					mainImageTileProjectileStepDestinationX-=iImageFrameWidthLarge*2;
-				}
-
-				if (newMainImageTileProjectilePosY<0) {//going up
-					//fCurrViewportY+=iImageFrameHeightLarge*1;///2;
-					mainImageTileProjectileStepDestinationY+=iImageFrameHeightLarge*2;
-				}
-//				else { //going down
-				else if (newMainImageTileProjectilePosY>0) {//going down
-					//fCurrViewportY-=iImageFrameHeightLarge*1;///2;
-					mainImageTileProjectileStepDestinationY-=iImageFrameHeightLarge*2;
-				}
 /*
 				newMainImageTileProjectilePosX*=(-1.5); //reverse
 				newMainImageTileProjectilePosY*=(-1.5); //reverse
@@ -13594,12 +13790,7 @@ if (fDifferenceInXPos!=0) {
 				//alert("newMainImageTileProjectilePosX: "+newMainImageTileProjectilePosX);
 				//alert("mainImageTileProjectileStepDestinationX: "+mainImageTileProjectileStepDestinationX);
 
-				//mainImageTileProjectileStepDestinationX=newMainImageTileProjectilePosX*
-
-				newMainImageTileProjectilePosX*=(-1.2); //reverse
-				newMainImageTileProjectilePosY*=(-1.2); //reverse
-				
-				
+				//mainImageTileProjectileStepDestinationX=newMainImageTileProjectilePosX*				
 			}
 		}
 	}	
@@ -16931,6 +17122,13 @@ iCurrTextCharacterCountMax=sText.length;
 											
 					//added by Mike, 20260904
 					verifyHeroCollideWithBgTileWall(iCurrBgTileImageCount);
+
+/*
+					//added by Mike, 20260911
+					if (bHasHeroHitWall) {
+						break;
+					}
+*/					
 				}
 				
 				//alert(iCurrBgTileImageCount);
@@ -17998,8 +18196,6 @@ alert(Date.now()-iMouseClickStartTime);
 		mainImageTileProjectileStepX=mainImageTileProjectileVelocityX;
 	}
 
-
-
     //reference: https://stackoverflow.com/questions/15994194/how-to-convert-x-y-coordinates-to-an-angle; last accessed: 20230428;
     //--> answer by: Mohsen, 20130413T2357; from 20150322T2246;
 
@@ -18151,7 +18347,16 @@ alert("iDeltaY: "+iDeltaY);
 		//added by Mike, 20260802
 		mainImageTileProjectileStepY=mainImageTileProjectileStepYMax;					
 		mainImageTileProjectileStepX=mainImageTileProjectileStepXMax;
+		
 */
+
+/*
+		//added by Mike, 20260911
+		if (iCurrHeroWallBounceCount>0) {
+			//resetProjectile();
+			//return;
+		}
+*/	
 	
 		newMainImageTileProjectilePosY=mainImageTileProjectileStepY*Math.cos(fMainImageTileStepAngleRad).toFixed(3);
 
@@ -18566,7 +18771,6 @@ alert("iXPos: "+iXPos);
 		
 //added by Mike, 20241113
 setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameWidthDefault/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightDefault/2); //mainImageTilePosX,mainImageTilePosY);
-
   }
   
 	function playSolvedTune() {
@@ -18744,6 +18948,9 @@ setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameW
 
 			//added by Mike, 20260625
 			iCurrHeroComboCount=0;
+			
+			//added by Mike, 20260911
+			iCurrHeroWallBounceCount=0;
 			
 			//added by Mike, 20260727
 			iCurrHeroCoinCount=0;
@@ -19288,7 +19495,7 @@ document.body.addEventListener('gestureend', function (e) {
 					return;
 				}
 			}
-			
+						
 			/*
 			else if ((iCurrMapLocation==61) && (bIsShowingStage1End)) {
 				if (iInputDelayAtStageTransitionCount<iInputDelayAtStageTransitionCountMax) {
@@ -19319,7 +19526,7 @@ document.body.addEventListener('gestureend', function (e) {
 						bIsActionKeyPressed=true;
 						bIsActionKeyFireballPressed=true;
 						bIsRightClickHeld=true;
-
+						
 /*
 						if ((!bIsGameOver) && (bHasPressedStart) && (!bIsMissionDone)) {
 							executeHeroFireballProjectileHoldAnimation();
@@ -19337,6 +19544,15 @@ document.body.addEventListener('gestureend', function (e) {
         alert("iXPos: "+iXPos);
         alert("iYPos: "+iYPos);
 */
+
+			//added by Mike, 20260911
+			if (bHasHeroHitWall) {
+				if (iCurrHeroWallBounceCount>0) {
+				//if (iCurrHeroWallBounceCount==1) {
+					resetProjectile();
+					//return;
+				}
+			}
 						
 						if (bIsGameOver) {
 							var textNewGameDiv = document.getElementById("textNewGameDivId");
@@ -19553,6 +19769,7 @@ document.body.addEventListener('gestureend', function (e) {
 		
 		//added by Mike, 20260806
 		document.body.addEventListener('pointerup', (event) => {
+		
 			//reference: https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent/pointerType;
 			//last accessed: 20221122
 			switch(event.pointerType) {
@@ -19607,6 +19824,7 @@ document.body.addEventListener('gestureend', function (e) {
 							bIsActionKeyControlPressed=false;
 						}
 					}
+					
 			}
 		});
 
@@ -19973,7 +20191,7 @@ function initTouchInput() {
 
 	iCurrBgTileImageCount++;
 	//----------------------------------
-/*	
+/*
 	iCurrBgTileImageColumn=1;
 	iCurrBgTileImageRow=1;
 	
@@ -19991,7 +20209,7 @@ function initTouchInput() {
 
 	iCurrBgTileImageCount++;
 	//----------------------------------
-
+*/
 	iCurrBgTileImageColumn=1;
 	iCurrBgTileImageRow=0;
 	
@@ -20009,7 +20227,6 @@ function initTouchInput() {
 
 	iCurrBgTileImageCount++;
 	//----------------------------------
-*/
 
 	iCurrBgTileImageCountMax=iCurrBgTileImageCount;
   }
