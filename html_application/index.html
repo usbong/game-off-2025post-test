@@ -13591,12 +13591,10 @@ if (fDifferenceInXPos!=0) {
 						//alert("DITO!!!");
 					
 						bIsActionKeyControlPressed=true;
-						
 						bHasHeroHitWall=true;
 
 						fHeroHitWallViewportX=fCurrViewportX;				
 						fHeroHitWallViewportY=fCurrViewportY;
-						
 
 						if (newMainImageTileProjectilePosX<0) {//going to the left
 							//fCurrViewportX+=iImageFrameWidthLarge*1;///2;
@@ -13682,115 +13680,53 @@ if (fDifferenceInXPos!=0) {
 								}
 							//}
 						}
+						
+					if (iCurrHeroWallBounceCount>0) { //0) {
+						//alert("DITO!!!");
+						bHasHeroHitWall=true;
+					}
+						
 				}
 				//if hero gets stuck, help him get out
 				else {
-					//TODO: -update: this
+					//TODO: reverify;
+					//makes the hero move a step or so backward
 					
-					//alert("DITO!!!");
-/*
+					//going to the left, though mouse pointing to the right
+					if (newMainImageTileProjectilePosX<0) {
+						newMainImageTileProjectilePosX*=(-1.2);
+
+						mainImageTileProjectileStepDestinationX=parseFloat(bgTileImage.style.left)+iImageFrameWidthLarge*2;
+					}
+					//going to the right, though mouse pointing to the left
+					else if (newMainImageTileProjectilePosX>0) {
+						newMainImageTileProjectilePosX*=(-1.2);
+
+						mainImageTileProjectileStepDestinationX=parseFloat(bgTileImage.style.left)-iImageFrameWidthLarge*1;
+					}
 					
-					bIsActionKeyControlPressed=true;
-					bHasHeroHitWall=false;
+					//problem mostly happens when going left or right;
+					//though there's still a small chance that it would occur 
+					//if the hero is facing directly up (or down);
+					//however, it appears to be difficult to replicate even intentionally
+/*					
+					//going up, though mouse pointing down
+					if (newMainImageTileProjectilePosY<0) {
+						newMainImageTileProjectilePosY*=(-1.2);
 
-						fHeroHitWallViewportX=fCurrViewportX;				
-						fHeroHitWallViewportY=fCurrViewportY;
+						//toward the mouse's direction;
+						mainImageTileProjectileStepDestinationY=parseFloat(bgTileImage.style.top)+iImageFrameHeightLarge*2;
+					}
+					//going to the down, though mouse pointing up
+					else if (newMainImageTileProjectilePosY>0) {
+						newMainImageTileProjectilePosY*=(-1.2);
 
-						if (newMainImageTileProjectilePosX<0) {//going to the left
-							//fCurrViewportX+=iImageFrameWidthLarge*1;///2;
-							mainImageTileProjectileStepDestinationX-=iImageFrameWidthLarge*2.5;
-
-							//alert(">>>GOING LEFT!!!");
-
-							//if (iCurrHeroWallBounceCount==0) {
-								if (bIsHeroFacingLeftOrRight) {
-									if (bIsHeroFacingLeft) {
-										newMainImageTileProjectilePosX*=(1.2); 
-										//iCurrHeroWallBounceCount++;
-									}
-									else { //moving away to the opposite direction;
-										bIsHeroFacingLeft=true;
-										newMainImageTileProjectilePosX*=(-1.2);
-										iCurrHeroWallBounceCount=0;
-									}
-								}
-							//}
-						}
-						//else { //going to the right
-						else if (newMainImageTileProjectilePosX>0) {//going to the right
-							mainImageTileProjectileStepDestinationX+=iImageFrameWidthLarge*2.5;
-
-							//alert(">>>GOING RIGHT!!!");
-
-							//if (iCurrHeroWallBounceCount==0) {
-								if (bIsHeroFacingLeftOrRight) {
-									if (!bIsHeroFacingLeft) {
-										newMainImageTileProjectilePosX*=(1.2); 
-										//iCurrHeroWallBounceCount++;
-									}
-									else { //moving away to the opposite direction;
-										bIsHeroFacingLeft=false;
-										newMainImageTileProjectilePosX*=(-1.2);
-										iCurrHeroWallBounceCount=0;
-									}
-								}
-							//}
-						}
-
-						if (newMainImageTileProjectilePosY<0) {//going up
-							//fCurrViewportY+=iImageFrameHeightLarge*1;///2;
-							mainImageTileProjectileStepDestinationY-=iImageFrameHeightLarge*2.5;
-
-							//if (iCurrHeroWallBounceCount==0) {
-								if (bIsHeroFacingUpOrDown) {
-									if (bIsHeroFacingUp) {
-										newMainImageTileProjectilePosY*=(1.2);
-										//iCurrHeroWallBounceCount++;
-									}
-									else { //moving away to the opposite direction;
-										bIsHeroFacingUp=true;
-										newMainImageTileProjectilePosY*=(-1.2);
-										iCurrHeroWallBounceCount=0;
-									}									
-								}
-							//}
-						}
-		//				else { //going down
-						else if (newMainImageTileProjectilePosY>0) {//going down
-							//fCurrViewportY-=iImageFrameHeightLarge*1;///2;
-							mainImageTileProjectileStepDestinationY+=iImageFrameHeightLarge*2.5;
-
-							//if (iCurrHeroWallBounceCount==0) {
-								if (bIsHeroFacingUpOrDown) {
-									if (!bIsHeroFacingUp) {
-										newMainImageTileProjectilePosY*=(1.2);
-										//iCurrHeroWallBounceCount++;
-									}
-									else { //moving away to the opposite direction;
-										bIsHeroFacingUp=false;
-										newMainImageTileProjectilePosY*=(-1.2);
-										iCurrHeroWallBounceCount=0;
-									}									
-								}
-							//}
-						}
-*/						
-				}
-
-
-				if (iCurrHeroWallBounceCount>0) { //0) {
-					//alert("DITO!!!");
-					bHasHeroHitWall=true;
-				}
-				
-/*
-				newMainImageTileProjectilePosX*=(-1.5); //reverse
-				newMainImageTileProjectilePosY*=(-1.5); //reverse
+						//toward the mouse's direction;
+						mainImageTileProjectileStepDestinationY=parseFloat(bgTileImage.style.top)-iImageFrameHeightLarge*1;
+					}
 */
-				//alert("newMainImageTileProjectilePosX: "+newMainImageTileProjectilePosX);
-				//alert("mainImageTileProjectileStepDestinationX: "+mainImageTileProjectileStepDestinationX);
-
-				//mainImageTileProjectileStepDestinationX=newMainImageTileProjectilePosX*				
+				
+				}
 			}
 		}
 	}	
@@ -18300,9 +18236,12 @@ alert("iDeltaY: "+iDeltaY);
 */	
 
 	if (!bIsActionKeyFireballPressed) {
-		if (Math.abs(iDeltaX)>iViewportMaxHeight/2) {
-		//if (Math.abs(iDeltaX)>iViewportMaxHeight/4) {
-//		if (Math.abs(iDeltaX)>0) {
+		//edited by Mike, 20260911
+		//more diagonal movement; somewhat solves the wall collision problem; 
+		//where hero sticks to the wall when hero doesn't bump it
+		//if (Math.abs(iDeltaX)>iViewportMaxHeight/2) {
+		if (Math.abs(iDeltaX)>iViewportMaxHeight/4) {
+		//if (Math.abs(iDeltaX)>0) {
 		//if ((Math.abs(iDeltaX)>0) && (Math.abs(iDeltaX)<iViewportMaxHeight/2)) {
 
 			//alert("iDeltaY: "+iDeltaY);
