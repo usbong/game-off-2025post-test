@@ -556,7 +556,7 @@ Afterward, I added custom fonts that I'm still updating in order to make sure th
 
 My DIY engine now has more basic components that would be useful when building any type game. Still, I admit that the engine and its sample prototype could hardly be called a game yet.
 
-44) 20260828-20260909; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+44) 20260828-20260913; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 **Key Lesson Learned:** 
 
@@ -566,7 +566,7 @@ I've been adding more letters in the font image tile set, which now include lett
 
 My handwriting on the computer using GIMP surprisingly appears cartoony, something that I could certainly use in a cartoony game that I'd want to share with family and friends. 
 
-45) 20260828-20260909; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+45) 20260828-20260913; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 **Key Lesson Learned:** 
 
@@ -578,7 +578,7 @@ I've added new walking animation frames depending on whether the user is pressin
 
 The amount of animation frames that would be needed to cover all the possible movements based on the combination of keyboard and mouse clicks is substantially more than the one used with a traditional 2D side-scroller without any isometric movements at all. Nonetheless, having a template like this already at hand makes the process a lot faster than having to again start from scratch.
 
-46) 20260828-20260909; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+46) 20260828-20260913; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 **Key Lesson Learned:** 
 
@@ -590,7 +590,7 @@ This update took longer than I had wanted to, because of the many on-off switche
 
 This version allows for strafing as seen on the sprite images displayed on-screen as well as the controls using both keyboard and mouse.
 
-47) 20260828-20260909; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+47) 20260828-20260913; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 **Key Lesson Learned:** 
 
@@ -600,7 +600,7 @@ I've gotten the hero to stop his movement when he's hit a wall tile. He can also
 
 We now have a basic wall tile. This is part of the set of tiles that we'll need to create our walls in isometric view.
 
-48) 20260828-20260909; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+48) 20260828-20260913; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 **Key Lesson Learned:** 
 
@@ -616,7 +616,7 @@ I also note here my knee-jerk idea to simply make the walls longer given that my
 
 We're now stitching more wall tiles together.
 
-49) 20260828-20260909; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+49) 20260828-20260913; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -677,7 +677,7 @@ I also note here that, as I had previously observed, moving from landscape to po
 The app runs on mobile with a few issues including slower movement on Android and the viewport not yet centered on landscape mode, while on the iPad, it seems somewhat choppy like doing a screen recording on Linux with only a used Intel Celeron N2940 processor.
 
 
-50) 20260828-20260909; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+50) 20260828-20260913; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -689,7 +689,7 @@ I've been able to create another html file ("start.html") that serves as the con
 
 The app now centers horizontally as intended on Android upon detecting that the user's device is an Android mobile phone model at the start when it's loaded. 
 
-51) 20260828-20260909; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+51) 20260828-20260913; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -702,6 +702,25 @@ I've also solved the problem of the hero snapping his head when he attempts to w
 **Unlocked Possibilities:**
 
 Given that I am able to check the distance that the hero has traveled using `fCurrViewportX` and `fCurrViewportY`, I may be able to use the same technique with the collision detection involving the wall tiles.
+
+
+52) 20260828-20260913; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+
+Also available here: http://store.usbong.ph/server/gameoff/start.html
+
+**Key Lesson Learned:** 
+
+Getting the collision detection to work proved to be quite a challenge. There was always the possibility that the hero would get through the wall like a phantom or a ghost. In fact, I've learned to replicate this behavior with great mastery, a frightening revelation, because if someone could learn to do it, then other people would also be able learn to do it, which, in this case, isn't about doing something actually benevolent, but the exact opposite: break the code, break the system.
+
+At the code level, there always seemed to be a fraction or so difference between the hero getting through the wall and getting bumped away from the wall. Among the various solutions I tried out, setting the hero to move more diagonally and never purely horizontally solved it. My understanding is that it's related to the `hypothenuse`, which is the longest line among the sides of a `triangle`, unless all the sides are equal. I note that I'm computing the `intersection` between the two rectangles, one for the hero and another for the wall, using their `x` and `y` positions as well as their `width` and `height`; however, given a certain distance, the triggers for when the hero is moving to the left and to the right appear to overlap, such that there is a "wall bouncing" that occurs, wherein the hero is pushed toward one direction and again to the opposite multiple times unless stopped. However, by then, the hero has been sucked into the wall, and is only further sucked inside if the user attempts to move toward the logical direction, which is away from the wall. 
+
+Now that moving diagonally somehow solves this problem somewhat, I think that the hero facing not only horizontally, that is, left or right, but also vertically, up or down, adds another trigger that leads to the desired outcome after going through the list of conditions, whchi are in the form of a `tree` composed of `on-off switches`.
+
+While I expect to discover more bugs upon further testing, designing the map to take advantage of the merits instead of the demerits of the current system would reduce the occurrence of these bugs. In the meantime, I've been updating the code to also make sure that the hero is made to stop from continuously bumping himself against the wall, which is what had prompted me to investigating this problem further in the first place after temporarily turning off `isometric` mode whenever the hero moves on the map.
+
+**Unlocked Possibilities:**
+
+I am tempted to say that the reason why I'm having problems with this is because I'm using the mouse instead of directional keys, because, with the former, the angles could be made to be finer with mere fractions of difference in the movement, as compared to a directional keypad which greatly simplifies movement to a few commonly used `angles` like `45 degrees`. Having said this, I believe that this current DIY engine is an investment that could later be reused, if not its entirety, just like with [Usbong KMS](https://github.com/usbong/kms).
 
 # Additional Bug Fixes
 
