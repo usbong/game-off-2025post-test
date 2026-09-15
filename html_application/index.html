@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260914; from 20260913
+' @date updated: 20260915; from 20260914
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -1912,9 +1912,13 @@ const iHeroAnimationDelayCountMax=5;//3;//2;//8;//10;//5;//2;//1; //TODO: -add: 
 const iHeroWalkAnimationDelayCountMax=2;
 
 var iHeroAttackAnimationCount=0;//-1; //0; //due to immediately +1 in execution;
-const iHeroAttackAnimationCountMax=3;
+const iHeroAttackAnimationCountMax=3;//4;
 var iHeroAttackAnimationDelayCount=0;
-const iHeroAttackAnimationDelayCountMax=5;//2;//1; //TODO: -add: more dust effect if target walking distance 
+const iHeroAttackAnimationDelayCountMax=5;
+
+var iHeroAttackAnimationRecoveryCount=0;
+const iHeroAttackAnimationRecoveryCountMax=0;//8;//10;
+
 
 var iHeroIdleAnimationCount=0;//-1; //0; //due to immediately +1 in execution;
 const iHeroIdleAnimationCountMax=5;
@@ -2869,9 +2873,15 @@ var bIsHeroFacingUp=false;
 		//TODO: -add: idle animation	
 		iHeroAnimationCount=0; 
 		
+		//added by Mike, 20260915
+		if (bHasHeroHitMonster) {
+			return;
+		}
+		
 		//added by Mike, 20251106
 		iHeroAttackAnimationCount=0;//-1; 		
 		//iHeroAttackComboCount=0;
+		
 
 /*
 			//removed by Mike, 20251102
@@ -3902,14 +3912,14 @@ var bIsHeroFacingUp=false;
 */		
 		//iCurrHeroComboCount=iHeroAttackComboCount; //TODO: -update: this
 		
-		//edited by Mike, 20260911
-		//textHeroComboStatusDiv.innerHTML = "Cx"+iCurrHeroComboCount;		
+		//edited by Mike, 20260915; from 20260911
+		textHeroComboStatusDiv.innerHTML = "Cx"+iCurrHeroComboCount;		
 		
 		//textHeroComboStatusDiv.innerHTML = "Wx"+iCurrHeroWallBounceCount;		
 
 		//textHeroComboStatusDiv.innerHTML = "Wx"+iCurrHeroWallBounceCount+"; "+mainImageTileProjectileStepDestinationX;
 		
-		textHeroComboStatusDiv.innerHTML = "Wx"+iCurrHeroWallBounceCount+"; "+newMainImageTileProjectilePosX;
+		//textHeroComboStatusDiv.innerHTML = "Wx"+iCurrHeroWallBounceCount+"; "+newMainImageTileProjectilePosX;
 		
 	}
 	
@@ -6165,19 +6175,21 @@ alert("iInputY: "+iInputY);
 
 		//edited by Mike, 20260914
 		//if (iHeroAttackAnimationDelayCount==0) {//iHeroAnimationDelayCountMax) {
-		if (iHeroAttackAnimationDelayCount>=iHeroAnimationDelayCountMax) {
+		if (iHeroAttackAnimationDelayCount>=iHeroAttackAnimationDelayCountMax) {
 		
 			//iHeroAttackAnimationCount=(iHeroAttackAnimationCount+1)%4; //last hidden
 
-			if (iHeroAttackAnimationCount>iHeroAttackAnimationCountMax) {//3) {
+			iHeroAttackAnimationDelayCount=0;
+
+			if (iHeroAttackAnimationCount>=iHeroAttackAnimationCountMax) {//3) {
 
 				//alert(iHeroAnimationCount);
-				iHeroAttackAnimationDelayCount=0;
+				//iHeroAttackAnimationDelayCount=0;
 				
 				//removed by Mike, 20251127
 				//iHeroAttackAnimationCount=0;
 				
-				iHeroAttackAnimationCount=1;//0; //added by Mike, 20260722
+				iHeroAttackAnimationCount=0; //added by Mike, 20260722
 
 				bHasHeroHitMonster=false;		
 			}
@@ -6213,12 +6225,26 @@ alert("iInputY: "+iInputY);
 		}
 		bIsHeroFacingLeftPrev=bIsHeroFacingLeft;
 */
-		//edited by Mike, 20260723; from 20260721
+		//edited by Mike, 20260915; from 20260723
+		//TODO: -fix: vertical sequence in spritesheet;
+		
+		
+		
 		//TODO: -put in reusable function;
 		if (bIsHeroFacingLeftOrRight) {
 			if (bIsHeroFacingLeft) {
+				
 				iFrameY=iImageFrameHeightLarge*1;
 				
+				//added by Mike, 20260915
+				//two straight punches before this
+				if (iCurrHeroComboCount==3) {
+					iFrameY=iImageFrameHeightLarge*2;
+				}
+				else if (iCurrHeroComboCount>3) {
+					iFrameY=iImageFrameHeightLarge*4;
+				}
+
 				if (bIsHeroFacingUpOrDown) {
 					if (!bIsHeroFacingUp) {
 						iFrameY=iImageFrameHeightLarge*2;
@@ -6230,6 +6256,16 @@ alert("iInputY: "+iInputY);
 			}
 			else {
 				iFrameY=iImageFrameHeightLarge*0;
+
+				//added by Mike, 20260915
+				//two straight punches before this
+				if (iCurrHeroComboCount==3) {
+					iFrameY=iImageFrameHeightLarge*3;
+				}
+				else if (iCurrHeroComboCount>3) { //straight punch again before this
+					iFrameY=iImageFrameHeightLarge*5;
+				}
+
 
 				if (bIsHeroFacingUpOrDown) {
 					if (!bIsHeroFacingUp) {
@@ -6251,41 +6287,16 @@ alert("iInputY: "+iInputY);
 			}
 		}
 		
-
-		//if (bHasFired) {
-		//if (iHeroAttackEffectAnimationDelayCount<iHeroAttackEffectAnimationDelayCountMax) {
-		//if (bHasHeroHitMonster) {
-
-		////mainImageTileHeroBody.style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*iHeroAnimationCount - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";
 		
-		//alert("DITO!");
-/*				
-		//TODO: -add: constant 3; for last animation frame of four frames
-		if (iHeroAttackAnimationCount>=3) {
+		//alert(iHeroAttackAnimationCount);
+		
+			mainImageTileHeroBody.style.objectPosition = "-" + 0-iImageFrameWidthLarge*(iHeroAttackAnimationCount) - 5*iImageFrameWidthLarge + "px -" + iFrameY + "px";
 
-			//alert("DITO! "+iHeroAnimationCount);
-			iHeroAttackAnimationDelayCount=0;
-			iHeroAttackAnimationCount=0;//-1; //3;
+			mainImageTileHeroBody0.style.objectPosition = "-" + 0-iImageFrameWidthLarge*(iHeroAttackAnimationCount) - 5*iImageFrameWidthLarge + "px -" + iFrameY + "px";
 
-			bHasHeroHitMonster=false;
+			mainImageTileHeroBody1.style.objectPosition = "-" + 0-iImageFrameWidthLarge*(iHeroAttackAnimationCount) - 5*iImageFrameWidthLarge + "px -" + iFrameY + "px";
 
-			mainImageTileHeroBody.style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*1 - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";
-		}
-		else {
-*/		
-			//alert(iHeroAttackAnimationCount-1);
-			
-			//edited by Mike, 20260722
-			//mainImageTileHeroBody.style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*(iHeroAttackAnimationCount-1) - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";
-			//edited by Mike, 20260723
-			//mainImageTileHeroBody.style.objectPosition = "-" + 0-iImageFrameWidthLarge*(iHeroAttackAnimationCount-1) - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";
-			mainImageTileHeroBody.style.objectPosition = "-" + 0-iImageFrameWidthLarge*(iHeroAttackAnimationCount-1) - 5*iImageFrameWidthLarge + "px -" + iFrameY + "px";
-
-			mainImageTileHeroBody0.style.objectPosition = "-" + 0-iImageFrameWidthLarge*(iHeroAttackAnimationCount-1) - 5*iImageFrameWidthLarge + "px -" + iFrameY + "px";
-
-			mainImageTileHeroBody1.style.objectPosition = "-" + 0-iImageFrameWidthLarge*(iHeroAttackAnimationCount-1) - 5*iImageFrameWidthLarge + "px -" + iFrameY + "px";
-
-			mainImageTileHeroBody2.style.objectPosition = "-" + 0-iImageFrameWidthLarge*(iHeroAttackAnimationCount-1) - 5*iImageFrameWidthLarge + "px -" + iFrameY + "px";
+			mainImageTileHeroBody2.style.objectPosition = "-" + 0-iImageFrameWidthLarge*(iHeroAttackAnimationCount) - 5*iImageFrameWidthLarge + "px -" + iFrameY + "px";
 
 			
 /*			
@@ -6299,8 +6310,6 @@ alert("iInputY: "+iInputY);
 
 	//edited by Mike, 20260723; from 20251105
 	function executeHeroIdleAnimation() {
-		//resetProjectile();
-		
 		//added by Mike, 20260723
 		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");
 
@@ -6374,21 +6383,6 @@ alert("iInputY: "+iInputY);
 		mainImageTileHeroBody2.style.objectPosition = "-" + 0-iImageFrameWidthLarge*(iHeroIdleAnimationCount-1) - 5*iImageFrameWidthLarge + "px -" + iFrameY + "px";
 	}
 	
-	function executeHeroIdleAnimationPREV() {
-		//resetProjectile();
-
-		if (iHeroAnimationDelayCount==iHeroAnimationDelayCountMax) {
-			iHeroAnimationCount=(iHeroAnimationCount+1)%2; //last hidden
-
-			//alert(iHeroAnimationCount);
-
-			resetProjectile();
-			iHeroAnimationDelayCount=0;
-		}
-		else {
-			iHeroAnimationDelayCount++;
-		}
-	}
 
 	function executeTankWalkingAnimation() {
 		var mainImageTileTankBody = document.getElementById("mainImageTileImageTankBodyId");
@@ -13019,8 +13013,14 @@ if (fDifferenceInXPos!=0) {
 	*/
 
 						bHasHeroHitMonster=true;
+						
+						
 						iHeroAttackAnimationDelayCount=0;
+
+/*						//removed by Mike, 20260915; 
+						//otherwise, animation gets reset with rapid clicks;
 						iHeroAttackAnimationCount=0;//-1;
+*/
 						
 						//added by Mike, 20260625
 						iHeroAttackComboResetDelayCount=0;
@@ -13168,1253 +13168,7 @@ if (fDifferenceInXPos!=0) {
 			
 		//}
 	}
-	
-	//added by Mike, 20260904
-	function verifyHeroCollideWithBgTileWallPREV(iCount) {
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
-		
-		var bgTileImage = document.getElementById("bgTileImageId"+iCount);
-		
-		
-		//TODO: -update: this; these locations in the sprite image are walls
-/*
-1-0
-1-1
-1-2
-1-3
-1-4
-2-1
-2-5
-3-2
-3-3
-3-4
-3-5
-*/
-		if (iCount>11) {
-			return;
-		}
 
-/*
-		//reference: Google AI Overview; MDN Web Docs
-		const bIsVisible = bgTileImage.checkVisibility({
-		  visibilityProperty: true // Checks for visibility: hidden or collapse
-		});
-*/
-		bIsVisible=true;
-		if (bgTileImage.style.visible=="hidden") {
-			bIsVisible=false;
-		}
-			
-		//edited by Mike, 20260730
-		//if (!coinImage.checkVisibility()) { //note doesn't seem to be working;
-		if (!bIsVisible) {
-		  //alert("NOT VISIBLE!: "+iCount);
-		
-		  return;
-		}
-		else {
-			//added by Mike, 20260728
-			//note we added a blank square space above the tile to get the correct z-index during auto-update
-			//const bgTileImageOffsetY=iImageFrameHeightLarge;
-
-			//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthBgTile*0.75, iImageFrameHeightBgTile*0.75)) {
-
-			//edited by Mike, 20260906
-			//if (isPointsOfRectIntersectingPointsOfRectWall(mainImageTilePosX,mainImageTilePosY, parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*0.9, iImageFrameHeightLarge*0.8, iImageFrameWidthBgTile*0.9, iImageFrameHeightBgTile*0.8)) {
-
-			//edited by Mike, 20260913
-			//if (isPointsOfRectIntersectingPointsOfRectWall(mainImageTilePosX,mainImageTilePosY, parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*0.8, iImageFrameHeightLarge*0.75, iImageFrameWidthBgTile*0.9, iImageFrameHeightBgTile*0.8)) {
-
-			if (isPointsOfRectIntersectingPointsOfRectWall(mainImageTilePosX,mainImageTilePosY, parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*0.8, iImageFrameHeightLarge*0.75, iImageFrameWidthBgTile*0.9, iImageFrameHeightBgTile*0.8)) {
-
-
-
-/*						
-				bgTileImage.style.left="-999999px";
-				bgTileImage.style.top="-999999px";
-
-				iCurrHeroCoinCount++;
-				
-				bgTileImage.style.visibility="hidden";
-*/
-				
-				var iOffsetX=0;//iImageFrameWidthLarge/4;
-				var iOffsetY=0;//iImageFrameHeightLarge/4;
-				
-				var fMainImageTileOffsetY=iImageFrameHeightLarge/4;
-
-/*				
-				bIsHeroStuckOnTheLeftOrRightOfBGTile=false;
-				bIsHeroStuckOnTheLeftOfBGTile=false;
-				bIsHeroStuckOnTheTopOrBottomOfBGTile=false;
-				bIsHeroStuckOnTheTopOfBGTile=false;
-*/				
-				//bHasHeroHitACornerOfBGTile=false;
-				
-				if (bIsHeroFacingLeftOrRight) {
-					if (bIsHeroFacingLeft) {
-						//alert(newMainImageTileProjectilePosX);
-
-						//if hero is stuck on the tile's right side
-						//if (mainImageTilePosX>parseFloat(bgTileImage.style.left)+iImageFrameWidthLarge*0.75+iOffsetX) {
-						if (mainImageTilePosX>parseFloat(bgTileImage.style.left)+iImageFrameWidthLarge*1+iOffsetX) {
-
-							if (newMainImageTileProjectilePosX<0) { //still going to the left
-								bHasHeroHitWallFacingLeftOrRight=true;
-
-/*								//corner-related
-								//added by Mike, 20260906
-								if (mainImageTilePosY+iImageFrameWidthLarge*0.9<parseFloat(bgTileImage.style.top)) {
-								
-									//alert(newMainImageTileProjectilePosY);
-								
-									if (newMainImageTileProjectilePosY<0) { //going UP
-										bHasHeroHitWallFacingUpOrDown=false;
-										bHasHeroHitWallFacingLeftOrRight=false;
-									}
-								}
-								//if tile is to the bottom of hero
-								else if (mainImageTilePosY>parseFloat(bgTileImage.style.top)+iImageFrameHeightLarge) {
-									//alert("DITO!!!");
-									
-									if (newMainImageTileProjectilePosY>0) { //going DOWN
-										bHasHeroHitWallFacingUpOrDown=false;
-										bHasHeroHitWallFacingLeftOrRight=false;
-									}
-								}								
-*/								
-							}
-							//edited by Mike, 20260906
-							//else {
-							else if (newMainImageTileProjectilePosX>0) { //going to the right
-								bHasHeroHitWallFacingLeftOrRight=false;
-								bHasHeroHitWallFacingUpOrDown=false; //added by Mike, 20260905
-							}
-						}						
-						else {
-							bHasHeroHitWallFacingLeftOrRight=false;
-							bHasHeroHitWallFacingUpOrDown=false; //added by Mike, 20260905
-						}
-					}
-					else {
-						//alert(newMainImageTileProjectilePosX);
-						
-						//if hero is stuck on the tile's left side
-						//if (mainImageTilePosX<parseFloat(bgTileImage.style.left)-iOffsetX) { //+iImageFrameWidthLarge*0.75
-						if (mainImageTilePosX<parseFloat(bgTileImage.style.left)) { //+iImageFrameWidthLarge*0.75
-
-							if (newMainImageTileProjectilePosX<0) { //going to the left
-								bHasHeroHitWallFacingLeftOrRight=false;
-								bHasHeroHitWallFacingUpOrDown=false; //added by Mike, 20260905
-							}
-							//else {
-							else if (newMainImageTileProjectilePosX>0) { //going to the right
-								bHasHeroHitWallFacingLeftOrRight=true;
-
-/*								//corner-related
-								//added by Mike, 20260906
-								//tile is at the bottom of hero
-								if (mainImageTilePosY+iImageFrameHeightLarge*0.9<parseFloat(bgTileImage.style.top)) {
-									//alert(newMainImageTileProjectilePosY);
-								
-									if (newMainImageTileProjectilePosY<0) { //going UP
-										bHasHeroHitWallFacingUpOrDown=false;
-										bHasHeroHitWallFacingLeftOrRight=false;
-									}
-								}
-								//if tile is at the top of hero
-								else if (mainImageTilePosY>parseFloat(bgTileImage.style.top)+iImageFrameHeightLarge) {
-									//alert("DITO!!!");
-									
-									if (newMainImageTileProjectilePosY>0) { //going DOWN
-										bHasHeroHitWallFacingUpOrDown=false;
-										bHasHeroHitWallFacingLeftOrRight=false;
-									}
-								}		
-*/								
-							}
-						}
-						else {
-							bHasHeroHitWallFacingLeftOrRight=false;
-							bHasHeroHitWallFacingUpOrDown=false; //added by Mike, 20260905
-						}
-					}
-				}
-				
-				if (bIsHeroFacingUpOrDown) {
-					if (bIsHeroFacingUp) {
-						//alert(newMainImageTileProjectilePosY);
-
-						//edited by Mike, 20260609
-						//if hero is stuck on the tile's bottom side
-						//if (mainImageTilePosY>parseFloat(bgTileImage.style.top)+iImageFrameHeightLarge*0.75+iOffsetY) {
-						if (mainImageTilePosY>parseFloat(bgTileImage.style.top)+iImageFrameHeightLarge*1+iOffsetY) {
-					
-							if (newMainImageTileProjectilePosY<0) { //still going up
-								bHasHeroHitWallFacingUpOrDown=true;
-								
-/*								//corner-related
-								//if hero is moving away from the tile; hitwall false;
-								//if tile is to the right of hero
-								if (mainImageTilePosX<parseFloat(bgTileImage.style.left)) {
-									if (newMainImageTileProjectilePosX<0) { //going LEFT
-										bHasHeroHitWallFacingUpOrDown=false;
-										bHasHeroHitWallFacingLeftOrRight=false;
-									}
-								}
-								//if tile is to the left of hero
-								else if (mainImageTilePosX>parseFloat(bgTileImage.style.left)+iImageFrameWidthLarge) { //+iImageFrameWidthLarge*0.75+iOffsetX
-									if (newMainImageTileProjectilePosX>0) { //going RIGHT
-										bHasHeroHitWallFacingUpOrDown=false;
-										bHasHeroHitWallFacingLeftOrRight=false;
-									}
-								}								
-*/								
-							}
-							else {
-								bHasHeroHitWallFacingUpOrDown=false;
-								bHasHeroHitWallFacingLeftOrRight=false;
-							}
-						}
-						//if hero is stuck on the tile's top side
-						//if (mainImageTilePosY<parseFloat(bgTileImage.style.top)-iOffsetY) {
-						else if (mainImageTilePosY<parseFloat(bgTileImage.style.top)) {
-
-							////bHasHeroHitWallFacingUpOrDown=false;
-							////bHasHeroHitWallFacingLeftOrRight=false;
-
-							if (newMainImageTileProjectilePosY<0) { //going up
-								bHasHeroHitWallFacingUpOrDown=false;
-								bHasHeroHitWallFacingLeftOrRight=false;
-							}
-							else {
-								bHasHeroHitWallFacingUpOrDown=true;
-/*								//corner-related
-								//if hero is moving away from the tile; hitwall false;
-								//if stuck on the tile's left side
-								if (mainImageTilePosX<parseFloat(bgTileImage.style.left)) {
-									if (newMainImageTileProjectilePosX<0) { //going LEFT
-										bHasHeroHitWallFacingUpOrDown=false;
-										bHasHeroHitWallFacingLeftOrRight=false;
-									}
-								}
-								//if stuck on the tile's right side
-								else if (mainImageTilePosX>parseFloat(bgTileImage.style.left)+iImageFrameWidthLarge) { //+iImageFrameWidthLarge*0.75+iOffsetX
-									if (newMainImageTileProjectilePosX>0) { //going RIGHT
-										bHasHeroHitWallFacingUpOrDown=false;
-										bHasHeroHitWallFacingLeftOrRight=false;
-									}
-								}	
-*/								
-							}
-						}
-						//added by Mike, 20260906
-						//if stuck on the tile's left side
-						else if (mainImageTilePosX<parseFloat(bgTileImage.style.left)) { 
-							if (newMainImageTileProjectilePosX>0) { //going RIGHT
-							}
-							else {
-								bHasHeroHitWallFacingUpOrDown=false;
-								bHasHeroHitWallFacingLeftOrRight=false;
-							}
-						}
-						//if stuck on the tile's right side
-						else if (mainImageTilePosX>parseFloat(bgTileImage.style.left)+iImageFrameWidthLarge) { 
-							if (newMainImageTileProjectilePosX<0) { //going LEFT
-							}
-							else {
-								bHasHeroHitWallFacingUpOrDown=false;
-								bHasHeroHitWallFacingLeftOrRight=false;
-							}
-						}
-					}
-					else { //if facing down
-						//alert(newMainImageTileProjectilePosY);
-
-						//if hero is stuck on the tile's top side
-						//if (mainImageTilePosY<parseFloat(bgTileImage.style.top)-iOffsetY) {
-						if (mainImageTilePosY<parseFloat(bgTileImage.style.top)) {
-							if (newMainImageTileProjectilePosY<0) { //going up
-								bHasHeroHitWallFacingUpOrDown=false;
-								bHasHeroHitWallFacingLeftOrRight=false;
-							}
-							else {
-								bHasHeroHitWallFacingUpOrDown=true;
-
-/*								//corner-related
-								//if hero is moving away from the tile; hitwall false;
-								//if tile is to the right of hero
-								if (mainImageTilePosX<parseFloat(bgTileImage.style.left)) {
-									if (newMainImageTileProjectilePosX<0) { //going LEFT
-										bHasHeroHitWallFacingUpOrDown=false;
-										bHasHeroHitWallFacingLeftOrRight=false;
-									}
-								}
-								//if tile is to the left of hero
-								else if (mainImageTilePosX>parseFloat(bgTileImage.style.left)+iImageFrameWidthLarge) { //+iImageFrameWidthLarge*0.75+iOffsetX
-									if (newMainImageTileProjectilePosX>0) { //going RIGHT
-										bHasHeroHitWallFacingUpOrDown=false;
-										bHasHeroHitWallFacingLeftOrRight=false;
-									}
-								}
-*/								
-							}
-						}
-						//edited by Mike, 20260906
-/*
-						else {
-*/						
-							////bHasHeroHitWallFacingUpOrDown=false;
-							////bHasHeroHitWallFacingLeftOrRight=false;
-							
-							//edited by Mike, 20260906
-							//if hero is stuck on the tile's bottom side
-							//if (mainImageTilePosY>parseFloat(bgTileImage.style.top)+iImageFrameHeightLarge*0.75+iOffsetY) {
-						else if (mainImageTilePosY>parseFloat(bgTileImage.style.top)+iImageFrameHeightLarge*1+iOffsetY) {
-
-								if (newMainImageTileProjectilePosY<0) { //still going up
-									bHasHeroHitWallFacingUpOrDown=true;
-
-/*								//corner-related
-									//if hero is moving away from the tile; hitwall false;
-									//if tile is to the right of hero
-									if (mainImageTilePosX<parseFloat(bgTileImage.style.left)) {
-										if (newMainImageTileProjectilePosX<0) { //going LEFT
-											bHasHeroHitWallFacingUpOrDown=false;
-											bHasHeroHitWallFacingLeftOrRight=false;
-										}
-									}
-									//if tile is to the left of hero
-									else if (mainImageTilePosX>parseFloat(bgTileImage.style.left)+iImageFrameWidthLarge) { //+iImageFrameWidthLarge*0.75+iOffsetX
-										if (newMainImageTileProjectilePosX>0) { //going RIGHT
-											bHasHeroHitWallFacingUpOrDown=false;
-											bHasHeroHitWallFacingLeftOrRight=false;
-										}
-									}
-*/
-								}
-								else {
-									bHasHeroHitWallFacingUpOrDown=false;
-									bHasHeroHitWallFacingLeftOrRight=false;
-								}
-							}
-						/*}*/
-							//added by Mike, 20260906
-							//if stuck on the tile's left side
-							else if (mainImageTilePosX<parseFloat(bgTileImage.style.left)) { 
-								if (newMainImageTileProjectilePosX>0) { //going RIGHT
-								}
-								else {
-									bHasHeroHitWallFacingUpOrDown=false;
-									bHasHeroHitWallFacingLeftOrRight=false;
-								}
-							}
-							//if stuck on the tile's right side
-							else if (mainImageTilePosX>parseFloat(bgTileImage.style.left)+iImageFrameWidthLarge) { 
-								if (newMainImageTileProjectilePosX<0) { //going LEFT
-								}
-								else {
-									bHasHeroHitWallFacingUpOrDown=false;
-									bHasHeroHitWallFacingLeftOrRight=false;
-								}
-							}
-					}
-				}
-
-				
-			}
-		}
-	}
-	
-	//added by Mike, 20260910
-	function verifyHeroCollideWithBgTileWallPREV2(iCount) {
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
-		
-		var bgTileImage = document.getElementById("bgTileImageId"+iCount);
-		
-
-		//TODO: -update: this; these locations in the sprite image are walls
-/*
-1-0
-1-1
-1-2
-1-3
-1-4
-2-1
-2-5
-3-2
-3-3
-3-4
-3-5
-*/
-		if (iCount>11) {
-			return;
-		}
-
-/*
-		//reference: Google AI Overview; MDN Web Docs
-		const bIsVisible = bgTileImage.checkVisibility({
-		  visibilityProperty: true // Checks for visibility: hidden or collapse
-		});
-*/
-		bIsVisible=true;
-		if (bgTileImage.style.visible=="hidden") {
-			bIsVisible=false;
-		}
-
-		//added by Mike, 20260912
-		//if not the starting bg tile; also not the same tile; 
-		if ((iCurrCollidedBgTileImageCount!=-1) && (iCurrBgTileImageCount!=iCurrCollidedBgTileImageCount)) {
-			return;
-		}
-
-		//edited by Mike, 20260730
-		//if (!coinImage.checkVisibility()) { //note doesn't seem to be working;
-		if (!bIsVisible) {
-		  //alert("NOT VISIBLE!: "+iCount);
-		
-		  return;
-		}
-		else {
-			//edited by Mike, 20260910
-			//if (isPointsOfRectIntersectingPointsOfRectWall(mainImageTilePosX,mainImageTilePosY, parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*0.8, iImageFrameHeightLarge*0.75, iImageFrameWidthBgTile*0.9, iImageFrameHeightBgTile*0.8)) {
-/*
-			if (isPointsOfRectIntersectingPointsOfRectWall(parseFloat(mainImageTilePosX),parseFloat(mainImageTilePosY), parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*1, iImageFrameHeightLarge*1, iImageFrameWidthBgTile*1, iImageFrameHeightBgTile*1)) {
-*/
-			if (isPointsOfRectIntersectingPointsOfRectWall(parseFloat(mainImageTilePosX),parseFloat(mainImageTilePosY), parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*1, iImageFrameHeightLarge*1, iImageFrameWidthBgTile*1, iImageFrameHeightBgTile*1)) {
-				
-				var iOffsetX=0;//iImageFrameWidthLarge/4;
-				var iOffsetY=0;//iImageFrameHeightLarge/4;
-				
-				//var fMainImageTileOffsetY=iImageFrameHeightLarge/4;
-				
-/*				
-				newMainImageTileProjectilePosX*=(-1.2); //reverse
-				newMainImageTileProjectilePosY*=(-1.2); //reverse
-*/
-
-				//bHasHeroHitWall=true;
-
-				
-				if (iCurrHeroWallBounceCount==0) {
-						//alert("DITO!!!");
-					
-						iCurrCollidedBgTileImageCount=iCurrBgTileImageCount;
-					
-						bIsActionKeyControlPressed=true;
-						
-						bHasHeroHitWall=true;
-						
-						fHeroHitWallViewportX=fCurrViewportX;				
-						fHeroHitWallViewportY=fCurrViewportY;
-
-						if (newMainImageTileProjectilePosX<0) {//going to the left
-							//fCurrViewportX+=iImageFrameWidthLarge*1;///2;
-							mainImageTileProjectileStepDestinationX+=iImageFrameWidthLarge*2;
-
-							//alert(">>>GOING LEFT!!!");
-
-							//if (iCurrHeroWallBounceCount==0) {
-								if (bIsHeroFacingLeftOrRight) {
-									if (bIsHeroFacingLeft) {
-										newMainImageTileProjectilePosX*=(-1.2); //reverse
-										//newMainImageTileProjectilePosX=(mainImageTileProjectileStepXMaxDefault); //reverse
-
-										iCurrHeroWallBounceCount++;
-									}
-									else { //moving away to the opposite direction;
-										bIsHeroFacingLeft=true;
-
-										//newMainImageTileProjectilePosX*=(-1.2);
-										newMainImageTileProjectilePosX*=(1.2);
-
-										iCurrHeroWallBounceCount=0;
-									}
-								}
-							//}
-						}
-						//else { //going to the right
-						else if (newMainImageTileProjectilePosX>0) {//going to the right
-							//fCurrViewportX-=iImageFrameWidthLarge*1;///2;
-/*
-							if (iCurrHeroWallBounceCount==0) {
-								mainImageTileProjectileStepDestinationX-=iImageFrameWidthLarge*2;
-							}
-*/
-							mainImageTileProjectileStepDestinationX-=iImageFrameWidthLarge*2;
-
-							//alert(">>>GOING RIGHT!!!");
-
-							//if (iCurrHeroWallBounceCount==0) {
-								if (bIsHeroFacingLeftOrRight) {
-									if (!bIsHeroFacingLeft) {
-										newMainImageTileProjectilePosX*=(-1.2); //reverse
-										iCurrHeroWallBounceCount++;
-									}
-									else { //moving away to the opposite direction;
-										bIsHeroFacingLeft=false;
-										newMainImageTileProjectilePosX*=(-1.2);
-										iCurrHeroWallBounceCount=0;
-									}
-								}
-							//}
-						}
-
-/*
-							if (newMainImageTileProjectilePosY<0) {//going up
-								//fCurrViewportY+=iImageFrameHeightLarge*1;///2;
-								mainImageTileProjectileStepDestinationY+=iImageFrameHeightLarge*2;
-
-								//if (iCurrHeroWallBounceCount==0) {
-									if (bIsHeroFacingUpOrDown) {
-										if (bIsHeroFacingUp) {
-											newMainImageTileProjectilePosY*=(-1.2); //reverse
-											iCurrHeroWallBounceCount++;
-										}
-										else { //moving away to the opposite direction;
-											bIsHeroFacingUp=true;
-											newMainImageTileProjectilePosY*=(-1.2);
-											iCurrHeroWallBounceCount=0;
-										}									
-									}
-								//}
-							}
-			//				else { //going down
-							else if (newMainImageTileProjectilePosY>0) {//going down
-								//fCurrViewportY-=iImageFrameHeightLarge*1;///2;
-								mainImageTileProjectileStepDestinationY-=iImageFrameHeightLarge*2;
-
-								//if (iCurrHeroWallBounceCount==0) {
-									if (bIsHeroFacingUpOrDown) {
-										if (!bIsHeroFacingUp) {
-											newMainImageTileProjectilePosY*=(-1.2); //reverse
-											iCurrHeroWallBounceCount++;
-										}
-										else { //moving away to the opposite direction;
-											bIsHeroFacingUp=false;
-											newMainImageTileProjectilePosY*=(-1.2);
-											iCurrHeroWallBounceCount=0;
-										}									
-									}
-								//}
-							}
-*/	
-	
-					if (iCurrHeroWallBounceCount>0) { //0) {
-						//alert("DITO!!!");
-						bHasHeroHitWall=true;
-					}
-				}
-				//if hero gets stuck, help him get out
-				else {
-					//TODO: reverify;
-					//makes the hero move a step or so backward
-					
-					//alert("DITO!!!");
-					//return;
-					
-					//added by Mike, 20260912
-					//solves problem when hero tries to slip diagonally between two tiles on top of each other; happens both on the left and the right sides;
-					if (iCurrHeroWallBounceCount>2) {
-					
-						if (bIsHeroFacingUpOrDown) {
-							newMainImageTileProjectilePosX*=(-1.2);
-						}	
-
-/*						//buggy						
-						//going to the left, though mouse pointing to the right
-						if (newMainImageTileProjectilePosX<0) {
-							//mainImageTileProjectileStepDestinationX*=3;
-							
-							//alert("GOING TO THE LEFT!!!!");
-
-							if (bIsHeroFacingLeftOrRight) {
-								if (bIsHeroFacingLeft) {
-									newMainImageTileProjectilePosX*=(-1.2); //reverse
-									iCurrHeroWallBounceCount++;
-								}
-								else { //moving away to the opposite direction;
-									bIsHeroFacingLeft=true;
-									newMainImageTileProjectilePosX*=(-1.2);
-									iCurrHeroWallBounceCount=0;
-								}
-							}							
-						}
-						//going to the right, though mouse pointing to the left
-						else if (newMainImageTileProjectilePosX>0) {
-							//mainImageTileProjectileStepDestinationX/=3;
-
-							//alert("GOING TO THE RIGHT!!!!");
-							if (bIsHeroFacingLeftOrRight) {
-								if (!bIsHeroFacingLeft) {
-									newMainImageTileProjectilePosX*=(-1.2); //reverse
-									iCurrHeroWallBounceCount++;
-								}
-								else { //moving away to the opposite direction;
-									bIsHeroFacingLeft=false;
-									newMainImageTileProjectilePosX*=(-1.2);
-									iCurrHeroWallBounceCount=0;
-								}
-							}
-						}
-*/						
-						iCurrHeroWallBounceCount++;
-						return;
-					}
-
-
-/*	//removed by Mike, 20260913					
-					//going to the left, though mouse pointing to the right
-					if (newMainImageTileProjectilePosX<0) {
-					
-						//alert("HERE!!!!!!!!!");
-					
-						newMainImageTileProjectilePosX*=(-1.2);
-						
-						if (!bIsHeroFacingUpOrDown) {
-							newMainImageTileProjectilePosY*=(-1.2);
-						}
-
-						mainImageTileProjectileStepDestinationX=parseFloat(bgTileImage.style.left)+iImageFrameWidthBgTile+iImageFrameWidthLarge*1;
-					}
-					//going to the right, though mouse pointing to the left
-					else if (newMainImageTileProjectilePosX>0) {
-						newMainImageTileProjectilePosX*=(-1.2);
-
-						if (!bIsHeroFacingUpOrDown) {
-							newMainImageTileProjectilePosY*=(-1.2);
-						}
-
-						mainImageTileProjectileStepDestinationX=parseFloat(bgTileImage.style.left)-iImageFrameWidthLarge*1;
-					}
-					
-					iCurrHeroWallBounceCount++;
-					
-					//problem mostly happens when going left or right;
-					//though there's still a small chance that it would occur 
-					//if the hero is facing directly up (or down);
-					//however, it appears to be difficult to replicate even intentionally
-
-////					//going up, though mouse pointing down
-////					if (newMainImageTileProjectilePosY<0) {
-////						newMainImageTileProjectilePosY*=(-1.2);
-
-////						//toward the mouse's direction;
-////						mainImageTileProjectileStepDestinationY=parseFloat(bgTileImage.style.top)+iImageFrameHeightLarge*2;
-////					}
-////					//going to the down, though mouse pointing up
-////					else if (newMainImageTileProjectilePosY>0) {
-////						newMainImageTileProjectilePosY*=(-1.2);
-
-////						//toward the mouse's direction;
-////						mainImageTileProjectileStepDestinationY=parseFloat(bgTileImage.style.top)-iImageFrameHeightLarge*1;
-////					}				
-*/				
-
-				}
-			}
-		}
-	}	
-
-	//added by Mike, 20260910
-	function verifyHeroCollideWithBgTileWallYESTERDAY(iCount) {
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
-		
-		var bgTileImage = document.getElementById("bgTileImageId"+iCount);
-		
-		
-		//TODO: -update: this; these locations in the sprite image are walls
-/*
-1-0
-1-1
-1-2
-1-3
-1-4
-2-1
-2-5
-3-2
-3-3
-3-4
-3-5
-*/
-		if (iCount>11) {
-			return;
-		}
-
-/*
-		//reference: Google AI Overview; MDN Web Docs
-		const bIsVisible = bgTileImage.checkVisibility({
-		  visibilityProperty: true // Checks for visibility: hidden or collapse
-		});
-*/
-		bIsVisible=true;
-		if (bgTileImage.style.visible=="hidden") {
-			bIsVisible=false;
-		}
-
-		//added by Mike, 20260912
-		//if not the starting bg tile; also not the same tile; 
-		if ((iCurrCollidedBgTileImageCount!=-1) && (iCurrBgTileImageCount!=iCurrCollidedBgTileImageCount)) {
-			return;
-		}
-
-		//edited by Mike, 20260730
-		//if (!coinImage.checkVisibility()) { //note doesn't seem to be working;
-		if (!bIsVisible) {
-		  //alert("NOT VISIBLE!: "+iCount);
-		
-		  return;
-		}
-		else {
-			//edited by Mike, 20260910
-			//if (isPointsOfRectIntersectingPointsOfRectWall(mainImageTilePosX,mainImageTilePosY, parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*0.8, iImageFrameHeightLarge*0.75, iImageFrameWidthBgTile*0.9, iImageFrameHeightBgTile*0.8)) {
-/*
-			if (isPointsOfRectIntersectingPointsOfRectWall(parseFloat(mainImageTilePosX),parseFloat(mainImageTilePosY), parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*1, iImageFrameHeightLarge*1, iImageFrameWidthBgTile*1, iImageFrameHeightBgTile*1)) {
-*/
-			if (isPointsOfRectIntersectingPointsOfRectWall(parseFloat(mainImageTilePosX),parseFloat(mainImageTilePosY), parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*1, iImageFrameHeightLarge*1, iImageFrameWidthBgTile*1, iImageFrameHeightBgTile*1)) {
-				
-				var iOffsetX=0;//iImageFrameWidthLarge/4;
-				var iOffsetY=0;//iImageFrameHeightLarge/4;
-				
-				//var fMainImageTileOffsetY=iImageFrameHeightLarge/4;
-				
-/*				
-				newMainImageTileProjectilePosX*=(-1.2); //reverse
-				newMainImageTileProjectilePosY*=(-1.2); //reverse
-*/
-
-				//bHasHeroHitWall=true;
-				
-				if (iCurrHeroWallBounceCount==0) {
-						//alert("DITO!!!");
-					
-						iCurrCollidedBgTileImageCount=iCurrBgTileImageCount;
-					
-						bIsActionKeyControlPressed=true;
-						
-						bHasHeroHitWall=true;
-
-						fHeroHitWallViewportX=fCurrViewportX;				
-						fHeroHitWallViewportY=fCurrViewportY;
-
-						if (newMainImageTileProjectilePosX<0) {//going to the left
-							//fCurrViewportX+=iImageFrameWidthLarge*1;///2;
-							mainImageTileProjectileStepDestinationX+=iImageFrameWidthLarge*2;
-
-							//alert(">>>GOING LEFT!!!");
-
-							//if (iCurrHeroWallBounceCount==0) {
-								if (bIsHeroFacingLeftOrRight) {
-									if (bIsHeroFacingLeft) {
-										newMainImageTileProjectilePosX*=(-1.2); //reverse
-										iCurrHeroWallBounceCount++;
-									}
-									else { //moving away to the opposite direction;
-										bIsHeroFacingLeft=true;
-										newMainImageTileProjectilePosX*=(-1.2);
-										iCurrHeroWallBounceCount=0;
-									}
-								}
-							//}
-						}
-						//else { //going to the right
-						else if (newMainImageTileProjectilePosX>0) {//going to the right
-							//fCurrViewportX-=iImageFrameWidthLarge*1;///2;
-/*
-							if (iCurrHeroWallBounceCount==0) {
-								mainImageTileProjectileStepDestinationX-=iImageFrameWidthLarge*2;
-							}
-*/
-							mainImageTileProjectileStepDestinationX-=iImageFrameWidthLarge*2;
-
-							//alert(">>>GOING RIGHT!!!");
-
-							//if (iCurrHeroWallBounceCount==0) {
-								if (bIsHeroFacingLeftOrRight) {
-									if (!bIsHeroFacingLeft) {
-										newMainImageTileProjectilePosX*=(-1.2); //reverse
-										iCurrHeroWallBounceCount++;
-									}
-									else { //moving away to the opposite direction;
-										bIsHeroFacingLeft=false;
-										newMainImageTileProjectilePosX*=(-1.2);
-										iCurrHeroWallBounceCount=0;
-									}
-								}
-							//}
-						}
-
-						if (newMainImageTileProjectilePosY<0) {//going up
-							//fCurrViewportY+=iImageFrameHeightLarge*1;///2;
-							mainImageTileProjectileStepDestinationY+=iImageFrameHeightLarge*2;
-
-							//if (iCurrHeroWallBounceCount==0) {
-								if (bIsHeroFacingUpOrDown) {
-									if (bIsHeroFacingUp) {
-										newMainImageTileProjectilePosY*=(-1.2); //reverse
-										iCurrHeroWallBounceCount++;
-									}
-									else { //moving away to the opposite direction;
-										bIsHeroFacingUp=true;
-										newMainImageTileProjectilePosY*=(-1.2);
-										iCurrHeroWallBounceCount=0;
-									}									
-								}
-							//}
-						}
-		//				else { //going down
-						else if (newMainImageTileProjectilePosY>0) {//going down
-							//fCurrViewportY-=iImageFrameHeightLarge*1;///2;
-							mainImageTileProjectileStepDestinationY-=iImageFrameHeightLarge*2;
-
-							//if (iCurrHeroWallBounceCount==0) {
-								if (bIsHeroFacingUpOrDown) {
-									if (!bIsHeroFacingUp) {
-										newMainImageTileProjectilePosY*=(-1.2); //reverse
-										iCurrHeroWallBounceCount++;
-									}
-									else { //moving away to the opposite direction;
-										bIsHeroFacingUp=false;
-										newMainImageTileProjectilePosY*=(-1.2);
-										iCurrHeroWallBounceCount=0;
-									}									
-								}
-							//}
-						}
-						
-					if (iCurrHeroWallBounceCount>0) { //0) {
-						//alert("DITO!!!");
-						bHasHeroHitWall=true;
-					}
-				}
-				//if hero gets stuck, help him get out
-				else {
-					//TODO: reverify;
-					//makes the hero move a step or so backward
-					
-					//alert("DITO!!!");
-					//return;
-					
-					//added by Mike, 20260912
-					//solves problem when hero tries to slip diagonally between two tiles on top of each other; happens both on the left and the right sides;
-					if (iCurrHeroWallBounceCount>2) {
-					
-						if (bIsHeroFacingUpOrDown) {
-							newMainImageTileProjectilePosX*=(-1.2);
-						}
-
-/*						//buggy						
-						//going to the left, though mouse pointing to the right
-						if (newMainImageTileProjectilePosX<0) {
-							//mainImageTileProjectileStepDestinationX*=3;
-							
-							//alert("GOING TO THE LEFT!!!!");
-
-							if (bIsHeroFacingLeftOrRight) {
-								if (bIsHeroFacingLeft) {
-									newMainImageTileProjectilePosX*=(-1.2); //reverse
-									iCurrHeroWallBounceCount++;
-								}
-								else { //moving away to the opposite direction;
-									bIsHeroFacingLeft=true;
-									newMainImageTileProjectilePosX*=(-1.2);
-									iCurrHeroWallBounceCount=0;
-								}
-							}							
-						}
-						//going to the right, though mouse pointing to the left
-						else if (newMainImageTileProjectilePosX>0) {
-							//mainImageTileProjectileStepDestinationX/=3;
-
-							//alert("GOING TO THE RIGHT!!!!");
-							if (bIsHeroFacingLeftOrRight) {
-								if (!bIsHeroFacingLeft) {
-									newMainImageTileProjectilePosX*=(-1.2); //reverse
-									iCurrHeroWallBounceCount++;
-								}
-								else { //moving away to the opposite direction;
-									bIsHeroFacingLeft=false;
-									newMainImageTileProjectilePosX*=(-1.2);
-									iCurrHeroWallBounceCount=0;
-								}
-							}
-						}
-*/						
-						iCurrHeroWallBounceCount++;
-						return;
-					}
-					
-										
-					//going to the left, though mouse pointing to the right
-					if (newMainImageTileProjectilePosX<0) {
-					
-						//alert("HERE!!!!!!!!!");
-					
-						newMainImageTileProjectilePosX*=(-1.2);
-						
-						if (!bIsHeroFacingUpOrDown) {
-							newMainImageTileProjectilePosY*=(-1.2);
-						}
-
-						mainImageTileProjectileStepDestinationX=parseFloat(bgTileImage.style.left)+iImageFrameWidthBgTile+iImageFrameWidthLarge*1;
-					}
-					//going to the right, though mouse pointing to the left
-					else if (newMainImageTileProjectilePosX>0) {
-						newMainImageTileProjectilePosX*=(-1.2);
-
-						if (!bIsHeroFacingUpOrDown) {
-							newMainImageTileProjectilePosY*=(-1.2);
-						}
-
-						mainImageTileProjectileStepDestinationX=parseFloat(bgTileImage.style.left)-iImageFrameWidthLarge*1;
-					}
-					
-					iCurrHeroWallBounceCount++;
-					
-					//problem mostly happens when going left or right;
-					//though there's still a small chance that it would occur 
-					//if the hero is facing directly up (or down);
-					//however, it appears to be difficult to replicate even intentionally
-/*					
-					//going up, though mouse pointing down
-					if (newMainImageTileProjectilePosY<0) {
-						newMainImageTileProjectilePosY*=(-1.2);
-
-						//toward the mouse's direction;
-						mainImageTileProjectileStepDestinationY=parseFloat(bgTileImage.style.top)+iImageFrameHeightLarge*2;
-					}
-					//going to the down, though mouse pointing up
-					else if (newMainImageTileProjectilePosY>0) {
-						newMainImageTileProjectilePosY*=(-1.2);
-
-						//toward the mouse's direction;
-						mainImageTileProjectileStepDestinationY=parseFloat(bgTileImage.style.top)-iImageFrameHeightLarge*1;
-					}
-*/
-				
-				}
-			}
-		}
-	}	
-
-
-	//added by Mike, 20260910
-	function verifyHeroCollideWithBgTileWallDiagonalOK(iCount) {
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
-		
-		var bgTileImage = document.getElementById("bgTileImageId"+iCount);
-
-		
-		//TODO: -update: this; these locations in the sprite image are walls
-/*
-1-0
-1-1
-1-2
-1-3
-1-4
-2-1
-2-5
-3-2
-3-3
-3-4
-3-5
-*/
-		if (iCount>11) {
-			return;
-		}
-
-/*
-		//reference: Google AI Overview; MDN Web Docs
-		const bIsVisible = bgTileImage.checkVisibility({
-		  visibilityProperty: true // Checks for visibility: hidden or collapse
-		});
-*/
-		bIsVisible=true;
-		if (bgTileImage.style.visible=="hidden") {
-			bIsVisible=false;
-		}
-
-		//added by Mike, 20260912
-		//if not the starting bg tile; also not the same tile; 
-		if ((iCurrCollidedBgTileImageCount!=-1) && (iCurrBgTileImageCount!=iCurrCollidedBgTileImageCount)) {
-			return;
-		}
-
-		//edited by Mike, 20260730
-		//if (!coinImage.checkVisibility()) { //note doesn't seem to be working;
-		if (!bIsVisible) {
-		  //alert("NOT VISIBLE!: "+iCount);
-		
-		  return;
-		}
-		else {
-			//edited by Mike, 20260910
-			//if (isPointsOfRectIntersectingPointsOfRectWall(mainImageTilePosX,mainImageTilePosY, parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*0.8, iImageFrameHeightLarge*0.75, iImageFrameWidthBgTile*0.9, iImageFrameHeightBgTile*0.8)) {
-/*
-			if (isPointsOfRectIntersectingPointsOfRectWall(parseFloat(mainImageTilePosX),parseFloat(mainImageTilePosY), parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*1, iImageFrameHeightLarge*1, iImageFrameWidthBgTile*1, iImageFrameHeightBgTile*1)) {
-*/
-
-			if (isPointsOfRectIntersectingPointsOfRectWall(parseFloat(mainImageTilePosX),parseFloat(mainImageTilePosY), parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*1, iImageFrameHeightLarge*1, iImageFrameWidthBgTile*1, iImageFrameHeightBgTile*1)) {
-				var iOffsetX=0;//iImageFrameWidthLarge/4;
-				var iOffsetY=0;//iImageFrameHeightLarge/4;
-				
-				//var fMainImageTileOffsetY=iImageFrameHeightLarge/4;
-				
-/*				
-				newMainImageTileProjectilePosX*=(-1.2); //reverse
-				newMainImageTileProjectilePosY*=(-1.2); //reverse
-*/
-
-				//bHasHeroHitWall=true;
-				
-				if (iCurrHeroWallBounceCount==0) {
-						//alert("DITO!!!");
-
-						//fCurrViewportX-fHeroHitWallViewportX)
-	
-						//alert("mainImageTilePosX: "+parseFloat(mainImageTilePosX)); //288
-						//alert("fCurrViewportX: "+parseFloat(fCurrViewportX)); //288
-
-						//alert("bgTileImage.style.left: "+parseFloat(bgTileImage.style.left));
-						//alert("bgTileImage.style.left+iImageFrameWidthBgTile: "+parseFloat(bgTileImage.style.left)+iImageFrameWidthBgTile); //179.39
-						
-
-						iCurrCollidedBgTileImageCount=iCurrBgTileImageCount;
-					
-						//removed by Mike, 20260913
-						//bIsActionKeyControlPressed=true;
-
-						//bHasHeroHitWall=true;
-
-						//edited by Mike, 20260913
-						//iReverseMultiplier=-1;
-
-						//TODO: -reverify: this
-						iReverseMultiplier=-1;
-						
-						if (!bIsActionKeyControlPressed) {
-							iReverseMultiplier=-1;
-						}
-						
-
-/*
-						if (bHasClickedWall) {
-							iReverseMultiplier=1;
-						}
-*/
-
-						bHasHeroHitWallFacingLeftOrRight=false;
-
-						fHeroHitWallViewportX=fCurrViewportX;				
-						fHeroHitWallViewportY=fCurrViewportY;
-
-						if (newMainImageTileProjectilePosX<0) {//going to the left
-							//fCurrViewportX+=iImageFrameWidthLarge*1;///2;
-							
-//							alert(mainImageTileProjectileStepDestinationX);
-							
-							mainImageTileProjectileStepDestinationX+=iImageFrameWidthLarge*2;
-
-							//alert(">>>GOING LEFT!!!");
-
-							bHasHeroHitWallFacingLeftOrRight=true;
-
-							//if (iCurrHeroWallBounceCount==0) {
-								if (bIsHeroFacingLeftOrRight) {
-									if (bIsHeroFacingLeft) {
-										newMainImageTileProjectilePosX*=(1.2*iReverseMultiplier); //reverse
-										//newMainImageTileProjectilePosX=(mainImageTileProjectileStepXMaxDefault); //reverse
-										
-										iCurrHeroWallBounceCount++;
-									}
-									else { //moving away to the opposite direction;
-										bIsHeroFacingLeft=true;
-
-										//newMainImageTileProjectilePosX*=(-1.2);
-										newMainImageTileProjectilePosX*=(1.2);
-
-										iCurrHeroWallBounceCount=0;
-									}
-								}
-							//}
-						}
-						//else { //going to the right
-						else if (newMainImageTileProjectilePosX>0) {//going to the right
-							//fCurrViewportX-=iImageFrameWidthLarge*1;///2;
-/*
-							if (iCurrHeroWallBounceCount==0) {
-								mainImageTileProjectileStepDestinationX-=iImageFrameWidthLarge*2;
-							}
-*/
-							mainImageTileProjectileStepDestinationX-=iImageFrameWidthLarge*2;
-
-							bHasHeroHitWallFacingLeftOrRight=true;
-
-							//alert(">>>GOING RIGHT!!!");
-
-							//if (iCurrHeroWallBounceCount==0) {
-								if (bIsHeroFacingLeftOrRight) {
-									if (!bIsHeroFacingLeft) {
-										newMainImageTileProjectilePosX*=(1.2*iReverseMultiplier); //reverse
-										iCurrHeroWallBounceCount++;
-									}
-									else { //moving away to the opposite direction;
-										bIsHeroFacingLeft=false;
-										newMainImageTileProjectilePosX*=(-1.2);
-										iCurrHeroWallBounceCount=0;
-									}
-								}
-							//}
-						}
-
-
-/*
-						if (bHasHeroHitWallFacingLeftOrRight) {
-							iReverseMultiplier=1;
-						}
-
-*/
-						//iReverseMultiplier=1;
-
-						if (newMainImageTileProjectilePosY<0) {//going up
-							//fCurrViewportY+=iImageFrameHeightLarge*1;///2;
-							mainImageTileProjectileStepDestinationY+=iImageFrameHeightLarge*2;
-							
-							//alert("DITO!!");
-
-							//if (iCurrHeroWallBounceCount==0) {
-								if (bIsHeroFacingUpOrDown) {
-									if (bIsHeroFacingUp) {									
-										newMainImageTileProjectilePosY*=(1.2*iReverseMultiplier); //reverse
-										iCurrHeroWallBounceCount++;
-
-							//alert(">>>>DITO!!");
-
-
-									}
-									else { //moving away to the opposite direction;
-										bIsHeroFacingUp=true;
-										newMainImageTileProjectilePosY*=(-1.2);
-										iCurrHeroWallBounceCount=0;
-									}									
-								}
-							//}
-						}
-		//				else { //going down
-						else if (newMainImageTileProjectilePosY>0) {//going down
-							//fCurrViewportY-=iImageFrameHeightLarge*1;///2;
-							mainImageTileProjectileStepDestinationY-=iImageFrameHeightLarge*2;
-
-							//if (iCurrHeroWallBounceCount==0) {
-								if (bIsHeroFacingUpOrDown) {
-									if (!bIsHeroFacingUp) {
-										newMainImageTileProjectilePosY*=(1.2*iReverseMultiplier); //reverse
-										iCurrHeroWallBounceCount++;
-									}
-									else { //moving away to the opposite direction;
-										bIsHeroFacingUp=false;
-										newMainImageTileProjectilePosY*=(-1.2);
-										iCurrHeroWallBounceCount=0;
-									}									
-								}
-							//}
-						}
-						
-//					if (iCurrHeroWallBounceCount>0) { //0) {
-						//alert("DITO!!!");
-						bHasHeroHitWall=true;
-//					}
-				}
-				//if hero gets stuck, help him get out
-				else {
-					//TODO: reverify;
-					//makes the hero move a step or so backward
-					
-					//alert("DITO!!!");
-					//return;
-					
-					//added by Mike, 20260912
-					//solves problem when hero tries to slip diagonally between two tiles on top of each other; happens both on the left and the right sides;
-					if (iCurrHeroWallBounceCount>0) { //2) {
-
-/*
-						alert("mainImageTilePosX: "+parseFloat(mainImageTilePosX));
-						//alert("bgTileImage.style.left: "+parseFloat(bgTileImage.style.left));
-						alert("bgTileImage.style.left+iImageFrameWidthBgTile: "+parseFloat(bgTileImage.style.left)+iImageFrameWidthBgTile);
-*/						
-						//288;
-						//180.88
-						
-						//parseFloat(mainImageTilePosY), parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top)
-
-
-						//resetProjectile();
-						
-
-						if (bIsHeroFacingUpOrDown) {
-							newMainImageTileProjectilePosX*=(-1.2);
-						}
-						
-/*						
-						if (bIsHeroFacingLeftOrRight) {
-							newMainImageTileProjectilePosY*=(1.2);
-						}
-*/						
-
-/*
-						//going to the left, though mouse pointing to the right
-						if (newMainImageTileProjectilePosX<0) {
-							if (bIsHeroFacingLeft) {
-								alert(">>>>>");
-							}
-						}
-*/
-						
-
-/*						//buggy						
-						//going to the left, though mouse pointing to the right
-						if (newMainImageTileProjectilePosX<0) {
-							//mainImageTileProjectileStepDestinationX*=3;
-							
-							//alert("GOING TO THE LEFT!!!!");
-
-							if (bIsHeroFacingLeftOrRight) {
-								if (bIsHeroFacingLeft) {
-									newMainImageTileProjectilePosX*=(-1.2); //reverse
-									iCurrHeroWallBounceCount++;
-								}
-								else { //moving away to the opposite direction;
-									bIsHeroFacingLeft=true;
-									newMainImageTileProjectilePosX*=(-1.2);
-									iCurrHeroWallBounceCount=0;
-								}
-							}							
-						}
-						//going to the right, though mouse pointing to the left
-						else if (newMainImageTileProjectilePosX>0) {
-							//mainImageTileProjectileStepDestinationX/=3;
-
-							//alert("GOING TO THE RIGHT!!!!");
-							if (bIsHeroFacingLeftOrRight) {
-								if (!bIsHeroFacingLeft) {
-									newMainImageTileProjectilePosX*=(-1.2); //reverse
-									iCurrHeroWallBounceCount++;
-								}
-								else { //moving away to the opposite direction;
-									bIsHeroFacingLeft=false;
-									newMainImageTileProjectilePosX*=(-1.2);
-									iCurrHeroWallBounceCount=0;
-								}
-							}
-						}
-*/						
-						iCurrHeroWallBounceCount++;
-						return;
-					}
-				}
-			}
-		}
-	}	
 
 	//edited by Mike, 20260914
 	function verifyHeroCollideWithBgTileWall(iCount) {
@@ -18968,14 +17722,22 @@ mainImageTileProjectilePosY=parseFloat(mainImageTileProjectilePosY)+newMainImage
 			}
 			//added by Mike, 20251105
 			else { //bHasfired
+				//edited by Mike, 20260915
+				//if (bHasHeroHitMonster) {
 				if (bHasHeroHitMonster) {
 					executeHeroAttackingAnimation();
+					iHeroAttackAnimationRecoveryCount=0;
 				}
 				else {
+
 					//added by Mike, 20251105
 					//iHeroAttackComboCount=0;
 					
-					executeHeroIdleAnimation();
+					if (iHeroAttackAnimationRecoveryCount>=iHeroAttackAnimationRecoveryCountMax) {
+						executeHeroIdleAnimation();
+					}
+					
+					iHeroAttackAnimationRecoveryCount++;
 				}
 			}
 			
