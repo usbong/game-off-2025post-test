@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260915; from 20260914
+' @date updated: 20260916; from 20260915
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -1914,7 +1914,7 @@ const iHeroWalkAnimationDelayCountMax=2;
 var iHeroAttackAnimationCount=0;//-1; //0; //due to immediately +1 in execution;
 const iHeroAttackAnimationCountMax=3;//4;
 var iHeroAttackAnimationDelayCount=0;
-const iHeroAttackAnimationDelayCountMax=5;
+const iHeroAttackAnimationDelayCountMax=2;//5;
 
 var iHeroAttackAnimationRecoveryCount=0;
 const iHeroAttackAnimationRecoveryCountMax=0;//8;//10;
@@ -1930,7 +1930,8 @@ const iHeroIdleAnimationDelayCountMax=8;
 
 //added by Mike, 20260625
 var iHeroAttackComboResetDelayCount=0;
-const iHeroAttackComboResetDelayCountMax=5;
+//edited by Mike, 20260916; at 5; too fast mouse clicks lead to combo count not increasing;
+const iHeroAttackComboResetDelayCountMax=20;//5;
 
 
 /*
@@ -2792,7 +2793,6 @@ var bIsHeroFacingUp=false;
 
 		var mainImageTileProjectile = document.getElementById("mainImageTileProjectileImageId");
 
-		//var mainImageTileTankBody = document.getElementById("mainImageTileImageTankBodyId");
 		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");
 
 		var mainImageTileHeroBody0 = document.getElementById("mainImageTileImageHeroBodyId0");
@@ -2877,52 +2877,11 @@ var bIsHeroFacingUp=false;
 		if (bHasHeroHitMonster) {
 			return;
 		}
-		
+				
 		//added by Mike, 20251106
 		iHeroAttackAnimationCount=0;//-1; 		
 		//iHeroAttackComboCount=0;
 		
-
-/*
-			//removed by Mike, 20251102
-			if (bIsHeroFacingLeftOrRight) {
-				if (bIsHeroFacingLeft) {
-					iFrameY=iImageFrameHeightLarge*1;
-					
-					if (bIsHeroFacingUpOrDown) {
-						if (!bIsHeroFacingUp) {
-							iFrameY=iImageFrameHeightLarge*2;
-						}
-						else {
-							iFrameY=iImageFrameHeightLarge*4;
-						}				
-					}
-				}
-				else {
-					iFrameY=iImageFrameHeightLarge*0;
-
-					if (bIsHeroFacingUpOrDown) {
-						if (!bIsHeroFacingUp) {
-							iFrameY=iImageFrameHeightLarge*3;
-						}
-						else {
-							iFrameY=iImageFrameHeightLarge*5;
-						}
-					}
-				}
-			}
-			else {
-				if (bIsHeroFacingUpOrDown) {
-					if (!bIsHeroFacingUp) {
-						iFrameY=iImageFrameHeightLarge*6;
-					}
-					else {
-						iFrameY=iImageFrameHeightLarge*7;
-					}
-				}
-			}
-*/
-			
 		iFrameY=iHeroFrameY;
 			
 		//added by Mike, 20260902
@@ -2941,69 +2900,22 @@ var bIsHeroFacingUp=false;
 				//iFrameXOffset=iImageFrameWidthLarge*8;
 
 				iFrameXOffset=iImageFrameWidthLarge*9;
-
-/*				
-				if (bIsHeroFacingLeftOrRight) {
-					if (bIsHeroFacingLeft) {
-						mainImageTilePosX+=mainImageTileStepX*4;
-						
-						if (bIsHeroFacingUpOrDown) {
-							if (!bIsHeroFacingUp) {
-								mainImageTilePosY+=(-mainImageTileStepY*4);
-							}
-							else {
-								mainImageTilePosY+=(mainImageTileStepY*4);
-							}				
-						}
-					}
-					else {
-						mainImageTilePosX+=(-mainImageTileStepX*4);
-
-						if (bIsHeroFacingUpOrDown) {
-							if (!bIsHeroFacingUp) {
-								mainImageTilePosY+=(-mainImageTileStepY*4);
-							}
-							else {
-								mainImageTilePosY+=(mainImageTileStepY*4);
-							}
-						}
-					}
-				}
-				else {
-					if (bIsHeroFacingUpOrDown) {
-						if (!bIsHeroFacingUp) {
-							mainImageTilePosY+=(-mainImageTileStepY*4);
-						}
-						else {
-							mainImageTilePosY+=(mainImageTileStepY*4);
-						}
-					}
-				}	
-*/				
 				
 				mainImageTileHeroBody.style.objectPosition = "-" + iFrameXOffset + "px -" + iFrameY + "px";
-
 
 				mainImageTileHeroBody0.style.objectPosition = "-" + iFrameXOffset + "px -" + iFrameY + "px";
 				mainImageTileHeroBody1.style.objectPosition = "-" + iFrameXOffset + "px -" + iFrameY + "px";
 				mainImageTileHeroBody2.style.objectPosition = "-" + iFrameXOffset + "px -" + iFrameY + "px";
-
 			}
 			else {
 				//alert("iFrameY: "+iFrameY);
 				
 				mainImageTileHeroBody.style.objectPosition = "-" + iImageFrameWidthLarge*iHeroAnimationCount - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";
 
-
 				mainImageTileHeroBody0.style.objectPosition = "-" + iImageFrameWidthLarge*iHeroAnimationCount - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";
 				mainImageTileHeroBody1.style.objectPosition = "-" + iImageFrameWidthLarge*iHeroAnimationCount - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";
 				mainImageTileHeroBody2.style.objectPosition = "-" + iImageFrameWidthLarge*iHeroAnimationCount - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";
 			}
-
-/*
-			//edited by Mike, 20251106
-			mainImageTileHeroBody.style.objectPosition = "-" + iImageFrameWidthLarge*iHeroAnimationCount - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";
-*/
 	}
 	
 	function resetFireballProjectile() {
@@ -3913,7 +3825,7 @@ var bIsHeroFacingUp=false;
 		//iCurrHeroComboCount=iHeroAttackComboCount; //TODO: -update: this
 		
 		//edited by Mike, 20260915; from 20260911
-		textHeroComboStatusDiv.innerHTML = "Cx"+iCurrHeroComboCount;		
+		//textHeroComboStatusDiv.innerHTML = "Cx"+iCurrHeroComboCount;		
 		
 		//textHeroComboStatusDiv.innerHTML = "Wx"+iCurrHeroWallBounceCount;		
 
@@ -3921,6 +3833,7 @@ var bIsHeroFacingUp=false;
 		
 		//textHeroComboStatusDiv.innerHTML = "Wx"+iCurrHeroWallBounceCount+"; "+newMainImageTileProjectilePosX;
 		
+		textHeroComboStatusDiv.innerHTML = "Cx"+iCurrHeroComboCount+"; "+iHeroAttackAnimationDelayCount;				
 	}
 	
 	function drawHeroCoinStatus(myCanvasContext, iXPos, iYPos) {		
@@ -5942,11 +5855,18 @@ alert("iInputY: "+iInputY);
 		}
 */
 
+/*
+		if ((bHasAttacked) && (bHasHeroHitMonster)) {
+			return;
+		}
+*/
+	
+		//alert(iHeroWalkAnimationCount);
+		
 		bIsHeroWalking=true;
 				
-		//added by Mike, 20260625
+		//edited by Mike, 20260916; from 20260625
 		if (iHeroAttackComboResetDelayCount>=iHeroAttackComboResetDelayCountMax) {
-			//iHeroAttackComboCount=0;
 			iCurrHeroComboCount=0;
 		}
 		else {
@@ -5966,9 +5886,8 @@ alert("iInputY: "+iInputY);
 			//there are four walk-in snow images with also four frames; 
 			//setWalkOnSnowEffectPosition(mainImageTilePosX,mainImageTilePosY,iHeroAnimationCount); 
 			//edited by Mike, 20251120
-			setWalkOnSnowEffectPosition(mainImageTilePosX,mainImageTilePosY,0);			
-			//setWalkOnSnowEffectPosition(parseInt(mainImageTileHeroBody.style.left),parseInt(mainImageTileHeroBody.style.top),0); 
 			
+			setWalkOnSnowEffectPosition(mainImageTilePosX,mainImageTilePosY,0);			
 			//-----------------------------
 		
 		}
@@ -5987,94 +5906,8 @@ alert("iInputY: "+iInputY);
 
 			iHeroFrameXOffset=0;
 			
-					
-		//added by Mike, 20251102
-/*
-		iImageFrameWidth=64;
-		iImageFrameHeight=64;
-*/		
-/*
-		if (bIsHeroInRiver){
-			if (bIsHeroFacingLeft) {
-				iFrameY=iImageFrameHeight*0;
-			}
-			else {
-				iFrameY=iImageFrameHeight*1;
-			}
-			
-			iFrameXOffset=iImageFrameWidth;
-		}
-		else {
-*/
-
 			//edited by Mike, 20260827
 			updateHeroFacingDirection();
-/*
-			//if (mainImageTileHeroBody.style.visibility!="hidden") {
-			//if (!hasInitMapLocation) {
-				if (bIsHeroFacingLeftOrRight) {
-					if (bIsHeroFacingLeft) {
-						//edited by Mike, 20260826
-						iHeroFrameY=iImageFrameHeightLarge*1;
-						//iFrameY=iImageFrameHeightLarge*2;
-
-						if (bIsHeroFacingUpOrDown) {
-							if (!bIsHeroFacingUp) {
-								iHeroFrameY=iImageFrameHeightLarge*2;
-							}
-							else {
-								iHeroFrameY=iImageFrameHeightLarge*4;
-							}				
-						}
-					}
-					else {
-						//edited by Mike, 20260826
-						iHeroFrameY=iImageFrameHeightLarge*0;
-						//iFrameY=iImageFrameHeightLarge*3;
-
-						if (bIsHeroFacingUpOrDown) {
-							if (!bIsHeroFacingUp) {
-								iHeroFrameY=iImageFrameHeightLarge*3;
-							}
-							else {
-								iHeroFrameY=iImageFrameHeightLarge*5;
-							}
-						}
-					}
-				}
-				else {
-					if (bIsHeroFacingUpOrDown) {
-						if (!bIsHeroFacingUp) {
-							iHeroFrameY=iImageFrameHeightLarge*6;
-						}
-						else {
-							iHeroFrameY=iImageFrameHeightLarge*7;
-						}
-					}
-				}
-			//}
-*/			
-			
-			//removed by Mike, 20251110
-			//mainImageTileHeroBody.style.visibility="visible";
-
-			//iFrameY=iImageFrameHeightLarge*6;//7
-			
-/*
-			//if (bHasFired) {
-			//if (iHeroAttackEffectAnimationDelayCount<iHeroAttackEffectAnimationDelayCountMax) {
-			if (bHasHeroHitMonster) {
-				mainImageTileHeroBody.style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*iHeroAnimationCount - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";
-				
-				//alert("DITO!");
-				
-				//TODO: -add: constant 3; for last animation frame of four frames
-				if (iHeroAnimationCount>=3) {
-					bHasHeroHitMonster=false;
-				}
-			}
-			else {
-*/			
 
 		} //added by Mike, 20260827
 		else {
@@ -6151,6 +5984,7 @@ alert("iInputY: "+iInputY);
 			}
 		}
 		
+		//alert(iHeroFrameY);
 
 		mainImageTileHeroBody.style.objectPosition = "-" + iHeroFrameXOffset-iImageFrameWidthLarge*iHeroWalkAnimationCount-iHeroFrameX + "px -" + iHeroFrameY + "px";
 
@@ -6172,7 +6006,7 @@ alert("iInputY: "+iInputY);
 		
 		//edited by Mike, 20251105; from 20251104
 		//mainImageTileHeroBody.style.visibility="visible";
-
+		
 		//edited by Mike, 20260914
 		//if (iHeroAttackAnimationDelayCount==0) {//iHeroAnimationDelayCountMax) {
 		if (iHeroAttackAnimationDelayCount>=iHeroAttackAnimationDelayCountMax) {
@@ -6190,46 +6024,24 @@ alert("iInputY: "+iInputY);
 				//iHeroAttackAnimationCount=0;
 				
 				iHeroAttackAnimationCount=0; //added by Mike, 20260722
-
-				bHasHeroHitMonster=false;		
+				bHasHeroHitMonster=false;
+				bHasAttacked=false;	
 			}
 			else {
-				iHeroAttackAnimationCount++
+				iHeroAttackAnimationCount++;
 			}
 		}
 		else {
 			iHeroAttackAnimationDelayCount++;
 		}
 
+		//alert(iHeroAttackAnimationDelayCount);
+
 		var iFrameY=0;
 		
-		//var iFrameXOffset=0;
-
-/*		//removed by Mike, 20251106; update animation sprites instead
-		if (iHeroAttackComboCount>1) {
-			//alert(iHeroAttackComboCount);
-
-			if (!bIsHeroFacingUpOrDown) {
-			}
-			else {
-				//draw the horizontal flip;
-				if (bIsHeroFacingLeftPrev==bIsHeroFacingLeft) {
-					if (bIsHeroFacingLeft) {
-						bIsHeroFacingLeft=false;
-					}
-					else {
-						bIsHeroFacingLeft=true;
-					}
-				}
-			}
-		}
-		bIsHeroFacingLeftPrev=bIsHeroFacingLeft;
-*/
 		//edited by Mike, 20260915; from 20260723
 		//TODO: -fix: vertical sequence in spritesheet;
-		
-		
-		
+						
 		//TODO: -put in reusable function;
 		if (bIsHeroFacingLeftOrRight) {
 			if (bIsHeroFacingLeft) {
@@ -10975,1373 +10787,6 @@ if (arrayWalkOnSnowEffectCount==1) {
 		}
 	}
 	
-	//giant; boss
-	function verifyHeroCollideWithSkelMonsters() {
-		var skelMonsterImageTile = document.getElementById("skelMonsterImageId");
-
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
-		if (!isSkelMonsterTileActive) {
-			return;
-		}		
-		else {
-			if (bIsHeroAttacked) {
-				//bIsHeroAttacked=false;
-				
-				//removed by Mike, 20251108
-				//return;
-			}
-			
-			//giant; boss;
-			//edited by Mike, 20251118
-			if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, skelMonsterImageTilePosX,skelMonsterImageTilePosY, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthLargeBoss*0.75, iImageFrameHeightLargeBoss*0.75)) {
-			//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, skelMonsterImageTilePosX,skelMonsterImageTilePosY, iImageFrameWidthLarge, iImageFrameHeightLarge, iImageFrameWidthLargeBoss, iImageFrameHeightLargeBoss)) {
-
-				if (bHasFired && (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2, skelMonsterImageTilePosX,skelMonsterImageTilePosY, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLargeBoss/2, iImageFrameHeightLargeBoss/2))) {
-
-					//edited by Mike, 20251112; from 20251111
-					var bHasReducedHeroManaOutput=reduceHeroMana(3);
-					
-					if (!bHasReducedHeroManaOutput) {
-						return;
-					}
-					
-/*	
-					iCurrHeroMana-=3;
-					//iCurrHeroManaToBeDeducted+=3;
-					
-					iCurrHeroProjectileManaAnimationDelayCount=0;
-
-					//TODO: -update: to use function; with iCurrHeroManaToBeDeducted as parameter
-					if (iCurrHeroMana<=0) {
-						iCurrHeroMana=0;
-						return;
-					}
-*/
-									
-					bHasHeroHitMonster=true;
-					iHeroAttackAnimationDelayCount=0;
-					iHeroAttackAnimationCount=0;//-1;
-					
-					iCurrHeroComboCount++;
-
-					//alert("DITO!!!");
-				
-					bIsExecutingShake=true;
-				
-					monsterHitByHero(mainImageTilePosX,mainImageTilePosY, skelMonsterImageTilePosX,skelMonsterImageTilePosY);
-					
-					//setMonsterDeathAnimationPosition(skelMonsterImageTilePosX+iImageFrameWidthLargeBoss/2, skelMonsterImageTilePosY+iImageFrameHeightLargeBoss/2, MONSTER_TYPE_VAL_SKEL);
-
-					setMonsterDeathAnimationPosition(skelMonsterImageTilePosX-iImageFrameWidthLargeBoss/2+iImageFrameWidthLarge/2, skelMonsterImageTilePosY-iImageFrameHeightLargeBoss/2+iImageFrameHeightLarge/2, MONSTER_TYPE_VAL_SKEL);
-
-
-					//added by Mike, 20251110
-					//skelMonsterImageTilePosX and PosY; not referenced if passed as parameter					
-					//-------------------------------
-
-					let iMonsterImageTilePosX=skelMonsterImageTilePosX;
-					let iMonsterImageTilePosY=skelMonsterImageTilePosY;
-
-					//push monster out
-					if (bIsHeroFacingLeftOrRight) {
-						if (bIsHeroFacingLeft) {
-							if (iMonsterImageTilePosX+iImageFrameWidthLargeBoss/2<mainImageTilePosX) {	
-								iMonsterImageTilePosX-=iImageFrameWidthLargeBoss/20;
-							}
-						}
-						else {
-							if (iMonsterImageTilePosX>mainImageTilePosX+iImageFrameWidthLargeBoss/2) {	
-								iMonsterImageTilePosX+=iImageFrameWidthLargeBoss/20;
-							}
-						}				
-					}
-					
-					if (bIsHeroFacingUpOrDown) {
-						if (bIsHeroFacingUp) {
-							if (iMonsterImageTilePosY+iImageFrameHeightLargeBoss/2<mainImageTilePosY) {	
-								iMonsterImageTilePosY-=iImageFrameHeightLargeBoss/20;
-							}
-						}
-						else {
-							if (iMonsterImageTilePosY>mainImageTilePosY+iImageFrameHeightLargeBoss/2) {	
-								iMonsterImageTilePosY+=iImageFrameHeightLargeBoss/20;
-							}
-						}
-					}
-					
-					skelMonsterImageTilePosX=iMonsterImageTilePosX;
-					skelMonsterImageTilePosY=iMonsterImageTilePosY;
-					//-------------------------------
-
-					setExplosionEffectPosition(skelMonsterImageTilePosX+iImageFrameWidthLargeBoss/2,skelMonsterImageTilePosY+iImageFrameHeightLargeBoss/2);
-	
-					actorLastAttackedByHero=skelMonsterImageTile;
-					
-					//edited by Mike, 20251124
-					//iSkelMonsterHP--;
-
-					reduceBossLifeBar(1); //iMonsterAttackDamageBoss
-					iSkelMonsterHP=iCurrBossLife;
-					
-					if (iSkelMonsterHP<=0) {
-/*
-						skelMonsterImageTile.style.visibility="hidden";				
-						isSkelMonsterTileActive=false;
-*/						
-
-
-						currSkelMonsterTileState=DYING_STATE;
-
-						//setMonsterDeathAnimationPosition(skelMonsterImageTilePosX-iImageFrameWidthLarge/2, skelMonsterImageTilePosY-iImageFrameHeightLarge/2, MONSTER_TYPE_VAL_SKEL);
-						
-						setMonsterDeathAnimationPosition(skelMonsterImageTilePosX-iImageFrameWidthLargeBoss/2+iImageFrameWidthLarge/2, skelMonsterImageTilePosY-iImageFrameHeightLargeBoss/2+iImageFrameHeightLarge/2, MONSTER_TYPE_VAL_SKEL);
-						
-						//edited by Mike, 20251124
-						//iCurrMonsterDeathCount++;
-						iCurrMonsterDeathCount+=BOSS_DEATH_COUNT_VAL;
-
-						bHasBeatenStage1Boss=true;
-						
-						//bIsBossBattle=false;
-						//wolfImageTile.style.visibility="hidden";
-/*						
-						if (iCurrMapLocation==55) {
-							executeStageTransition(61);
-						}
-*/						
-						setExplosionEffectPosition(skelMonsterImageTilePosX+iImageFrameWidthLargeBoss/2,skelMonsterImageTilePosY+iImageFrameHeightLargeBoss/2);
-						
-					}
-
-					
-/*
-					else {
-						//alert("iSkelMonsterHP!!!"+iSkelMonsterHP);
-
-						actorLastAttackedByHero=skelMonsterImageTile;
-
-						iSkelMonsterHP--;
-					}
-*/					
-				}
-				else {
-					if (!bHasHeroHitMonster) {
-						//decide if will attack; 
-/*
-						let iRandAttackValue=window.parseInt(Math.random() * 10)%20;
-						
-						if (iRandAttackValue<=1) {
-							//alert(iRandAttackValue);
-						
-							currSkelMonsterTileState=ATTACKING_STATE;
-						}
-*/
-						if (skelMonsterTileAttackDelay>=skelMonsterTileAttackDelayMax) {
-							currSkelMonsterTileState=ATTACKING_STATE;
-						}
-						else {
-							skelMonsterTileAttackDelay++;
-
-							currSkelMonsterTileState=IDLE_STATE;
-						}
-
-						if (currSkelMonsterTileState==ATTACKING_STATE) {
-							heroHitByMonster(mainImageTilePosX,mainImageTilePosY, skelMonsterImageTilePosX,skelMonsterImageTilePosY, iMonsterAttackDamageSkel);
-							
-							setExplosionEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/2,mainImageTilePosY+iImageFrameHeightLarge/2);
-							
-							//push out hero
-							//bHasHeroChangedFacingLeftOrRight=false;
-							
-							if (!bIsHeroFacingUpOrDown) {
-								if (!bIsHeroWalking) {
-									if (mainImageTilePosX>skelMonsterImageTilePosX) {	
-										mainImageTilePosX+=iImageFrameWidthLarge/20;
-									}
-									else {
-										mainImageTilePosX-=iImageFrameWidthLarge/20;
-									}
-								}
-							}
-							
-							//currSkelMonsterTileState=ATTACKING_STATE;//WALKING_STATE;
-						}
-					}
-					
-					//added by Mike, 20251118
-					//giant boss; push hero out
-					//if hero is inside the boss
-					if (mainImageTilePosY>skelMonsterImageTilePosY) {
-						if (mainImageTilePosY+iImageFrameHeightLarge<skelMonsterImageTilePosY+iImageFrameHeightLargeBoss) {
-						
-							bIsHeroWalking=false;
-						
-							currSkelMonsterTileState=ATTACKING_STATE;
-								
-							if (currSkelMonsterTileState==ATTACKING_STATE) {
-								heroHitByMonster(mainImageTilePosX,mainImageTilePosY, skelMonsterImageTilePosX,skelMonsterImageTilePosY, iMonsterAttackDamageSkelBoss);
-									
-								setExplosionEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/2,mainImageTilePosY+iImageFrameHeightLarge/2);
-							}		
-
-							if (iHeroInvincibileCount<iHeroInvincibileCountMax) {
-							}
-							else {
-								resetProjectile();
-							}
-						}		
-					}
-					
-				}
-			}
-		}
-	}	
-	
-	//added by Mike, 20251104
-	function verifyHeroCollideWithSkelMonstersOK() {
-		var skelMonsterImageTile = document.getElementById("skelMonsterImageId");
-
-		//var mainImageTileTankBody = document.getElementById("mainImageTileImageTankBodyId");
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
-
-		if (!isSkelMonsterTileActive) {
-			return;
-		}		
-		else {
-			if (bIsHeroAttacked) {
-				//bIsHeroAttacked=false;
-				
-				//removed by Mike, 20251108
-				//return;
-			}
-			
-			//bIsHeroAttacked=false;		
-
-			//+iImageFrameWidthDefault/2; iImageFrameHeightDefault/2
-
-			//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, skelMonsterImageTilePosX,skelMonsterImageTilePosY, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2)) {
-			
-			//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, skelMonsterImageTilePosX,skelMonsterImageTilePosY, iImageFrameWidthLarge, iImageFrameHeightLarge, iImageFrameWidthLarge, iImageFrameHeightLarge)) {
-			
-			if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, skelMonsterImageTilePosX,skelMonsterImageTilePosY, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75)) {
-/*	
-				if (bHasHeroChangedFacingLeftOrRight) {
-					//monster deals damage to hero; spinning hero;
-					//therefore, push out hero
-					//bHasHeroChangedFacingLeftOrRight=false;
-					
-					//deal damage only when hero is exactly facing left or right;
-					if (!bIsHeroFacingUpOrDown) {
-						currSkelMonsterTileState=ATTACKING_STATE;
-					}
-					else {
-						if (iSkelMonsterAnimationCount==0) {
-							let iRandAttackValue=window.parseInt(Math.random() * 10)%10;
-							
-							//alert(iRandAttackValue);
-							
-							//deal damage at 1/20 chance
-							if (iRandAttackValue<1) {
-								currSkelMonsterTileState=ATTACKING_STATE;
-							}
-						}
-					}
-				}
-*/				
-				//---------------------------------------				
-				
-				//verify if hero attacked
-				//edited by Mike, 20251113
-				//if (bHasFired && (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2, skelMonsterImageTilePosX,skelMonsterImageTilePosY, iImageFrameWidthLarge, iImageFrameHeightLarge, iImageFrameWidthLarge, iImageFrameHeightLarge))) {
-				if (bHasFired && (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2, skelMonsterImageTilePosX,skelMonsterImageTilePosY, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2))) {
-
-					//edited by Mike, 20251112; from 20251111
-					var bHasReducedHeroManaOutput=reduceHeroMana(3);
-					
-					if (!bHasReducedHeroManaOutput) {
-						return;
-					}
-					
-/*	
-					iCurrHeroMana-=3;
-					//iCurrHeroManaToBeDeducted+=3;
-					
-					iCurrHeroProjectileManaAnimationDelayCount=0;
-
-					//TODO: -update: to use function; with iCurrHeroManaToBeDeducted as parameter
-					if (iCurrHeroMana<=0) {
-						iCurrHeroMana=0;
-						return;
-					}
-*/
-									
-					bHasHeroHitMonster=true;
-					iHeroAttackAnimationDelayCount=0;
-					iHeroAttackAnimationCount=0;//-1;
-					
-					iCurrHeroComboCount++;
-
-					//alert("DITO!!!");
-				
-					bIsExecutingShake=true;
-				
-					monsterHitByHero(mainImageTilePosX,mainImageTilePosY, skelMonsterImageTilePosX,skelMonsterImageTilePosY);
-
-					//added by Mike, 20251110
-					//skelMonsterImageTilePosX and PosY; not referenced if passed as parameter					
-					//-------------------------------
-
-					let iMonsterImageTilePosX=skelMonsterImageTilePosX;
-					let iMonsterImageTilePosY=skelMonsterImageTilePosY;
-
-					//push monster out
-					if (bIsHeroFacingLeftOrRight) {
-						if (bIsHeroFacingLeft) {
-							if (iMonsterImageTilePosX+iImageFrameWidthLarge/2<mainImageTilePosX) {	
-								iMonsterImageTilePosX-=iImageFrameWidthLarge/20;
-							}
-						}
-						else {
-							if (iMonsterImageTilePosX>mainImageTilePosX+iImageFrameWidthLarge/2) {	
-								iMonsterImageTilePosX+=iImageFrameWidthLarge/20;
-							}
-						}				
-
-					}
-					
-					if (bIsHeroFacingUpOrDown) {
-						if (bIsHeroFacingUp) {
-							if (iMonsterImageTilePosY+iImageFrameHeightLarge/2<mainImageTilePosY) {	
-								iMonsterImageTilePosY-=iImageFrameHeightLarge/20;
-							}
-						}
-						else {
-							if (iMonsterImageTilePosY>mainImageTilePosY+iImageFrameHeightLarge/2) {	
-								iMonsterImageTilePosY+=iImageFrameHeightLarge/20;
-							}
-						}
-					}
-					
-					skelMonsterImageTilePosX=iMonsterImageTilePosX;
-					skelMonsterImageTilePosY=iMonsterImageTilePosY;
-					//-------------------------------
-
-					setExplosionEffectPosition(skelMonsterImageTilePosX+iImageFrameWidthLarge/2,skelMonsterImageTilePosY+iImageFrameHeightLarge/2);
-	
-					actorLastAttackedByHero=skelMonsterImageTile;
-					iSkelMonsterHP--;
-	
-					if (iSkelMonsterHP<=0) {
-						skelMonsterImageTile.style.visibility="hidden";				
-						isSkelMonsterTileActive=false;
-						iCurrMonsterDeathCount++;
-
-						setExplosionEffectPosition(skelMonsterImageTilePosX+iImageFrameWidthLarge/2,skelMonsterImageTilePosY+iImageFrameHeightLarge/2);
-
-					}
-/*
-					else {
-						//alert("iSkelMonsterHP!!!"+iSkelMonsterHP);
-
-						actorLastAttackedByHero=skelMonsterImageTile;
-
-						iSkelMonsterHP--;
-					}
-*/
-				}
-				else {
-					if (!bHasHeroHitMonster) {
-						//decide if will attack; 
-/*
-						let iRandAttackValue=window.parseInt(Math.random() * 10)%20;
-						
-						if (iRandAttackValue<=1) {
-							//alert(iRandAttackValue);
-						
-							currSkelMonsterTileState=ATTACKING_STATE;
-						}
-*/
-						if (skelMonsterTileAttackDelay>=skelMonsterTileAttackDelayMax) {
-							currSkelMonsterTileState=ATTACKING_STATE;
-						}
-						else {
-							skelMonsterTileAttackDelay++;
-
-							currSkelMonsterTileState=IDLE_STATE;
-						}
-
-						if (currSkelMonsterTileState==ATTACKING_STATE) {
-							heroHitByMonster(mainImageTilePosX,mainImageTilePosY, skelMonsterImageTilePosX,skelMonsterImageTilePosY, iMonsterAttackDamageSkel);
-							
-							setExplosionEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/2,mainImageTilePosY+iImageFrameHeightLarge/2);
-							
-							//push out hero
-							//bHasHeroChangedFacingLeftOrRight=false;
-							
-							if (!bIsHeroFacingUpOrDown) {
-								if (!bIsHeroWalking) {
-									if (mainImageTilePosX>skelMonsterImageTilePosX) {	
-										mainImageTilePosX+=iImageFrameWidthLarge/20;
-									}
-									else {
-										mainImageTilePosX-=iImageFrameWidthLarge/20;
-									}
-								}
-							}
-							
-							//currSkelMonsterTileState=ATTACKING_STATE;//WALKING_STATE;
-						}
-					}
-				}
-			}
-		}
-	}
-	
-	//added by Mike, 20251123
-	function verifyHeroCollideWithDemonMonsters() {
-		var demonMonsterImageTile = document.getElementById("demonMonsterImageId");
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
-
-		if (!isDemonMonsterTileActive) {
-			return;
-		}		
-		else {
-			if (bIsHeroAttacked) {
-				//bIsHeroAttacked=false;
-				
-				//removed by Mike, 20251108
-				//return;
-			}
-			
-			//bIsHeroAttacked=false;		
-
-			//+iImageFrameWidthDefault/2; iImageFrameHeightDefault/2
-
-			//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, skelMonsterImageTilePosX,skelMonsterImageTilePosY, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2)) {
-			
-			//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, skelMonsterImageTilePosX,skelMonsterImageTilePosY, iImageFrameWidthLarge, iImageFrameHeightLarge, iImageFrameWidthLarge, iImageFrameHeightLarge)) {
-			
-			
-			if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, demonMonsterImageTilePosX,demonMonsterImageTilePosY, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75)) {
-/*	
-				if (bHasHeroChangedFacingLeftOrRight) {
-					//monster deals damage to hero; spinning hero;
-					//therefore, push out hero
-					//bHasHeroChangedFacingLeftOrRight=false;
-					
-					//deal damage only when hero is exactly facing left or right;
-					if (!bIsHeroFacingUpOrDown) {
-						currSkelMonsterTileState=ATTACKING_STATE;
-					}
-					else {
-						if (iSkelMonsterAnimationCount==0) {
-							let iRandAttackValue=window.parseInt(Math.random() * 10)%10;
-							
-							//alert(iRandAttackValue);
-							
-							//deal damage at 1/20 chance
-							if (iRandAttackValue<1) {
-								currSkelMonsterTileState=ATTACKING_STATE;
-							}
-						}
-					}
-				}
-*/				
-				//---------------------------------------				
-				
-				//verify if hero attacked
-				//edited by Mike, 20251113
-				//if (bHasFired && (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2, skelMonsterImageTilePosX,skelMonsterImageTilePosY, iImageFrameWidthLarge, iImageFrameHeightLarge, iImageFrameWidthLarge, iImageFrameHeightLarge))) {
-				if (bHasFired && (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2, demonMonsterImageTilePosX,demonMonsterImageTilePosY, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2))) {
-
-					//edited by Mike, 20251112; from 20251111
-					var bHasReducedHeroManaOutput=reduceHeroMana(3);
-					
-					if (!bHasReducedHeroManaOutput) {
-						return;
-					}
-					
-/*	
-					iCurrHeroMana-=3;
-					//iCurrHeroManaToBeDeducted+=3;
-					
-					iCurrHeroProjectileManaAnimationDelayCount=0;
-
-					//TODO: -update: to use function; with iCurrHeroManaToBeDeducted as parameter
-					if (iCurrHeroMana<=0) {
-						iCurrHeroMana=0;
-						return;
-					}
-*/
-									
-					bHasHeroHitMonster=true;
-					iHeroAttackAnimationDelayCount=0;
-					iHeroAttackAnimationCount=0;//-1;
-					
-					iCurrHeroComboCount++;
-
-					//alert("DITO!!!");
-				
-					bIsExecutingShake=true;
-				
-					monsterHitByHero(mainImageTilePosX,mainImageTilePosY, demonMonsterImageTilePosX,demonMonsterImageTilePosY);
-
-					//added by Mike, 20251110
-					//skelMonsterImageTilePosX and PosY; not referenced if passed as parameter					
-					//-------------------------------
-
-					let iMonsterImageTilePosX=demonMonsterImageTilePosX;
-					let iMonsterImageTilePosY=demonMonsterImageTilePosY;
-
-					//push monster out
-					if (bIsHeroFacingLeftOrRight) {
-						if (bIsHeroFacingLeft) {
-							if (iMonsterImageTilePosX+iImageFrameWidthLarge/2<mainImageTilePosX) {	
-								iMonsterImageTilePosX-=iImageFrameWidthLarge/20;
-							}
-						}
-						else {
-							if (iMonsterImageTilePosX>mainImageTilePosX+iImageFrameWidthLarge/2) {	
-								iMonsterImageTilePosX+=iImageFrameWidthLarge/20;
-							}
-						}				
-
-					}
-					
-					if (bIsHeroFacingUpOrDown) {
-						if (bIsHeroFacingUp) {
-							if (iMonsterImageTilePosY+iImageFrameHeightLarge/2<mainImageTilePosY) {	
-								iMonsterImageTilePosY-=iImageFrameHeightLarge/20;
-							}
-						}
-						else {
-							if (iMonsterImageTilePosY>mainImageTilePosY+iImageFrameHeightLarge/2) {	
-								iMonsterImageTilePosY+=iImageFrameHeightLarge/20;
-							}
-						}
-					}
-					
-					demonMonsterImageTilePosX=iMonsterImageTilePosX;
-					demonMonsterImageTilePosY=iMonsterImageTilePosY;
-					//-------------------------------
-
-					setExplosionEffectPosition(demonMonsterImageTilePosX+iImageFrameWidthLarge/2,demonMonsterImageTilePosY+iImageFrameHeightLarge/2);
-	
-					actorLastAttackedByHero=demonMonsterImageTile;
-					//iDemonMonsterHP--;
-					//iCurrBossLife=iDemonMonsterHP;
-					reduceBossLifeBar(1); //iMonsterAttackDamageBoss
-					iDemonMonsterHP=iCurrBossLife;
-	
-					if (iDemonMonsterHP<=0) {
-					//if (iCurrBossLife<=0) {
-					
-						//alert("DONE!");
-/*					
-						demonMonsterImageTile.style.visibility="hidden";				
-						isDemonMonsterTileActive=false;
-*/						
-						
-						iCurrMonsterDeathCount++;
-						
-						bHasBeatenLastBoss=true;
-
-						setExplosionEffectPosition(demonMonsterImageTilePosX+iImageFrameWidthLarge/2,demonMonsterImageTilePosY+iImageFrameHeightLarge/2);
-
-					}
-/*
-					else {
-						//alert("iSkelMonsterHP!!!"+iSkelMonsterHP);
-
-						actorLastAttackedByHero=skelMonsterImageTile;
-
-						iSkelMonsterHP--;
-					}
-*/
-				}
-				else {
-					if (!bHasHeroHitMonster) {
-						//decide if will attack; 
-/*
-						let iRandAttackValue=window.parseInt(Math.random() * 10)%20;
-						
-						if (iRandAttackValue<=1) {
-							//alert(iRandAttackValue);
-						
-							currSkelMonsterTileState=ATTACKING_STATE;
-						}
-*/
-						if (demonMonsterTileAttackDelay>=demonMonsterTileAttackDelayMax) {
-							currDemonMonsterTileState=ATTACKING_STATE;
-						}
-						else {
-							demonMonsterTileAttackDelay++;
-
-							currDemonMonsterTileState=IDLE_STATE;
-						}
-
-						if (currDemonMonsterTileState==ATTACKING_STATE) {
-							heroHitByMonster(mainImageTilePosX,mainImageTilePosY, demonMonsterImageTilePosX,demonMonsterImageTilePosY, iMonsterAttackDamageSkel);
-							
-							setExplosionEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/2,mainImageTilePosY+iImageFrameHeightLarge/2);
-							
-							//push out hero
-							//bHasHeroChangedFacingLeftOrRight=false;
-							
-							if (!bIsHeroFacingUpOrDown) {
-								if (!bIsHeroWalking) {
-									if (mainImageTilePosX>skelMonsterImageTilePosX) {	
-										mainImageTilePosX+=iImageFrameWidthLarge/20;
-									}
-									else {
-										mainImageTilePosX-=iImageFrameWidthLarge/20;
-									}
-								}
-							}
-							
-							//currSkelMonsterTileState=ATTACKING_STATE;//WALKING_STATE;
-						}
-					}
-				}
-			}
-		}
-	}	
-	
-	function verifyHeroCollideWithBatMonsters() {
-		var batMonsterImageTile = document.getElementById("batMonsterImageId");
-
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
-
-		if (!isBatMonsterTileActive) {
-			return;
-		}		
-		//if (batMonsterImageTile.style.visibility!=="hidden") {						
-		else { //if (isBatMonsterTileActive) {						
-
-			if (bIsHeroAttacked) {
-				//bIsHeroAttacked=false;
-				return;
-			}
-			
-			//bIsHeroAttacked=false;		
-
-			//+iImageFrameWidthDefault/2; iImageFrameHeightDefault/2
-			//edited by Mike, 20251121
-			//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, batMonsterImageTilePosX,batMonsterImageTilePosY, iImageFrameWidth, iImageFrameHeight, iImageFrameWidthDefault, iImageFrameHeightDefault)) {	
-
-			if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, batMonsterImageTilePosX,batMonsterImageTilePosY, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75)) {	
-			
-				//alert("HALLO"); 	
-				
-				//verify if hero attacked
-				//if (bHasFired && (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthDefault/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightDefault/2, batMonsterImageTilePosX,batMonsterImageTilePosY, iImageFrameWidth, iImageFrameHeight, iImageFrameWidthDefault, iImageFrameHeightDefault))) {
-
-				if (bHasFired && (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2, batMonsterImageTilePosX,batMonsterImageTilePosY, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2))) {
-
-					var bHasReducedHeroManaOutput=reduceHeroMana(3);
-					
-					if (!bHasReducedHeroManaOutput) {
-						return;
-					}
-
-					bHasHeroHitMonster=true;
-					iHeroAttackAnimationDelayCount=0;
-					iHeroAttackAnimationCount=0;//-1;
-					
-					iCurrHeroComboCount++;
-
-					//alert("DITO!!!");
-				
-					bIsExecutingShake=true;
-				
-					//monsterHitByHero(mainImageTilePosX,mainImageTilePosY, batMonsterImageTilePosX,batMonsterImageTilePosY);
-					
-					monsterHitByHeroWithType(mainImageTilePosX,mainImageTilePosY, batMonsterImageTilePosX,batMonsterImageTilePosY,MONSTER_TYPE_VAL_BAT);
-					
-					//heroHitByMonsterWithType(mainImageTilePosX,mainImageTilePosY, batMonsterImageTilePosX,batMonsterImageTilePosY, iMonsterAttackDamageDefault, MONSTER_TYPE_VAL_BAT);
-					
-					//setMonsterDeathAnimationPosition(batMonsterImageTilePosX-iImageFrameWidthDefault/2+iImageFrameWidthDefault/2, batMonsterImageTilePosY-iImageFrameHeightDefault/2+iImageFrameHeightDefault/2, MONSTER_TYPE_VAL_BAT);					
-
-					let iMonsterImageTilePosX=batMonsterImageTilePosX;
-					let iMonsterImageTilePosY=batMonsterImageTilePosY;
-
-					//push monster out
-					if (bIsHeroFacingLeftOrRight) {
-						if (bIsHeroFacingLeft) {
-							if (iMonsterImageTilePosX+iImageFrameWidthLarge/2<mainImageTilePosX) {	
-								iMonsterImageTilePosX-=iImageFrameWidthLarge/20;
-							}
-						}
-						else {
-							if (iMonsterImageTilePosX>mainImageTilePosX+iImageFrameWidthLarge/2) {	
-								iMonsterImageTilePosX+=iImageFrameWidthLarge/20;
-							}
-						}				
-
-					}
-					
-					if (bIsHeroFacingUpOrDown) {
-						if (bIsHeroFacingUp) {
-							if (iMonsterImageTilePosY+iImageFrameHeightLarge/2<mainImageTilePosY) {	
-								iMonsterImageTilePosY-=iImageFrameHeightLarge/20;
-							}
-						}
-						else {
-							if (iMonsterImageTilePosY>mainImageTilePosY+iImageFrameHeightLarge/2) {	
-								iMonsterImageTilePosY+=iImageFrameHeightLarge/20;
-							}
-						}
-					}
-					
-					batMonsterImageTilePosX=iMonsterImageTilePosX;
-					batMonsterImageTilePosY=iMonsterImageTilePosY;
-										
-					//setExplosionEffectPosition(batMonsterImageTilePosX+iImageFrameWidthLarge/2,batMonsterImageTilePosY+iImageFrameHeightLarge/2);
-					
-					setExplosionEffectPosition(batMonsterImageTilePosX+iImageFrameWidthDefault/2,batMonsterImageTilePosY+iImageFrameHeightDefault/2);
-
-					
-/*
-					batMonsterImageTile.style.visibility="hidden";				
-					isBatMonsterTileActive=false;
-					iCurrMonsterDeathCount++;
-*/
-
-					actorLastAttackedByHero=batMonsterImageTile;
-					iBatMonsterHP--;
-
-					if (iBatMonsterHP<=0) {
-/*
-						batMonsterImageTile.style.visibility="hidden";				
-						isBatMonsterTileActive=false;
-*/
-						iCurrMonsterDeathCount++;
-
-						setExplosionEffectPosition(batMonsterImageTilePosX+iImageFrameWidthLarge,batMonsterImageTilePosY+iImageFrameHeightLarge);
-						
-						setMonsterDeathAnimationPosition(batMonsterImageTilePosX-iImageFrameWidthDefault/2+iImageFrameWidthDefault/2, batMonsterImageTilePosY-iImageFrameHeightDefault/2+iImageFrameHeightDefault/2, MONSTER_TYPE_VAL_BAT);		
-
-					}
-/*
-					else {
-						//alert("iSkelMonsterHP!!!"+iSkelMonsterHP);
-
-						actorLastAttackedByHero=batMonsterImageTile;
-
-						iBatMonsterHP--;
-					}
-*/
-				}
-				else {			
-					if (!bHasHeroHitMonster) {
-						//deal damage if hero collides with this monster
-						heroHitByMonster(mainImageTilePosX,mainImageTilePosY, batMonsterImageTilePosX,batMonsterImageTilePosY, iMonsterAttackDamageDefault);
-						//setExplosionEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/2,mainImageTilePosY+iImageFrameHeightLarge/2);
-						
-						//---------------------------------
-						//if with waiting before attacking
-/*
-						if (batMonsterTileAttackDelay>=batMonsterTileAttackDelayMax) {
-							currBatMonsterTileState=ATTACKING_STATE;
-						}
-						else {
-							batMonsterTileAttackDelay++;
-
-							currBatMonsterTileState=IDLE_STATE;
-						}
-
-						if (currBatMonsterTileState==ATTACKING_STATE) {
-							heroHitByMonster(mainImageTilePosX,mainImageTilePosY, batMonsterImageTilePosX,batMonsterImageTilePosY, iMonsterAttackDamageBat);
-							
-							setExplosionEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/2,mainImageTilePosY+iImageFrameHeightLarge/2);
-							
-							//push out hero
-							//bHasHeroChangedFacingLeftOrRight=false;
-							
-							if (!bIsHeroFacingUpOrDown) {
-								if (!bIsHeroWalking) {
-									if (mainImageTilePosX>skelMonsterImageTilePosX) {	
-										mainImageTilePosX+=iImageFrameWidthLarge/20;
-									}
-									else {
-										mainImageTilePosX-=iImageFrameWidthLarge/20;
-									}
-								}
-							}
-							
-							//currSkelMonsterTileState=ATTACKING_STATE;//WALKING_STATE;
-						}	
-*/						
-						//---------------------------------
-					}
-				}
-			}
-		}
-	}
-
-	//giant; boss
-	function verifyHeroFireballCollideWithSkelMonsters() {
-		var skelMonsterImageTile = document.getElementById("skelMonsterImageId");
-
-		var mainImageTileFireballProjectile = document.getElementById("mainImageTileFireballProjectileImageId");
-
-		//var mainImageTileTankBody = document.getElementById("mainImageTileImageTankBodyId");
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId")
-		
-		if (!isSkelMonsterTileActive) {
-			return;
-		}		
-		else {
-			if (bIsHeroAttacked) {
-				//bIsHeroAttacked=false;
-				return;
-			}
-			
-			//bIsHeroAttacked=false;		
-
-			//+iImageFrameWidthDefault/2; iImageFrameHeightDefault/2
-			if (isPointsOfRectIntersectingPointsOfRectMonster(parseInt(mainImageTileFireballProjectilePosX),parseInt(mainImageTileFireballProjectilePosY), skelMonsterImageTilePosX,skelMonsterImageTilePosY, iImageFrameWidth, iImageFrameHeight, iImageFrameWidthLargeBoss, iImageFrameHeightLargeBoss)) {			
-				
-				//verify if hero attacked
-				//if (bHasFired && bHasHeroShotFireball) {
-				if (bHasHeroShotFireball) {
-				
-					//alert("HALLO"); 	
-				
-					//monsterHitByHeroFireball(parseInt(mainImageTileFireballProjectilePosX),parseInt(mainImageTileFireballProjectilePosY), skelMonsterImageTilePosX,skelMonsterImageTilePosY);
-					//setExplosionEffectPosition(batMonsterImageTilePosX,batMonsterImageTilePosY);
-					
-					//TODO: -update: this if boss
-					//setFireballExplosionEffectPosition(skelMonsterImageTilePosX+iImageFrameWidthLarge,skelMonsterImageTilePosY+iImageFrameHeightLarge);
-
-					setFireballExplosionEffectPosition(skelMonsterImageTilePosX+iImageFrameWidthLarge*0.75,skelMonsterImageTilePosY+iImageFrameHeightLarge*0.75);
-					
-					monsterHitByHeroFireball(parseInt(mainImageTileFireballProjectilePosX),parseInt(mainImageTileFireballProjectilePosY), skelMonsterImageTilePosX,skelMonsterImageTilePosY);
-
-					setMonsterDeathAnimationPosition(skelMonsterImageTilePosX-iImageFrameWidthLargeBoss/2+iImageFrameWidthLarge/2, skelMonsterImageTilePosY-iImageFrameHeightLargeBoss/2+iImageFrameHeightLarge/2, MONSTER_TYPE_VAL_SKEL);
-					
-					reduceBossLifeBar(iFireballAttackDamage);
-					iSkelMonsterHP=iCurrBossLife;
-	
-	
-					if (iSkelMonsterHP<=0) {
-						skelMonsterImageTile.style.visibility="hidden";				
-						isSkelMonsterTileActive=false;
-						
-						//edited by Mike, 20251124
-						//iCurrMonsterDeathCount++;
-						iCurrMonsterDeathCount+=BOSS_DEATH_COUNT_VAL;
-
-						setExplosionEffectPosition(skelMonsterImageTilePosX+iImageFrameWidthLargeBoss/2,skelMonsterImageTilePosY+iImageFrameHeightLargeBoss/2);
-
-						bHasBeatenStage1Boss=true;
-					}					
-				}
-			}
-		}
-	}	
-	
-	function verifyHeroFireballCollideWithSkelMonstersOK() {
-		var skelMonsterImageTile = document.getElementById("skelMonsterImageId");
-
-		var mainImageTileFireballProjectile = document.getElementById("mainImageTileFireballProjectileImageId");
-
-		//var mainImageTileTankBody = document.getElementById("mainImageTileImageTankBodyId");
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId")
-		
-		if (!isSkelMonsterTileActive) {
-			return;
-		}		
-		else {
-			if (bIsHeroAttacked) {
-				//bIsHeroAttacked=false;
-				return;
-			}
-			
-			//bIsHeroAttacked=false;		
-
-			//+iImageFrameWidthDefault/2; iImageFrameHeightDefault/2
-			if (isPointsOfRectIntersectingPointsOfRectMonster(parseInt(mainImageTileFireballProjectilePosX),parseInt(mainImageTileFireballProjectilePosY), skelMonsterImageTilePosX,skelMonsterImageTilePosY, iImageFrameWidth, iImageFrameHeight, iImageFrameWidthLarge, iImageFrameHeightLarge)) {			
-				
-				//verify if hero attacked
-				//if (bHasFired && bHasHeroShotFireball) {
-				if (bHasHeroShotFireball) {
-				
-					//alert("HALLO"); 	
-				
-					monsterHitByHeroFireball(parseInt(mainImageTileFireballProjectilePosX),parseInt(mainImageTileFireballProjectilePosY), skelMonsterImageTilePosX,skelMonsterImageTilePosY);
-					//setExplosionEffectPosition(batMonsterImageTilePosX,batMonsterImageTilePosY);
-					
-					setFireballExplosionEffectPosition(skelMonsterImageTilePosX+iImageFrameWidthLarge/4,skelMonsterImageTilePosY+iImageFrameHeightLarge/4);
-					
-					skelMonsterImageTile.style.visibility="hidden";				
-					isSkelMonsterTileActive=false;
-					iCurrMonsterDeathCount++;					
-				}
-			}
-		}
-	}	
-
-	function verifyHeroFireballCollideWithDemonMonsters() {
-		var demonMonsterImageTile = document.getElementById("demonMonsterImageId");
-
-		var mainImageTileFireballProjectile = document.getElementById("mainImageTileFireballProjectileImageId");
-
-		//var mainImageTileTankBody = document.getElementById("mainImageTileImageTankBodyId");
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId")
-		
-		if (!isDemonMonsterTileActive) {
-			return;
-		}		
-		else {
-			if (bIsHeroAttacked) {
-				//bIsHeroAttacked=false;
-				return;
-			}
-			
-			//bIsHeroAttacked=false;		
-
-			//+iImageFrameWidthDefault/2; iImageFrameHeightDefault/2
-			if (isPointsOfRectIntersectingPointsOfRectMonster(parseInt(mainImageTileFireballProjectilePosX),parseInt(mainImageTileFireballProjectilePosY), demonMonsterImageTilePosX,demonMonsterImageTilePosY, iImageFrameWidth, iImageFrameHeight, iImageFrameWidthLarge, iImageFrameHeightLarge)) {			
-				
-				//verify if hero attacked
-				//if (bHasFired && bHasHeroShotFireball) {
-				if (bHasHeroShotFireball) {
-				
-					//alert("HALLO"); 	
-				
-					monsterHitByHeroFireball(parseInt(mainImageTileFireballProjectilePosX),parseInt(mainImageTileFireballProjectilePosY), demonMonsterImageTilePosX,demonMonsterImageTilePosY);
-					//setExplosionEffectPosition(batMonsterImageTilePosX,batMonsterImageTilePosY);
-					
-					setFireballExplosionEffectPosition(demonMonsterImageTilePosX+iImageFrameWidthLarge/4,demonMonsterImageTilePosY+iImageFrameHeightLarge/4);
-					
-/*					
-					demonMonsterImageTile.style.visibility="hidden";				
-					isDemonMonsterTileActive=false;
-					iCurrMonsterDeathCount++;					
-*/					
-					
-					actorLastAttackedByHero=demonMonsterImageTile;
-					//iDemonMonsterHP--;
-					//iCurrBossLife=iDemonMonsterHP;
-					reduceBossLifeBar(1); //iMonsterAttackDamageBoss
-					iDemonMonsterHP=iCurrBossLife;
-	
-					if (iDemonMonsterHP<=0) {
-					//if (iCurrBossLife<=0) {
-					
-						//alert("DONE!");
-					
-						demonMonsterImageTile.style.visibility="hidden";				
-						isDemonMonsterTileActive=false;
-						iCurrMonsterDeathCount++;
-						
-						bHasBeatenLastBoss=true;
-
-						setExplosionEffectPosition(demonMonsterImageTilePosX+iImageFrameWidthLarge/2,demonMonsterImageTilePosY+iImageFrameHeightLarge/2);
-
-					}					
-					
-					
-				}
-			}
-		}
-	}	
-
-	
-	//giant; boss
-	function verifyHeroSniperShotCollideWithSkelMonsters() {
-		var skelMonsterImageTile = document.getElementById("skelMonsterImageId");
-		
-		if (!isSkelMonsterTileActive) {
-			return;
-		}		
-		else {
-			if (bIsHeroAttacked) {
-				return;
-			}
-			
-			if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileSniperShotPosX,mainImageTileSniperShotPosY, skelMonsterImageTilePosX,skelMonsterImageTilePosY, iImageFrameWidth, iImageFrameHeight, iImageFrameWidthLargeBoss, iImageFrameHeightLargeBoss)) {			
-				
-				//verify if hero attacked
-				//if (bHasFired && bHasHeroShotFireball) {
-				if (bHasHeroShotSniper) {
-					//monsterHitByHeroSniperShot(mainImageTileSniperShotPosX,mainImageTileSniperShotPosY, skelMonsterImageTilePosX,skelMonsterImageTilePosY);
-					
-					//TODO: -update: this
-					//setFireballExplosionEffectPosition(skelMonsterImageTilePosX+iImageFrameWidthLargeBoss/4,skelMonsterImageTilePosY+iImageFrameHeightLargeBoss/4);
-					
-					//setFireballExplosionEffectPosition(skelMonsterImageTilePosX+iImageFrameWidthLargeBoss/4+iImageFrameWidthLarge/4,skelMonsterImageTilePosY+iImageFrameHeightLargeBoss/4+iImageFrameHeightLarge/4);
-
-					//put this here before monsterHitByHeroSniperShot(...)
-					setFireballExplosionEffectPosition(mainImageTileSniperShotPosX-iImageFrameWidthLarge/4,mainImageTileSniperShotPosY-iImageFrameHeightLarge/4);
-								
-					let iBossPosXOffset=iImageFrameWidthLargeBoss/3;
-								
-					//if (mainImageTileSniperShotPosY<skelMonsterImageTilePosY+iImageFrameHeightLargeBoss/4) {
-					if (mainImageTileSniperShotPosY<skelMonsterImageTilePosY+iImageFrameHeightLargeBoss/3) {
-
-						//if ((mainImageTileSniperShotPosX>skelMonsterImageTilePosX+iBossPosXOffset) && (mainImageTileSniperShotPosX<skelMonsterImageTilePosX+iBossPosXOffset+iImageFrameWidthLargeBoss/5)) {
-					
-						if ((mainImageTileSniperShotPosX>skelMonsterImageTilePosX+iBossPosXOffset) && (mainImageTileSniperShotPosX<skelMonsterImageTilePosX+iBossPosXOffset+iImageFrameWidthLargeBoss/3)) {
-						
-							reduceBossLifeBar(iSniperShotAttackDamage*3); //*4
-						}
-						else {
-							reduceBossLifeBar(iSniperShotAttackDamage);
-						}
-					}
-					else {
-						reduceBossLifeBar(iSniperShotAttackDamage);
-					}
-					
-					iSkelMonsterHP=iCurrBossLife;
-			
-					monsterHitByHeroSniperShot(mainImageTileSniperShotPosX,mainImageTileSniperShotPosY, skelMonsterImageTilePosX,skelMonsterImageTilePosY);
-
-					setMonsterDeathAnimationPosition(skelMonsterImageTilePosX-iImageFrameWidthLargeBoss/2+iImageFrameWidthLarge/2, skelMonsterImageTilePosY-iImageFrameHeightLargeBoss/2+iImageFrameHeightLarge/2, MONSTER_TYPE_VAL_SKEL);
-
-			
-					if (iSkelMonsterHP<=0) {
-						skelMonsterImageTile.style.visibility="hidden";				
-						isSkelMonsterTileActive=false;
-						
-						//edited by Mike, 20251124
-						//iCurrMonsterDeathCount++;
-						iCurrMonsterDeathCount+=BOSS_DEATH_COUNT_VAL;
-
-						//setExplosionEffectPosition(skelMonsterImageTilePosX+iImageFrameWidthLargeBoss/2,skelMonsterImageTilePosY+iImageFrameHeightLargeBoss/2);
-						
-						setExplosionEffectPosition(mainImageTileSniperShotPosX-iImageFrameWidthDefault/2,mainImageTileSniperShotPosY-iImageFrameHeightDefault/2);
-						
-						//note; "bHasBeatenStageBoss"
-						//bHasBeatenStage1Boss=true;
-					}
-				}
-			}
-		}
-	}	
-
-	function verifyHeroSniperShotCollideWithSkelMonstersOK() {
-		var skelMonsterImageTile = document.getElementById("skelMonsterImageId");
-		
-		if (!isSkelMonsterTileActive) {
-			return;
-		}		
-		else {
-			if (bIsHeroAttacked) {
-				return;
-			}
-			
-			if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileSniperShotPosX,mainImageTileSniperShotPosY, skelMonsterImageTilePosX,skelMonsterImageTilePosY, iImageFrameWidth, iImageFrameHeight, iImageFrameWidthLarge, iImageFrameHeightLarge)) {			
-				
-				//verify if hero attacked
-				//if (bHasFired && bHasHeroShotFireball) {
-				if (bHasHeroShotSniper) {
-					monsterHitByHeroSniperShot(mainImageTileSniperShotPosX,mainImageTileSniperShotPosY, skelMonsterImageTilePosX,skelMonsterImageTilePosY);
-					
-					//TODO: -update: this
-					setFireballExplosionEffectPosition(skelMonsterImageTilePosX+iImageFrameWidthLarge/4,skelMonsterImageTilePosY+iImageFrameHeightLarge/4);
-					
-					skelMonsterImageTile.style.visibility="hidden";				
-					isSkelMonsterTileActive=false;
-					iCurrMonsterDeathCount++;					
-				}
-			}
-		}
-	}	
-
-	function verifyHeroSniperShotCollideWithDemonMonsters() {
-		var demonMonsterImageTile = document.getElementById("demonMonsterImageId");
-		
-		if (!isDemonMonsterTileActive) {
-			return;
-		}		
-		else {
-			if (bIsHeroAttacked) {
-				return;
-			}
-			
-			if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileSniperShotPosX,mainImageTileSniperShotPosY, demonMonsterImageTilePosX,demonMonsterImageTilePosY, iImageFrameWidth, iImageFrameHeight, iImageFrameWidthLarge, iImageFrameHeightLarge)) {			
-				
-				//verify if hero attacked
-				//if (bHasFired && bHasHeroShotFireball) {
-				if (bHasHeroShotSniper) {
-					monsterHitByHeroSniperShot(mainImageTileSniperShotPosX,mainImageTileSniperShotPosY, demonMonsterImageTilePosX,demonMonsterImageTilePosY);
-					
-					//TODO: -update: this
-					setFireballExplosionEffectPosition(demonMonsterImageTilePosX+iImageFrameWidthLarge/4,demonMonsterImageTilePosY+iImageFrameHeightLarge/4);
-
-					actorLastAttackedByHero=demonMonsterImageTile;
-					//iDemonMonsterHP--;
-					//iCurrBossLife=iDemonMonsterHP;
-					reduceBossLifeBar(iSniperShotAttackDamage); //iMonsterAttackDamageBoss
-					iDemonMonsterHP=iCurrBossLife;
-	
-					if (iDemonMonsterHP<=0) {
-					//if (iCurrBossLife<=0) {
-					
-						//alert("DONE!");
-					
-						demonMonsterImageTile.style.visibility="hidden";				
-						isDemonMonsterTileActive=false;
-						iCurrMonsterDeathCount++;
-						
-						bHasBeatenLastBoss=true;
-
-						setExplosionEffectPosition(demonMonsterImageTilePosX+iImageFrameWidthLarge/2,demonMonsterImageTilePosY+iImageFrameHeightLarge/2);
-
-					}
-					
-				}
-			}
-		}
-	}	
-
-	//TODO: -change: this to little demon
-	function verifyHeroSniperShotCollideWithBatMonsters() {
-		var batMonsterImageTile = document.getElementById("batMonsterImageId");
-		
-		if (!isBatMonsterTileActive) {
-			return;
-		}		
-		else {
-			if (bIsHeroAttacked) {
-				return;
-			}
-			
-			if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileSniperShotPosX,mainImageTileSniperShotPosY, batMonsterImageTilePosX,batMonsterImageTilePosY, iImageFrameWidthDefault, iImageFrameHeightDefault, iImageFrameWidthLarge, iImageFrameHeightLarge)) {			
-				
-				//verify if hero attacked
-				//if (bHasFired && bHasHeroShotFireball) {
-				if (bHasHeroShotSniper) {
-					monsterHitByHeroSniperShot(mainImageTileSniperShotPosX,mainImageTileSniperShotPosY, batMonsterImageTilePosX,batMonsterImageTilePosY);
-					
-					//TODO: -update: this
-					setFireballExplosionEffectPosition(batMonsterImageTilePosX+iImageFrameWidthDefault/4,batMonsterImageTilePosY+iImageFrameHeightDefault/4);
-					
-					batMonsterImageTile.style.visibility="hidden";				
-					isBatMonsterTileActive=false;
-					iCurrMonsterDeathCount++;					
-				}
-			}
-		}
-	}
-	
-	function verifyHeroFireballCollideWithBatMonsters() {
-		var batMonsterImageTile = document.getElementById("batMonsterImageId");
-
-		var mainImageTileFireballProjectile = document.getElementById("mainImageTileFireballProjectileImageId");
-
-		var mainImageTileTankBody = document.getElementById("mainImageTileImageTankBodyId");
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
-
-		if (!isBatMonsterTileActive) {
-			return;
-		}		
-		else {
-			if (bIsHeroAttacked) {
-				//bIsHeroAttacked=false;
-				return;
-			}
-			
-			//bIsHeroAttacked=false;		
-
-			//+iImageFrameWidthDefault/2; iImageFrameHeightDefault/2
-			if (isPointsOfRectIntersectingPointsOfRectMonster(parseInt(mainImageTileFireballProjectilePosX),parseInt(mainImageTileFireballProjectilePosY), batMonsterImageTilePosX,batMonsterImageTilePosY, iImageFrameWidth, iImageFrameHeight, iImageFrameWidthDefault, iImageFrameHeightDefault)) {			
-				
-				//verify if hero attacked
-				//if (bHasFired && bHasHeroShotFireball) {
-				if (bHasHeroShotFireball) {
-				
-					//alert("HALLO"); 	
-				
-					monsterHitByHeroFireball(parseInt(mainImageTileFireballProjectilePosX),parseInt(mainImageTileFireballProjectilePosY), batMonsterImageTilePosX,batMonsterImageTilePosY);
-					//setExplosionEffectPosition(batMonsterImageTilePosX,batMonsterImageTilePosY);
-					
-					setMonsterDeathAnimationPosition(batMonsterImageTilePosX-iImageFrameWidthDefault/2+iImageFrameWidthDefault/2, batMonsterImageTilePosY-iImageFrameHeightDefault/2+iImageFrameHeightDefault/2, MONSTER_TYPE_VAL_BAT);		
-					
-					setFireballExplosionEffectPosition(batMonsterImageTilePosX,batMonsterImageTilePosY);
-					
-					batMonsterImageTile.style.visibility="hidden";				
-					isBatMonsterTileActive=false;
-					iCurrMonsterDeathCount++;					
-				}
-			}
-		}
-	}
-
-	function verifyHeroCollideWithBossMonster() {
-		var bossMonsterImageTile = document.getElementById("bossMonsterImageId");
-
-		var mainImageTileTankBody = document.getElementById("mainImageTileImageTankBodyId");
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
-
-		if (!isBossMonsterTileActive) {
-			return;
-		}		
-		else { 
-
-			if (bIsHeroAttacked) {
-				//bIsHeroAttacked=false;
-				return;
-			}
-			
-			//bIsHeroAttacked=false;		
-
-			//note iImageFrameWidthLarge*2;  iImageFrameHeightLarge*2
-			if (isPointsOfRectIntersectingPointsOfRectMonsterLarge(mainImageTilePosX,mainImageTilePosY, bossMonsterImageTilePosX,bossMonsterImageTilePosY, iImageFrameWidth, iImageFrameHeight, iImageFrameWidthLarge*2, iImageFrameHeightLarge*2)) {			
-				//alert("HALLO"); 	
-				
-				//verify if hero attacked
-				if (bHasFired && (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthDefault/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightDefault/2, bossMonsterImageTilePosX,bossMonsterImageTilePosY, iImageFrameWidth, iImageFrameHeight, iImageFrameWidthLarge*2, iImageFrameHeightLarge*2))) {
-					
-					//large
-					monsterHitByHero(mainImageTilePosX,mainImageTilePosY, bossMonsterImageTilePosX+iImageFrameWidthLarge/2*2,bossMonsterImageTilePosY+iImageFrameHeightLarge/2*2);
-	
-	//monsterHitByHeroFireball(parseInt(mainImageTileFireballProjectilePosX),parseInt(mainImageTileFireballProjectilePosY), bossMonsterImageTilePosX+iImageFrameWidthLarge/2*2,bossMonsterImageTilePosY+iImageFrameHeightLarge/2*2);
-										
-					setExplosionEffectPositionLarge(bossMonsterImageTilePosX+iImageFrameWidthLarge/2,bossMonsterImageTilePosY+iImageFrameHeightLarge/2);
-					
-					bIsBossMonsterHit=true;
-					
-					iCurrBossMonsterLife--;
-										
-					//remove this temporarily; debug
-					if (iCurrBossMonsterLife<=0) {					
-						bossMonsterImageTile.style.visibility="hidden";				
-						isBossMonsterTileActive=false;
-						iCurrMonsterDeathCount++;
-					}						
-				}
-				else {			
-					heroHitByMonster(mainImageTilePosX,mainImageTilePosY, bossMonsterImageTilePosX,bossMonsterImageTilePosY,iMonsterAttackDamageBoss);
-				}
-			}
-		}
-	}
-	
-	function verifyHeroFireballCollideWithBossMonster() {
-		var bossMonsterImageTile = document.getElementById("bossMonsterImageId");
-
-		var mainImageTileFireballProjectile = document.getElementById("mainImageTileFireballProjectileImageId");
-
-		var mainImageTileTankBody = document.getElementById("mainImageTileImageTankBodyId");
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
-
-		if (!isBossMonsterTileActive) {
-			return;
-		}		
-		else {
-			if (bIsHeroAttacked) {
-				return;
-			}
-			
-			if (isPointsOfRectIntersectingPointsOfRectMonster(parseInt(mainImageTileFireballProjectilePosX),parseInt(mainImageTileFireballProjectilePosY), bossMonsterImageTilePosX,bossMonsterImageTilePosY, iImageFrameWidth, iImageFrameHeight, iImageFrameWidthLarge*2, iImageFrameHeightLarge*2)) {			
-
-				//verify if hero attacked
-				//if (bHasFired && bHasHeroShotFireball) {
-				if (bHasHeroShotFireball) {
-				
-					//alert("HALLO"); 	
-					
-					//large
-					monsterHitByHeroFireball(parseInt(mainImageTileFireballProjectilePosX),parseInt(mainImageTileFireballProjectilePosY), bossMonsterImageTilePosX+iImageFrameWidthLarge/2*2,bossMonsterImageTilePosY+iImageFrameHeightLarge/2*2);
-					
-					setFireballExplosionEffectPositionLarge(bossMonsterImageTilePosX+iImageFrameWidthLarge/2,bossMonsterImageTilePosY+iImageFrameHeightLarge/2);
-					
-					bIsBossMonsterHit=true;
-					
-					iCurrBossMonsterLife--;
-					
-					if (iCurrBossMonsterLife<=0) {										
-						bossMonsterImageTile.style.visibility="hidden";				
-						isBossMonsterTileActive=false;
-						iCurrMonsterDeathCount++;					
-					}
-				}
-			}
-		}
-	}			
-		
-	function verifyHeroCollideWithMiniBossMonsters(inputArrayMiniBossMonsterWithIdCount) {			
-		var mainImageTileTankBody = document.getElementById("mainImageTileImageTankBodyId");
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
-	
-		//alert(inputArraySnakeMonsterWithIdCount[MONSTER_IS_ACTIVE]);
-
-			if (!inputArrayMiniBossMonsterWithIdCount[MONSTER_IS_ACTIVE]) {
-				return;
-			}		
-			else { //if (isBatMonsterTileActive) {						
-
-				if (bIsHeroAttacked) {
-					//bIsHeroAttacked=false;
-					return;
-				}
-			
-			//bIsHeroAttacked=false;		
-
-			//+iImageFrameWidthDefault/2; iImageFrameHeightDefault/2
-				if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayMiniBossMonsterWithIdCount[MONSTER_POSX],inputArrayMiniBossMonsterWithIdCount[MONSTER_POSY], iImageFrameWidth, iImageFrameHeight, iImageFrameWidthDefault, iImageFrameHeightDefault)) {			
-					//alert("HALLO"); 	
-					
-					//verify if hero attacked
-					if (bHasFired && (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthDefault/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightDefault/2, inputArrayMiniBossMonsterWithIdCount[MONSTER_POSX],inputArrayMiniBossMonsterWithIdCount[MONSTER_POSY], iImageFrameWidth, iImageFrameHeight, iImageFrameWidthDefault, iImageFrameHeightDefault))) {
-						monsterHitByHero(mainImageTilePosX,mainImageTilePosY, inputArrayMiniBossMonsterWithIdCount[MONSTER_POSX],inputArrayMiniBossMonsterWithIdCount[MONSTER_POSY]);
-												
-						setExplosionEffectPosition(inputArrayMiniBossMonsterWithIdCount[MONSTER_POSX],inputArrayMiniBossMonsterWithIdCount[MONSTER_POSY]);
-						
-						inputArrayMiniBossMonsterWithIdCount[MONSTER_OBJECT].style.visibility="hidden";				
-						inputArrayMiniBossMonsterWithIdCount[MONSTER_IS_ACTIVE]=false;
-						iCurrMonsterDeathCount++;		
-
-						//prepare next miniBossMonster
-						iMiniBossMonsterMovementDelayCount=0;
-					}
-					else {			
-						heroHitByMonster(mainImageTilePosX,mainImageTilePosY, inputArrayMiniBossMonsterWithIdCount[MONSTER_POSX],inputArrayMiniBossMonsterWithIdCount[MONSTER_POSY],iMonsterAttackDamageDefault);
-					}
-				}
-			}
-	}
-
-	function verifyHeroFireballCollideWithMiniBossMonsters(inputArrayMiniBossMonsterWithIdCount) {			
-		var mainImageTileTankBody = document.getElementById("mainImageTileImageTankBodyId");
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
-	
-		//alert(inputArraySnakeMonsterWithIdCount[MONSTER_IS_ACTIVE]);
-
-		if (!inputArrayMiniBossMonsterWithIdCount[MONSTER_IS_ACTIVE]) {
-			return;
-		}		
-		else { //if (isBatMonsterTileActive) {						
-
-			if (bIsHeroAttacked) {
-				//bIsHeroAttacked=false;
-				return;
-			}
-			
-			//bIsHeroAttacked=false;		
-			
-			if (isPointsOfRectIntersectingPointsOfRectMonster(parseInt(mainImageTileFireballProjectilePosX),parseInt(mainImageTileFireballProjectilePosY), inputArrayMiniBossMonsterWithIdCount[MONSTER_POSX],inputArrayMiniBossMonsterWithIdCount[MONSTER_POSY], iImageFrameWidth, iImageFrameHeight, iImageFrameWidthDefault, iImageFrameHeightDefault)) {			
-				//verify if hero attacked
-				//if (bHasFired && bHasHeroShotFireball) {
-				if (bHasHeroShotFireball) {
-					//alert("HALLO"); 	
-					monsterHitByHeroFireball(parseInt(mainImageTileFireballProjectilePosX),parseInt(mainImageTileFireballProjectilePosY), inputArrayMiniBossMonsterWithIdCount[MONSTER_POSX],inputArrayMiniBossMonsterWithIdCount[MONSTER_POSY]);
-					//setExplosionEffectPosition(batMonsterImageTilePosX,batMonsterImageTilePosY);
-					
-					setFireballExplosionEffectPosition(inputArrayMiniBossMonsterWithIdCount[MONSTER_POSX],inputArrayMiniBossMonsterWithIdCount[MONSTER_POSY]);
-					
-					inputArrayMiniBossMonsterWithIdCount[MONSTER_OBJECT].style.visibility="hidden";				
-					inputArrayMiniBossMonsterWithIdCount[MONSTER_IS_ACTIVE]=false;
-					iCurrMonsterDeathCount++;
-				}
-			}
-		}
-	}			
-	
 	//added by Mike, 20260801
 	function updateArrayActorsViewport() {
 		const iArrayActorsCountMax=arrayActors.length;
@@ -12770,20 +11215,6 @@ if (fDifferenceInXPos!=0) {
 	}
 
 	function verifyHeroCollideWithWraithMonstersDebug(inputArrayWraithMonsterWithIdCount, iCount) {
-/*		//removed by Mike, 20260807			
-		var mainImageTileTankBody = document.getElementById("mainImageTileImageTankBodyId");
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
-*/	
-		//alert(inputArraySnakeMonsterWithIdCount[MONSTER_IS_ACTIVE]);
-
-		//alert(inputArrayWraithMonsterWithIdCount);
-/*		
-		if (iCount==0) {
-			if (bHasAttacked) {
-				alert("bHasAttacked: "+bHasAttacked);
-			}
-		}
-*/
 
 		//added by Mike, 20260914
 		if ((bHasClickedWall) && (bHasHeroHitWall)) {
@@ -12796,24 +11227,7 @@ if (fDifferenceInXPos!=0) {
 			return;	
 		}
 
-	
-//		for (iCount=0; iCount<iSnakeMonsterCountMax; iCount++) {
-			//inputArraySnakeMonsterWithIdCount[MONSTER_OBJECT]= document.getElementById("snakeMonsterImageId"+iCount);
 
-			//alert(arraySnakeMonsterCountId[iCount][MONSTER_IS_ACTIVE]);
-
-			//reverified: WHY using inputArrayWraithMonsterWithIdCount[MONSTER_IS_ACTIVE] RESULTS TO ERROR; in unable to hit multiple enemies;
-			//due to when inputArrayWraithMonsterWithIdCount has been set to hidden
-			
-			//edited by Mike, 20260907
-			//checkVisibility() fails on iPad
-			//if ((!inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].checkVisibility()) || (!inputArrayWraithMonsterWithIdCount[MONSTER_IS_ACTIVE])) {
-/*
-			//reference: Google AI Overview; MDN Web Docs
-			const bIsVisible = inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].checkVisibility({
-			  visibilityProperty: true // Checks for visibility: hidden or collapse
-			});
-*/			
 			bIsVisible=true;
 			if (inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.visible=="hidden") {
 				bIsVisible=false;
@@ -12832,20 +11246,6 @@ if (fDifferenceInXPos!=0) {
 					//bIsHeroAttacked=false;
 					return;
 				}
-				
-				//edited by Mike, 20260615
-				//OK for one-hit dead enemies;
-				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge, iImageFrameWidthLarge/2, iImageFrameHeightLarge)) {
-
-				//edited by Mike, 20260616				
-				//noted if enemy already covers the hero, hero can't attack it anymore;
-				//one tap to attack and move; instead of multiple buttons;
-				//updated to enable attack against multiple enemies at the same time;
-				//however, the enemies must be at the exact same location or almost unnoticable difference in position; 
-				
-				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*0.75, iImageFrameHeightLarge, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge)) {
-				
-				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*1, iImageFrameHeightLarge, iImageFrameWidthLarge*1, iImageFrameHeightLarge)) {
 
 				//added by Mike, 20260829; from 20260827
 				var offsetX=0;//iImageFrameWidth/2;
@@ -12855,34 +11255,19 @@ if (fDifferenceInXPos!=0) {
 				//keep the space
 				if (isPointsOfRectIntersectingPointsOfRectMonster(parseFloat(mainImageTilePosX)+offsetX,parseFloat(mainImageTilePosY), inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75)) {
 				
-				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX+mainImageTilePosXOffset,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75)) {
-			
-				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX+offsetX,mainImageTilePosY+offsetY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75)) {
-			
-			
-					//alert(inputArrayWraithMonsterWithIdCount);
-
-					//edited by Mike, 20260615; debug
-					//if (bHasFired && (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2))) {
-
-					
+				
 					if (bHasFired) {
 						bHasAttacked=bHasFired;
 					}
 
 					//edited by Mike, 20260619; from 20260616
-					//if (bHasAttacked && isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2)) {
-
-					//if (bHasAttacked && isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge*1,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge*1, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge, iImageFrameHeightLarge, iImageFrameWidthLarge, iImageFrameHeightLarge)) {
-
-/*					//edited by Mike, 20260827
-					if (bHasAttacked && isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge*0.75,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge**0.75, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75)) {
-*/					
 					if (bHasAttacked && isPointsOfRectIntersectingPointsOfRectMonster(parseFloat(mainImageTilePosX)+offsetX,parseFloat(mainImageTilePosY), inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75)) {
 					
-					//if (bHasAttacked && isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge*1,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge*1, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*1, iImageFrameHeightLarge*1, iImageFrameWidthLarge*1, iImageFrameHeightLarge*1)) {
-					
 					//alert("DITO!!!: "+iCount);
+					
+					if (iHeroAttackAnimationCount!=0) {
+						return;
+					}
 
 					//edited by Mike, 20260627
 					//if (iCurrHeroMana==0) {		
@@ -12894,10 +11279,6 @@ if (fDifferenceInXPos!=0) {
 					
 					bHasAttacked=true;
 					
-					//alert("inputArrayWraithMonsterWithIdCount[MONSTER_POSX]"+inputArrayWraithMonsterWithIdCount[MONSTER_POSX]);
-																
-					//hero can no longer escape; only attacks
-					//if (bHasFired) {
 					
 						//edited by Mike, 20260704; from 20260627
 						//var bHasReducedHeroManaOutput=reduceHeroMana(3);
@@ -12998,24 +11379,11 @@ if (fDifferenceInXPos!=0) {
 							return;
 						}
 
-						
-	/*	
-						iCurrHeroMana-=3;
-						//iCurrHeroManaToBeDeducted+=3;
-						
-						iCurrHeroProjectileManaAnimationDelayCount=0;
-
-						//TODO: -update: to use function; with iCurrHeroManaToBeDeducted as parameter
-						if (iCurrHeroMana<=0) {
-							iCurrHeroMana=0;
-							return;
-						}
-	*/
 
 						bHasHeroHitMonster=true;
 						
-						
-						iHeroAttackAnimationDelayCount=0;
+/*						//removed by Mike, 20260916; 						
+						//iHeroAttackAnimationDelayCount=0;
 
 /*						//removed by Mike, 20260915; 
 						//otherwise, animation gets reset with rapid clicks;
@@ -13026,7 +11394,6 @@ if (fDifferenceInXPos!=0) {
 						iHeroAttackComboResetDelayCount=0;
 						
 						iCurrHeroComboCount++;
-
 
 						//alert("DITO!!!");
 					
@@ -13074,7 +11441,9 @@ if (fDifferenceInXPos!=0) {
 						inputArrayWraithMonsterWithIdCount[MONSTER_POSY]=iMonsterImageTilePosY;
 						//-------------------------------
 					
-						setExplosionEffectPosition(inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidthLarge/2,inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/2);	
+					
+						//removed by Mike, 20260916
+						//setExplosionEffectPosition(inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidthLarge/2,inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/2);	
 
 						actorLastAttackedByHero=inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT];
 						
@@ -13108,20 +11477,7 @@ if (fDifferenceInXPos!=0) {
 							}
 							
 						//}
-						
-						
-						
-/*
-						else {
-							//alert("iSkelMonsterHP!!!"+iSkelMonsterHP);
-
-							actorLastAttackedByHero=inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT];
-
-							inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_HP]--;
-						}					
-*/						
 					}
-					
 					else {		
 						//heroHitByMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY],iMonsterAttackDamageDefault);
 						
@@ -13614,333 +11970,7 @@ if (fDifferenceInXPos!=0) {
 	}
 
 	
-	function verifyHeroCollideWithZombieMonsters(inputArrayZombieMonsterWithIdCount) {
-			
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
 	
-
-			if (!inputArrayZombieMonsterWithIdCount[MONSTER_IS_ACTIVE]) {
-				return;
-			}		
-			else { //if (isBatMonsterTileActive) {						
-
-				if (bIsHeroAttacked) {
-					//bIsHeroAttacked=false;
-					return;
-				}
-			
-				//if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayZombieMonsterWithIdCount[MONSTER_POSX],inputArrayZombieMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2)) {	
-
-
-				if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayZombieMonsterWithIdCount[MONSTER_POSX],inputArrayZombieMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75, iImageFrameWidthLarge*0.75, iImageFrameHeightLarge*0.75)) {	
-
-					//verify if hero attacked
-					if (bHasFired && (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2, inputArrayZombieMonsterWithIdCount[MONSTER_POSX],inputArrayZombieMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2))) {
-
-						//edited by Mike, 20251112; from 20251111
-						var bHasReducedHeroManaOutput=reduceHeroMana(3);
-						
-						if (!bHasReducedHeroManaOutput) {
-							return;
-						}
-						
-						bHasHeroHitMonster=true;
-						iHeroAttackAnimationDelayCount=0;
-						iHeroAttackAnimationCount=0;//-1;
-						
-						iCurrHeroComboCount++;
-
-						//alert("DITO!!!");
-					
-						bIsExecutingShake=true;
-											
-						monsterHitByHero(mainImageTilePosX,mainImageTilePosY, inputArrayZombieMonsterWithIdCount[MONSTER_POSX],inputArrayZombieMonsterWithIdCount[MONSTER_POSY]);
-
-
-						//added by Mike, 20251110
-						//skelMonsterImageTilePosX and PosY; not referenced if passed as parameter					
-						//-------------------------------
-
-						let iMonsterImageTilePosX=inputArrayZombieMonsterWithIdCount[MONSTER_POSX];
-						let iMonsterImageTilePosY=inputArrayZombieMonsterWithIdCount[MONSTER_POSY];
-
-						//push monster out
-						if (bIsHeroFacingLeftOrRight) {
-							if (bIsHeroFacingLeft) {
-								if (iMonsterImageTilePosX+iImageFrameWidthLarge/2<mainImageTilePosX) {	
-									iMonsterImageTilePosX-=iImageFrameWidthLarge/20;
-								}
-							}
-							else {
-								if (iMonsterImageTilePosX>mainImageTilePosX+iImageFrameWidthLarge/2) {	
-									iMonsterImageTilePosX+=iImageFrameWidthLarge/20;
-								}
-							}				
-
-						}
-						
-						if (bIsHeroFacingUpOrDown) {
-							if (bIsHeroFacingUp) {
-								if (iMonsterImageTilePosY+iImageFrameHeightLarge/2<mainImageTilePosY) {	
-									iMonsterImageTilePosY-=iImageFrameHeightLarge/20;
-								}
-							}
-							else {
-								if (iMonsterImageTilePosY>mainImageTilePosY+iImageFrameHeightLarge/2) {	
-									iMonsterImageTilePosY+=iImageFrameHeightLarge/20;
-								}
-							}
-						}
-						
-						inputArrayZombieMonsterWithIdCount[MONSTER_POSX]=iMonsterImageTilePosX;
-						inputArrayZombieMonsterWithIdCount[MONSTER_POSY]=iMonsterImageTilePosY;
-						//-------------------------------
-					
-
-						setExplosionEffectPosition(inputArrayZombieMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidthLarge/2,inputArrayZombieMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/2);
-	
-						actorLastAttackedByHero=inputArrayZombieMonsterWithIdCount[MONSTER_OBJECT];
-						
-						inputArrayZombieMonsterWithIdCount[MONSTER_CURRENT_HP]--;
-	
-	
-						if (inputArrayZombieMonsterWithIdCount[MONSTER_CURRENT_HP]<=0) {
-/*
-							inputArrayZombieMonsterWithIdCount[MONSTER_OBJECT].style.visibility="hidden";				
-							inputArrayZombieMonsterWithIdCount[MONSTER_IS_ACTIVE]=false;
-*/
-
-							iCurrMonsterDeathCount++;
-
-							setExplosionEffectPosition(inputArrayZombieMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidthLarge/2,inputArrayZombieMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/2);
-						}
-/*
-						else {
-							//alert("iSkelMonsterHP!!!"+iSkelMonsterHP);
-
-							actorLastAttackedByHero=inputArrayRunningWraithMonsterWithIdCount[MONSTER_OBJECT];
-
-							inputArrayRunningWraithMonsterWithIdCount[MONSTER_CURRENT_HP]--;
-						}					
-*/						
-					}
-					
-					else {		
-						
-						if (!bHasHeroHitMonster) {
-						//decide if will attack; 
-						
-							//deal damage if hero collides with this monster
-							heroHitByMonster(mainImageTilePosX,mainImageTilePosY, inputArrayZombieMonsterWithIdCount[MONSTER_POSX],inputArrayZombieMonsterWithIdCount[MONSTER_POSY], iMonsterAttackDamageDefault);						
-						
-/*						
-							if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_ATTACK_DELAY]>=inputArrayRunningWraithMonsterWithIdCount[MONSTER_ATTACK_DELAY_MAX]) {
-								inputArrayRunningWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]=ATTACKING_STATE							
-							}
-							else {
-								inputArrayRunningWraithMonsterWithIdCount[MONSTER_ATTACK_DELAY]++;
-
-								inputArrayRunningWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]=IDLE_STATE;
-							}
-
-							if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]==ATTACKING_STATE) {
-
-								heroHitByMonster(mainImageTilePosX,mainImageTilePosY, inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX],inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY], iMonsterAttackDamageWraith);
-								
-								setExplosionEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/2,mainImageTilePosY+iImageFrameHeightLarge/2);
-								
-								//push out hero
-								//bHasHeroChangedFacingLeftOrRight=false;
-								
-								if (!bIsHeroFacingUpOrDown) {
-									if (!bIsHeroWalking) {
-										if (mainImageTilePosX>inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX]) {	
-											mainImageTilePosX+=iImageFrameWidthLarge/20;
-										}
-										else {
-											mainImageTilePosX-=iImageFrameWidthLarge/20;
-										}
-									}
-								}
-								
-								//currSkelMonsterTileState=ATTACKING_STATE;//WALKING_STATE;
-							}					
-*/							
-						}
-					}
-				}
-			}
-		//}
-	}		
-	
-	function verifyHeroCollideWithRunningWraithMonsters(inputArrayRunningWraithMonsterWithIdCount) {
-			
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
-	
-		//alert(inputArraySnakeMonsterWithIdCount[MONSTER_IS_ACTIVE]);
-
-	
-//		for (iCount=0; iCount<iSnakeMonsterCountMax; iCount++) {
-			//inputArraySnakeMonsterWithIdCount[MONSTER_OBJECT]= document.getElementById("snakeMonsterImageId"+iCount);
-
-			//alert(arraySnakeMonsterCountId[iCount][MONSTER_IS_ACTIVE]);
-
-
-			if (!inputArrayRunningWraithMonsterWithIdCount[MONSTER_IS_ACTIVE]) {
-				return;
-			}		
-			else { //if (isBatMonsterTileActive) {						
-
-				if (bIsHeroAttacked) {
-					//bIsHeroAttacked=false;
-					return;
-				}
-			
-				if (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTilePosX,mainImageTilePosY, inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX],inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2)) {	
-
-					//verify if hero attacked
-					if (bHasFired && (isPointsOfRectIntersectingPointsOfRectMonster(mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2, inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX],inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY], iImageFrameWidthLarge/2, iImageFrameHeightLarge/2, iImageFrameWidthLarge/2, iImageFrameHeightLarge/2))) {
-
-						//edited by Mike, 20251112; from 20251111
-						var bHasReducedHeroManaOutput=reduceHeroMana(3);
-						
-						if (!bHasReducedHeroManaOutput) {
-							return;
-						}
-						
-						bHasHeroHitMonster=true;
-						iHeroAttackAnimationDelayCount=0;
-						iHeroAttackAnimationCount=0;//-1;
-						
-						iCurrHeroComboCount++;
-
-						//alert("DITO!!!");
-					
-						bIsExecutingShake=true;
-											
-						monsterHitByHero(mainImageTilePosX,mainImageTilePosY, inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX],inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY]);
-
-
-						//added by Mike, 20251110
-						//skelMonsterImageTilePosX and PosY; not referenced if passed as parameter					
-						//-------------------------------
-
-						let iMonsterImageTilePosX=inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX];
-						let iMonsterImageTilePosY=inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY];
-
-						//push monster out
-						if (bIsHeroFacingLeftOrRight) {
-							if (bIsHeroFacingLeft) {
-								if (iMonsterImageTilePosX+iImageFrameWidthLarge/2<mainImageTilePosX) {	
-									iMonsterImageTilePosX-=iImageFrameWidthLarge/20;
-								}
-							}
-							else {
-								if (iMonsterImageTilePosX>mainImageTilePosX+iImageFrameWidthLarge/2) {	
-									iMonsterImageTilePosX+=iImageFrameWidthLarge/20;
-								}
-							}				
-
-						}
-						
-						if (bIsHeroFacingUpOrDown) {
-							if (bIsHeroFacingUp) {
-								if (iMonsterImageTilePosY+iImageFrameHeightLarge/2<mainImageTilePosY) {	
-									iMonsterImageTilePosY-=iImageFrameHeightLarge/20;
-								}
-							}
-							else {
-								if (iMonsterImageTilePosY>mainImageTilePosY+iImageFrameHeightLarge/2) {	
-									iMonsterImageTilePosY+=iImageFrameHeightLarge/20;
-								}
-							}
-						}
-						
-						inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX]=iMonsterImageTilePosX;
-						inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY]=iMonsterImageTilePosY;
-						//-------------------------------
-					
-
-						setExplosionEffectPosition(inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidthLarge/2,inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/2);
-	
-						actorLastAttackedByHero=inputArrayRunningWraithMonsterWithIdCount[MONSTER_OBJECT];
-						inputArrayRunningWraithMonsterWithIdCount[MONSTER_CURRENT_HP]--;
-	
-	
-						if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_CURRENT_HP]<=0) {
-/*						
-							inputArrayRunningWraithMonsterWithIdCount[MONSTER_OBJECT].style.visibility="hidden";				
-							inputArrayRunningWraithMonsterWithIdCount[MONSTER_IS_ACTIVE]=false;
-*/
-							
-							inputArrayRunningWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]=DYING_STATE;
-
-							//setMonsterDeathAnimationPosition(inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX]-iImageFrameWidthLarge/2, inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY]-iImageFrameHeightLarge/2, MONSTER_TYPE_VAL_RUNNING_WRAITH);									
-							
-							iCurrMonsterDeathCount++;
-
-							setExplosionEffectPosition(inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidthLarge/2,inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/2);
-						}
-/*
-						else {
-							//alert("iSkelMonsterHP!!!"+iSkelMonsterHP);
-
-							actorLastAttackedByHero=inputArrayRunningWraithMonsterWithIdCount[MONSTER_OBJECT];
-
-							inputArrayRunningWraithMonsterWithIdCount[MONSTER_CURRENT_HP]--;
-						}					
-*/						
-					}
-					
-					else {		
-						
-						if (!bHasHeroHitMonster) {
-						//decide if will attack; 
-						
-							//deal damage if hero collides with this monster
-							heroHitByMonster(mainImageTilePosX,mainImageTilePosY, inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX],inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY], iMonsterAttackDamageDefault);						
-						
-/*						
-							if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_ATTACK_DELAY]>=inputArrayRunningWraithMonsterWithIdCount[MONSTER_ATTACK_DELAY_MAX]) {
-								inputArrayRunningWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]=ATTACKING_STATE							
-							}
-							else {
-								inputArrayRunningWraithMonsterWithIdCount[MONSTER_ATTACK_DELAY]++;
-
-								inputArrayRunningWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]=IDLE_STATE;
-							}
-
-							if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]==ATTACKING_STATE) {
-
-								heroHitByMonster(mainImageTilePosX,mainImageTilePosY, inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX],inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY], iMonsterAttackDamageWraith);
-								
-								setExplosionEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/2,mainImageTilePosY+iImageFrameHeightLarge/2);
-								
-								//push out hero
-								//bHasHeroChangedFacingLeftOrRight=false;
-								
-								if (!bIsHeroFacingUpOrDown) {
-									if (!bIsHeroWalking) {
-										if (mainImageTilePosX>inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX]) {	
-											mainImageTilePosX+=iImageFrameWidthLarge/20;
-										}
-										else {
-											mainImageTilePosX-=iImageFrameWidthLarge/20;
-										}
-									}
-								}
-								
-								//currSkelMonsterTileState=ATTACKING_STATE;//WALKING_STATE;
-							}					
-*/							
-						}
-					}
-				}
-			}
-		//}
-	}	
-
-
 	function verifyHeroCollideWithBombMonsters(inputArrayBombMonsterWithIdCount) {
 			
 		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
@@ -15847,117 +13877,10 @@ iCurrTextCharacterCountMax=sText.length;
 			textStatusDiv.style.visibility="hidden";
 		}
 				
-		if (bIsMissionDone) {
-
-/*
-			var sTextEnd = "<br/>Congratulations!<br/><br/>But the portal opens only<br/>to those with less than<br/>15 monsters vanquished.";
-
-			if (iCurrMonsterDeathCount<15) { //best is 9 at most
-				sTextEnd = "\"Micah!\"<br/><br/>Meanwhile, written on<br/>a mysterious note:<br/> \"The best is 9 at most.\"<br/><br/>To be continued...";
-
-				if (iCurrMonsterDeathCount<=9) {
-					sTextEnd = "\"Micah, let's give this fella<br/> a life of its own too!<br/><br/>Double tap to dash!<br/>Keyboard press + attack!\"<br/><br/>To be continued...";
-					
-					if (iCurrHeroDeathCount==0) {
-						sTextEnd = "\"Micah!<br/><br/>There's not a minute <br/>to lose! Let's finish this<br/>in under 3 mins!\"<br/><br/>To be continued...";
-						
-						if (isElapsedTimeUnderThreeMins()) {
-							sTextEnd = "\"Micah, great work!<br/><br/>The portal's ready.<br/><br/>Time for us to be off to<br/> Space Galaxy 999!\"<br/>";
-						}
-					}
-				}
-			}
-
-			if (iCurrMonsterDeathCount>=999) {
-				sTextEnd = "<br/>Welcome Home, <br/>Commander! <br/><br/>And...<br/>Thank you for playing!";
-			}
-			
-			iCurrTextCharacterCountMax=sTextEnd.length;
-			
-			//include last character
-//			if (iCurrTextCharacterCount<iCurrTextCharacterCountMax) {
-			if (iCurrTextCharacterCount<=iCurrTextCharacterCountMax) {
-				sCurrText=sTextEnd.substring(0,iCurrTextCharacterCount);
-			}
-			iCurrTextCharacterCount++;
-
-  			textStatusDiv.innerHTML = sCurrText;//sText;
-
-  			//alert(sText.length);
-  			var iTextStatusDivWidth = (textStatusDiv.clientWidth);
-  			var iTextStatusDivHeight = (textStatusDiv.clientHeight);
-			
-			//added by Mike, 20231128
-			var mainImageTileProjectile = document.getElementById("mainImageTileProjectileImageId");
-
-			textStatusDiv.style.left=0+iViewportMaxWidth/2-textStatusBackgroundDiv.clientWidth/2;
-			textStatusDiv.style.top = 0+(iViewportMaxHeight*0.10)+"px";
-  			
-  			textStatusDiv.style.visibility="visible";
-			mainImageTileProjectile.style.visibility="hidden";
-						
-			//added by Mike, 20231128
-			textStatusBackgroundDiv.style.top=textStatusDiv.style.top;
-			//textStatusBackgroundDiv.style.left=0+iViewportMaxWidth*0.15;//textStatusDiv.style.left;//0;
-			//textStatusBackgroundDiv.style.left=0+iViewportMaxWidth*0.22;//textStatusDiv.style.left;//0;
-			textStatusBackgroundDiv.style.left=0+iViewportMaxWidth/2-textStatusBackgroundDiv.clientWidth/2;//textStatusDiv.style.left;//0;
-
-			textStatusBackgroundDiv.style.visibility="visible";
-
-			//textStatusBackgroundDiv.style.width=iViewportMaxWidth*0.65;
-			textStatusBackgroundDiv.style.width=iViewportMaxWidth*0.5;
-
-			textStatusBackgroundDiv.style.height=iViewportMaxHeight*0.6;	
-			
-			executeTimeDisplay();
-
-			//removed by Mike, 20251102
-			//drawMiniMap(myCanvasTwoContext,iViewportMaxHeight-iInnerHorizontalOffset*0.85, 0+iViewportMaxHeight/10);
-	
-			heroLifeBarStatusImageTile.style.visibility="visible";
-	
-			//iCurrHeroLife=iCurrHeroLifeMax;
-			drawHeroLifeBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left), 0+iViewportMaxHeight/60,false); 
-
-			if (bIsBossBattle) {
-				drawBossLifeBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left)+50, 00+iViewportMaxHeight*0.35,false); 
-			}
-			
-			//iCurrHeroMana=iCurrHeroManaMax;		
-			//drawHeroManaBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left), 0+parseInt(heroLifeBarStatusImageTile.style.bottom)+5,false); 	
-			
-			drawHeroManaBar(myCanvasTwoContext,parseInt(heroLifeBarStatusImageTile.style.left), 0+iViewportMaxHeight/60+5,false);	
-
-			
-			//drawPearlStatus(myCanvasTwoContext,iInnerHorizontalOffset/6, 0+iViewportMaxHeight/60); 
-			drawSniperShotStatus(myCanvasTwoContext,iInnerHorizontalOffset/6, 0+iViewportMaxHeight/60); 
-
-			if (bHasObtainedKeyAtRoom1) {
-				drawKeyStatus(myCanvasTwoContext,iInnerHorizontalOffset/6, 0+iViewportMaxHeight/60+iImageFrameHeightDefault); 
-			}
-
-			if (bHasObtainedAmuletAtRoom32) {
-				drawAmuletStatus(myCanvasTwoContext,iInnerHorizontalOffset/6+iImageFrameWidthDefault, 0+iViewportMaxHeight/60+iImageFrameHeightDefault); 
-			}
-
-
-	//drawMonsterDeathStatus(myCanvasTwoContext,iInnerHorizontalOffset/6, 0+iViewportMaxHeight/60+iImageFrameHeightDefault*2); 
-	
-	//note: using "textTimeDiv.style.top", instead of "bottom"
-
-			//edited by Mike, 20251124; from 20251120
-			//drawMonsterDeathStatus(myCanvasTwoContext,0+parseInt(textTimeDiv.style.left), 0+parseInt(textTimeDiv.style.top)); 			
-			drawHeroDeathStatus(myCanvasTwoContext,0+parseInt(textTimeDiv.style.left), 0+parseInt(textTimeDiv.style.top)); 	
-*/			
+	  if (bIsMissionDone) {
 	  }
       else {
 	  
-/*	  
-		//INNER STAGE; MAX
-		//iHorizontalOffset=(640-iViewportMaxHeight)/2;
-		iInnerHorizontalOffset=(640-iViewportMaxHeight)/2;		
-		iInnerVerticalOffset=iImageFrameHeight/4;//2;
-*/	  
 		if (iCurrHeroLife<=0) {
 			
 			bIsGameOver=true;
@@ -16141,12 +14064,6 @@ iCurrTextCharacterCountMax=sText.length;
 
 	}
 	
-
-	//drawMonsterDeathStatus(myCanvasTwoContext,iInnerHorizontalOffset/6, 0+iViewportMaxHeight/60+iImageFrameHeightDefault*2); 
-	
-	//note: using "textTimeDiv.style.top", instead of "bottom"
-	//edited by Mike, 20251124; from 20251120
-	//drawMonsterDeathStatus(myCanvasTwoContext,0+parseInt(textTimeDiv.style.left), 0+parseInt(textTimeDiv.style.top)); 
 	drawHeroDeathStatus(myCanvasTwoContext,0+parseInt(textTimeDiv.style.left), 0+parseInt(textTimeDiv.style.top));
 
 	//edited by Mike, 20260809; from 20260625
@@ -16156,26 +14073,7 @@ iCurrTextCharacterCountMax=sText.length;
 	//drawHeroCoinStatus(myCanvasTwoContext,0+iViewportMaxWidth*0.02, 0+iViewportMaxHeight*0.77); 
 	drawHeroCoinStatus(myCanvasTwoContext,0+iViewportMaxWidth*0.02, 0+iViewportMaxHeight-iImageFrameHeightLarge*1.25); 
 
-/*	//edited by Mike, 20260809
-	//added by Mike, 20260729
-	drawHeroXYPosStatus(myCanvasTwoContext, 0+iViewportMaxWidth*0.8, 0+iViewportMaxHeight*0.77);
-
-	//added by Mike, 20260803
-	drawViewportXYPosStatus(myCanvasTwoContext, 0+iViewportMaxWidth*0.6, 0+iViewportMaxHeight*0.77);
-*/
-	//edited by Mike, 20260813
-	//drawHeroXYPosStatus(myCanvasTwoContext, 0+iViewportMaxWidth*0.85, 0+iViewportMaxHeight-iImageFrameHeightLarge*1.5);			
-
 	drawHeroXYPosStatus(myCanvasTwoContext, 0+iViewportMaxWidth-iImageFrameHeightLarge*2, 0+iViewportMaxHeight-iImageFrameHeightLarge*1.25);			
-
-/*	//removed by Mike, 20260827
-	drawViewportXYPosStatus(myCanvasTwoContext, 0+iViewportMaxWidth*0.6, 0+iViewportMaxHeight-iImageFrameHeightLarge*1.25);
-*/
-		
-	//alert(iHorizontalOffset);
-
-	//buggy
-	//drawGrid(myCanvasTwoContext,iInnerHorizontalOffset/2,0); 
 		
 //--------------------	
 		var dustEffectImage = document.getElementById("dustEffectImageId");
@@ -16718,8 +14616,7 @@ iCurrTextCharacterCountMax=sText.length;
 							alert("iCount: "+iCount);
 						}
 */
-
-						//verifyHeroCollideWithWraithMonsters(arrayWraithMonsterCountId[iCount]);
+						
 						verifyHeroCollideWithWraithMonstersDebug(arrayWraithMonsterCountId[iCount],iCount);
 								
 //alert(arrayWraithMonsterCountId[iCount]);
@@ -16801,8 +14698,8 @@ iCurrTextCharacterCountMax=sText.length;
 					}
 				}
 								
-				//added by Mike, 20260615
-				bHasAttacked=false;
+				//removed by Mike, 20260916; from 20260615
+				//bHasAttacked=false;
 
 				//edited by Mike, 20260817; from 20251109
 				updateArrayActorsZIndex();
@@ -16961,50 +14858,6 @@ iCurrTextCharacterCountMax=sText.length;
 				break;	
 		}
 
-		//added by Mike, 20251102
-		//TODO: -update: this
-
-/*		//removed by Mike, 20260803; max in map
-		//STAGE; MAX
-		if (mainImageTilePosX+iImageFrameWidthDefault>iViewportMaxWidth) {
-			mainImageTilePosX=iViewportMaxWidth-iImageFrameWidthDefault;
-		}
-		else if (mainImageTilePosX<0) {
-			mainImageTilePosX=0;
-		}
-*/
-
-/*		//edited by Mike, 20260805
-		if (mainImageTilePosY+iImageFrameHeightDefault>iViewportMaxHeight) {
-			//edited by Mike, 20231126
-			//mainImageTilePosY=iViewportMaxHeight-iImageFrameHeightDefault;
-			mainImageTilePosY=iViewportMaxHeight-iImageFrameHeightDefault-iImageFrameHeightDefault*0.25;
-		}
-*/		
-/*		//removed by Mike, 20260807
-		if (mainImageTilePosY+iImageFrameHeightLarge>iViewportMaxHeight) {
-			mainImageTilePosY=iViewportMaxHeight-iImageFrameHeightLarge;
-			resetProjectile();
-		}
-		else if (mainImageTilePosY<0) {
-			mainImageTilePosY=0;
-		}
-*/						
-		//--------------------------------------		
-
-/*		//removed by Mike, 20260817
-		//edited by Mike, 20260803
-		mainImageTile.style.left = (iHorizontalOffset+mainImageTilePosX)+"px";
-
-		//edited by Mike, 20260807
-		mainImageTileHeroBody.style.left = mainImageTilePosX; //actually moves the hero;
-*/		
-
-		//edited by Mike, 20260829
-/*
-		mainImageTileHeroBody.style.left=iViewportMaxWidth/2;
-		mainImageTileHeroBody.style.top=iViewportMaxHeight/2;
-*/
 
 		mainImageTileHeroBody.style.left=iViewportMaxWidth/2-iImageFrameWidthLarge/2;
 		mainImageTileHeroBody.style.top=iViewportMaxHeight/2-iImageFrameHeightLarge/2;
@@ -17213,29 +15066,9 @@ iCurrTextCharacterCountMax=sText.length;
 		
 			mainImageTileFireballProjectile.style.visibility = "visible";
 			
-/*			//removed by Mike, 20260804			
-			mainImageTileFireballProjectilePosY=parseInt(mainImageTileFireballProjectilePosY)+newMainImageTileFireballProjectilePosY;
-			
-			mainImageTileFireballProjectilePosX=parseInt(mainImageTileFireballProjectilePosX)+newMainImageTileFireballProjectilePosX;
-
-			mainImageTileFireballProjectile.style.left = mainImageTileFireballProjectilePosX+"px";
-			mainImageTileFireballProjectile.style.top = mainImageTileFireballProjectilePosY+"px";
-*/		
-			//alert (mainImageTileFireballProjectilePosY);
-		
-			//return;
-			
 			bHasHeroShotFireball=false;
 		}
 		
-		//added by Mike, 20260804
-/*		//not working
-		const bIsFireballVisible = mainImageTileFireballProjectile.checkVisibility({
-		  visibilityProperty: true // Checks for visibility: hidden or collapse
-		});
-		
-		if (bIsFireballVisible) {
-*/		
 		if (mainImageTileFireballProjectile.style.visibility=="visible") {
 			mainImageTileFireballProjectilePosY=parseInt(mainImageTileFireballProjectilePosY)+newMainImageTileFireballProjectilePosY;
 			
@@ -17263,28 +15096,9 @@ iCurrTextCharacterCountMax=sText.length;
 			resetFireballProjectile();
 		}
 			
-/*		
-		//added by Mike, 20251105
-		if (bHasHeroHitMonster) {
-			executeHeroAttackingAnimation();
-		}
-		else {
-			executeHeroIdleAnimation();
-		}
-*/		
-			//movement
-			if (bHasFired) {
-/*			
-				if (bIsActionKeyPressed) {
-					//alert("DITO");
-					
-					mainImageTileProjectile.style.visibility = "visible";					
-				}
-				else {
-					//mainImageTileProjectile.style.visibility = "visible";
-					mainImageTileProjectile.style.visibility = "hidden";
-				}
-*/				
+		//movement
+		if (bHasFired) {
+			
 				//added by Mike, 20260805
 				//slows down the hero's movement
 				if (mainImageTileStepDelay<mainImageTileStepDelayMax) {
@@ -17299,31 +15113,16 @@ iCurrTextCharacterCountMax=sText.length;
 				mainImageTileProjectile.style.visibility = "hidden";
 
 
-mainImageTileProjectilePosY=parseFloat(mainImageTileProjectilePosY)+newMainImageTileProjectilePosY;
-
-////alert("mainImageTileProjectilePosX: "+mainImageTileProjectilePosX);
-////alert("newMainImageTileProjectilePosX: "+newMainImageTileProjectilePosX);
+		mainImageTileProjectilePosY=parseFloat(mainImageTileProjectilePosY)+newMainImageTileProjectilePosY;
 
 		mainImageTileProjectilePosX=parseFloat(mainImageTileProjectilePosX)+newMainImageTileProjectilePosX;
 
 			//mainImageTileProjectilePosX=parseFloat(mainImageTileProjectilePosX)-1;
 
-		
-
 		mainImageTileProjectile.style.left = mainImageTileProjectilePosX+"px";
 
 		mainImageTileProjectile.style.top = mainImageTileProjectilePosY+"px";
-
-/*		//removed by Mike, 20260804
-		if (bHasHeroShotFireball) {
-		}
-		else {	
-*/		
-			//edited by Mike, 20260817; from 20251110
-/*
-			if ((mainImageTilePosX==mainImageTileProjectilePosX) && (mainImageTilePosY==mainImageTileProjectilePosY)) 
-			{
-*/
+		
 
 			//added by Mike, 20251123
 			if (mainImageTileProjectilePosY<mainImageTilePosY) {
@@ -17346,248 +15145,26 @@ mainImageTileProjectilePosY=parseFloat(mainImageTileProjectilePosY)+newMainImage
 			mainImageTilePosX=mainImageTileProjectilePosX;		
 			mainImageTilePosY=mainImageTileProjectilePosY;
 */
-						
+
+/*						
 			if (bIsHeroInTank) {
 				executeTankWalkingAnimation();
 			}
 			else {
 				//added by Mike, 20251105
 				//iHeroAttackComboCount=0;
-				
+*/				
 				//edited by Mike, 20260722
-				if ((!bHasAttacked) || (!bHasHeroHitMonster)) {
-/*					//edited by Mike, 20260802
-					//edited by Mike, 20251123; from 20251119
-					if (mainImageTileProjectileStepY<mainImageTileProjectileStepYMax) {
-						//mainImageTileProjectileStepY+=mainImageTileProjectileVelocityY;//++;
-						mainImageTileProjectileStepY=mainImageTileProjectileStepYMax;
-					}
-
-					if (mainImageTileProjectileStepX<mainImageTileProjectileStepXMax) {
-						//mainImageTileProjectileStepX+=mainImageTileProjectileVelocityX;//++;
-						mainImageTileProjectileStepX=mainImageTileProjectileStepXMax;
-					}				
-*/					
-					//alert("dito!!!"+mainImageTileProjectileStepXMax);
-
+				//if ((!bHasAttacked) || (!bHasHeroHitMonster)) {
 					mainImageTileProjectileStepY=mainImageTileProjectileStepYMax;					
 					mainImageTileProjectileStepX=mainImageTileProjectileStepXMax;
 
 					executeHeroWalkingAnimation();
-				}
-			}
-/*			
-		}
-*/
-		
-//-----------------
+				//}
 /*
-    if (isPointsOfRectIntersectingPointsOfRect(mainImageTileProjectilePosX,mainImageTileProjectilePosY, parseInt(mainImageMonster.style.left),parseInt(mainImageMonster.style.top))) {
-//        alert("HIT!");
-      mainImageMonster.style.visibility="hidden";
-    }
-*/
-
-
-/*
-	//edited by Mike, 20231128
-	if (!bIsMissionDone) {
-		if (isPointsOfRectIntersectingPointsOfRect(mainImageTileProjectilePosX,mainImageTileProjectilePosY, parseInt(bossMonsterImageTile.style.left),parseInt(bossMonsterImageTile.style.top))) {
-	//        alert("HIT!");
-		  //bossMonsterImageTile.style.visibility="hidden";
-		  //added by Mike, 20231126
-		  bIsBossMonsterHit=true;
-
-		  //added by Mike, 20231126
-		  resetProjectile();
-		}
-	}
-*/
-
-/*
-		if ((bHasFireballReachedDestinationX) && (bHasFireballReachedDestinationY)) {
-				resetFireballProjectile();				
-		}				
-*/
-
-
-//-----------------
-/*
-		if (bIsHeroInTank) {
-			iImageFrameWidth=iImageFrameWidthLarge;
-		}
-		else {
-			iImageFrameWidth=iImageFrameWidthDefault;
-			//iImageFrameWidth=iImageFrameWidthLarge;
-		}
-*/
-
-/*		//edited by Mike, 20260817
-		//destination to the left of hero projectile
-		//if (!bHasReachedDestinationX) {
-			if (newMainImageTileProjectilePosX<0) {
-				//if (mainImageTileProjectilePosX+iImageFrameWidth/2<=mainImageTileProjectileStepDestinationX) {
-				if (mainImageTileProjectilePosX+iImageFrameWidthLarge/2<=mainImageTileProjectileStepDestinationX) {
-				  //mainImageTileProjectilePosX=mainImageTileProjectileStepDestinationX-iImageFrameWidth/2;
-				  
-				  mainImageTileProjectilePosX=mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2;
-
-				  bHasReachedDestinationX=true;
-				  //resetProjectile();
-				}
-				else {
-				  bHasReachedDestinationX=false;
-				}
 			}
-			//destination to the right of hero projectile
-			else {
-				//if (mainImageTileProjectilePosX+iImageFrameWidth/2>=mainImageTileProjectileStepDestinationX) {
-				if (mainImageTileProjectilePosX+iImageFrameWidthLarge/2>=mainImageTileProjectileStepDestinationX) {
-					//mainImageTileProjectilePosX=mainImageTileProjectileStepDestinationX-iImageFrameWidth/2;
-					
-					mainImageTileProjectilePosX=mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2;					
-					
-					bHasReachedDestinationX=true;
-					//resetProjectile();
-				}		
-				else {
-				  bHasReachedDestinationX=false;
-				}				
-			}
-		//}
-
-		
-		//if (!bHasReachedDestinationY) {		
-			//destination to the top of hero projectile
-			if (newMainImageTileProjectilePosY<0) {
-				//if (mainImageTileProjectilePosY+iImageFrameHeight/2<=mainImageTileProjectileStepDestinationY) {
-				if (mainImageTileProjectilePosY+iImageFrameHeightLarge/2<=mainImageTileProjectileStepDestinationY) {
-				//mainImageTileProjectilePosY=mainImageTileProjectileStepDestinationY-iImageFrameHeight/2;
-				mainImageTileProjectilePosY=mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2;
-
-				bHasReachedDestinationY=true;
-				//resetProjectile();
-				}
-				else {
-				  bHasReachedDestinationY=false;
-				}				
-			}
-			//destination to the bottom of hero projectile
-			else {
-				//if (mainImageTileProjectilePosY+iImageFrameHeight/2>=mainImageTileProjectileStepDestinationY) {
-				if (mainImageTileProjectilePosY+iImageFrameHeightLarge/2>=mainImageTileProjectileStepDestinationY) {
-					//mainImageTileProjectilePosY=mainImageTileProjectileStepDestinationY-iImageFrameHeight/2;
-					mainImageTileProjectilePosY=mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2;					
-					
-					bHasReachedDestinationY=true;
-					//resetProjectile();
-				}			
-				else {
-				  bHasReachedDestinationY=false;
-				}								
-			}			
-		//}
 */		
-
-/*
-		alert("newMainImageTileProjectilePosX: "+newMainImageTileProjectilePosX);
-		alert("mainImageTileProjectilePosX: "+mainImageTileProjectilePosX);
-		alert("mainImageTileProjectileStepDestinationX: "+mainImageTileProjectileStepDestinationX);
-		alert("iImageFrameWidthLarge/2: "+iImageFrameWidthLarge/2);
-		
-		//mainImageTilePosX=mainImageTileProjectilePosX;	
-*/					
-	
-		//edited by Mike, 20260819; from 20260817; the viewport also moves ;
-/*		
-		//destination to the left of hero projectile
-		//if (!bHasReachedDestinationX) {
-			if (newMainImageTileProjectilePosX<0) {
-				//if (mainImageTileProjectilePosX+iImageFrameWidth/2<=mainImageTileProjectileStepDestinationX) {
-				//edited by Mike, 20260817
-				if (mainImageTileProjectilePosX+iImageFrameWidthLarge/2<=mainImageTileProjectileStepDestinationX) {
-				//if (mainImageTileProjectilePosX+iImageFrameWidthLarge*2<=mainImageTileProjectileStepDestinationX) {
-				  
-				  //mainImageTileProjectilePosX=mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge*2;///2;
-				  mainImageTileProjectilePosX=mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2;
-
-				  bHasReachedDestinationX=true;
-				  //resetProjectile();
-				}
-				else {
-				  bHasReachedDestinationX=false;
-				}
-			}
-			//destination to the right of hero projectile
-			else {
-				//if (mainImageTileProjectilePosX+iImageFrameWidth/2>=mainImageTileProjectileStepDestinationX) {
-				//edited by Mike, 20260817
-				if (mainImageTileProjectilePosX+iImageFrameWidthLarge/2>=mainImageTileProjectileStepDestinationX) {
-				//if (mainImageTileProjectilePosX+iImageFrameWidthLarge*2>=mainImageTileProjectileStepDestinationX) {
-					
-					//mainImageTileProjectilePosX=mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge*2;///2;					
-					mainImageTileProjectilePosX=mainImageTileProjectileStepDestinationX-iImageFrameWidthLarge/2
-					
-					bHasReachedDestinationX=true;
-					//resetProjectile();
-					
-					//alert ("DITO!!! X");
-				}		
-				else {
-				  bHasReachedDestinationX=false;
-				}				
-			}
-		//}
-
-//alert(newMainImageTileProjectilePosY);
-		
-		//if (!bHasReachedDestinationY) {		
-			//destination to the top of hero projectile
-			if (newMainImageTileProjectilePosY<0) {
-				//if (mainImageTileProjectilePosY+iImageFrameHeight/2<=mainImageTileProjectileStepDestinationY) {
-				//edited by Mike, 20260817
-				if (mainImageTileProjectilePosY+iImageFrameHeightLarge/2<=mainImageTileProjectileStepDestinationY) {
-				//if (mainImageTileProjectilePosY+iImageFrameHeightLarge*2<=mainImageTileProjectileStepDestinationY) {
-					//mainImageTileProjectilePosY=mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge*2;///2;
-
-					mainImageTileProjectilePosY=mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2;
-
-					bHasReachedDestinationY=true;
-					//resetProjectile();
-					
-					//alert ("DITO!!! Y");
-
-				}
-				else {
-				  bHasReachedDestinationY=false;
-				}				
-			}
-			//destination to the bottom of hero projectile
-			else {
-				//if (mainImageTileProjectilePosY+iImageFrameHeight/2>=mainImageTileProjectileStepDestinationY) {
-				//edited by Mike, 20260817
-				if (mainImageTileProjectilePosY+iImageFrameHeightLarge/2>=mainImageTileProjectileStepDestinationY) {
-				//if (mainImageTileProjectilePosY+iImageFrameHeightLarge*2>=mainImageTileProjectileStepDestinationY) {
-					//mainImageTileProjectilePosY=mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge*2;///2;
-					
-					mainImageTileProjectilePosY=mainImageTileProjectileStepDestinationY-iImageFrameHeightLarge/2;
-					
-					bHasReachedDestinationY=true;
-					//resetProjectile();
-				}			
-				else {
-				  bHasReachedDestinationY=false;
-				}								
-			}			
-		//}
-*/
-
-/*
-		alert("newMainImageTileProjectilePosX: "+newMainImageTileProjectilePosX);
-		alert("mainImageTileProjectilePosX: "+mainImageTileProjectilePosX);
-		alert("mainImageTileProjectileStepDestinationX: "+mainImageTileProjectileStepDestinationX);
-		alert("iImageFrameWidthLarge/2: "+iImageFrameWidthLarge/2);
-*/
+//-----------------
 
 		//destination to the left of hero projectile
 		//if (!bHasReachedDestinationX) {
@@ -17695,52 +15272,60 @@ mainImageTileProjectilePosY=parseFloat(mainImageTileProjectilePosY)+newMainImage
 			}				
 */
 				
-			if ((bHasReachedDestinationX) && (bHasReachedDestinationY)) {
-				resetProjectile();				
-			}				
+				if ((bHasReachedDestinationX) && (bHasReachedDestinationY)) {
+					resetProjectile();				
+				}				
 
-			//edited by Mike, 20260807
-			//if (mainImageTileProjectilePosX+iImageFrameWidth>iViewportMaxWidth+iHorizontalOffset) {
-			if (mainImageTileProjectilePosX+iImageFrameWidthLarge/2>iHorizontalOffset+iStageMaxWidth) {
+				//edited by Mike, 20260807
+				//if (mainImageTileProjectilePosX+iImageFrameWidth>iViewportMaxWidth+iHorizontalOffset) {
+				if (mainImageTileProjectilePosX+iImageFrameWidthLarge/2>iHorizontalOffset+iStageMaxWidth) {
 
-	//+iImageFrameWidth
-				resetProjectile();
-			}
-			else if (mainImageTileProjectilePosX<0+iHorizontalOffset){
-				resetProjectile();
-			}
+		//+iImageFrameWidth
+					resetProjectile();
+				}
+				else if (mainImageTileProjectilePosX<0+iHorizontalOffset){
+					resetProjectile();
+				}
 
-			//if (mainImageTileProjectilePosY+iImageFrameHeight/2>iViewportMaxHeight) {
-			if (mainImageTileProjectilePosY+iImageFrameHeightLarge/2>iVerticalOffsetInnerScreen+iStageMaxHeight) {
-				resetProjectile();
-			}
-			else if (mainImageTileProjectilePosY<0) {
-				resetProjectile();
-			}		
+				//if (mainImageTileProjectilePosY+iImageFrameHeight/2>iViewportMaxHeight) {
+				if (mainImageTileProjectilePosY+iImageFrameHeightLarge/2>iVerticalOffsetInnerScreen+iStageMaxHeight) {
+					resetProjectile();
+				}
+				else if (mainImageTileProjectilePosY<0) {
+					resetProjectile();
+				}		
 		
-		
 			}
-			//added by Mike, 20251105
+/*
+			//removed by Mike, 20260916; from 20251105
 			else { //bHasfired
-				//edited by Mike, 20260915
+*/			
+				//edited by Mike, 20260916; from 20260915
 				//if (bHasHeroHitMonster) {
-				if (bHasHeroHitMonster) {
+				//if ((bHasFired) && (bHasAttacked) && (bHasHeroHitMonster)) {
+				if ((bHasAttacked) && (bHasHeroHitMonster)) {
 					executeHeroAttackingAnimation();
 					iHeroAttackAnimationRecoveryCount=0;
+					
+					//bHasfired=false;
+					bIsHeroWalking=false; //added by Mike, 20260916
 				}
 				else {
 
 					//added by Mike, 20251105
 					//iHeroAttackComboCount=0;
 					
-					if (iHeroAttackAnimationRecoveryCount>=iHeroAttackAnimationRecoveryCountMax) {
+					//edited by Mike, 20260916
+					//,if (iHeroAttackAnimationRecoveryCount>=iHeroAttackAnimationRecoveryCountMax) {
+					if (!bIsHeroWalking) {
 						executeHeroIdleAnimation();
 					}
 					
 					iHeroAttackAnimationRecoveryCount++;
 				}
+/*				
 			}
-			
+*/			
 
 		  }	 
 		  		  
@@ -17791,51 +15376,6 @@ alert(Date.now()-iMouseClickStartTime);
 	//edited by Mike, 20251102
 	//resetProjectile();
 	//iHeroAnimationCount=3; 
-
-/*	//removed by Mike, 20260827	
-	if (bIsActionKeyPressed) {
-		if (iCurrHeroMana!=iCurrHeroManaMax) {	//if no mana
-			return;	
-		}
-	}
-*/	
-	
-/*	
-	if ((!bHasReachedDestinationX) || (!bHasReachedDestinationY)) {
-		resetProjectile();				
-	}	
-*/
-	
-/*	//removed by Mike, 20251108	
-		//added by Mike, 20241104
-		if (isPointsOfRectIntersectingPointsOfRect(iXPos,iYPos, iPrevMouseXPos,iPrevMouseYPos)) {
-			//TODO: -add: hit wall animation;
-			//return;
-			
-			//do this only if at the borders of the inner stage
-		
-			//INNER STAGE; MAX
-			//iHorizontalOffset=(640-iViewportMaxHeight)/2;
-			//var iInnerHorizontalOffset=(640-iViewportMaxHeight)/2;
-			var iInnerVerticalOffset=iImageFrameHeight/2;
-
-			//reminder: innerStageWidth uses iViewportMaxHeight
-		
-			if (mainImageTilePosX+iImageFrameWidth>=iInnerHorizontalOffset+iViewportMaxHeight) {
-				return;
-			}
-			else if (mainImageTilePosX<=0+iInnerHorizontalOffset) {
-				return;
-			}		
-			
-			if (mainImageTilePosY+iImageFrameHeight>=0+iViewportMaxHeight-iInnerVerticalOffset) {
-				return;
-			}
-			else if (mainImageTilePosY<=0) {
-				return;
-			}	
-		}
-*/
 
 /*		
 	iPrevMouseXPos=iXPos;
@@ -17934,26 +15474,6 @@ alert(Date.now()-iMouseClickStartTime);
 
 	//alert(iDeltaX);
 
-
-/*	//BUGGY
-	//if stuck on a side of a wall
-	if (iCurrHeroWallBounceCount>2) {
-		//if (bHasHeroHitWall) {
-		//force the hero to go toward the wall to bounce away;
-		if (bIsHeroFacingLeftOrRight) {
-			if (bIsHeroFacingLeft) {
-				if (iDeltaX>0) { //going to the right
-					iDeltaX*=-1;
-				}
-			}
-			else {
-				if (iDeltaX<0) { //going to the left
-					iDeltaX*=-1;
-				}
-			}
-		}
-	}
-*/
 
 /*
 	//added by Mike, 20260913; from 20260912
@@ -18061,87 +15581,9 @@ alert(Date.now()-iMouseClickStartTime);
 		mainImageTileProjectilePosX = parseFloat(mainImageTilePosX);//-fHeroBodySoulDistanceX;
 		mainImageTileProjectilePosY = parseFloat(mainImageTilePosY);//-fHeroBodySoulDistanceY;
 
-		//alert(fHeroBodySoulDistanceX);
-		
-		
-		//edited by Mike, 20260819; from 20241103
-/*
-		mainImageTileProjectileStepDestinationX=iXPos;//iDeltaX;//newMainImageTileProjectilePosX;//.iDeltaX;
-		mainImageTileProjectileStepDestinationY=iYPos;//iDeltaY;//newMainImageTileProjectilePosY;//iDeltaY;
-*/
+		mainImageTileProjectileStepDestinationX=iXPos;
+		mainImageTileProjectileStepDestinationY=iYPos;
 
-/*
-alert(parseFloat(mainImageTilePosX));
-alert(parseFloat(iXPos));
-*/
-
-//alert(parseFloat(mainImageTile.style.left));
-//alert(parseFloat(mainImageTilePosX));
-/*		//buggy
-		if (isPointsOfRectIntersectingPointsOfRectHero(iXPos,iYPos,parseFloat(mainImageTilePosX)+iImageFrameWidthLarge/2,parseFloat(mainImageTilePosY)+iImageFrameHeightLarge/2,iImageFrameWidthDefault,iImageFrameHeightDefault,iImageFrameWidthLarge,iImageFrameHeightLarge)) {
-			//alert("DITO!!");
-			resetProjectile();
-			return;
-			
-		}
-		else {
-*/		
-			mainImageTileProjectileStepDestinationX=iXPos;
-			mainImageTileProjectileStepDestinationY=iYPos;
-			
-			
-			//added by Mike, 20260914;
-			//mainImageTileProjectileStepDestinationX=250;
-			
-			//alert(newMainImageTileProjectilePosX);
-/*			
-			if (newMainImageTileProjectilePosX<0) {
-				newMainImageTileProjectilePosX=-1;
-			}
-			else {
-				newMainImageTileProjectilePosX=1;
-			}
-*/
-			
-/*
-		}
-*/			
-
-/*		
-			//edited by Mike, 20260819
-			//note iXPos appears to need an offset;
-			const iXPosOffset=-iImageFrameWidthLarge/6;
-			
-////			alert("iXPos: "+iXPos);
-////			alert("mainImageTilePosX:"+mainImageTilePosX);
-			
-			if ((iXPos+iXPosOffset>parseFloat(mainImageTilePosX)) && (iXPos+iXPosOffset<parseFloat(mainImageTilePosX)+iImageFrameWidthLarge)) {
-			
-				if ((iYPos>parseFloat(mainImageTilePosY)) && (iYPos<parseFloat(mainImageTilePosY)+iImageFrameHeightLarge)) {
-				
-					//alert("DITO!!");
-					resetProjectile();
-					return;
-				}
-			}
-*/
-
-/*
-			//edited by Mike, 20260820
-			if ((iXPos>parseFloat(mainImageTilePosX)
-			+mainImageTilePosXOffset/2) && (iXPos<parseFloat(mainImageTilePosX)+iImageFrameWidthLarge)) {
-			
-				if ((iYPos>parseFloat(mainImageTilePosY)) && (iYPos<parseFloat(mainImageTilePosY)+iImageFrameHeightLarge)) {
-					
-					if (!bHasHeroHitMonster) {
-						//alert("DITO!!");
-						resetProjectile();
-						//return;
-					}
-				}
-			}
-*/
-			
 /*
 alert("iYPos: "+iYPos);
 alert("iXPos: "+iXPos);
@@ -18276,6 +15718,7 @@ alert("iXPos: "+iXPos);
 		if ((iXPos>parseFloat(mainImageTilePosX)
 		+iImageFrameWidthLarge/2) && (iXPos<parseFloat(mainImageTilePosX)+iImageFrameWidthLarge)) {
 */
+
 		//otherwise, hero favors looking to the right; even when it should toward the left;
 		if ((iXPos>parseFloat(mainImageTilePosX)) && (iXPos<parseFloat(mainImageTilePosX)+iImageFrameWidthLarge)) {
 		
@@ -18367,48 +15810,6 @@ alert("iXPos: "+iXPos);
 		//added by Mike, 20260827
 		if (bIsActionKeyFireballPressed) {			
 			updateHeroFacingDirection();
-/*		
-			if (bIsHeroFacingLeftOrRight) {
-				if (bIsHeroFacingLeft) {
-					//edited by Mike, 20260826
-					iHeroFrameY=iImageFrameHeightLarge*1;
-					//iFrameY=iImageFrameHeightLarge*2;
-
-					if (bIsHeroFacingUpOrDown) {
-						if (!bIsHeroFacingUp) {
-							iHeroFrameY=iImageFrameHeightLarge*2;
-						}
-						else {
-							iHeroFrameY=iImageFrameHeightLarge*4;
-						}				
-					}
-				}
-				else {
-					//edited by Mike, 20260826
-					iHeroFrameY=iImageFrameHeightLarge*0;
-					//iFrameY=iImageFrameHeightLarge*3;
-
-					if (bIsHeroFacingUpOrDown) {
-						if (!bIsHeroFacingUp) {
-							iHeroFrameY=iImageFrameHeightLarge*3;
-						}
-						else {
-							iHeroFrameY=iImageFrameHeightLarge*5;
-						}
-					}
-				}
-			}
-			else {
-				if (bIsHeroFacingUpOrDown) {
-					if (!bIsHeroFacingUp) {
-						iHeroFrameY=iImageFrameHeightLarge*6;
-					}
-					else {
-						iHeroFrameY=iImageFrameHeightLarge*7;
-					}
-				}
-			}
-*/			
 		}
 		//--------------------
 		
@@ -18417,8 +15818,8 @@ alert("iXPos: "+iXPos);
 		//edited by Mike, 20251121; from 20241105
 		setDustEffectPosition(mainImageTilePosX,mainImageTilePosY);
 		
-//added by Mike, 20241113
-setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameWidthDefault/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightDefault/2); //mainImageTilePosX,mainImageTilePosY);
+		//added by Mike, 20241113
+		setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameWidthDefault/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightDefault/2); //mainImageTilePosX,mainImageTilePosY);
   }
   
 	function playSolvedTune() {
@@ -19276,8 +16677,8 @@ document.body.addEventListener('gestureend', function (e) {
 						}
 						
 
-						//added by Mike, 20231122
-						if (bHasPressedStart) {
+					//added by Mike, 20231122
+					if (bHasPressedStart) {
 						
 						if (iInputDelayCount<iInputDelayCountMax) {
 							//iInputDelayCount++;
