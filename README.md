@@ -556,7 +556,7 @@ Afterward, I added custom fonts that I'm still updating in order to make sure th
 
 My DIY engine now has more basic components that would be useful when building any type game. Still, I admit that the engine and its sample prototype could hardly be called a game yet.
 
-44) 20260828-20260916; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+44) 20260828-20260917; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 **Key Lesson Learned:** 
 
@@ -566,7 +566,7 @@ I've been adding more letters in the font image tile set, which now include lett
 
 My handwriting on the computer using GIMP surprisingly appears cartoony, something that I could certainly use in a cartoony game that I'd want to share with family and friends. 
 
-45) 20260828-20260916; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+45) 20260828-20260917; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 **Key Lesson Learned:** 
 
@@ -578,7 +578,7 @@ I've added new walking animation frames depending on whether the user is pressin
 
 The amount of animation frames that would be needed to cover all the possible movements based on the combination of keyboard and mouse clicks is substantially more than the one used with a traditional 2D side-scroller without any isometric movements at all. Nonetheless, having a template like this already at hand makes the process a lot faster than having to again start from scratch.
 
-46) 20260828-20260916; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+46) 20260828-20260917; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 **Key Lesson Learned:** 
 
@@ -590,7 +590,7 @@ This update took longer than I had wanted to, because of the many on-off switche
 
 This version allows for strafing as seen on the sprite images displayed on-screen as well as the controls using both keyboard and mouse.
 
-47) 20260828-20260916; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+47) 20260828-20260917; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 **Key Lesson Learned:** 
 
@@ -600,7 +600,7 @@ I've gotten the hero to stop his movement when he's hit a wall tile. He can also
 
 We now have a basic wall tile. This is part of the set of tiles that we'll need to create our walls in isometric view.
 
-48) 20260828-20260916; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+48) 20260828-20260917; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 **Key Lesson Learned:** 
 
@@ -616,7 +616,7 @@ I also note here my knee-jerk idea to simply make the walls longer given that my
 
 We're now stitching more wall tiles together.
 
-49) 20260828-20260916; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+49) 20260828-20260917; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -677,7 +677,7 @@ I also note here that, as I had previously observed, moving from landscape to po
 The app runs on mobile with a few issues including slower movement on Android and the viewport not yet centered on landscape mode, while on the iPad, it seems somewhat choppy like doing a screen recording on Linux with only a used Intel Celeron N2940 processor.
 
 
-50) 20260828-20260916; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+50) 20260828-20260917; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -689,7 +689,7 @@ I've been able to create another html file ("start.html") that serves as the con
 
 The app now centers horizontally as intended on Android upon detecting that the user's device is an Android mobile phone model at the start when it's loaded. 
 
-51) 20260828-20260916; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+51) 20260828-20260917; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -703,7 +703,7 @@ I've also solved the problem of the hero snapping his head when he attempts to w
 
 Given that I am able to check the distance that the hero has traveled using `fCurrViewportX` and `fCurrViewportY`, I may be able to use the same technique with the collision detection involving the wall tiles.
 
-52) 20260828-20260916; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+52) 20260828-20260917; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -721,7 +721,7 @@ While I expect to discover more bugs upon further testing, designing the map to 
 
 I am tempted to say that the reason why I'm having problems with this is because I'm using the mouse instead of the directional keys, because, with the former, the angles could be made to be finer with mere fractions of difference in the movement, as compared to a directional keypad which greatly simplifies movement to a few, commonly used `angles` like `45 degrees`. Having said this, I believe that this current DIY engine is an investment that could be later reused, if not in its entirety, just like with [Usbong KMS](https://github.com/usbong/kms).
 
-53) 20260828-20260916; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+53) 20260828-20260917; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -735,7 +735,7 @@ As it turns out, I found that I could call the `updateArrayActorsViewport()` fun
 
 Using the traditional non-isometric view appears to be working now with regard to the collision detection between the hero and the walls. Other actors on the stage would have to be made to behave accordingly as well based on the physics that I've placed in the world.
 
-54) 20260828-20260916; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+54) 20260828-20260917; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -747,7 +747,7 @@ The new punching animation frames I created when the hero is facing diagonally t
 
 Using the same technique with `iCurrHeroComboCount`to vary the hero's punching animations, we could also vary the monster's behavior upon getting hit by the hero at any given combo count. 
 
-55) 20260828-20260916; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+55) 20260828-20260917; https://masarapmabuhay.itch.io/game-off-2025-post-test27
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -762,6 +762,26 @@ During Game Off 2025, I think that I simply opted to use only one attacking fram
 **Unlocked Possibilities:**
 
 Along the way, I've deleted excess code, most of which were code that I had previously used and had commented out, thereby reducing the file size of the uncompressed `index.html` down to `635KB`, instead of `728KB`.
+
+56) 20260828-20260917; https://masarapmabuhay.itch.io/game-off-2025-post-test27
+
+Also available here: http://store.usbong.ph/server/gameoff/start.html
+
+**Key Lesson Learned:** 
+
+I've added a new set of animation frames that are shown whenever a monster facing diagonally is hit and the combo counter is `>=3`. Also, I've updated the rows in the sprite sheet, such that the row where the hero or the monster is facing directly left is now the first row, while the one where he's facing directly right is now the second row. Because of this, all odd rows now have the character facing left, while all the even rows have the character facing right, regardless of whether he's facing directly or diagonally. This therefore makes the sprite sheet more consistent. The code now also makes use of this pattern.
+
+In addition, the hero now continues to face the monster upon dealing damage, and doesn't face the opposite direction when the player makes him immediately turn the other way upon hitting the monster.
+
+**Unlocked Possibilities:**
+
+With better animation sequences, it's now rather enjoyable to make a series of successful punches against a monster. Adding more animation sequences such as tumbling down or rolling backward would make this a lot more cartoony. After all, as I had shared with my grade 5 nephew, I'm currently creating a "cartoon game," which lets players not only watch cartoons, but also empowers them to interact with the characters and the objects in its world.
+
+**Questions**
+
+1) Why do you think Disney/Pixar cartoons are rated G (for everyone), while Marvel films don't have R-18 ratings? 
+
+2) In contrast, except for Studio Ghibli films, why do the Japanese anime that we find online appear to be not for children by concerned parents? 
 
 # Additional Bug Fixes
 
