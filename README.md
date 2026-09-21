@@ -779,9 +779,23 @@ With better animation sequences, it's now rather enjoyable to make a series of s
 
 **Questions**
 
-1) Why do you think Disney/Pixar cartoons are rated G (for everyone), while Marvel films don't have R-18 ratings? 
+1) Why do you think Disney/Pixar cartoons are rated G (for everyone), while Marvel films don't seem to have R-18 ratings until only recently? 
 
 2) In contrast, except for Studio Ghibli films, why do the Japanese anime that we find online appear to be not for children by concerned parents? 
+
+## 
+
+57) 20260921; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+
+Also available here: http://store.usbong.ph/server/gameoff/start.html
+
+**Key Lesson Learned:** 
+
+I've made the characters `96x96` pixels for their width and height instead of `64x64` to see how'd they look and to mark the time it takes for me to do this type of adjustment. I note here that I also had to update the other objects that are smaller than `96x96` such as the coin, which was `64x32`, to now have `96` pixels for its height. The task still took me about an hour and a half to do, because the monster's sprite image still used the old sequence of rows when animated, along with the collision detection for the smaller objects wasn't immediately obvious to me. Other than these, there were less parts of the code to edit this time around given that I had improved the code since last time I did this for the `128x128` character size.
+
+**Unlocked Possibilities:**
+
+Using Gimp's scaling without `cubism` can be useful especially if the pixels are symmetrical. If not, there might be issues in the displayed images, although I think that, in this case, the effect produced by this can be considered a type of art style or design.
 
 # Additional Bug Fixes
 
