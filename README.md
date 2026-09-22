@@ -791,11 +791,23 @@ Also available here: http://store.usbong.ph/server/gameoff/start.html
 
 **Key Lesson Learned:** 
 
-I've made the characters `96x96` pixels for their width and height instead of `64x64` to see how'd they look and to mark the time it takes for me to do this type of adjustment. I note here that I also had to update the other objects that are smaller than `96x96` such as the coin, which was `64x32`, to now have `96` pixels for its height. The task still took me about an hour and a half to do, because the monster's sprite image still used the old sequence of rows when animated, along with the collision detection for the smaller objects wasn't immediately obvious to me. Other than these, there were less parts of the code to edit this time around given that I had improved the code since last time I did this for the `128x128` character size.
+I've made the characters `96x96` pixels for their width and height instead of `64x64` to see how'd they look and to mark the time it takes for me to do this type of adjustment. I note here that I also had to update the other objects that are smaller than `96x96` such as the coin, which was `32x64`, to now have `96` pixels for its height. The task still took me about an hour and a half to do, because the monster's sprite image still used the old sequence of rows when animated, along with the collision detection for the smaller objects wasn't immediately obvious to me. Other than these, there were less parts of the code to edit this time around given that I had improved the code since the last time that I did this for the `128x128` character size.
 
 **Unlocked Possibilities:**
 
-Using Gimp's scaling without `cubism` can be useful especially if the pixels are symmetrical. If not, there might be issues in the displayed images, although I think that, in this case, the effect produced by this can be considered a type of art style or design.
+Using Gimp's scaling without `cubism` can be useful especially if the pixels are symmetrical. If not, there might be issues in the displayed images, although I think that, in this case, the effect produced by this could be considered to be a type of art style or design.
+
+58) 20260921; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+
+Also available here: http://store.usbong.ph/server/gameoff/start.html
+
+**Key Lesson Learned:** 
+
+I took on the challenge of adding the collision detection for the "diagonal" walls, which are shaped as `triangles`. I've been able to implement all four types of walls, which I've classified based on where the `right angle` or the `90-degree angle` is located. Therefore, the triangle wall labeled as `Q1` or `Quadrant 1` has its `right angle` at the bottom-left, while the one with `Q2` has it on the bottom-right, and so on and so forth.
+
+**Unlocked Possibilities:**
+
+Our DIY engine now has more varieties of shapes for the walls, which were previously only rectangles. The concept of `graphs`, `the cartesian coordinate system`, and `slopes` proved useful in getting this to work. Furthermore, we can reuse this know-how with other non-video-game-related fields like economics.
 
 # Additional Bug Fixes
 
