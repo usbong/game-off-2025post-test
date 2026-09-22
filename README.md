@@ -797,7 +797,7 @@ I've made the characters `96x96` pixels for their width and height instead of `6
 
 Using Gimp's scaling without `cubism` can be useful especially if the pixels are symmetrical. If not, there might be issues in the displayed images, although I think that, in this case, the effect produced by this could be considered to be a type of art style or design.
 
-58) 20260921; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+58) 20260922; https://masarapmabuhay.itch.io/game-off-2025-post-test28
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -805,9 +805,11 @@ Also available here: http://store.usbong.ph/server/gameoff/start.html
 
 I took on the challenge of adding the collision detection for the "diagonal" walls, which are shaped as `triangles`. I've been able to implement all four types of walls, which I've classified based on where the `right angle` or the `90-degree angle` is located. Therefore, the triangle wall labeled as `Q1` or `Quadrant 1` has its `right angle` at the bottom-left, while the one with `Q2` has it on the bottom-right, and so on and so forth.
 
+<img src="https://github.com/usbong/game-off-2025post-test/blob/main/patterns/diagonalWallsCollisionDetection20260922.jpg" width="60%">
+
 **Unlocked Possibilities:**
 
-Our DIY engine now has more varieties of shapes for the walls, which were previously only rectangles. The concept of `graphs`, `the cartesian coordinate system`, and `slopes` proved useful in getting this to work. Furthermore, we can reuse this know-how with other non-video-game-related fields like economics.
+Our DIY engine now has more varieties of shapes for the walls, which were previously only rectangles. The concept of `graphs`, `the cartesian coordinate system`, and `slopes` proved useful in getting this to work. Furthermore, we can reuse this know-how with fields like economics.
 
 # Additional Bug Fixes
 
