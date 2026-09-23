@@ -811,6 +811,19 @@ I took on the challenge of adding the collision detection for the "diagonal" wal
 
 Our DIY engine now has more varieties of shapes for the walls, which were previously only rectangles. The concept of `graphs`, `the cartesian coordinate system`, and `slopes` proved useful in getting this to work. Furthermore, we can reuse this know-how with fields like economics.
 
+
+59) 20260923; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+
+Also available here: http://store.usbong.ph/server/gameoff/start.html
+
+**Key Lesson Learned:** 
+
+I've created a new `stage` or `level design`, where I set the positions of the various "wall" tiles on the map. I also tested adjusting the collision detection between the hero and the wall tiles using offsets, though I eventually reverted back to using no offsets, because the equations appeared too arbitrary, and without a clear pattern other than my having tested the result empirically, making them harder to understand without the person testing them himself. It was just like with the first commericial mobile app that I did in the summer of my junior year, which is now equivalent to 1st year college. It was called "Ang Alamat ng Agimat: Anim na Perlas," and which placed 5th in the most downloaded apps of 2004 for two weeks, but whose executable file was years later found to have been uploaded without permission on online forums. Incidentally, in 2004, while I was in Japan for further studies, I also found a Japanese online site that shared the roms of classic Capcom arcade games as well as the arcade emulators to play them.
+
+**Unlocked Possibilities:**
+
+We can now create multiple stages or levels using our DIY engine, though they'll all have to be put in the code, which is in `.html` file format, instead of in another file that would be read on the fly by the code due to the security contraints in `javascript`; however, this could be solved by combining `javascript` with `PHP`, though there will be more files and the setup won't be as simple. At this point, I'm reminded of Fire Pro Wrestling, a game that was featured prominently in the GameFan magazines, which just like its successor, Gamers' Republic, appealed to my siblings and I much more than the other magazines from America like GamePro and EGM. Having said this, I was surprised to find out that the series' Japanese developer, Human Entertainment, didn't appear to have done very well financially.   
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
