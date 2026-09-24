@@ -824,6 +824,19 @@ I've created a new `stage` or `level design`, where I set the positions of the v
 
 We can now create multiple stages or levels using our DIY engine, though they'll all have to be put in the code, which is in `.html` file format, instead of in another file that would be read on the fly by the code due to the security contraints in `javascript`; however, this could be solved by combining `javascript` with `PHP`, though there will be more files and the setup won't be as simple. At this point, I'm reminded of Fire Pro Wrestling, a game that was featured prominently in the GameFan magazines, which just like its successor, Gamers' Republic, appealed to my siblings and I much more than the other magazines from America like GamePro and EGM. Having said this, I was surprised to find out that the series' Japanese developer, Human Entertainment, didn't appear to have done very well financially.   
 
+
+60) 20260924; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+
+Also available here: http://store.usbong.ph/server/gameoff/start.html
+
+**Key Lesson Learned:** 
+
+I've added more keyboard inputs to make the hero move in eight directions. The challenging part here was to keep the mouse functioning as before after adding the new feature. Afterward, I put a non-diagonal wall tile at the center of the stage, and then added simple AI to the monsters upon colliding with this wall, so that they'd just stay put and won't be able to increase or decrease their `x` and `y` positions. I'd, of course, have to add more `if-else` conditions, including the direction toward which the monster is facing when it collided with the wall in order to produce less dumb behavior. 
+
+**Unlocked Possibilities:**
+
+I was aimlessly trying out the app when I realized that I could add keyboard inputs to move the hero around, something that I initially wasn't inclined to do given that it was a point-and-click-type of game; however, perhaps, it was because doing things like moving toward the monsters and punching them ad infinitum wasn't really very interesting, especially once you can already foresee that this is the only thing that you'll be doing the whole time you're playing app. Because of this realization, our DIY engine now has more keyboard and mouse inputs than before.
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
