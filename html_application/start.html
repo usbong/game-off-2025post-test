@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20260908
-' @date updated: 20260908
+' @date updated: 20260925; from 20260908
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -21,7 +21,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, user-scalable=no, viewport-fit=contain" />
   </head>
 <html>
  <style type="text/css">
@@ -42,7 +42,9 @@
 						
 			min-height: 100dvh;          /* Forces the body to fill the full viewport height */
 			display: flex;
-			justify-content: center;   /* Centers horizontally */
+			justify-content: center;  /* Centers horizontally */
+			/*justify-content: left;*/
+			
 			/*align-items: center;*/       /* Centers vertically */
 
 			/* //added by Mike, 20221002
@@ -74,11 +76,21 @@
 </style>
 <script>
   function onLoad() {
-//alert(navigator.userAgent);
+	init();
+  }
+
+  function init() {
+	//alert(navigator.userAgent);
+
+	//reference: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/meta/name/viewport#viewport-fit; last accessed: 20260925
+	//works only on mobile; Android; iOS;
 
     //added by Mike, 20260908
 	//reference: Google AI Overview
     let meta = document.querySelector('meta[name="viewport"]');
+	
+	var bIsMobile=false;
+	var bIsUsingAppleWebKit=false;
 	
 	//alert(document.body.scrollHeight); //386px
 	//alert(window.innerHeight); //386px
@@ -95,9 +107,26 @@
 	//var fInitialScale=iViewportMaxHeight/window.innerHeight;
 	//var fInitialScale=iViewportMaxHeight/document.documentElement.clientHeight;
 
-	//alert(fInitialScale);
+	//TODO: -apply: this; reference: Google AI Overview; CSS-Tricks
+	const currZoomFactor = window.devicePixelRatio; 
 
-	fInitialScale=0.75;
+	//alert(currZoomFactor);
+
+	var fInitialScale=1.0;//currZoomFactor;//1.0;
+	
+	//600/480=1.25
+	if (window.innerHeight>iViewportMaxHeight) {
+		fInitialScale=window.innerHeight/iViewportMaxHeight;
+	}
+	//300/480=0.625
+	else {
+		fInitialScale=1+(1-window.innerHeight/iViewportMaxHeight);
+	}
+	
+	//fInitialScale*=currZoomFactor;
+
+	//alert(fInitialScale);
+	//fInitialScale=0.75;
 
 	//fails on iPad
 	//meta.setAttribute('content', 'width=device-width, initial-scale='+fInitialScale+', maximum-scale='+fInitialScale+', user-scalable=no');
@@ -112,7 +141,6 @@
 	  //added by Mike, 20221108
 	  if (navigator.userAgent.includes("AppleWebKit")) {
 		bIsUsingAppleWebKit=true;
-		//added by Mike, 20221109
 		bIsUsingAppleMac=false; //default
 	  }
 
@@ -142,23 +170,69 @@
 	  if (navigator.userAgent.includes("Edge")) { //not "Edg"
 		bIsMobile=false;
 	  }
-	  
-	  //added by Mike, 20260908
-	  if ((bIsMobile) && (!bIsUsingAppleWebKit)) { //and Android
-		//added by Mike, 20260908
-		//reference: Google AI Overview
-		if (meta) {
-			//meta.setAttribute('content', 'width=device-width, initial-scale=0.75, maximum-scale=1.0, user-scalable=no');
-			
-			meta.setAttribute('content', 'width=device-width, initial-scale='+fInitialScale+', maximum-scale='+fInitialScale+', user-scalable=no');
-		}
-	  }
 	}
+
+	//added by Mike, 20260908
+    if ((bIsMobile) && (!bIsUsingAppleWebKit)) { //and Android
+	  //added by Mike, 20260908
+	  //reference: Google AI Overview
+	  if (meta) {
+		//meta.setAttribute('content', 'width=device-width, initial-scale=0.75, maximum-scale=1.0, user-scalable=no');
+		
+		//added by Mike, 20260925
+		fInitialScale=0.75;
+		
+		meta.setAttribute('content', 'width=device-width, initial-scale='+fInitialScale+', maximum-scale='+fInitialScale+', user-scalable=no');
+	  }
+    }
+    else {
+
+	 //alert(navigator.userAgent);
+	
+	 if (/Firefox/i.test(navigator.userAgent)) {
+		//automated "document.body.style.zoom" not available
+	 }
+	 //if not using Firefox browser;
+	 else {
+/*		  //TODO: -update: this
+		  if (meta) {
+			  document.body.style.zoom = fInitialScale; 
+			  //document.body.style.display="flex";
+			  //document.body.style.justifyContent="center";
+
+			  //TODO: -update: if starting zoom/scale factor isn't 1;
+			  myIframe = document.getElementById('myIFrame');
+			  
+			  //alert("myIframe.getBoundingClientRect().width!! "+myIframe.getBoundingClientRect().width);
+			  
+			  //alert("window.innerWidth: "+window.innerWidth);
+			  
+			  //fInitialScale=currZoomFactor;
+
+			  var iMarginLeft=(window.innerWidth-myIframe.getBoundingClientRect().width*fInitialScale)/2;
+
+			  //iMarginLeft*=(1+(1-currZoomFactor));
+
+			  //alert("fInitialScale: "+fInitialScale);
+			  //alert(iMarginLeft);
+
+			  //document.body.style.justifyContent="left";
+			  document.body.style.marginLeft = (0 + iMarginLeft) + 'px';
+	    }
+*/		
+	  }
+    }
+	  
+	//added by Mike, 20260925
+	//otherwise, keyboard won't register unless user does a mouse-click;
+	document.getElementById('myIFrame').focus();	
+	
+	//alert("START!!!");
   }	
 </script>
 <body id="myBodyId" onload="onLoad();">
 	<div class="my-container">
-		<iframe src="index.html" width="644px" height="364px"></iframe>
+		<iframe id="myIFrame" src="index.html" width="644px" height="364px"></iframe>
 	</div>
 </body>
 </html>

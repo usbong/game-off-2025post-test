@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260924; from 20260923
+' @date updated: 20260925; from 20260924
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -1333,8 +1333,8 @@ var iInputDelayAtLeveledUpCount=0;
 //added by Mike, 20260806
 var bIsRightClickHeld=false;
 
-//added by Mike, 20260924
-var bIsLeftClickPressed=true;
+//edited by Mike, 20260925; from 20260924
+var bIsLeftClickPressed=false;//true;
 
 //added by Mike, 20260827
 var iTotalFontCharUsed=0;
@@ -9490,7 +9490,7 @@ if (arrayWalkOnSnowEffectCount==1) {
 		//otherwise, the step would be too low
 		const iStepMultiplierX=32;
 		const iStepMultiplierY=32;
-
+		
 		//if (!bIsActionKeyPressed) {
 		//if (!bHasHeroHitMonster) {
 		if (!bIsLeftClickPressed) { //add this; otherwise, mouse movement isn't registered
@@ -9499,68 +9499,32 @@ if (arrayWalkOnSnowEffectCount==1) {
 			}
 		}
 
-			if (bHasHeroHitWall) {
-				if (bIsHeroFacingLeftOrRight) {
-					if (!bIsHeroFacingLeft) {
-						arrayKeyPressed[iKEY_D]=false;
-					}
-					else {
-						arrayKeyPressed[iKEY_A]=false;
-					}
+		if (bHasHeroHitWall) {
+			if (bIsHeroFacingLeftOrRight) {
+				if (!bIsHeroFacingLeft) {
+					arrayKeyPressed[iKEY_D]=false;
 				}
-				
-				if (bIsHeroFacingUpOrDown) {
-					if (!bIsHeroFacingUp) {
-						arrayKeyPressed[iKEY_S]=false;
-					}
-					else {
-						arrayKeyPressed[iKEY_W]=false;
-					}
+				else {
+					arrayKeyPressed[iKEY_A]=false;
 				}
 			}
+			
+			if (bIsHeroFacingUpOrDown) {
+				if (!bIsHeroFacingUp) {
+					arrayKeyPressed[iKEY_S]=false;
+				}
+				else {
+					arrayKeyPressed[iKEY_W]=false;
+				}
+			}
+		}
 
 	
-	//added by Mike, 20260924
-	//this makes sure that the fireball's direction isn't changed to the hero's walking destination;
-	if (bIsActionKeyFireballPressed) {
-		return;
-	}
-		
-/*		
-	if ((bHasHeroHitWall) && (iCurrBgTileImageCount>=0)) {
-		if (!bIsActionKeyPressed) {
-			if (!bIsActionKeyFireballPressed) {	
-				for (iCurrBgTileImageCount=0; iCurrBgTileImageCount<iCurrWallBgTileImageCountMax; iCurrBgTileImageCount++) {
-					var bgTileImage = document.getElementById("bgTileImageId"+iCurrBgTileImageCount);
-					
-					if (isPointsOfRectIntersectingPointsOfRectWall(iXPos,iYPos, parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthDefault/2, iImageFrameHeightDefault/2, iImageFrameWidthBgTile*1, iImageFrameHeightBgTile*1)) {
-
-						bHasClickedWall=true;
-						
-						//TODO: -reverify: deaccelerate; instead of abrupt stop;
-						resetProjectile();
-						return;
-					}
-				}
-				
-				//iCurrBgTileImageCount==iCurrWallBgTileImageCountMax
-			}
+		//added by Mike, 20260924
+		//this makes sure that the fireball's direction isn't changed to the hero's walking destination;
+		if (bIsActionKeyFireballPressed) {
+			return;
 		}
-	}
-*/
-/*	
-		if (bIsHeroWalking) {
-			if (!bHasReachedDestinationX) {
-				arrayKeyPressed[iKEY_D]=false;
-				arrayKeyPressed[iKEY_A]=false;
-			}
-
-			if (!bHasReachedDestinationY) {
-				arrayKeyPressed[iKEY_W]=false;
-				arrayKeyPressed[iKEY_S]=false;
-			}
-		}
-*/		
 	
 		if ((arrayKeyPressed[iKEY_D]) && (arrayKeyPressed[iKEY_W])) { //key RIGHT; UP
 			processResultFromInput(fHeroCenterOriginX+mainImageTileProjectileStepX*iStepMultiplierX, fHeroCenterOriginY-mainImageTileProjectileStepY*iStepMultiplierY);
@@ -12771,7 +12735,7 @@ if (fDifferenceInXPos!=0) {
 	executeWalkOnSnowEffect(walkOnSnowEffectImage2);
 */
 
-	executeDustEffect();
+	//executeDustEffect(); //removed by Mike, 20260925
 	executeHeroAttackEffect();
 	executeInitFireballEffect();
 
@@ -14653,8 +14617,8 @@ alert("iXPos: "+iXPos);
 		
 		//alert (iDeltaY);
 		
-		//edited by Mike, 20251121; from 20241105
-		setDustEffectPosition(mainImageTilePosX,mainImageTilePosY);
+		//removed by Mike, 20260925; from 20251121
+		//setDustEffectPosition(mainImageTilePosX,mainImageTilePosY);
 		
 		//added by Mike, 20241113
 		setHeroAttackEffectPosition(mainImageTileProjectileStepDestinationX-iImageFrameWidthDefault/2,mainImageTileProjectileStepDestinationY-iImageFrameHeightDefault/2); //mainImageTilePosX,mainImageTilePosY);
@@ -15069,263 +15033,166 @@ alert("iXPos: "+iXPos);
 	//added by Mike, 20231125
 	function initKeyboardInput() {
 		var mainImageTileFireballProjectileHold = document.getElementById("mainImageTileFireballProjectileHoldImageId");
-			
-		document.body.onkeydown = function(e){
-			//alert("e.keyCode: "+e.keyCode);
-			
-/*			
-			if (!bHasFired) {
-				executeHeroFireballProjectileHoldAnimation();
-			}
-*/
-			//removed by Mike, 20260924
-			//bIsActionKeyPressed=true;
+
+		//document.body.onkeydown = function(e){	
+		window.addEventListener('keydown', (e) => {
 			
 			//alert(e.keyCode);
+			//alert(e.code);
 			
 			if (e.keyCode==70) { //key f
 				bIsActionKeyFireballPressed=true;
-
-/*				//removed by Mike, 20260806								
-				if ((!bIsGameOver) && (bHasPressedStart) && (!bIsMissionDone)) {
-					executeHeroFireballProjectileHoldAnimation();
-				}
-*/				
 			}
 
 			//note if shift pressed with right-click; menu still appears
 			//noted on Firefox browser, but not on Edge;
 			//if (e.keyCode==16) { //key shift
 			//if (e.keyCode==17) { //key control
-			if ((e.keyCode==16) || (e.keyCode==17)) { //key shift OR key control
+			//if ((e.keyCode==16) || (e.keyCode==17)) { //key shift OR key control
+			if ((e.code==='ShiftLeft') || (e.code==='ControlLeft')) { //key shift OR key control
+
 				bIsActionKeyControlPressed=true;
 			}
+			
+			//alert(e.code);
 
-/*						
-			//TODO: -use: this;
-			//TODO: use: also numbers on the keyboard;
-			//learn keyboard keys and mouse clicks usable with MS Excel;
-			if (e.keyCode==9) { //key tab
-			}
-*/
+			//added by Mike, 20260924; from 20221121
+			//bIsActionKeyPressed=false;
+			bIsActionKeyPressed=true;
 
-
-				//added by Mike, 20260924; from 20221121
-				//bIsActionKeyPressed=false;
-				bIsActionKeyPressed=true;
-
-/*				
-				if (bHasPressedStart) {
-					if (iInputDelayCount<5) {//iInputDelayCountMax/2) {
-						iInputDelayCount++;
-						return;
-					}
-					iInputDelayCount=0;
-				}
-*/				
-
-				if (iCurrHeroWallBounceCount>0) {
-				//if (iCurrHeroWallBounceCount==1) {
-
-					//alert(iCurrHeroWallBounceCount);
-
-					resetProjectile();
-					
-					//bHasHeroHitWall=true;
-					return;
-				}
-
-
-				//RIGHT ARROW; 39
-				//LEFT ARROW; 37
-				//UP ARROW; 38
-				//DOWN ARROW; 40
-				//alert(e.keyCode);
-
-				if (e.keyCode==68) { //key d
-					arrayKeyPressed[iKEY_D]=true;
-				}
-				else if (e.keyCode==65) { //key a
-					arrayKeyPressed[iKEY_A]=true;
-				}
-
-				if (e.keyCode==87) { //key w
-					arrayKeyPressed[iKEY_W]=true;
-				}
-				else if (e.keyCode==83) { //key s
-					arrayKeyPressed[iKEY_S]=true;
-				}
-
-
-				if (e.keyCode==39) { //key RIGHT
-					arrayKeyPressed[iKEY_D]=true;
-				}
-				else if (e.keyCode==37) { //key LEFT
-					arrayKeyPressed[iKEY_A]=true;
-				}
-				
-				if (e.keyCode==38) { //key UP
-					arrayKeyPressed[iKEY_W]=true;
-				}
-				else if (e.keyCode==40) { //key DOWN
-					arrayKeyPressed[iKEY_S]=true;
-				}
-
-				
-
-
-/*
-				//added by Mike, 20221101
-				//notes: RIGHT-SIDE BUTTONS to already accept
-				//both capital and small letters
-
-				//RIGHT-SIDE BUTTONS
-				if (e.keyCode==73) { //key i
-					arrayKeyPressed[iKEY_I]=true;
-
-					//added by Mike, 20221121
-					bIsActionKeyPressed=true;
-				}
-				else if (e.keyCode==75) { //key k
-					arrayKeyPressed[iKEY_K]=true;
-
-					//added by Mike, 20221121
-					bIsActionKeyPressed=true;
-				}
-
-				if (e.keyCode==74) { //key j
-					arrayKeyPressed[iKEY_J]=true;
-
-					//added by Mike, 20221121
-					bIsActionKeyPressed=true;
-				}
-				else if (e.keyCode==76) { //key l
-					arrayKeyPressed[iKEY_L]=true;
-
-					//added by Mike, 20221121
-					bIsActionKeyPressed=true;
-				}
-*/
+			if (iCurrHeroWallBounceCount>0) {
+				resetProjectile();
+				return;
 			}
 
-			//added by Mike, 20220822
-			document.body.onkeyup = function(e){
-				//alert("KEYUP; e.keyCode: "+e.keyCode);
-				
-				//bIsActionKeyPressed=false;
 
-				bIsActionKeyFireballPressed=false;
-				
-				//added by Mike, 20260901; from 20260827
-				bIsActionKeyControlPressed=false
-				
-				mainImageTileFireballProjectileHold.style.visibility="hidden";
-				
-				iHeroFireballProjectileHoldAnimationDelayCount=0;
-				
-				//iCurrHeroWallBounceCount
+			//RIGHT ARROW; 39
+			//LEFT ARROW; 37
+			//UP ARROW; 38
+			//DOWN ARROW; 40
+			//alert(e.keyCode);
 
-				//added by Mike, 20260924
-				if (e.keyCode==68) { //key d
-					arrayKeyPressed[iKEY_D]=false;
-				}
-				else if (e.keyCode==65) { //key a
-					arrayKeyPressed[iKEY_A]=false;
-				}
-
-				if (e.keyCode==87) { //key w
-					arrayKeyPressed[iKEY_W]=false;
-				}
-				else if (e.keyCode==83) { //key s
-					arrayKeyPressed[iKEY_S]=false;
-				}
-
-
-				if (e.keyCode==39) { //key RIGHT
-					arrayKeyPressed[iKEY_D]=false;
-				}
-				else if (e.keyCode==37) { //key LEFT
-					arrayKeyPressed[iKEY_A]=false;
-				}
-				
-				if (e.keyCode==38) { //key UP
-					arrayKeyPressed[iKEY_W]=false;
-				}
-				else if (e.keyCode==40) { //key DOWN
-					arrayKeyPressed[iKEY_S]=false;
-				}
-				
-				
-				if ((!arrayKeyPressed[iKEY_D]) && (!arrayKeyPressed[iKEY_A]) && (!arrayKeyPressed[iKEY_W]) && (!arrayKeyPressed[iKEY_S])) { 
-					bIsActionKeyPressed=false;
-				}
-				
-				
-/*				
-				if (e.keyCode==68) { //key d
-					//edited by Mike, 20220823
-					//bKeyDownRight=false;
-					arrayKeyPressed[iKEY_D]=false;
-				}
-				else if (e.keyCode==65) { //key a
-					arrayKeyPressed[iKEY_A]=false;
-				}
-
-				//added by Mike, 20220823
-				if (e.keyCode==87) { //key w
-					arrayKeyPressed[iKEY_W]=false;
-				}
-				else if (e.keyCode==83) { //key s
-					arrayKeyPressed[iKEY_S]=false;
-				}
-*/				
-				
-/*
-				//added by Mike, 20221101
-				//RIGHT-SIDE BUTTONS
-				if (e.keyCode==73) { //key i
-					arrayKeyPressed[iKEY_I]=false;
-
-					//added by Mike, 20221121
-					bIsActionKeyPressed=false;
-				}
-				else if (e.keyCode==75) { //key k
-					arrayKeyPressed[iKEY_K]=false;
-
-					//added by Mike, 20221121
-					bIsActionKeyPressed=false;
-				}
-
-				if (e.keyCode==74) { //key j
-					arrayKeyPressed[iKEY_J]=false;
-
-					//added by Mike, 20221121
-					bIsActionKeyPressed=false;
-				}
-				else if (e.keyCode==76) { //key l
-					arrayKeyPressed[iKEY_L]=false;
-
-					//added by Mike, 20221121
-					bIsActionKeyPressed=false;
-				}
-*/
-
-				//added by Mike, 20260924
-				var fDifferenceInXPos=Math.abs(fCurrViewportX-fHeroHitMonsterViewportX);
-				
-				var fDifferenceInYPos=Math.abs(fCurrViewportY-fHeroHitMonsterViewportY);
-				
-				const fDifferenceInXPosMax=iImageFrameWidthLarge/2;
-				const fDifferenceInYPosMax=iImageFrameHeightLarge/2;
-				
-				if (!bIsActionKeyPressed) {
-					if ((fDifferenceInXPos>=fDifferenceInXPosMax) || (fDifferenceInYPos>=fDifferenceInYPosMax)) {
-						bIsActionKeyControlPressed=false;
-					}
-				}
-
-
+			//if (e.keyCode==68) { //key d
+			if (e.code==='KeyD') {
+				arrayKeyPressed[iKEY_D]=true;
 			}
+			//else if (e.keyCode==65) { //key a
+			else if (e.code==='KeyA') {
+				arrayKeyPressed[iKEY_A]=true;
+			}
+
+			//if (e.keyCode==87) { //key w
+			if (e.code==='KeyW') {
+				arrayKeyPressed[iKEY_W]=true;
+			}
+			//else if (e.keyCode==83) { //key s
+			else if (e.code==='KeyS') {
+				arrayKeyPressed[iKEY_S]=true;
+			}
+
+			//alert(e.code);
+
+			//if (e.keyCode==39) { //key RIGHT
+			if (e.code==='ArrowRight') {
+				arrayKeyPressed[iKEY_D]=true;
+			}
+			//else if (e.keyCode==37) { //key LEFT
+			else if (e.code==='ArrowLeft') {
+				arrayKeyPressed[iKEY_A]=true;
+			}
+			
+			//if (e.keyCode==38) { //key UP
+			if (e.code==='ArrowUp') {
+				arrayKeyPressed[iKEY_W]=true;
+			}
+			//else if (e.keyCode==40) { //key DOWN
+			else if (e.code==='ArrowDown') {
+				arrayKeyPressed[iKEY_S]=true;
+			}
+
+		//}
+		});
+
+		//edited by Mike, 20260925; from 20220822
+		//document.body.onkeyup = function(e){
+		window.addEventListener('keyup', (e) => {
+
+			//alert("KEYUP; e.keyCode: "+e.keyCode);
+			
+			//bIsActionKeyPressed=false;
+
+			bIsActionKeyFireballPressed=false;
+			
+			//added by Mike, 20260901; from 20260827
+			bIsActionKeyControlPressed=false
+			
+			mainImageTileFireballProjectileHold.style.visibility="hidden";
+			
+			iHeroFireballProjectileHoldAnimationDelayCount=0;
+			
+			//iCurrHeroWallBounceCount
+
+			//edited by Mike, 20260925; from 20260924
+			//if (e.keyCode==68) { //key d
+			if (e.code==='KeyD') {
+				arrayKeyPressed[iKEY_D]=false;
+			}
+			//else if (e.keyCode==65) { //key a
+			else if (e.code==='KeyA') {
+				arrayKeyPressed[iKEY_A]=false;
+			}
+
+			//if (e.keyCode==87) { //key w
+			if (e.code==='KeyW') {
+				arrayKeyPressed[iKEY_W]=false;
+			}
+			//else if (e.keyCode==83) { //key s
+			else if (e.code==='KeyS') {
+				arrayKeyPressed[iKEY_S]=false;
+			}
+
+
+			//if (e.keyCode==39) { //key RIGHT
+			if (e.code==='ArrowRight') {
+				arrayKeyPressed[iKEY_D]=false;
+			}
+			//else if (e.keyCode==37) { //key LEFT
+			else if (e.code==='ArrowLeft') {
+				arrayKeyPressed[iKEY_A]=false;
+			}
+			
+			//if (e.keyCode==38) { //key UP
+			if (e.code==='ArrowUp') {
+				arrayKeyPressed[iKEY_W]=false;
+			}
+			//else if (e.keyCode==40) { //key DOWN
+			else if (e.code==='ArrowDown') {
+				arrayKeyPressed[iKEY_S]=false;
+			}
+			
+			
+			if ((!arrayKeyPressed[iKEY_D]) && (!arrayKeyPressed[iKEY_A]) && (!arrayKeyPressed[iKEY_W]) && (!arrayKeyPressed[iKEY_S])) { 
+				bIsActionKeyPressed=false;
+			}
+			
+
+			//added by Mike, 20260924
+			var fDifferenceInXPos=Math.abs(fCurrViewportX-fHeroHitMonsterViewportX);
+			
+			var fDifferenceInYPos=Math.abs(fCurrViewportY-fHeroHitMonsterViewportY);
+			
+			const fDifferenceInXPosMax=iImageFrameWidthLarge/2;
+			const fDifferenceInYPosMax=iImageFrameHeightLarge/2;
+			
+			if (!bIsActionKeyPressed) {
+				if ((fDifferenceInXPos>=fDifferenceInXPosMax) || (fDifferenceInYPos>=fDifferenceInYPosMax)) {
+					bIsActionKeyControlPressed=false;
+				}
+			}
+
+
+		//}
+		});
 	}
 
 	//added by Mike, 20230423
