@@ -785,7 +785,7 @@ With better animation sequences, it's now rather enjoyable to make a series of s
 
 ## 
 
-57) 20260921; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+57) 20260921-20260926; https://masarapmabuhay.itch.io/game-off-2025-post-test28
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -797,7 +797,7 @@ I've made the characters `96x96` pixels for their width and height instead of `6
 
 Using Gimp's scaling without `cubism` can be useful especially if the pixels are symmetrical. If not, there might be issues in the displayed images, although I think that, in this case, the effect produced by this could be considered to be a type of art style or design.
 
-58) 20260922; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+58) 20260922-20260926; https://masarapmabuhay.itch.io/game-off-2025-post-test28
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -812,7 +812,7 @@ I took on the challenge of adding the collision detection for the "diagonal" wal
 Our DIY engine now has more varieties of shapes for the walls, which were previously only rectangles. The concept of `graphs`, `the cartesian coordinate system`, and `slopes` proved useful in getting this to work. Furthermore, we can reuse this know-how with fields like economics.
 
 
-59) 20260923; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+59) 20260923-20260926; https://masarapmabuhay.itch.io/game-off-2025-post-test28
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -824,18 +824,38 @@ I've created a new `stage` or `level design`, where I set the positions of the v
 
 We can now create multiple stages or levels using our DIY engine, though they'll all have to be put in the code, which is in `.html` file format, instead of in another file that would be read on the fly by the code due to the security contraints in `javascript`; however, this could be solved by combining `javascript` with `PHP`, though there will be more files and the setup won't be as simple. At this point, I'm reminded of Fire Pro Wrestling, a game that was featured prominently in the GameFan magazines, which just like its successor, Gamers' Republic, appealed to my siblings and I much more than the other magazines from America like GamePro and EGM. Having said this, I was surprised to find out that the series' Japanese developer, Human Entertainment, didn't appear to have done very well financially.   
 
-
-60) 20260924; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+60) 20260924-20260926; https://masarapmabuhay.itch.io/game-off-2025-post-test28
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
 **Key Lesson Learned:** 
 
-I've added more keyboard inputs to make the hero move in eight directions. The challenging part here was to keep the mouse functioning as before after adding the new feature. Afterward, I put a non-diagonal wall tile at the center of the stage, and then added simple AI to the monsters upon colliding with this wall, so that they'd just stay put and won't be able to increase or decrease their `x` and `y` positions. I'd, of course, have to add more `if-else` conditions, including the direction toward which the monster is facing when it collided with the wall in order to produce less dumb behavior. 
+I've added more keyboard inputs to make the hero move in eight directions. The challenging part here was to keep the mouse functioning as it was before adding the new feature. Afterward, I put a non-diagonal wall tile at the center of the stage, and then added simple AI to the monsters upon colliding with this wall, so that they'd just stay put and won't be able to increase or decrease their `x` and `y` positions. I'd, of course, have to add more `if-else` conditions, including the direction toward which the monster is facing when it collided with the wall in order to produce less dumb behavior. 
 
 **Unlocked Possibilities:**
 
-I was aimlessly trying out the app when I realized that I could add keyboard inputs to move the hero around, something that I initially wasn't inclined to do given that it was a point-and-click-type of game; however, perhaps, it was because doing things like moving toward the monsters and punching them ad infinitum wasn't really very interesting, especially once you can already foresee that this is the only thing that you'll be doing the whole time you're playing app. Because of this realization, our DIY engine now has more keyboard and mouse inputs than before.
+I was aimlessly trying out the app when I realized that I could add keyboard inputs to move the hero around, something that I initially wasn't inclined to do given that it was a point-and-click-type of game; however, perhaps, it was because doing things like moving toward the monsters and punching them ad infinitum wasn't really very interesting, especially once you can already foresee that this is the only thing that you'd be doing the whole time you're playing the app. Because of this realization, our DIY engine now has more keyboard and mouse inputs than before.
+
+
+61) 20260926; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+
+Also available here: http://store.usbong.ph/server/gameoff/start.html
+
+**Key Lesson Learned:** 
+
+I've gotten the app to automatically scale to the largest that it could go in terms of both width and height without having to use scrollbars. I found the task less fun given that I had to constantly look up existing functions on the internet, only to find that they only work on mobile devices. Google AI was eventually giving me a bunch of recommendations that it got from various websites, but which wouldn't actually solve the problem. Moreover, the browser itself would at times not show the latest update until I closed the tab and opened another one to run the app. 
+
+The width of the screen is always larger, if not equal to the height, so there would be margins on both the left and the right of the viewport. The margins are computed as follows:
+
+<img src="https://github.com/usbong/game-off-2025post-test/blob/main/patterns/centeredViewportLeftMargin20260926.jpg" width="60%">
+
+My computations were correct, but `justify-content` was set to `center` instead of `left`, thereby producing wrong output until I changed it.
+
+**Unlocked Possibilities:**
+
+I think that the auto-scaling now does what it's supposed to do, although I'm concerned that the app might lag if it's being scaled larger, because the browser was set to a low 25% zoom level, instead of 100%, at the start. 
+
+As for going into `fullscreen` mode, I've been doing some tests, although none yet would get me the app to auto-scale upon pressing the `fullscreen` button. The user would still have to increase the zoom level himself at the moment.
 
 # Additional Bug Fixes
 
