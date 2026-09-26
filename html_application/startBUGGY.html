@@ -21,7 +21,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-	<meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5, user-scalable=no, viewport-fit=contain" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=contain" />
   </head>
 <html>
  <style type="text/css">
@@ -32,16 +32,14 @@
 
 			width: 100%;
 			height: 100%;
-			
+
 			background-color: #261912; /*white; transparent*/
 
 			border: none;
 
 			padding: 0;
 			margin: 0;
-			
-			/*min-width: 100dvw;*/
-			
+												
 			min-height: 100dvh;          /* Forces the body to fill the full viewport height */
 			display: flex;
 			justify-content: center;  /* Centers horizontally */
@@ -75,6 +73,32 @@
 			border: 2px dotted gray;
 */			
 		}
+		
+		my-container
+		{
+		  width: 100vw !important;
+		  height: 100vh !important;
+		  border: none;
+		  margin: 0;
+		  padding: 0;
+		}
+
+/* Google AI Overview */
+		
+/* Style the wrapper when it goes fullscreen */
+#divIframeWrapperId:fullscreen {
+  width: 100%;
+  height: 100%;
+  background: #000; /* Prevents white flashes */
+}
+
+/* Force the iframe to stretch to the fullscreen wrapper */
+#divIframeWrapperId:fullscreen iframe {
+  width: 100% !important;
+  height: 100% !important;
+  border: none;
+}	
+		
 </style>
 <script>
   function onLoad() {
@@ -218,7 +242,7 @@
 			  
 			  var iMarginLeft=(((window.innerWidth-myIframe.getBoundingClientRect().width))/2);
 
-			  alert("fInitialScale: "+fInitialScale);
+			  ////alert("fInitialScale: "+fInitialScale);
 			  alert(iMarginLeft);
 
 			  document.body.style.marginLeft = (0 + iMarginLeft) + 'px';
@@ -228,16 +252,72 @@
 	  }
     }
 	  
+/*	  
+	//added by Mike, 20260926
+	//reference: Google AI Overview; MDN Web Docs
+	// Bind listeners for standard and vendor-prefixed events
+	document.addEventListener("fullscreenchange", onFullscreenToggle);
+	document.addEventListener("webkitfullscreenchange", onFullscreenToggle);
+	document.addEventListener("mozfullscreenchange", onFullscreenToggle);
+	document.addEventListener("MSFullscreenChange", onFullscreenToggle);
+*/
+
+
 	//added by Mike, 20260925
 	//otherwise, keyboard won't register unless user does a mouse-click;
 	document.getElementById('myIFrame').focus();	
 	
-	//alert("START!!!");
+	alert("START!!!");
   }	
+
+  function onFullscreenToggle() {
+/*  
+	// Example for a raw canvas element
+	const myBody = document.getElementById("myBodyId");
+	
+	if (document.fullscreenElement) {
+		// Adjust style to fill the screen while maintaining aspect ratio
+		myBody.style.width = "100vw";
+		myBody.style.height = "100vh";
+		myBody.style.objectFit = "contain"; 
+	} else {
+		// Reset back to itch.io's embed resolution layout
+		myBody.style.width = "";
+		myBody.style.height = "";
+	}
+*/
+/*
+    const element = document.documentElement; // Or your canvas element
+	const myBody = document.getElementById("myIFrame");
+*/    
+	const wrapper = document.getElementById('divIframeWrapperId');
+	
+    if (!document.fullscreenElement) {
+        wrapper.requestFullscreen().catch(err => {
+            //console.error(`Error enabling fullscreen: ${err.message}`);
+        });
+		
+		//init();
+    } else {
+/*	
+		myBody.style.width = "";
+		myBody.style.height = "";
+*/
+	
+        document.exitFullscreen();
+    }
+
+
+
+
+	//alert("DITO!!");
+  }
 </script>
 <body id="myBodyId" onload="onLoad();">
-	<div class="my-container">
+	<div class="my-container" id="divIframeWrapperId">
 		<iframe id="myIFrame" src="index.html" width="644px" height="364px" allowfullscreen></iframe>
 	</div>
+	
+	<button onclick="onFullscreenToggle()" class="">⤢</button>
 </body>
 </html>
