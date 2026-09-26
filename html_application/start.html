@@ -33,7 +33,7 @@
 			width: 100%;
 			height: 100%;
 			
-			background-color: #261912; /*white; transparent*/
+			background-color: black;/*#261912;*/ /*white; transparent*/
 
 			border: none;
 
@@ -47,7 +47,7 @@
 			justify-content: center;  /* Centers horizontally */
 			/*justify-content: left;*/
 			
-			/*align-items: center;*/       /* Centers vertically */
+			/*align-items: center;*/ /* Centers vertically */
 
 			/* //added by Mike, 20221002
 			//reference: https://www.w3schools.com/howto/howto_css_disable_text_selection.asp;
@@ -112,11 +112,17 @@
 	//reference: Google AI Overview; CSS-Tricks
 	const currZoomFactor = window.devicePixelRatio; 
 
-	//alert(currZoomFactor); //note; if 100%; value is 1.5; if 50%; value is 0.75;
+	//edited by Mike, 20260926
+	//note; if 100%; value is 1.5; if 50%; value is 0.75;
+	//depends on the monitor size; 100%; could be 1.875; while 50% is 0.9375;
+	//alert(currZoomFactor); 
 
-/*	//removed by Mike, 20260926
+	//removed by Mike, 20260926
 	var fInitialScale=1.0;//currZoomFactor;//1.0;
-	
+/*	
+	alert("window.innerHeight: "+window.innerHeight);
+	alert("iViewportMaxHeight: "+iViewportMaxHeight);
+*/	
 	//600/480=1.25
 	if (window.innerHeight>iViewportMaxHeight) {
 		fInitialScale=window.innerHeight/iViewportMaxHeight;
@@ -125,8 +131,6 @@
 	else {
 		fInitialScale=1+(1-window.innerHeight/iViewportMaxHeight);
 	}
-*/
-
 	
 	//fails on iPad
 	//meta.setAttribute('content', 'width=device-width, initial-scale='+fInitialScale+', maximum-scale='+fInitialScale+', user-scalable=no');
@@ -192,22 +196,38 @@
 	 else {
 */
 		  if (meta) {
-			  //added by Mike, 20260926
-			  fCurrZoomPercentValue=currZoomFactor/1.5;
-			  fInitialScale=(1/fCurrZoomPercentValue).toFixed(2);
+			  //edited by Mike, 20260926
+/*
+			  //error; 100% value could vary depending on monitor; not necessarily always 1.5 
+			  fCurrZoomPercentValue=currZoomFactor/1.875; //1.5;
+			  //fInitialScale=(1/fCurrZoomPercentValue).toFixed(2);
+			  fInitialScaleWithZoomFactor=(fInitialScale/fCurrZoomPercentValue).toFixed(2);
+
+alert("currZoomFactor: "+currZoomFactor);
+alert("fInitialScaleWithZoomFactor: "+fInitialScaleWithZoomFactor);
+alert("fInitialScale: "+fInitialScale);
+
+			  //fInitialScale*=fInitialScaleWithZoomFactor;
+
+			  fInitialScale=fInitialScaleWithZoomFactor;
+*/
+			  ////alert(">>>fInitialScale: "+fInitialScale);
 
 			  //document.body.style.zoom = fInitialScale; 
 			  //document.body.style.zoom = 1.0;
 
 			  document.body.style.transform = "scale("+fInitialScale+")"; //"scale(2.0)";
-			  document.body.style.transformOrigin = "top left"; // Keeps layout aligned correc
+			  //document.body.style.transformOrigin = "top left"; // Keeps layout aligned correc
+			  document.body.style.transformOrigin = "top center"; // Keeps layout aligned correc
 			  
 			  meta.setAttribute('content', 'width=device-width, initial-scale='+fInitialScale+', maximum-scale='+fInitialScale+', user-scalable=no');
 
 			  ////alert("fCurrZoomPercentValue: "+fCurrZoomPercentValue);
 			  ////alert("fInitialScale: "+fInitialScale);
 
-			  document.body.style.justifyContent="left";
+			  //edited by Mike, 20260926
+			  //document.body.style.justifyContent="left";
+			  document.body.style.justifyContent="center";
 			  
 			  document.body.style.overflow = 'hidden'; //reference; Google AI Overview; SitePoint
 
@@ -216,12 +236,21 @@
 			  ////alert("myIframe.getBoundingClientRect().width!! "+myIframe.getBoundingClientRect().width);
 			  ////alert("window.innerWidth: "+window.innerWidth);
 			  
-			  var iMarginLeft=(((window.innerWidth-myIframe.getBoundingClientRect().width))/2);
+			  //var iMarginLeft=(((window.innerWidth-myIframe.getBoundingClientRect().width))/2);
+			  var iMarginLeft=0;
 
-			  alert("fInitialScale: "+fInitialScale);
-			  alert(iMarginLeft);
+			  ////alert("fInitialScale: "+fInitialScale);
+			  ////alert(iMarginLeft);
+
+			  var iMarginTop=(((window.innerHeight-myIframe.getBoundingClientRect().height))/2);
+
 
 			  document.body.style.marginLeft = (0 + iMarginLeft) + 'px';
+			  document.body.style.marginTop = (0 + iMarginTop) + 'px';
+
+			  //document.body.style.justifyContent="center";
+			  //document.body.style.justifyContent="left";
+	
 /*
 	    }
 */		
