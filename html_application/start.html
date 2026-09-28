@@ -79,7 +79,9 @@
 		button.buttonToggleFullScreen
 		{
 			position: relative;
-
+/*
+			position: absolute;
+*/
 			width: 2em;
 			height: 2em;
 
@@ -89,16 +91,20 @@
 
 			margin: 0;
 			padding: 0;
-
+/*
 			margin-top: -3.5em;
 			margin-left: -3.5em;
-			
+*/			
+
 			border: 1px dotted white;
 			background: transparent;
-
 		}
+		
 </style>
 <script>
+  //added by Mike, 20260928
+  var bHasEnteredFulLScreenToggle=false;
+
   function onLoad() {
 	init();
   }
@@ -115,7 +121,7 @@
 	
 	var bIsMobile=false;
 	var bIsUsingAppleWebKit=false;
-	
+		
 	//alert(document.body.scrollHeight); //386px
 	//alert(window.innerHeight); //386px
 	//alert(document.documentElement.offsetHeight);
@@ -242,6 +248,10 @@ alert("fInitialScale: "+fInitialScale);
 
 			  //document.body.style.zoom = fInitialScale; 
 			  //document.body.style.zoom = 1.0;
+			  
+			  //added by Mike, 20260928
+			  //TODO: -note down; values for zoom 100%; to be used when bHasEnteredFulLScreenToggle=true;
+			  //browser tab hangs if zoom is changed too much;
 
 			  document.body.style.transform = "scale("+fInitialScale+")"; //"scale(2.0)";
 			  //document.body.style.transformOrigin = "top left"; // Keeps layout aligned correc
@@ -276,8 +286,19 @@ alert("fInitialScale: "+fInitialScale);
 			  
 			  //edited by Mike, 20260928
 			  //document.body.style.marginTop = (0 + iMarginTop) + 'px';
-			  myIFrame.style.marginTop = (0 + iMarginTop) + 'px';
 
+			//document.body.style.marginTop = (0 + iMarginTop) + 'px';
+
+			  if (!bHasEnteredFulLScreenToggle) {
+				document.body.style.marginTop = (0 + iMarginTop) + 'px';
+				myIFrame.style.marginTop = (0) + 'px';
+			  } 
+			  else {
+				document.body.style.marginTop = (0) + 'px';
+				myIFrame.style.marginTop = (0 + iMarginTop) + 'px';
+			  }
+
+			  //myIFrame.style.marginTop = (0 + iMarginTop) + 'px';
 
 			  //document.body.style.justifyContent="center";
 			  //document.body.style.justifyContent="left";	
@@ -328,6 +349,9 @@ alert("fInitialScale: "+fInitialScale);
 		  element.requestFullscreen()
 			.then(() => {
 			  //alert("ENTERED FULLSCREEN!!");
+
+			  bHasEnteredFulLScreenToggle=true;
+
 			  init();
 			})
 			.catch((err) => {
@@ -338,6 +362,9 @@ alert("fInitialScale: "+fInitialScale);
         document.exitFullscreen()			
 			.then(() => {
 			  //alert("EXITED FULLSCREEN!!");
+
+			  bHasEnteredFulLScreenToggle=false;
+
 			  init();
 			})
 			.catch((err) => {
@@ -359,9 +386,8 @@ alert("fInitialScale: "+fInitialScale);
 			allowfullscreen="true"
 			webkitallowfullscreen="true" 
 			mozallowfullscreen="true"></iframe>
-
+			
 		<button id="buttonToggleFullScreenId" onclick="onFullscreenToggle()" class="buttonToggleFullScreen">⤢</button>	
 	</div>
-
 </body>
 </html>
