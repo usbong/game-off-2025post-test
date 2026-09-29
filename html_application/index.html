@@ -1340,6 +1340,10 @@
   //added by Mike, 20260928
   var bHasEnteredFulLScreenToggle=false;
 
+  //added by Mike, 20260929
+  var fInitialScale=1.0;
+
+
 
 const iHeroLifeBarStatusImageTileOffsetX=4;//2; //0;//edited by Mike, 20260813; from 20260809
 
@@ -15389,6 +15393,10 @@ document.body.addEventListener('gestureend', function (e) {
 					//note: screenY includes BROWSER address bar, et cetera;
 					var iYPos = event.pageY; //screenY;
 
+					//added by Mike, 20260929
+					iXPos=iXPos/fInitialScale;
+					iYPos=iYPos/fInitialScale;
+
 					//alert(event.which);
 					
 					if (event.which===3) { //right-click
@@ -15396,7 +15404,7 @@ document.body.addEventListener('gestureend', function (e) {
 						bIsActionKeyPressed=true;
 						bIsActionKeyFireballPressed=true;
 						bIsRightClickHeld=true;
-						
+	
 /*
 						if ((!bIsGameOver) && (bHasPressedStart) && (!bIsMissionDone)) {
 							executeHeroFireballProjectileHoldAnimation();
@@ -15654,6 +15662,12 @@ document.body.addEventListener('gestureend', function (e) {
 
 					//note: screenY includes BROWSER address bar, et cetera;
 					var iYPos = event.pageY; //screenY;
+
+
+					//added by Mike, 20260929
+					iXPos=iXPos/fInitialScale;
+					iYPos=iYPos/fInitialScale;
+
 
 					if (event.which===3) { //right-click
 						processResultFromInput(iXPos, iYPos);
@@ -17205,7 +17219,7 @@ function unlockOrientation() {
 	//alert(currZoomFactor); 
 
 	//removed by Mike, 20260926
-	var fInitialScale=1.0;//currZoomFactor;//1.0;
+	//var fInitialScale=1.0;//currZoomFactor;//1.0;
 
 	fInitialScale=window.innerHeight/iViewportMaxHeight;
 		
@@ -17278,6 +17292,7 @@ function unlockOrientation() {
 			//using alert causes wrong display out;
 		    document.body.style.zoom = ""+fInitialScale;
 
+
 /*
 			document.body.style.zoom = "1.0";
 			document.body.style.marginLeft = 100+"px";
@@ -17297,6 +17312,7 @@ function unlockOrientation() {
   
   function initStartReset() {
 	document.body.style.zoom = "1.0";
+	fInitialScale=1.0; //added by Mike, 20260929
   }
   
   
