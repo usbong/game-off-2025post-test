@@ -785,7 +785,7 @@ With better animation sequences, it's now rather enjoyable to make a series of s
 
 ## 
 
-57) 20260921-20260928; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+57) 20260921-20260929; https://masarapmabuhay.itch.io/game-off-2025-post-test28
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -797,7 +797,7 @@ I've made the characters `96x96` pixels for their width and height instead of `6
 
 Using Gimp's scaling without `cubism` can be useful especially if the pixels are symmetrical. If not, there might be issues in the displayed images, although I think that, in this case, the effect produced by this could be considered to be a type of art style or design.
 
-58) 20260921-20260928; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+58) 20260921-20260929; https://masarapmabuhay.itch.io/game-off-2025-post-test28
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -812,7 +812,7 @@ I took on the challenge of adding the collision detection for the "diagonal" wal
 Our DIY engine now has more varieties of shapes for the walls, which were previously only rectangles. The concept of `graphs`, `the cartesian coordinate system`, and `slopes` proved useful in getting this to work. Furthermore, we can reuse this know-how with fields like economics.
 
 
-59) 20260921-20260928; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+59) 20260921-20260929; https://masarapmabuhay.itch.io/game-off-2025-post-test28
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -824,7 +824,7 @@ I've created a new `stage` or `level design`, where I set the positions of the v
 
 We can now create multiple stages or levels using our DIY engine, though they'll all have to be put in the code, which is in `.html` file format, instead of in another file that would be read on the fly by the code due to the security contraints in `javascript`; however, this could be solved by combining `javascript` with `PHP`, though there will be more files and the setup won't be as simple. At this point, I'm reminded of Fire Pro Wrestling, a game that was featured prominently in the GameFan magazines, which just like its successor, Gamers' Republic, appealed to my siblings and I much more than the other magazines from America like GamePro and EGM. Having said this, I was surprised to find out that the series' Japanese developer, Human Entertainment, didn't appear to have done very well financially.   
 
-60) 20260921-20260928; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+60) 20260921-20260929; https://masarapmabuhay.itch.io/game-off-2025-post-test28
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -836,7 +836,7 @@ I've added more keyboard inputs to make the hero move in eight directions. The c
 
 I was aimlessly trying out the app when I realized that I could add keyboard inputs to move the hero around, something that I initially wasn't inclined to do given that it was a point-and-click-type of game; however, perhaps, it was because doing things like moving toward the monsters and punching them ad infinitum wasn't really very interesting, especially once you can already foresee that this is the only thing that you'd be doing the whole time you're playing the app. Because of this realization, our DIY engine now has more keyboard and mouse inputs than before.
 
-61) 20260921-20260928; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+61) 20260921-20260929; https://masarapmabuhay.itch.io/game-off-2025-post-test28
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -858,7 +858,7 @@ As for going into `fullscreen` mode, I've been doing some tests, although none y
 
 
 
-62) 20260921-20260928; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+62) 20260921-20260929; https://masarapmabuhay.itch.io/game-off-2025-post-test28
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -873,6 +873,21 @@ Meantime, going full screen using F12 also works.
 **Unlocked Possibilities:**
 
 The viewport now auto-scales and centers regardless of the current zoom level on the user's browser and whether or not the user is on full screen mode or not.
+
+
+63) 20260921-20260929; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+
+Also available here: http://store.usbong.ph/server/gameoff/start.html
+
+**Key Lesson Learned:** 
+
+I've opted to create another set of files to run on itch.io and another as a standalone web app to somewhat address the issue of multiple screen sizes and zoom settings. Right now, I let the user zoom in and out at will, without forcing a specific zoom level, noting that the app should be centered vertically and horizontally as much as possible. 
+
+On itch.io, I've tested the `zoom` function to work on Google Chrome using a laptop, and am aware that this function is ignored by the Firefox browser. I'll also need to test the output using a larger monitor to see if the equations still work.
+
+**Unlocked Possibilities:**
+
+Having two sets of files currently consumes double the storage space, but it makes a lot clearer at the code-level which one should be run for itch.io and which as a standalone app. My prior method of keeping the main code in one file and using another file to center and scale the viewport didn't work when I applied it to run on itch.io; perhaps, I'll later find a way to further reduce the consumption in the storage space. 
 
 # Additional Bug Fixes
 
