@@ -17273,9 +17273,21 @@ function unlockOrientation() {
 		    //document.body.style.zoom = "1.4";
 			
 			//TODO: -reverify: this with other monitor sizes
-		    document.body.style.zoom = ""+fInitialScale*2.5;
-			
-			//document.body.style.marginLeft = 100+"px";
+		    //document.body.style.zoom = ""+fInitialScale*2.5;
+			//edited by Mike, 20260929
+			//using alert causes wrong display out;
+		    document.body.style.zoom = ""+fInitialScale;
+
+/*
+			document.body.style.zoom = "1.0";
+			document.body.style.marginLeft = 100+"px";
+*/
+
+/*
+			const element = document.getElementById("myBodyId");
+			element.style.zoom = "1.0";
+			element.style.marginLeft = 100+"px";
+*/			
 			//alert(fInitialScale);
 		}
     }
