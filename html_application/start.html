@@ -141,7 +141,7 @@
 
 	//reference: Google AI Overview; CSS-Tricks
 	const currZoomFactor = window.devicePixelRatio; 
-
+	
 	//edited by Mike, 20260926
 	//note; if 100%; value is 1.5; if 50%; value is 0.75;
 	//depends on the monitor size; 100%; could be 1.875; while 50% is 0.9375;
@@ -170,6 +170,7 @@
 */
     //const iMarginTop=screen.height*0.001;
 	//fInitialScale=(screen.height)/iViewportMaxHeight;
+	
 	fInitialScale=window.innerHeight/iViewportMaxHeight;
 		
 	//fails on iPad
@@ -367,6 +368,13 @@ alert("fInitialScale: "+fInitialScale);
 	//alert("START!!!");
   }
   
+  function initReset() {
+	document.body.style.transform = "scale("+1.0+")"; //fInitialScale
+	document.body.style.transformOrigin = "top center";
+	
+	document.getElementById('myIFrameId').focus();	
+  }
+  
   function onFullscreenToggle() {
 	//reference; MDN Web Docs; Stackoverflow
 	const element = document.getElementById("myBodyId");//divIframeWrapperId"); 
@@ -391,7 +399,7 @@ alert("fInitialScale: "+fInitialScale);
 
 			  bHasEnteredFulLScreenToggle=false;
 
-			  init();
+			  initReset(); //init();
 			})
 			.catch((err) => {
 			  //console.error(`Error exiting fullscreen: ${err.message}`);
