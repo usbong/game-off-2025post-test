@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20260908
-' @date updated: 20260928; from 20260926
+' @date updated: 20260929; from 20260928
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -47,7 +47,7 @@
 			justify-content: center;  /* Centers horizontally */
 			/*justify-content: left;*/
 			
-			/*align-items: center;*/ /* Centers vertically */
+			align-items: center; /* Centers vertically */
 
 			/* //added by Mike, 20221002
 			//reference: https://www.w3schools.com/howto/howto_css_disable_text_selection.asp;
@@ -99,7 +99,6 @@
 			border: 1px dotted white;
 			background: transparent;
 		}
-		
 </style>
 <script>
   //added by Mike, 20260928
@@ -118,6 +117,9 @@
     //added by Mike, 20260908
 	//reference: Google AI Overview
     let meta = document.querySelector('meta[name="viewport"]');
+	
+	//added by Mike, 20260929
+	var myIFrame = document.getElementById('myIFrameId');
 	
 	var bIsMobile=false;
 	var bIsUsingAppleWebKit=false;
@@ -153,7 +155,8 @@
 	alert("window.innerHeight: "+window.innerHeight);
 	alert("iViewportMaxHeight: "+iViewportMaxHeight);
 */
-	
+
+/*	edited by Mike, 20260929
 	//600/480=1.25
 	if (window.innerHeight>iViewportMaxHeight) {
 		fInitialScale=window.innerHeight/iViewportMaxHeight;
@@ -164,7 +167,11 @@
 		//fInitialScale=1+(1-window.innerHeight/iViewportMaxHeight);
 		fInitialScale=window.innerHeight/iViewportMaxHeight;
 	}
-	
+*/
+    //const iMarginTop=screen.height*0.001;
+	//fInitialScale=(screen.height)/iViewportMaxHeight;
+	fInitialScale=window.innerHeight/iViewportMaxHeight;
+		
 	//fails on iPad
 	//meta.setAttribute('content', 'width=device-width, initial-scale='+fInitialScale+', maximum-scale='+fInitialScale+', user-scalable=no');
 			
@@ -197,6 +204,7 @@
 	  //adds: to be re-classified as iPAD via TOUCH command
 	  if ((navigator.userAgent.includes("Macintosh")) || navigator.userAgent.includes("Mac")) {
 		bIsUsingAppleMac=true;
+		bIsMobile=false; //added by Mike, 20260929
 	  }
 
 	  if (navigator.userAgent.includes("Edge")) { //not "Edg"
@@ -244,10 +252,17 @@ alert("fInitialScale: "+fInitialScale);
 
 			  fInitialScale=fInitialScaleWithZoomFactor;
 */
-			  ////alert(">>>fInitialScale: "+fInitialScale);
+			  //edited by Mike, 20260929
+			  //fInitialScale=(fInitialScale/0.80).toFixed(2);
+
+			  //alert(">>>fInitialScale: "+fInitialScale);
 
 			  //document.body.style.zoom = fInitialScale; 
 			  //document.body.style.zoom = 1.0;
+			  
+			  //added by Mike, 20260929
+			  document.body.style.marginTop = (0) + 'px';
+			  myIFrame.style.marginTop = (0) + 'px';
 			  
 			  //added by Mike, 20260928
 			  //TODO: -note down; values for zoom 100%; to be used when bHasEnteredFulLScreenToggle=true;
@@ -255,8 +270,10 @@ alert("fInitialScale: "+fInitialScale);
 
 			  document.body.style.transform = "scale("+fInitialScale+")"; //"scale(2.0)";
 			  //document.body.style.transformOrigin = "top left"; // Keeps layout aligned correc
-			  document.body.style.transformOrigin = "top center"; // Keeps layout aligned correc
 			  
+			  //edited by Mike, 20260929
+			  document.body.style.transformOrigin = "top center"; // Keeps layout aligned correc
+
 			  meta.setAttribute('content', 'width=device-width, initial-scale='+fInitialScale+', maximum-scale='+fInitialScale+', user-scalable=no');
 
 			  ////alert("fCurrZoomPercentValue: "+fCurrZoomPercentValue);
@@ -265,9 +282,8 @@ alert("fInitialScale: "+fInitialScale);
 			  //edited by Mike, 20260926
 			  //document.body.style.justifyContent="left";
 			  document.body.style.justifyContent="center";
+			  
 			  document.body.style.overflow = 'hidden'; //reference; Google AI Overview; SitePoint
-
-			  myIFrame = document.getElementById('myIFrameId');
 			  
 			  ////alert("myIFrame.getBoundingClientRect().width!! "+myIFrame.getBoundingClientRect().width);
 			  ////alert("window.innerWidth: "+window.innerWidth);
@@ -278,7 +294,9 @@ alert("fInitialScale: "+fInitialScale);
 			  ////alert("fInitialScale: "+fInitialScale);
 			  ////alert(iMarginLeft);
 
+			  //edited by Mike, 20260929
 			  var iMarginTop=(((window.innerHeight-myIFrame.getBoundingClientRect().height))/2);
+			  //var iMarginTop=(((screen.height-myIFrame.getBoundingClientRect().height))/2);
 
 			  //alert(iMarginTop);
 			  
@@ -291,10 +309,16 @@ alert("fInitialScale: "+fInitialScale);
 
 			  if (!bHasEnteredFulLScreenToggle) {
 				document.body.style.marginTop = (0 + iMarginTop) + 'px';
+				document.body.style.alignItems = "top";
+
 				myIFrame.style.marginTop = (0) + 'px';
 			  } 
 			  else {
+			    iMarginTop=0;//(((screen.height-myIFrame.getBoundingClientRect().height))/2);
+
 				document.body.style.marginTop = (0) + 'px';
+				document.body.style.alignItems = "center";
+
 				myIFrame.style.marginTop = (0 + iMarginTop) + 'px';
 			  }
 
@@ -316,8 +340,10 @@ alert("fInitialScale: "+fInitialScale);
 */		
 	  }
     }
-	
-	//added by Mike, 20260928
+
+/*	
+	//removed by Mike, 20260929; from 20260928
+	//prevents zoom change; but causing browser tab hanging; when user persists on changing the zoom value;
 	//not working on itch.io
 	//Reference: Googla AI Overview; Stackoverflow;
 	window.addEventListener('resize', () => {
@@ -332,6 +358,7 @@ alert("fInitialScale: "+fInitialScale);
 			init(); //auto-rescale
 		}
 	});
+*/
 	  
 	//added by Mike, 20260925
 	//otherwise, keyboard won't register unless user does a mouse-click;
@@ -341,7 +368,6 @@ alert("fInitialScale: "+fInitialScale);
   }
   
   function onFullscreenToggle() {
-
 	//reference; MDN Web Docs; Stackoverflow
 	const element = document.getElementById("myBodyId");//divIframeWrapperId"); 
 	
@@ -381,12 +407,12 @@ alert("fInitialScale: "+fInitialScale);
 <!--		
 		<iframe id="myIFrameId" src="index.html" width="644px" height="364px" allowfullscreen></iframe>
 -->		
-		<iframe id="myIFrameId" src="index.html" width="644px" height="364px"
+		<iframe id="myIFrameId" src="indexWithStart.html" width="644px" height="364px"
 			allow="fullscreen; autoplay; encrypted-media; geolocation" 
 			allowfullscreen="true"
 			webkitallowfullscreen="true" 
 			mozallowfullscreen="true"></iframe>
-			
+
 		<button id="buttonToggleFullScreenId" onclick="onFullscreenToggle()" class="buttonToggleFullScreen">⤢</button>	
 	</div>
 </body>
