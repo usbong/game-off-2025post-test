@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260929; from 20260928
+' @date updated: 20260930; from 20260929
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -39,7 +39,8 @@
 			width: 100%;
 			height: 100%;
 			
-			background-color: #261912; /*white; transparent*/
+			/*background-color: #261912;*/
+			background-color: black;
 
 			border: none;
 
@@ -80,21 +81,12 @@
 			margin: auto;
 			display: block;
 
-/*
 			width: 640px;
 			height: 360px;
-*/
 /*
-			width: 1920px;
-			height: 1080px;
-*/
-/*
-			width: 960px;
-			height: 540px;
-*/
 			width: 1280px;
 			height: 720px;
-
+*/			
 			visibility: hidden;
 
 			border: 0px;
@@ -109,22 +101,12 @@
 			padding: 0;
 			margin: auto;
 			display: block;
-
-/*
+/*			
 			width: 640px;
 			height: 360px;
 */
-/*
-			width: 1920px;
-			height: 1080px;
-*/			
-/*
-			width: 960px;
-			height: 540px;
-*/
-
-			width: 1280px;
-			height: 720px;
+			width: 637px;
+			height: 357px;
 			
 			visibility: hidden;
 
@@ -141,20 +123,9 @@
 			padding: 0;
 			margin: auto;
 			display: block;
-/*
+
 			width: 640px;
 			height: 360px;
-*/			
-/*
-			width: 1920px;
-			height: 1080px;
-*/
-/*
-			width: 960px;
-			height: 540px;
-*/
-			width: 1280px;
-			height: 720px;
 
 			background-color: black;
 			
@@ -1166,6 +1137,8 @@
 			{
 				position: absolute;
 
+				width: max-content; /*force to use single line*/
+
 				background-color: #4d4d4d;
 
 				color: #fff484; /*#fff484; #ffffff;*/
@@ -1192,6 +1165,8 @@
 			div.DivTextClickContinue:hover
 			{
 				position: absolute;
+
+				width: max-content; /*force to use single line*/
 
 				background-color: #ff0000; /*#4d4d4d;*/
 
@@ -1281,6 +1256,9 @@
 			div.DivTextCombo, div.DivTextCoin
 			{
 				position: absolute;
+				
+				width: max-content; /*force to use single line*/
+				
 				color: #ffffff;
 
 				font-size: 32px;
@@ -1334,6 +1312,66 @@
 			
 			z-index: 999999;
 		}
+		
+		div.divFullScreenMarginRight {
+			position: absolute;
+
+			/* updated later ini init() */
+			width: 2048px;
+			height: 2048px;
+
+			left: 642px;
+			top: 0;
+			
+			margin: 0;
+			padding: 0;
+			
+			background: black;
+			
+			/*border: 1px dotted white;*/
+			
+			z-index: 999999;
+		}
+		
+		div.divFullScreenMarginBottom {
+
+			position: absolute;
+
+			/* updated later ini init() */
+			width: 2048px;
+			height: 2048px;
+
+			left: 0;
+			top: 362px;
+			
+			margin: 0;
+			padding: 0;
+			
+			background: black;
+			
+			/*border: 1px dotted white;*/
+			
+			z-index: 999999;
+		}
+		
+		div.divBackgroundCanvas {
+
+			position: absolute;
+
+			width: 640px;
+			height: 360px;
+
+			left: 0;
+			top: 0;
+			
+			margin: 0;
+			padding: 0;
+			
+			background-color: #261912;
+			/*border: 2px dotted gray;*/
+			
+			z-index: 0;
+		}
   </style>
 
   <script>
@@ -1342,6 +1380,7 @@
 
   //added by Mike, 20260929
   var fInitialScale=1.0;
+  var fInitialScaleDefault=1.0;
 
 
 
@@ -4070,12 +4109,27 @@ var bIsHeroFacingUp=false;
 		var myCanvas = document.getElementById("myCanvasId");
 		var myCanvasTwo = document.getElementById("myCanvasTwoId");
 		var myCanvasTint = document.getElementById("myCanvasTintId");
+		
+		//added by Mike, 20260930
+		//-------------------------------------
+		var buttonToggleFullScreen = document.getElementById("buttonToggleFullScreenId");
+		var divFullScreenMarginRight = document.getElementById("divFullScreenMarginRightId");
+		var divFullScreenMarginBottom = document.getElementById("divFullScreenMarginBottomId");
+		
+		divFullScreenMarginRight.style.width= screen.width*4;
+		divFullScreenMarginRight.style.height= screen.height*4;
+
+		divFullScreenMarginBottom.style.width= screen.width*4;
+		divFullScreenMarginBottom.style.height= screen.height*4;
+		//-------------------------------------
+		
 		//myCanvasSnowEffect; not used;
 		myCanvas.style.width=640;
 		myCanvas.style.height=360;
 
-		myCanvasTwo.style.width=640;
-		myCanvasTwo.style.height=360;
+		//added by Mike, 20260930
+		myCanvasTwo.style.width=637; //640;
+		myCanvasTwo.style.height=357; //360;
 
 		myCanvasTint.style.width=640;
 		myCanvasTint.style.height=360;
@@ -4089,6 +4143,15 @@ var bIsHeroFacingUp=false;
 	
 		//removed by Mike, 20260907
 		//forceLandscape();
+		
+		//added by Mike, 20260930
+		fInitialScaleDefault=window.innerHeight/iViewportMaxHeight;
+
+		//Reference; Google AI Overview; CodeMirror
+		buttonToggleFullScreen.addEventListener('pointerdown', (event) => {
+			// Prevents the event from bubbling up to parent containers
+			event.stopPropagation(); 
+		});
 	
 		bIsGameOver=false;		
 		dElapsedTimeInSeconds=0;
@@ -11865,7 +11928,10 @@ if (fDifferenceInXPos!=0) {
 	
 	//edited by Mike, 20251105
     //myCanvasContext.fillStyle = "#f3f3f3"; //"#f9f9f9"; //"#f3f3f3"; //"#ffffff"; //white background//stage
-    myCanvasContext.fillStyle = "#000000"; //black background//stage
+    
+	//edited by Mike, 20260930
+	//myCanvasContext.fillStyle = "#000000"; //black background//stage
+	myCanvasContext.fillStyle = "#261912"; 
 	myCanvasContext.fillRect(0, 0, iViewportMaxWidth, iViewportMaxHeight);
 
     //added by Mike, 20231126
@@ -12271,6 +12337,7 @@ if (fDifferenceInXPos!=0) {
 */
 			//black tint
 			myCanvasTwoContext.fillStyle = "#111111"; //"#000000"; //"#000077";//"#550000";//red tint
+			
 			myCanvasTwoContext.fillRect(0, 0, iViewportMaxWidth, iViewportMaxHeight);
 
 /*			//edited by Mike, 20260809
@@ -15369,6 +15436,7 @@ document.body.addEventListener('gestureend', function (e) {
 					return;
 				}
 			}
+			
 						
 			/*
 			else if ((iCurrMapLocation==61) && (bIsShowingStage1End)) {
@@ -17199,6 +17267,9 @@ function unlockOrientation() {
 	//added by Mike, 20260929
 	var myIFrame = document.getElementById('myIFrameId');
 	
+	//added by Mike, 20260930
+	var divIframeWrapper = document.getElementById("divIframeWrapperId"); 
+	
 	var bIsMobile=false;
 	var bIsUsingAppleWebKit=false;
 
@@ -17290,13 +17361,14 @@ function unlockOrientation() {
 		    //document.body.style.zoom = ""+fInitialScale*2.5;
 			//edited by Mike, 20260929
 			//using alert causes wrong display out;
-		    document.body.style.zoom = ""+fInitialScale;
+			//wrong output on itch.io
+			//document.body.style.zoom = ""+fInitialScale;
 
+			//reference: Google AI Overview; Stack Overflow
+			divIframeWrapper.style.zoom = "1.0";
+			divIframeWrapper.style.transform = "scale("+fInitialScale+")";
+			divIframeWrapper.style.transformOrigin = "top left";
 
-/*
-			document.body.style.zoom = "1.0";
-			document.body.style.marginLeft = 100+"px";
-*/
 
 /*
 			const element = document.getElementById("myBodyId");
@@ -17311,43 +17383,53 @@ function unlockOrientation() {
   }
   
   function initStartReset() {
-	document.body.style.zoom = "1.0";
-	fInitialScale=1.0; //added by Mike, 20260929
+	//edited by Mike, 20260930
+	//document.body.style.zoom = "1.0";
+	var divIframeWrapper = document.getElementById("divIframeWrapperId"); 
+
+	//fInitialScale=fInitialScaleDefault;//1.0; //added by Mike, 20260929
+	fInitialScale=1.0;
+
+	//reference: Google AI Overview; Stack Overflow
+	divIframeWrapper.style.transform = "scale("+fInitialScale+")";
+	divIframeWrapper.style.transformOrigin = "top left";
+	
   }
   
   
-	function onFullscreenToggle() {
-		//reference; MDN Web Docs; Stackoverflow
-		const element = document.getElementById("myBodyId");//divIframeWrapperId"); 
-		
-		if (!document.fullscreenElement) {
-			  element.requestFullscreen()
-				.then(() => {
-				  //alert("ENTERED FULLSCREEN!!");
+  function onFullscreenToggle() {
+	//reference; MDN Web Docs; Stackoverflow
+	const element = document.getElementById("myBodyId");//divIframeWrapperId"); 
 
-				  bHasEnteredFulLScreenToggle=true;
-				  initStart();
-				})
-				.catch((err) => {
-				  //console.error(`Error enabling fullscreen: ${err.message}`);
-				});
+	if (!document.fullscreenElement) {
+		  element.requestFullscreen()
+			.then(() => {
+			  //alert("ENTERED FULLSCREEN!!");
 
-		} else {
-			document.exitFullscreen()			
-				.then(() => {
-				  //alert("EXITED FULLSCREEN!!");
+			  bHasEnteredFulLScreenToggle=true;
+			  initStart();
+			})
+			.catch((err) => {
+			  //console.error(`Error enabling fullscreen: ${err.message}`);
+			});
 
-				  bHasEnteredFulLScreenToggle=false;
-				  initStartReset();
-				})
-				.catch((err) => {
-				  //console.error(`Error exiting fullscreen: ${err.message}`);
-				});
-		}
+	} else {
+		document.exitFullscreen()			
+			.then(() => {
+			  //alert("EXITED FULLSCREEN!!");
+
+			  bHasEnteredFulLScreenToggle=false;
+			  initStartReset();
+			})
+			.catch((err) => {
+			  //console.error(`Error exiting fullscreen: ${err.message}`);
+			});
 	}
+  }
 
   </script>
 
+  <div class="my-container" id="divIframeWrapperId">
   <body id="myBodyId" onload="onLoad();">
 
 	<canvas id="myCanvasId" class="myCanvas">
@@ -18216,7 +18298,12 @@ opting to put assets folder in "html_application" folder instead
 <!--
 <button onclick="openFullscreen();">Open Fullscreen</button>
 -->
-
+	
 	<button id="buttonToggleFullScreenId" onclick="onFullscreenToggle()" class="buttonToggleFullScreen">⤢</button>	
+	
+	<div id="divFullScreenMarginRightId" class="divFullScreenMarginRight"></div>
+	<div id="divFullScreenMarginBottomId" class="divFullScreenMarginBottom"></div>
+	<div id="divBackgroundCanvasId" class="divBackgroundCanvas"></div>
   </body>
+  </div>
 </html>
