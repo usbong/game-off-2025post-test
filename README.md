@@ -785,7 +785,7 @@ With better animation sequences, it's now rather enjoyable to make a series of s
 
 ## 
 
-57) 20260921-20260930; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+57) 20260921-20261001; https://masarapmabuhay.itch.io/game-off-2025-post-test28
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -797,7 +797,7 @@ I've made the characters `96x96` pixels for their width and height instead of `6
 
 Using Gimp's scaling without `cubism` can be useful especially if the pixels are symmetrical. If not, there might be issues in the displayed images, although I think that, in this case, the effect produced by this could be considered to be a type of art style or design.
 
-58) 20260921-20260930; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+58) 20260921-20261001; https://masarapmabuhay.itch.io/game-off-2025-post-test28
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -812,7 +812,7 @@ I took on the challenge of adding the collision detection for the "diagonal" wal
 Our DIY engine now has more varieties of shapes for the walls, which were previously only rectangles. The concept of `graphs`, `the cartesian coordinate system`, and `slopes` proved useful in getting this to work. Furthermore, we can reuse this know-how with fields like economics.
 
 
-59) 20260921-20260930; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+59) 20260921-20261001; https://masarapmabuhay.itch.io/game-off-2025-post-test28
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -824,7 +824,7 @@ I've created a new `stage` or `level design`, where I set the positions of the v
 
 We can now create multiple stages or levels using our DIY engine, though they'll all have to be put in the code, which is in `.html` file format, instead of in another file that would be read on the fly by the code due to the security contraints in `javascript`; however, this could be solved by combining `javascript` with `PHP`, though there will be more files and the setup won't be as simple. At this point, I'm reminded of Fire Pro Wrestling, a game that was featured prominently in the GameFan magazines, which just like its successor, Gamers' Republic, appealed to my siblings and I much more than the other magazines from America like GamePro and EGM. Having said this, I was surprised to find out that the series' Japanese developer, Human Entertainment, didn't appear to have done very well financially.   
 
-60) 20260921-20260930; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+60) 20260921-20261001; https://masarapmabuhay.itch.io/game-off-2025-post-test28
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -836,7 +836,7 @@ I've added more keyboard inputs to make the hero move in eight directions. The c
 
 I was aimlessly trying out the app when I realized that I could add keyboard inputs to move the hero around, something that I initially wasn't inclined to do given that it was a point-and-click-type of game; however, perhaps, it was because doing things like moving toward the monsters and punching them ad infinitum wasn't really very interesting, especially once you can already foresee that this is the only thing that you'd be doing the whole time you're playing the app. Because of this realization, our DIY engine now has more keyboard and mouse inputs than before.
 
-61) 20260921-20260930; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+61) 20260921-20261001; https://masarapmabuhay.itch.io/game-off-2025-post-test28
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -858,7 +858,7 @@ As for going into `fullscreen` mode, I've been doing some tests, although none y
 
 
 
-62) 20260921-20260930; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+62) 20260921-20261001; https://masarapmabuhay.itch.io/game-off-2025-post-test28
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -875,7 +875,7 @@ Meantime, going full screen using F12 also works.
 The viewport now auto-scales and centers regardless of the current zoom level on the user's browser and whether or not the user is on full screen mode or not.
 
 
-63) 20260921-20260930; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+63) 20260921-20261001; https://masarapmabuhay.itch.io/game-off-2025-post-test28
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -890,7 +890,7 @@ On itch.io, I've tested the `zoom` function to work on Google Chrome using a lap
 Having two sets of files currently consumes double the storage space, but it makes it a lot clearer at the code-level which one should be run for itch.io and which as a standalone app. My prior method of keeping the main code in one file and using another file to center and scale the viewport didn't work when I applied it to run on itch.io; perhaps, I'll later find a way to further reduce the consumption in terms of the storage space. 
 
 
-64) 20260921-20260930; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+64) 20260921-20261001; https://masarapmabuhay.itch.io/game-off-2025-post-test28
 
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 
@@ -909,6 +909,21 @@ Using the web browser's standard zoom feature with the app now appears to work a
 **Additional Note:**
 
 I use [Notepad++](https://notepad-plus-plus.org/) as my editor, because the shortcut keys are generally the same with the basic `Notepad` app on Windows. Plus, it color codes certain parts of the code to make it easier to identify which is a comment, a number, and so on. It's lightweight and therefore requires less RAM to run, although I've found that sometimes if the storage space is about to get maxed out, the file could get corrupted, among other things. In other words, I should always have at least 500MB of available storage.
+
+
+
+65) 20260921-20261001; https://masarapmabuhay.itch.io/game-off-2025-post-test28
+
+Also available here: http://store.usbong.ph/server/gameoff/start.html
+
+**Key Lesson Learned:** 
+
+I've updated the code to enable freer movement when using the keyboard, especially upon hitting a wall. For instance, previously, when the hero hit the `right side` of a "block" wall, which is a non-diagonal wall, while pressing `down` and `left` at the same time, he wouldn't be able to move down anymore even after he's released his key hold on `down`. However, as a trade-off, there would be times when the hero could get through the part between one diagonal wall and another after the update, so I've added block walls between each diagonal wall to make sure that the hero wouldn't be able to do that.
+
+**Unlocked Possibilities:**
+
+We now have more varieties of blocks that respond as expected when the hero collides with any of them. Right now, I'm manually checking the level design and not using any tile map editor like the one from GameMaker (Freeware version), which I learned from Martin J. Wells' [J2ME Game Programming](https://www.thriftbooks.com/w/j2me-game-programming-game-development_martin-j-wells/622145/?srsltid=AU7gw4WylxqtGas3b0bokG6jBiaABYo_oVr3mdIxzVcKmYn66scIwxLS#edition=4505049) textbook decades ago. Also, I'll need a way to quickly synchronize the code in `index.html` and `indexWithStart.html`. I am tempted to say that we'll need a script for that, but the code isn't really too big, and the script wouldn't be maximized yet at the moment. Perhaps, if there's another pair of hands and more code to use this script with, then it would be worth our while.
+
 
 # Additional Bug Fixes
 
