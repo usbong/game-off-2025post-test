@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20260930; from 20260929
+' @date updated: 20261001; from 20260930
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024
@@ -3944,16 +3944,16 @@ var bIsHeroFacingUp=false;
 */		
 		//iCurrHeroComboCount=iHeroAttackComboCount; //TODO: -update: this
 		
-		//edited by Mike, 20260915; from 20260911
+		//edited by Mike, 20261001; from 20260915
 		//textHeroComboStatusDiv.innerHTML = "Cx"+iCurrHeroComboCount;		
 		
-		//textHeroComboStatusDiv.innerHTML = "Wx"+iCurrHeroWallBounceCount;		
+		textHeroComboStatusDiv.innerHTML = "Wx"+iCurrHeroWallBounceCount;		
 
 		//textHeroComboStatusDiv.innerHTML = "Wx"+iCurrHeroWallBounceCount+"; "+mainImageTileProjectileStepDestinationX;
 		
 		//textHeroComboStatusDiv.innerHTML = "Wx"+iCurrHeroWallBounceCount+"; "+newMainImageTileProjectilePosX;
 		
-		textHeroComboStatusDiv.innerHTML = "Cx"+iCurrHeroComboCount+"; "+iHeroAttackAnimationDelayCount;				
+		//textHeroComboStatusDiv.innerHTML = "Cx"+iCurrHeroComboCount+"; "+iHeroAttackAnimationDelayCount;				
 	}
 	
 	function drawHeroCoinStatus(myCanvasContext, iXPos, iYPos) {		
@@ -7709,185 +7709,6 @@ alert("iInputY: "+iInputY);
 	}	
 		
 
-	function executeRunningWraithMonsterAttaWraithMonsterAttackingAnimation(inputArrayRunningWraithMonsterWithIdCount, iCount) {		
-		//hero tile position
-		var mainImageTile = document.getElementById("mainImageTileImageId");
-
-		if (iHeroAttackAnimationCount>iHeroAttackAnimationCountMax) {
-			if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_CURRENT_HP]<=0) {
-				inputArrayRunningWraithMonsterWithIdCount[MONSTER_OBJECT].style.visibility="hidden";				
-				inputArrayRunningWraithMonsterWithIdCount[MONSTER_IS_ACTIVE]=false;
-				
-				//alert("DITO!!");
-				return;
-			}						
-		}	
-
-		//has gone to the left-most
-		if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameHeightLarge/2<0) {
-			inputArrayRunningWraithMonsterWithIdCount[MONSTER_OBJECT].style.visibility="hidden";
-		}
-		else {
-			inputArrayRunningWraithMonsterWithIdCount[MONSTER_OBJECT].style.visibility="visible";
-		}
-
-		if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_OBJECT].style.visibility=="hidden") {
-			return;
-		}
-
-		
-		//alert("inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_DELAY_COUNT]: "+inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_DELAY_COUNT]);
-	
-		//==============================
-		//AI; movement
-
-		if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_ANIMATION_DELAY_COUNT]>=inputArrayRunningWraithMonsterWithIdCount[MONSTER_ANIMATION_DELAY_COUNT_MAX]) {
-		
-			inputArrayRunningWraithMonsterWithIdCount[MONSTER_ANIMATION_COUNT]=(inputArrayRunningWraithMonsterWithIdCount[MONSTER_ANIMATION_COUNT]+1)%inputArrayRunningWraithMonsterWithIdCount[MONSTER_ANIMATION_COUNT_MAX]; //last hidden		
-
-  			inputArrayRunningWraithMonsterWithIdCount[MONSTER_ANIMATION_DELAY_COUNT]=0;
-
-			if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_STEP_DELAY]>=inputArrayRunningWraithMonsterWithIdCount[MONSTER_STEP_DELAY_MAX]) {
-			
-				inputArrayRunningWraithMonsterWithIdCount[MONSTER_STEP_DELAY]=0;
-
-				
-				//note double while loop causing blinking
-				//setBombMonsterPosition(inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX],inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY]);
-				//note the id num of the bomb is based on running wraith's
-				
-				setBombMonsterPosition(inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX],inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY],iCount);
-				
-				
-				//alert("DITO!!!!"+inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]);
-/*				
-				if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]==WALKING_STATE) {
-					//currSkelMonsterTileState=ATTACKING_STATE;
-					inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]=IDLE_STATE;
-				}
-				else {
-					inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]=WALKING_STATE;
-				}
-*/				
-
-				
-
-			}
-			else {
-				//alert(inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_STEP_DELAY]);
-			
-				inputArrayRunningWraithMonsterWithIdCount[MONSTER_STEP_DELAY]++;
-			}
-
-			inputArrayRunningWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]=ATTACKING_STATE;
-		
-			if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge*0.75<mainImageTilePosY) {
-				inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY]+=inputArrayRunningWraithMonsterWithIdCount[MONSTER_STEPY];
-			}
-			else if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY]>mainImageTilePosY+iImageFrameHeightLarge*0.75) {
-				inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY]-=inputArrayRunningWraithMonsterWithIdCount[MONSTER_STEPY];
-			}		
-		
-			//move from right to left
-			inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX]-=inputArrayRunningWraithMonsterWithIdCount[MONSTER_STEPX];
-			inputArrayRunningWraithMonsterWithIdCount[MONSTER_OBJECT].style.left=inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX]+"px";	
-
-
-
-
-/*		
-//			if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]==WALKING_STATE) {
-				if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge*0.75<mainImageTilePosY) {
-				
-					inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY]+=inputArrayRunningWraithMonsterWithIdCount[MONSTER_STEPY];
-				}
-				else if (inputArrayWraithMonsterWithIdCount[MONSTER_POSY]>mainImageTilePosY+iImageFrameHeightLarge*0.75) {
-					inputArrayWraithMonsterWithIdCount[MONSTER_POSY]-=inputArrayWraithMonsterWithIdCount[MONSTER_STEPY];
-				}
-					
-				inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.top=inputArrayWraithMonsterWithIdCount[MONSTER_POSY]+"px";
-				
-				if (inputArrayWraithMonsterWithIdCount[MONSTER_POSX]<mainImageTilePosX) {
-					inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+=inputArrayWraithMonsterWithIdCount[MONSTER_STEPX];
-				}
-				else {
-					inputArrayWraithMonsterWithIdCount[MONSTER_POSX]-=inputArrayWraithMonsterWithIdCount[MONSTER_STEPX];
-				}
-
-				inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.left=inputArrayWraithMonsterWithIdCount[MONSTER_POSX]+"px";	
-//			}	
-*/
-
-
-		}
-		else {
-			inputArrayRunningWraithMonsterWithIdCount[MONSTER_ANIMATION_DELAY_COUNT]++;
-		}
-		//==============================
-
-		var iFrameY=0;
-		var iFrameXOffset=0;
-		
-/*		
-		if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX]+iImageFrameWidthLarge/4<mainImageTilePosX) {
-			iFrameY=iImageFrameHeightLarge*0; //face right
-			
-			//if skel is facing up; below hero
-			if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY]>mainImageTilePosY+iImageFrameHeightLarge/4) {
-				iFrameY=iImageFrameHeightLarge*5; //face up
-			}
-			else if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/4<mainImageTilePosY) {
-				iFrameY=iImageFrameHeightLarge*3; //face down
-			}
-		}
-		//if hero is to the left of skel
-		else if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSX]>mainImageTilePosX+iImageFrameWidthLarge/4) {
-			iFrameY=iImageFrameHeightLarge*1; //face left
-
-			//if skel is facing up; below hero
-			if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY]>mainImageTilePosY+iImageFrameHeightLarge/4) {
-				iFrameY=iImageFrameHeightLarge*4; //face up
-			}
-			else if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/4<mainImageTilePosY) {
-				iFrameY=iImageFrameHeightLarge*2; //face down
-			}
-		}
-		//if parallel
-		else {
-			//if skel is facing up; below hero
-			if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY]>mainImageTilePosY+iImageFrameHeightLarge/4) {
-				iFrameY=iImageFrameHeightLarge*4; //face up
-			}
-			else if (inputArrayRunningWraithMonsterWithIdCount[MONSTER_POSY]+iImageFrameHeightLarge/4<mainImageTilePosY) {
-			//else {
-				iFrameY=iImageFrameHeightLarge*2; //face down
-			}
-			else {
-				iFrameY=iImageFrameHeightLarge*4; //default
-			}
-		}
-*/
-
-		iFrameY=iImageFrameHeightLarge*1; //face left
-			
-		//alert(iSkelMonsterAnimationDelayCount);
-
-		inputArrayRunningWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*inputArrayRunningWraithMonsterWithIdCount[MONSTER_ANIMATION_COUNT] + "px -" + iFrameY + "px";
-		
-					//alert("DITO!!!!");
-
-		
-/*
-		if (inputArrayWraithMonsterWithIdCount[MONSTER_CURRENT_STATE]==WALKING_STATE) {
-			inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*inputArrayWraithMonsterWithIdCount[MONSTER_ANIMATION_COUNT] + "px -" + iFrameY + "px";
-		}
-		else { //IDLE_STATE
-			inputArrayWraithMonsterWithIdCount[MONSTER_OBJECT].style.objectPosition = "-" + iFrameXOffset-iImageFrameWidthLarge*4 + "px -" + iFrameY + "px";
-		}
-*/		
-	}	
-
-
 	function executeBombMonsterAttackingAnimation(inputArrayBombMonsterWithIdCount) {		
 		//hero tile position
 		var mainImageTile = document.getElementById("mainImageTileImageId");
@@ -10801,7 +10622,7 @@ if (fDifferenceInXPos!=0) {
 */
 
 						bHasHeroHitWallFacingLeftOrRight=false;
-
+						
 						fHeroHitWallViewportX=fCurrViewportX;				
 						fHeroHitWallViewportY=fCurrViewportY;
 
@@ -11098,8 +10919,40 @@ if (fDifferenceInXPos!=0) {
 
 				//TODO: -update: this; let monster get out of wall; AI
 
+/*				//edited by Mike, 20261001; AI
 				inputArrayWraithMonsterWithIdCount[MONSTER_STEPX]=0;
 				inputArrayWraithMonsterWithIdCount[MONSTER_STEPY]=0;
+*/				
+				//verify monster's facing direction
+/*
+				if ((inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_UP_OR_DOWN]) && (inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_LEFT_OR_RIGHT])) {
+					inputArrayWraithMonsterWithIdCount[MONSTER_STEPX]=0;
+					inputArrayWraithMonsterWithIdCount[MONSTER_STEPY]=0;
+				}
+				else {
+*/				
+					if (inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_UP_OR_DOWN]) {
+						if (inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_UP]) {
+							inputArrayWraithMonsterWithIdCount[MONSTER_STEPY]=2;//1;
+						}
+						else {
+							inputArrayWraithMonsterWithIdCount[MONSTER_STEPY]=-2;//-1;
+						}
+						inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_UP_OR_DOWN]=false;
+					}
+
+					if (inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_LEFT_OR_RIGHT]) {
+						if (inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_LEFT]) {
+							inputArrayWraithMonsterWithIdCount[MONSTER_STEPX]=2;//1;
+						}
+						else {
+							inputArrayWraithMonsterWithIdCount[MONSTER_STEPX]=-2;//-1;
+						}
+						inputArrayWraithMonsterWithIdCount[MONSTER_IS_FACING_LEFT_OR_RIGHT]=false;
+					}
+/*
+				}
+*/
 
 ////				inputArrayWraithMonsterWithIdCount[MONSTER_STEPX]*=(-1);
 ////				inputArrayWraithMonsterWithIdCount[MONSTER_STEPY]*=(-1);
@@ -11108,8 +10961,8 @@ if (fDifferenceInXPos!=0) {
 ////				inputArrayWraithMonsterWithIdCount[MONSTER_STEPX]*=(-1);
 ////				inputArrayWraithMonsterWithIdCount[MONSTER_STEPY]*=(-1);
 
-				inputArrayWraithMonsterWithIdCount[MONSTER_STEPX]=1;
-				inputArrayWraithMonsterWithIdCount[MONSTER_STEPY]=1;
+				inputArrayWraithMonsterWithIdCount[MONSTER_STEPX]=2;//1;
+				inputArrayWraithMonsterWithIdCount[MONSTER_STEPY]=2;//1;
 			}
 		}
 	}	
@@ -13435,7 +13288,6 @@ if (fDifferenceInXPos!=0) {
 						}
 */
 
-
 						arrayWraithMonsterCountId[iCount][MONSTER_OBJECT].style.top = 0+arrayWraithMonsterCountId[iCount][MONSTER_POSY]+"px"; //iInnerVerticalOffset
 						arrayWraithMonsterCountId[iCount][MONSTER_OBJECT].style.left = 0+arrayWraithMonsterCountId[iCount][MONSTER_POSX]+"px"; //iInnerHorizontalOffset
 /*						
@@ -13520,7 +13372,8 @@ if (fDifferenceInXPos!=0) {
 							iRandNum=iSetNum;
 													
 							//alert(iCount+": iRandNum :"+iRandNum);
-						
+
+/*							//edited by Mike, 20261001
 							if (iRandNum==0) { //TOP-LEFT
 								arrayWraithMonsterCountId[iCount][MONSTER_POSX]=iInnerHorizontalOffset+iImageFrameWidthLarge*1;
 						
@@ -13551,6 +13404,43 @@ if (fDifferenceInXPos!=0) {
 						
 								arrayWraithMonsterCountId[iCount][MONSTER_POSY]=iInnerVerticalOffset+iViewportMaxHeight-iImageFrameHeightLarge*2.5;
 							}
+*/
+
+							if (iRandNum==0) { //TOP-LEFT
+								arrayWraithMonsterCountId[iCount][MONSTER_POSX]=iInnerHorizontalOffset+iImageFrameWidthLarge*1-iImageFrameWidthBgTile*2;
+						
+								arrayWraithMonsterCountId[iCount][MONSTER_POSY]=iInnerVerticalOffset+iImageFrameHeightDefault*2-iImageFrameHeightBgTile*2;
+							}
+							else if (iRandNum==1) { //TOP-RIGHT
+								arrayWraithMonsterCountId[iCount][MONSTER_POSX]=iInnerHorizontalOffset+iViewportMaxWidth-iImageFrameWidthLarge*1.5+iImageFrameWidthBgTile*2;
+						
+								arrayWraithMonsterCountId[iCount][MONSTER_POSY]=iInnerVerticalOffset+iImageFrameHeightDefault*2-iImageFrameHeightBgTile*2;
+							}
+							if (iRandNum==2) { //TOP
+								arrayWraithMonsterCountId[iCount][MONSTER_POSX]=iInnerHorizontalOffset+iViewportMaxWidth/2-iImageFrameWidthLarge/2+iImageFrameWidthBgTile*0;
+						
+								arrayWraithMonsterCountId[iCount][MONSTER_POSY]=iInnerVerticalOffset+iImageFrameHeightDefault*2-iImageFrameHeightBgTile*2;
+							}
+							else if (iRandNum==3) { //BOTTOM-LEFT
+								arrayWraithMonsterCountId[iCount][MONSTER_POSX]=iInnerHorizontalOffset+iImageFrameWidthLarge*1-iImageFrameWidthBgTile*2;
+						
+								arrayWraithMonsterCountId[iCount][MONSTER_POSY]=iInnerVerticalOffset+iViewportMaxHeight-iImageFrameHeightLarge*2.5+iImageFrameHeightBgTile*2;
+							}
+							else if (iRandNum==4) { //BOTTOM-RIGHT
+								arrayWraithMonsterCountId[iCount][MONSTER_POSX]=iInnerHorizontalOffset+iViewportMaxWidth-iImageFrameWidthLarge*1.5+iImageFrameWidthBgTile*2;
+						
+								arrayWraithMonsterCountId[iCount][MONSTER_POSY]=iInnerVerticalOffset+iViewportMaxHeight-iImageFrameHeightLarge*2.5+iImageFrameHeightBgTile*2;
+							}
+							else if (iRandNum==5) { //BOTTOM
+								arrayWraithMonsterCountId[iCount][MONSTER_POSX]=iInnerHorizontalOffset+iViewportMaxWidth/2-iImageFrameWidthLarge/2+iImageFrameWidthBgTile*0;
+						
+								arrayWraithMonsterCountId[iCount][MONSTER_POSY]=iInnerVerticalOffset+iViewportMaxHeight-iImageFrameHeightLarge*2.5+iImageFrameHeightBgTile*2;
+							}
+
+							//alert("arrayWraithMonsterCountId[iCount][MONSTER_POSX]: "+arrayWraithMonsterCountId[iCount][MONSTER_POSX]);
+							
+							//alert("arrayWraithMonsterCountId[iCount][MONSTER_POSY]: "+arrayWraithMonsterCountId[iCount][MONSTER_POSY]);
+							
 							
 							arrayWraithMonsterCountId[iCount][MONSTER_OBJECT].style.top = 0+arrayWraithMonsterCountId[iCount][MONSTER_POSY]+"px"; 
 						
@@ -15160,6 +15050,11 @@ alert("iXPos: "+iXPos);
 			
 			//alert(e.code);
 
+			//added by Mike, 20261001
+			if (!bIsActionKeyPressed) { //if key has been released
+				bHasHeroHitWall=false;
+			}
+
 			//added by Mike, 20260924; from 20221121
 			//bIsActionKeyPressed=false;
 			bIsActionKeyPressed=true;
@@ -15168,8 +15063,7 @@ alert("iXPos: "+iXPos);
 				resetProjectile();
 				return;
 			}
-
-
+			
 			//RIGHT ARROW; 39
 			//LEFT ARROW; 37
 			//UP ARROW; 38
@@ -15233,6 +15127,16 @@ alert("iXPos: "+iXPos);
 			mainImageTileFireballProjectileHold.style.visibility="hidden";
 			
 			iHeroFireballProjectileHoldAnimationDelayCount=0;
+			
+			//removed by Mike, 20261001
+/*
+			bHasHeroHitWall=false;
+			bHasFired=false;
+			bIsHeroWalking=false;
+			newMainImageTileProjectilePosX=0;
+			newMainImageTileProjectilePosY=0;
+			resetProjectile();
+*/			
 			
 			//iCurrHeroWallBounceCount
 
@@ -16837,7 +16741,7 @@ function initTouchInput() {
 
 
   //added by Mike, 20260923
-  function initBgTileMap() {
+  function initBgTileMapVersion20260923() {
 	var iStageOffsetX=iImageFrameWidthLarge*(-5);//0;//iViewportMaxWidth/2-iImageFrameWidth/2;
 	var iStageOffsetY=iImageFrameHeightLarge*2;//0;//iViewportMaxHeight/2;//-iImageFrameHeightLarge/2;//-iImageFrameWidth/2;
 
@@ -17140,7 +17044,552 @@ function initTouchInput() {
 	//alert(iCurrWallBgTileImageCountMax);
   }
 
+  function initBgTileMap() {
+	var iStageOffsetX=iImageFrameWidthLarge*(-5);//0;//iViewportMaxWidth/2-iImageFrameWidth/2;
+	var iStageOffsetY=iImageFrameHeightLarge*2;//0;//iViewportMaxHeight/2;//-iImageFrameHeightLarge/2;//-iImageFrameWidth/2;
 
+	var iCurrBgTileImageColumn=0;
+	var iCurrBgTileImageRow=0;
+	
+	//CENTER BLOCK
+
+	iCurrBgTileImageColumn=0-3+1/2;
+	iCurrBgTileImageRow=3-1/2;
+	
+	//----------------------------------
+	var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+	
+	//TOP BLOCK
+	
+	iCurrBgTileImageColumn=0-3+1/2;
+	iCurrBgTileImageRow=0-1;//-1/2;
+	
+	//----------------------------------
+	var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+	
+	//BOTTOM BLOCK
+	
+	iCurrBgTileImageColumn=0-3+1/2;
+	iCurrBgTileImageRow=3+3;//+1/2;
+	
+	//----------------------------------
+	var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+	
+	//RIGHT BLOCK
+	
+	iCurrBgTileImageColumn=0+1;//+1/2;
+	iCurrBgTileImageRow=3-1/2;
+	
+	//----------------------------------
+	var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+	
+	//LEFT BLOCK
+	
+	iCurrBgTileImageColumn=0-6;//+1/2;
+	iCurrBgTileImageRow=3-1/2;
+		
+	//----------------------------------
+	var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+	
+	
+	
+	//---
+
+	//--------------------------
+	//BLOCK Q2
+	//--------------------------	
+
+	iCurrBgTileImageColumn=0;
+	iCurrBgTileImageRow=4;
+	
+	//----------------------------------
+	var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+	
+	iCurrBgTileImageColumn=0-1;
+	iCurrBgTileImageRow=5;
+	
+	//----------------------------------
+	var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
+	//--------------------------
+	//BLOCK Q3
+	//--------------------------	
+
+	iCurrBgTileImageColumn=0;
+	iCurrBgTileImageRow=1;
+	
+	//----------------------------------
+	var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+	
+	iCurrBgTileImageColumn=0-1;
+	iCurrBgTileImageRow=0;
+	
+	//----------------------------------
+	var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+	
+	//--------------------------
+	//BLOCK Q4
+	//--------------------------	
+
+	iCurrBgTileImageColumn=0-4;
+	iCurrBgTileImageRow=0;
+	
+	//----------------------------------
+	var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+	
+	iCurrBgTileImageColumn=0-5;
+	iCurrBgTileImageRow=1;
+	
+	//----------------------------------
+	var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+	
+	//--------------------------
+	//BLOCK Q1
+	//--------------------------	
+
+	iCurrBgTileImageColumn=0-5;
+	iCurrBgTileImageRow=4;
+	
+	//----------------------------------
+	var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+	
+	iCurrBgTileImageColumn=0-4;
+	iCurrBgTileImageRow=5;
+	
+	//----------------------------------
+	var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+	
+	
+	iCurrNonDiagonalWallBgTileImageCountMax=iCurrBgTileImageCount;
+
+	//--------------------------
+	//DIAGONALS
+	//--------------------------
+	//--------------------------
+	//DIAGONALS Q2
+	//--------------------------
+
+	//added by Mike, 20260922	
+	iCurrBgTileImageColumn=0;
+	iCurrBgTileImageRow=3;//1/2;
+	
+	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,4,0);
+
+	//alert(iCurrBgTileImageCount); //count 14;
+
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
+	//added by Mike, 20260923
+	iCurrBgTileImageColumn=0-1;
+	iCurrBgTileImageRow=4;
+	
+	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,4,0);
+
+	//alert(iCurrBgTileImageCount); //count 14;
+
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
+	//added by Mike, 20260923
+	iCurrBgTileImageColumn=0-2;
+	iCurrBgTileImageRow=5;
+	
+	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,4,0);
+
+	//alert(iCurrBgTileImageCount); //count 14;
+
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
+	iCurrDiagonalQ2WallBgTileImageCountMax=iCurrBgTileImageCount; //added by Mike, 20260922
+
+
+	//--------------------------
+	//DIAGONALS Q1
+	//--------------------------
+
+	//added by Mike, 20260922	
+	iCurrBgTileImageColumn=0-3;
+	iCurrBgTileImageRow=5;
+	
+	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,4,1);
+
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
+	//added by Mike, 20260922	
+	iCurrBgTileImageColumn=0-4;
+	iCurrBgTileImageRow=4;
+	
+	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,4,1);
+
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+
+	iCurrBgTileImageCount++;
+	//----------------------------------	
+
+	//added by Mike, 20260922	
+	iCurrBgTileImageColumn=0-5;
+	iCurrBgTileImageRow=3;
+	
+	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,4,1);
+
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+
+	iCurrBgTileImageCount++;
+	//----------------------------------	
+	
+	iCurrDiagonalQ1WallBgTileImageCountMax=iCurrBgTileImageCount; //added by Mike, 20260922
+	
+
+	//--------------------------
+	//DIAGONALS Q4
+	//--------------------------
+
+	//added by Mike, 20260922	
+	iCurrBgTileImageColumn=0-5;
+	iCurrBgTileImageRow=2;
+	
+	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5,1);
+
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
+	//added by Mike, 20260922	
+	iCurrBgTileImageColumn=0-4;
+	iCurrBgTileImageRow=1;
+	
+	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5,1);
+
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
+
+	//added by Mike, 20260922	
+	iCurrBgTileImageColumn=0-3;
+	iCurrBgTileImageRow=0;
+	
+	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5,1);
+
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+
+	iCurrBgTileImageCount++;
+	//----------------------------------
+	
+	iCurrDiagonalQ4WallBgTileImageCountMax=iCurrBgTileImageCount; //added by Mike, 20260922
+
+
+
+	//--------------------------
+	//DIAGONALS Q3
+	//--------------------------
+
+	//added by Mike, 20260922	
+	iCurrBgTileImageColumn=0-2;
+	iCurrBgTileImageRow=0;
+	
+	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5,0);
+
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+
+	iCurrBgTileImageCount++;
+	//----------------------------------
+	
+	//added by Mike, 20260922	
+	iCurrBgTileImageColumn=0-1;
+	iCurrBgTileImageRow=0+1;
+	
+	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5,0);
+
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+
+	iCurrBgTileImageCount++;
+	//----------------------------------
+	
+	//added by Mike, 20260922	
+	iCurrBgTileImageColumn=0-0;
+	iCurrBgTileImageRow=0+2;
+	
+	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5,0);
+
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	//removed by Mike, 20260807; use same z-index for bg tiles
+	iArrayActorsCount++;							
+	//----------------------------------
+
+	iCurrBgTileImageCount++;
+	//----------------------------------
+	
+	iCurrDiagonalQ3WallBgTileImageCountMax=iCurrBgTileImageCount; //added by Mike, 20260922
+
+
+	iCurrWallBgTileImageCountMax=iCurrBgTileImageCount;
+	
+	//alert(iCurrWallBgTileImageCountMax);
+  }
+  
   function onLoad() {
 //alert(navigator.userAgent);
 
