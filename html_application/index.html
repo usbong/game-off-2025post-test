@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20261003; from 20261002
+' @date updated: 20261007; from 20261003
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024, 2025
@@ -13499,6 +13499,15 @@ if (fDifferenceInXPos!=0) {
 							arrayWraithMonsterCountId[iCount][MONSTER_OBJECT].style.visibility="visible";
 
 							arrayWraithMonsterCountId[iCount][MONSTER_IS_ACTIVE]=true;
+
+							//added by Mike, 20261007
+							arrayWraithMonsterCountId[iCount][MONSTER_STEPX]=2;
+							arrayWraithMonsterCountId[iCount][MONSTER_STEPY]=2;
+							arrayWraithMonsterCountId[iCount][MONSTER_HAS_HIT_WALL_FACING_LEFT]=false;
+							arrayWraithMonsterCountId[iCount][MONSTER_HAS_HIT_WALL_FACING_RIGHT]=false;
+							arrayWraithMonsterCountId[iCount][MONSTER_HAS_HIT_WALL_FACING_UP]=false;
+							arrayWraithMonsterCountId[iCount][MONSTER_HAS_HIT_WALL_FACING_DOWN]=false;
+							
 							
 							//do this only once
 							//pick a number [0, 5]
