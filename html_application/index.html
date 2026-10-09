@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20261007; from 20261003
+' @date updated: 20261009; from 20261007
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024, 2025
@@ -8033,7 +8033,8 @@ alert("iInputY: "+iInputY);
 						heroHitByMonster(mainImageTilePosX,mainImageTilePosY, inputArrayWraithMonsterWithIdCount[MONSTER_POSX],inputArrayWraithMonsterWithIdCount[MONSTER_POSY], iMonsterAttackDamageWraith);
 						
 						setExplosionEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/2,mainImageTilePosY+iImageFrameHeightLarge/2);
-						
+
+/*						//removed by Mike, 20261009; wall collision problems occur when near wall and player chooses to CONTINUE;
 						//push out hero
 						//bHasHeroChangedFacingLeftOrRight=false;
 						
@@ -8047,6 +8048,7 @@ alert("iInputY: "+iInputY);
 								}
 							}
 						}
+*/
 						
 						//currSkelMonsterTileState=ATTACKING_STATE;//WALKING_STATE;
 					//}							
@@ -14875,6 +14877,15 @@ alert("iXPos: "+iXPos);
 		bIsExecutingShake=false;
 		iDestroyHumanShakeDelayCount=0;
 		
+		//added by Mike, 20261009
+		bHasFired=false;
+		iCurrHeroComboCount=0;
+		iCurrHeroWallBounceCount=0;
+		bIsActionKeyPressed=false;
+		bIsActionKeyFireballPressed=false;
+		bIsActionKeyControlPressed=false;
+		bHasHeroHitWall=false;
+		
 		var myFavicon = document.getElementById("faviconImageId");						
 		var textStatusDiv = document.getElementById("textStatusDivId");	
 		var textNewGameDiv = document.getElementById("textNewGameDivId");
@@ -14965,18 +14976,21 @@ alert("iXPos: "+iXPos);
 			bHasBeatenStage1Boss=false;
 			
 			iInputDelayAtGameOverCount=0;
-			bHasFired=false;
-			bIsHeroAttacked=false;			
+			
 			iCurrHeroDeathCount=0;
 			iCurrPearlCount=0;
 			iCurrMonsterDeathCount=0;
+
+/*			//removed by Mike, 20261009
+			bHasFired=false;
+			bIsHeroAttacked=false;			
 
 			//added by Mike, 20260625
 			iCurrHeroComboCount=0;
 			
 			//added by Mike, 20260911
 			iCurrHeroWallBounceCount=0;
-			
+*/			
 			//added by Mike, 20260727
 			iCurrHeroCoinCount=0;
 			
@@ -14998,10 +15012,13 @@ alert("iXPos: "+iXPos);
 			bIsHeroInRiver=false;
 			bHasHeroReachedBottomOfRoomRiver=false;
 			bHasHeroReachedTopOfRoomRiver=false;
+
+/*			//removed by Mike, 20261009
 			bIsActionKeyPressed=false;
 			bIsActionKeyFireballPressed=false;
 			bIsActionKeyControlPressed=false;
 			bHasHeroHitWall=false;
+*/
 
 			bHasPlayedSolvedTune=false;			
 			
@@ -15018,30 +15035,43 @@ alert("iXPos: "+iXPos);
 			//----------------------
 			iCurrHeroLifeMax=iCurrHeroLifeMaxDefault;
 			iCurrHeroLife=iCurrHeroLifeMax;
+
+/*			//removed by Mike, 20261009
 			iCurrHeroLifeToBeDeducted=0;
 			iCurrHeroLifeToBeDeductedAnimation=0;
 			iCurrHeroLifeToBeDeductedAnimationMain=0;
-
+*/
 			iCurrHeroManaMax=iCurrHeroManaMaxDefault;
 			iCurrHeroMana=iCurrHeroManaMax;
+
+/*			//removed by Mike, 20261009
 			iCurrHeroManaToBeDeducted=0;
 			iCurrHeroManaToBeDeductedAnimation=0;
 			iCurrHeroManaToBeDeductedAnimationMain=0;
-
-			mainImageTileProjectileStepYMax=mainImageTileProjectileStepYMaxDefault;
-			mainImageTileProjectileStepXMax=mainImageTileProjectileStepXMaxDefault;
-
-			mainImageTileProjectileVelocityY=mainImageTileProjectileVelocityYDefault;
-			mainImageTileProjectileVelocityX=mainImageTileProjectileVelocityXDefault;
-
-			mainImageTileProjectileStepYMin=mainImageTileProjectileVelocityY;
-			mainImageTileProjectileStepXMin=mainImageTileProjectileVelocityX;
-
-			mainImageTileProjectileStepY=mainImageTileProjectileStepYMin;
-			mainImageTileProjectileStepX=mainImageTileProjectileStepYMin;
-			//----------------------
-			
+*/
 		}
+
+		//added by Mike, 20261009
+		iCurrHeroLifeToBeDeducted=0;
+		iCurrHeroLifeToBeDeductedAnimation=0;
+		iCurrHeroLifeToBeDeductedAnimationMain=0;
+
+		iCurrHeroManaToBeDeducted=0;
+		iCurrHeroManaToBeDeductedAnimation=0;
+		iCurrHeroManaToBeDeductedAnimationMain=0;
+
+		mainImageTileProjectileStepYMax=mainImageTileProjectileStepYMaxDefault;
+		mainImageTileProjectileStepXMax=mainImageTileProjectileStepXMaxDefault;
+
+		mainImageTileProjectileVelocityY=mainImageTileProjectileVelocityYDefault;
+		mainImageTileProjectileVelocityX=mainImageTileProjectileVelocityXDefault;
+
+		mainImageTileProjectileStepYMin=mainImageTileProjectileVelocityY;
+		mainImageTileProjectileStepXMin=mainImageTileProjectileVelocityX;
+
+		mainImageTileProjectileStepY=mainImageTileProjectileStepYMin;
+		mainImageTileProjectileStepX=mainImageTileProjectileStepYMin;
+		//----------------------
 	}
 	
 	//added by Mike, 20251121
