@@ -967,11 +967,29 @@ Also available here: http://store.usbong.ph/server/gameoff/start.html
 
 I've added a `jump` feature, which makes the hero move vertically upward upon pressing the `space bar` on the keyboard. After reaching a certain height, which is currently set to be half the hero's height, the hero is pulled down to the ground.
 
-I initially didn't want to add this, because I wasn't planning on creating a 2D platformer, besides the fact that I find it ridiculous; however, given only an hour or so of spare time that I had today, I opted to spend it on seeing how this feature would actually look in the game, instead of putting in more time adding variations in the monsters' AI.
+I initially didn't want to add this, because I wasn't planning on creating a 2D platformer, besides the fact that I find it ridiculous; however, given only an hour or so of spare time that I had today, I opted to spend it on seeing how this feature would actually look like within the game, instead of putting in more time adding variations in the monsters' AI.
 
 **Unlocked Possibilities:**
 
 There is now a 3D-like feel to the game, because of our newly added `jump` feature. I created a variable for the `z-axis`, which is also inverted like the `y-axis`, meaning that to go up vertically would require the position in the `z-axis` to be decreased since the origin `(0,0)`, or `(0,0,0)` in this case, is at the top-left, instead of at the center.
+
+
+69) 20261013; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+<!--
+Also available here: http://store.usbong.ph/server/gameoff/start.html
+-->
+
+**Key Lesson Learned:** 
+
+I've added a wall that the hero could jump on. The physics is still basic in that the hero can't jump higher if he's already above the wall. Also, there's only one wall of this kind within the game at the moment, meaning that I'd have to update the code to be able to generate many more walls whose physics also work the same way. Moreover, monsters get covered by the top portion of the wall to create the presence of height.
+
+**Unlocked Possibilities:**
+
+We now have one example of a jumpable wall, although the power of the computer really shines when we can easily create many more of them while keeping the physics intact. 
+
+As a side, let me note that it's truly unfortunate that the IP's of many 2D classic platformers failed to transition well to using three dimentional axes, probably due to having inadvertently misconstrued 3D to using 3D techniques like `rotation` and `scaling` but not really in terms of the `x`,`y` and `z` coordinate system, especially during the time when Sony of America didn't anymore accept submissions of PlayStation games that weren't "3D" back in the mid-90s, although I can recall magazines like GameFan admonishing quite severaly in particular the Megaman series for only reusing the same old formula and level design in its games. 
+
+Yet even after the release of Super Mario Galaxy 2 for the Nintendo Wii, there didn't appear to be anyone noteworthy who'd successfully gotten a beloved 2D platformer franchise into such heights or beyond, an example of the latter I'd say would be The Legend of Zelda: Twilight Princess, also for the Wii.
 
 # Additional Bug Fixes
 
