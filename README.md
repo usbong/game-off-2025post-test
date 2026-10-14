@@ -974,22 +974,39 @@ I initially didn't want to add this, because I wasn't planning on creating a 2D 
 There is now a 3D-like feel to the game, because of our newly added `jump` feature. I created a variable for the `z-axis`, which is also inverted like the `y-axis`, meaning that to go up vertically would require the position in the `z-axis` to be decreased since the origin `(0,0)`, or `(0,0,0)` in this case, is at the top-left, instead of at the center.
 
 
-69) 20261013; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+69) 20261013-20261014; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
 
 **Key Lesson Learned:** 
 
-I've added a wall that the hero could jump on. The physics is still basic in that the hero can't jump higher if he's already above the wall. Also, there's only one wall of this kind within the game at the moment, meaning that I'd have to update the code to be able to generate many more walls whose physics also work the same way. Moreover, monsters get covered by the top portion of the wall to create the presence of height.
+I've added a wall on which the hero could jump. The physics is still basic in that the hero can't jump higher if he's already above the wall. Also, there's only one wall of this kind within the game at the moment, meaning that I'd have to update the code to be able to generate many more walls whose physics also work the same way. For instance, monsters get covered by the top portion of the wall to create the presence of height.
 
 **Unlocked Possibilities:**
 
 We now have one example of a jumpable wall, although the power of the computer really shines when we can easily create many more of them while keeping the physics intact. 
 
-As a side, let me note that it's truly unfortunate that the IP's of many 2D classic platformers failed to transition well to using three dimentional axes, probably due to having inadvertently misconstrued 3D to using 3D techniques like `rotation` and `scaling` but not really in terms of the `x`,`y` and `z` coordinate system, especially during the time when Sony of America didn't anymore accept submissions of PlayStation games that weren't "3D" back in the mid-90s, although I can recall magazines like GameFan admonishing quite severaly in particular the Megaman series for only reusing the same old formula and level design in its games. 
+As a side, let me note that it's truly unfortunate that the IP's of many 2D classic platformers failed to transition well to using three dimentional axes, probably due to having inadvertently misconstrued 3D to using 3D techniques like `rotation` and `scaling` but not really in terms of the `x`,`y` and `z` coordinate system, especially during the time when Sony of America didn't anymore accept submissions of PlayStation games that weren't "3D" back in the mid-90s. I can still recall magazines like GameFan admonishing rather severely in particular the Megaman series for only reusing the same old formula and level design in its games. 
 
-Yet even after the release of Super Mario Galaxy 2 for the Nintendo Wii, there didn't appear to be anyone noteworthy who'd successfully gotten a beloved 2D platformer franchise into such heights or beyond, an example of the latter I'd say would be The Legend of Zelda: Twilight Princess, also for the Wii.
+Yet even after the release of Super Mario Galaxy 2 for the Nintendo Wii, there didn't appear to be anyone noteworthy who'd successfully gotten any other beloved 2D platformer franchise into such heights or beyond, an example of the latter I'd say would be The Legend of Zelda: Twilight Princess, also for the Wii.
+
+70) 20261013-20261014; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+<!--
+Also available here: http://store.usbong.ph/server/gameoff/start.html
+-->
+
+**Key Lesson Learned:** 
+
+I've updated the physics of our DIY engine to allow the hero to jump when he's already on top of a wall. While the height level of the platforms is currently at only either 0 or 1, many more could, of course, be added in the same way that the number of jumpable walls could be increased beyond only one.
+
+Also, I'm considering adding acceleration and deacceleration, because when the hero jumps on a wall without moving forward, the animation looks abrupt wherein the hero would go up and then just drop down like free-falling into a narrow hole.
+
+Juggling multiple `variables` like combinations of on-off switches can be mind-boggling, so using a `variable` like `iCurrPlatformLevel` created specifically for a defined purpose instead of combining multiple variables could at times make things a lot simpler. 
+
+**Unlocked Possibilities:**
+
+We can make use of a working wall to create many more. 
 
 # Additional Bug Fixes
 
