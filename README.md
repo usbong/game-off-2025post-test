@@ -974,7 +974,7 @@ I initially didn't want to add this, because I wasn't planning on creating a 2D 
 There is now a 3D-like feel to the game, because of our newly added `jump` feature. I created a variable for the `z-axis`, which is also inverted like the `y-axis`, meaning that to go up vertically would require the position in the `z-axis` to be decreased since the origin `(0,0)`, or `(0,0,0)` in this case, is at the top-left, instead of at the center.
 
 
-69) 20261013-20261014; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+69) 20261013-20261015; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -991,7 +991,7 @@ As a side, let me note that it's truly unfortunate that the IP's of many 2D clas
 
 Yet even after the release of Super Mario Galaxy 2 for the Nintendo Wii, there didn't appear to be anyone noteworthy who'd successfully gotten any other beloved 2D platformer franchise into such heights or beyond, an example of the latter I'd say would be The Legend of Zelda: Twilight Princess, also for the Wii.
 
-70) 20261013-20261014; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+70) 20261013-20261015; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1007,6 +1007,24 @@ Juggling multiple `variables` like combinations of on-off switches can be mind-b
 **Unlocked Possibilities:**
 
 We can make use of a working wall to create many more. 
+
+
+71) 20261013-20261015; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+<!--
+Also available here: http://store.usbong.ph/server/gameoff/start.html
+-->
+
+**Key Lesson Learned:** 
+
+I've added some acceleration and deacceleration whenever the hero moves forward, backward, upward and downward. Getting the physics to work is always a question of whether the programmer will stop and take whatever already works or proceed onward to get better results. 
+
+At one point, I was even considering simply putting a new animation sequence when the hero reaches the top of his jump, instead of persisting on using deacceleration, because I found that if I kept on using `bIsHeroWalking` even for determining if the hero is deaccelerating, the viewport would get messed up like it would move warpspeed too fast.
+
+Nonetheless, despite the commotion like the wireless noise, which has markedly increased since yesterday, and eye-irritating alcohol that lingers in the air at the clinic, I managed to get a basic acceleration-deacceleration physics working today.
+
+**Unlocked Possibilities:**
+
+We now have `inertia` to prevent abrupt or sudden stops in the hero's movement whenever he moves toward a particular direction.
 
 # Additional Bug Fixes
 
