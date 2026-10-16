@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20261015; from 20261014
+' @date updated: 20261016; from 20261015
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024, 2025
@@ -1620,6 +1620,9 @@ var bIsHeroJumping=false;
 var bIsHeroFalling=false;
 var bHasHeroLanded=true;
 
+//added by Mike, 20261016
+var bIsHeroHovering=false;
+
 var iCurrBossMonsterLifeMax=20;
 var iCurrBossMonsterLife=iCurrBossMonsterLifeMax;
 var iCurrBossMonsterLifeAnimationDelayCount=0;
@@ -2992,6 +2995,12 @@ var bIsHeroFacingUp=false;
 		arrayKeyPressed[iKEY_S]=false;
 */
 
+		//added by Mike, 20261016
+		if (bHasHeroHitWall) {
+			mainImageTileProjectileStepX=mainImageTileProjectileStepXMin;
+			mainImageTileProjectileStepY=mainImageTileProjectileStepYMin;
+		}
+
 		bIsLeftClickPressed=false;
 
 		mainImageTileProjectilePosX=parseFloat(mainImageTile.style.left);
@@ -3068,7 +3077,8 @@ var bIsHeroFacingUp=false;
 		//iHeroAttackComboCount=0;
 		
 		iFrameY=iHeroFrameY;
-			
+
+/*		//removed by Mike, 20261016			
 		//added by Mike, 20260902
 		if ((bIsActionKeyControlPressed) && (!bIsActionKeyFireballPressed)) {			
 			//updateHeroFacingDirection();
@@ -3076,8 +3086,11 @@ var bIsHeroFacingUp=false;
 			//alert("iHeroFrameY!!: "+iHeroFrameY);
 			
 		}
-			
-			//removed by Mike, 20251104
+*/			
+
+
+			//removed by Mike, 20261016; from 20251104
+/*
 			//mainImageTileHeroBody.style.visibility="visible";
 		
 			if (iHeroInvincibileCount<iHeroInvincibileCountMax/8) {
@@ -3101,6 +3114,7 @@ var bIsHeroFacingUp=false;
 				mainImageTileHeroBody1.style.objectPosition = "-" + iImageFrameWidthLarge*iHeroAnimationCount - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";
 				mainImageTileHeroBody2.style.objectPosition = "-" + iImageFrameWidthLarge*iHeroAnimationCount - 4*iImageFrameWidthLarge + "px -" + iFrameY + "px";
 			}
+*/			
 	}
 	
 	function resetFireballProjectile() {
@@ -5991,7 +6005,25 @@ alert("iInputY: "+iInputY);
 		}
 */
 
-		if (iHeroAnimationDelayCount==iHeroWalkAnimationDelayCountMax) {
+		//edited by Mike, 20261016
+/*
+		iHeroWalkAnimationDelayCountMaxTemp = iHeroWalkAnimationDelayCountMax;
+		
+		if (bIsHeroDeaccelerating) {
+			iHeroWalkAnimationDelayCountMaxTemp/2;
+		}
+*/
+		var fHeroWalkAnimationDelayCountMaxFactor=1;
+		
+		if (mainImageTileProjectileStepY>mainImageTileProjectileStepX) {
+			fHeroWalkAnimationDelayCountMaxFactor=mainImageTileProjectileStepY;
+		}
+		else {
+			fHeroWalkAnimationDelayCountMaxFactor=mainImageTileProjectileStepX;
+		}
+
+		//if (iHeroAnimationDelayCount==iHeroWalkAnimationDelayCountMax) {
+		if (iHeroAnimationDelayCount>=iHeroWalkAnimationDelayCountMax/fHeroWalkAnimationDelayCountMaxFactor) {
 
 			iHeroWalkAnimationCount=(iHeroWalkAnimationCount+1)%4; //last hidden
 
@@ -9664,7 +9696,27 @@ if (arrayWalkOnSnowEffectCount==1) {
 		//if (!bHasHeroHitMonster) {
 		if (!bIsLeftClickPressed) { //add this; otherwise, mouse movement isn't registered
 			if ((!arrayKeyPressed[iKEY_D]) && (!arrayKeyPressed[iKEY_A]) && (!arrayKeyPressed[iKEY_W]) && (!arrayKeyPressed[iKEY_S])) { 
+
+				//edited by Mike, 20261016
+				//resetProjectile();
+
+				if (bHasHeroHitWall) {
+					resetProjectile();
+					
+/*					//removed by Mike, 20261016
+					mainImageTileProjectileStepX=mainImageTileProjectileStepXMin;
+					mainImageTileProjectileStepY=mainImageTileProjectileStepYMin;
+*/					
+				}
 				
+				if (iCurrHeroWallBounceCount>0) {
+					resetProjectile();
+				}
+
+				if (bIsHeroFalling) {
+					resetProjectile();
+				}
+
 				//edited by Mike, 20261015
 				if (!bIsHeroDeaccelerating) {
 					resetProjectile();
@@ -11242,6 +11294,12 @@ if (fDifferenceInXPos!=0) {
 				//----------------------------------
 				//if ((bIsHeroJumping) && (bIsHeroFalling)) { //too strict; physics
 				if (bIsHeroJumping) {
+
+					//added by Mike, 20261016
+					bIsHeroHovering=true;
+					
+					//alert("DITO!!"+bIsHeroHovering);
+				
 					if (iCurrPlatformLevel==0) {
 						//currMainImageTileHeightPosZ=mainImageTilePosZMax;
 						
@@ -11251,8 +11309,11 @@ if (fDifferenceInXPos!=0) {
 					}
 
 					if (bIsHeroFalling) {
-						//alert("DITO!!");
+						//alert("DITO!!"+currMainImageTileHeightPosZ);
+						
 						currMainImageTileHeightPosZ=mainImageTilePosZMax;
+						
+						//alert(">>DITO!!"+currMainImageTileHeightPosZ);
 					}
 
 
@@ -11403,9 +11464,12 @@ if (fDifferenceInXPos!=0) {
 				else {
 					//solves problem when hero tries to slip diagonally between two tiles on top of each other; happens both on the left and the right sides;
 					if (iCurrHeroWallBounceCount>0) { //2) {
+						//removed by Mike, 20261016
+/*						//causes error when go upward from the wall then back downward; or vice-versa;
 						if (bIsHeroFacingUpOrDown) {
 							newMainImageTileProjectilePosX*=(-1.2);
 						}
+*/						
 						
 						updateArrayActorsViewport();
 						iCurrHeroWallBounceCount++;
@@ -11415,6 +11479,10 @@ if (fDifferenceInXPos!=0) {
 			}
 			//added by Mike, 20261012
 			else {
+			
+				//added by Mike, 20261016
+				bIsHeroHovering=false;
+				
 				//edited by Mike, 20261014
 				if (!bIsHeroJumping) {
 					currMainImageTileHeightPosZ=mainImageTilePosY; //set to the default height;
@@ -13757,8 +13825,10 @@ if (fDifferenceInXPos!=0) {
 */
 					initBgTileMap();
 					//heroShadowEffectImage.style.zIndex=mainImageTileHeroBody.style.zIndex+1;	
-
-					heroShadowEffectImage.style.zIndex=heroShadowEffectImage.style.zIndex+1;	
+					
+					//edited by Mike, 20261016
+					//heroShadowEffectImage.style.zIndex=999999;//heroShadowEffectImage.style.zIndex+1;	
+					heroShadowEffectImage.style.zIndex=mainImageTileHeroBody.style.zIndex-1;	
 
 
 					//alert(arrayActors.length);
@@ -14998,6 +15068,25 @@ if (fDifferenceInXPos!=0) {
 							}
 						//}
 						
+						
+						//added by Mike, 20261016
+/*						//buggy
+						if (bIsHeroJumping) {
+//							if (iCurrPlatformLevel==0) {
+								if (bIsHeroHovering) {
+									//alert("DITO!!");
+									//setHeroShadowEffectPosition(0,0);
+									//mainImageTilePosX+iImageFrameWidthLarge/3,mainImageTilePosY+iImageFrameHeightLarge*0.7-mainImageTilePosZ*(iCurrPlatformLevel)/2
+								}
+								else {
+									setHeroShadowEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/3,mainImageTilePosY+iImageFrameHeightLarge*0.7);
+								}
+//							}
+						}
+*/
+						setHeroShadowEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/3,mainImageTilePosY+iImageFrameHeightLarge*0.7);
+						
+						
 						//mainImageTileHeroBody.style.left=fActorPosXUpdated+"px";
 						//mainImageTileHeroBody.style.top=mainImageTilePosZ+"px";
 						
@@ -15039,13 +15128,25 @@ if (fDifferenceInXPos!=0) {
 		
 		//added by Mike, 20261014
 		bHasHeroLanded=false;
+				
+		//removed by Mike, 20261016
+/*
+		setHeroShadowEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/3,mainImageTilePosY+iImageFrameHeightLarge*0.7);
+		
+		if (bIsHeroHovering) { //bIsHeroJumping
+				alert("DITO!!");
+		}
+*/
 		
 		mainImageTilePosZ=currMainImageTileHeightPosZ;
+
 		
-		setHeroShadowEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/3,mainImageTilePosY+iImageFrameHeightLarge*0.7);
+//setHeroShadowEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/3,fCurrViewportY+iImageFrameHeightLarge*0.7-mainImageTilePosZ*(iCurrPlatformLevel)/4);
+
 		//setHeroShadowEffectPosition(fCurrViewportX,fCurrViewportY);
 	    //setHeroShadowEffectPosition(0,0);
 	  }
+
     }
   }
   
@@ -15382,13 +15483,18 @@ alert("iXPos: "+iXPos);
 					//128 is the size of the init fireball effect frame;
 					//edited by Mike, 20261014
 					//setInitFireballEffectPosition(parseFloat(mainImageTilePosX)-32/2,parseFloat(mainImageTilePosY)-32/2);
-
+					//edited by Mike, 20261016
+/*
 					if (currMainImageTileHeightPosZ!=mainImageTilePosY) {
 						setInitFireballEffectPosition(parseFloat(mainImageTilePosX)-32/2,parseFloat(mainImageTilePosY)-32-currMainImageTileHeightPosZ/2);
 					}
 					else {
 						setInitFireballEffectPosition(parseFloat(mainImageTilePosX)-32/2,parseFloat(mainImageTilePosY)-32/2);
 					}
+*/
+					//TODO: -add: update if throwing a fireball while jumping 
+					setInitFireballEffectPosition(parseFloat(mainImageTilePosX)-32/2,parseFloat(mainImageTilePosY)-32/2-iCurrPlatformLevel*32);
+
 				}
 			}
 			else {		
