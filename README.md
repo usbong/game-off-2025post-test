@@ -974,7 +974,7 @@ I initially didn't want to add this, because I wasn't planning on creating a 2D 
 There is now a 3D-like feel to the game, because of our newly added `jump` feature. I created a variable for the `z-axis`, which is also inverted like the `y-axis`, meaning that to go up vertically would require the position in the `z-axis` to be decreased since the origin `(0,0)`, or `(0,0,0)` in this case, is at the top-left, instead of at the center.
 
 
-69) 20261013-20261015; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+69) 20261013-20261017; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -991,7 +991,7 @@ As a side, let me note that it's truly unfortunate that the IP's of many 2D clas
 
 Yet even after the release of Super Mario Galaxy 2 for the Nintendo Wii, there didn't appear to be anyone noteworthy who'd successfully gotten any other beloved 2D platformer franchise into such heights or beyond, an example of the latter I'd say would be The Legend of Zelda: Twilight Princess, also for the Wii.
 
-70) 20261013-20261015; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+70) 20261013-20261017; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1000,7 +1000,7 @@ Also available here: http://store.usbong.ph/server/gameoff/start.html
 
 I've updated the physics of our DIY engine to allow the hero to jump when he's already on top of a wall. While the height level of the platforms is currently at only either 0 or 1, many more could, of course, be added in the same way that the number of jumpable walls could be increased beyond only one.
 
-Also, I'm considering adding acceleration and deacceleration, because when the hero jumps on a wall without moving forward, the animation looks abrupt wherein the hero would go up and then just drop down like free-falling into a narrow hole.
+Also, I'm considering adding acceleration and deceleration, because when the hero jumps on a wall without moving forward, the animation looks abrupt wherein the hero would go up and then just drop down like free-falling into a narrow hole.
 
 Juggling multiple `variables` like combinations of on-off switches can be mind-boggling, so using a `variable` like `iCurrPlatformLevel` created specifically for a defined purpose instead of combining multiple variables could at times make things a lot simpler. 
 
@@ -1009,22 +1009,40 @@ Juggling multiple `variables` like combinations of on-off switches can be mind-b
 We can make use of a working wall to create many more. 
 
 
-71) 20261013-20261015; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+71) 20261013-20261017; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
 
 **Key Lesson Learned:** 
 
-I've added some acceleration and deacceleration whenever the hero moves forward, backward, upward and downward. Getting the physics to work is always a question of whether the programmer will stop and take whatever already works or proceed onward to get better results. 
+I've added some acceleration and deceleration whenever the hero moves forward, backward, upward and downward. Getting the physics to work is always a question of whether the programmer will stop and take whatever already works or proceed onward to get better results. 
 
-At one point, I was even considering simply putting a new animation sequence when the hero reaches the top of his jump, instead of persisting on using deacceleration, because I found that if I kept on using `bIsHeroWalking` even for determining if the hero is deaccelerating, the viewport would get messed up like it would move warpspeed too fast.
+At one point, I was even considering simply putting a new animation sequence when the hero reaches the top of his jump, instead of persisting on using deceleration, because I found that if I kept on using `bIsHeroWalking` even for determining if the hero is deaccelerating, the viewport would get messed up like it would move warpspeed too fast.
 
-Nonetheless, despite the commotion like the wireless noise, which has markedly increased since yesterday, and eye-irritating alcohol that lingers in the air at the clinic, I managed to get a basic acceleration-deacceleration physics working today.
+Nonetheless, despite the commotion like the wireless noise, which has markedly increased since yesterday, and eye-irritating alcohol that lingers in the air at the clinic, I managed to get a basic acceleration-deceleration physics working today.
 
 **Unlocked Possibilities:**
 
 We now have `inertia` to prevent abrupt or sudden stops in the hero's movement whenever he moves toward a particular direction.
+
+
+72) 20261013-20261017; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+<!--
+Also available here: http://store.usbong.ph/server/gameoff/start.html
+-->
+
+**Key Lesson Learned:** 
+
+I've been doing tests and updating the collision detection of the jumpable wall along the way after adding `acceleration` and `deceleration` to produce `inertia` whenever the hero walks rapidly and then suddenly stops. Furthermore, this movement can be combined with jumping, such that I had to set a height requirement when the hero jumps over a wall, so that even if the hero's `bounding rectangle` intersects with the wall's, there won't be a noticeable teleporting happening in which the hero is taken from near the bottom of the wall and put immediately to the top of the wall. The tradeoff here is that the jump requirement has gotten stricter and must be executed at the correct distance to reach the top of the wall.
+
+Moreover, I've added "mana costs" (or "stamina cost") whenever the hero jumps and when he runs at max speed. As with attacking, when the available mana is `<=0`, there's a penalty such as the hero won't be able to do more jumps and would slow down for a few seconds. The mana cost for running is actually recovered very quickly, and the mana is never fully depleted in this way; however, when combined with jumping and attacking, the cost could be enough to cause the mana penalty.
+
+Finally, I've added a filter that could be removed later with a toggle in order to see how it would look. At the code level, it's just a grid whose squares are `3x3` pixels in `width x height`. It was an idea I thought of adding after seeing it done in "Dark Arms: Beast Buster" for the NEO GEO Pocket Color, a game available on Steam at a discounted price during seasonal promos. I'll be sure to write a review about it next time, but, for now, all I'm going to say is that I've stopped playing Retro Endurance 8bit in favor of this SNK title.
+
+**Unlocked Possibilities:**
+
+We now have better physics though there'll always be more that can be done to improve our DIY engine. 
 
 # Additional Bug Fixes
 
