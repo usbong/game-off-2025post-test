@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20261017; from 20261016
+' @date updated: 20261019; from 20261017
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024, 2025
@@ -3195,8 +3195,24 @@ var bIsHeroFacingUp=false;
     		for (var iColumnCount=0; iColumnCount<iViewportMaxHeight; iColumnCount++) {
 				myCanvasContext.beginPath();
 				myCanvasContext.strokeStyle = "#000000";//"#fcfcfc";//"#0da200";
-				myCanvasContext.lineWidth = 0.03; 
-				myCanvasContext.strokeRect(0+iXPos+iGridSquareWidth*iRowCount, 0+iYPos+iGridSquareHeight*iColumnCount, iViewportMaxWidth, iViewportMaxHeight); 
+				myCanvasContext.lineWidth = 0.01; //0.03 
+
+				//myCanvasContext.strokeRect(0+iXPos+iGridSquareWidth*iRowCount, 0+iYPos+iGridSquareHeight*iColumnCount, iViewportMaxWidth, iViewportMaxHeight); 
+				
+				//reference: MDN Web Docs
+				//horizontal
+				myCanvasContext.moveTo(0+iXPos+iGridSquareWidth*iRowCount+0.5, 0+iYPos+iGridSquareHeight*iColumnCount+0.5);
+				
+				myCanvasContext.lineTo(iViewportMaxWidth+0.5, 0+iYPos+iGridSquareHeight*iColumnCount+0.5);
+				myCanvasContext.stroke();
+
+/*				
+				//vertical
+				myCanvasContext.moveTo(0+iXPos+iGridSquareWidth*iRowCount+0.5, 0+iYPos+iGridSquareHeight*iColumnCount+0.5);
+				
+				myCanvasContext.lineTo(0+iXPos+iGridSquareWidth*iRowCount, iViewportMaxHeight);
+				myCanvasContext.stroke();
+*/				
 			}
 		}		
 	}
@@ -4217,10 +4233,13 @@ var bIsHeroFacingUp=false;
 		//added by Mike, 20261017		
 		//TODO: -add: filter ON/off toggle
 		//var myCanvasTwo = document.getElementById("myCanvasTwoId");
+		
+		//TODO: -test; using another separate canvas for this; filter
 		var myCanvasTwoContext = myCanvasTwo.getContext("2d");
-		myCanvasTwo.style.opacity=0.3;//0.1;
+		myCanvasTwo.style.opacity=0.5;//0.1;
 		drawGrid(myCanvasTwoContext,0,0);
-
+		
+		myCanvasTwo.style.opacity=1.0; //reset
 	
 		//removed by Mike, 20260907
 		//forceLandscape();
@@ -6085,6 +6104,8 @@ alert("iInputY: "+iInputY);
 					else {
 						mainImageTileProjectileStepX=mainImageTileProjectileStepXMax;
 
+/*
+						//removed by Mike, 20261019
 						bHasReducedHeroManaOutput=reduceHeroMana(iManaCostHeroAccelerate);
 						
 						if (!bHasReducedHeroManaOutput) {
@@ -6094,7 +6115,21 @@ alert("iInputY: "+iInputY);
 
 							//return;
 						}
+*/						
+					}
 
+					//added by Mike, 20261019
+					if ((mainImageTileProjectileStepX>=mainImageTileProjectileStepXMax*0.75)|| (mainImageTileProjectileStepY>=mainImageTileProjectileStepYMax*0.75)) {
+
+						bHasReducedHeroManaOutput=reduceHeroMana(iManaCostHeroAccelerate);
+						
+						if (!bHasReducedHeroManaOutput) {
+							mainImageTileProjectileStepX=mainImageTileProjectileStepXMin;
+							mainImageTileProjectileStepY=mainImageTileProjectileStepYMin;
+							bIsHeroDeaccelerating=true;
+
+							//return;
+						}
 					}
 				}
 			}
@@ -11420,7 +11455,8 @@ if (fDifferenceInXPos!=0) {
 						bIsHeroHovering=true;
 						
 						//alert("DITO!!"+bIsHeroHovering);
-					
+
+/*						//removed by Mike, 20261019					
 						if (iCurrPlatformLevel==0) {
 							//currMainImageTileHeightPosZ=mainImageTilePosZMax;
 							
@@ -11428,9 +11464,15 @@ if (fDifferenceInXPos!=0) {
 
 							iCurrPlatformLevel++;
 						}
-
+*/
 						if (bIsHeroFalling) {
 							//alert("DITO!!"+currMainImageTileHeightPosZ);
+							
+							//added by Mike, 20261019
+							if (iCurrPlatformLevel==0) {
+								iCurrPlatformLevel++;
+							}
+
 							
 							currMainImageTileHeightPosZ=mainImageTilePosZMax;
 							
@@ -11449,6 +11491,12 @@ if (fDifferenceInXPos!=0) {
 
 				//added by Mike, 20261017
 				//bIsHeroJumping=false;
+				
+				//added by Mike, 20261019
+				//----------------------------------
+				mainImageTileProjectileStepX=mainImageTileProjectileStepXMin;mainImageTileProjectileStepY=mainImageTileProjectileStepYMin;
+				bIsHeroDeaccelerating=false;
+				//----------------------------------
 
 				if (iCurrHeroWallBounceCount==0) {
 						iCurrCollidedBgTileImageCount=iCurrBgTileImageCount;
@@ -11595,6 +11643,7 @@ if (fDifferenceInXPos!=0) {
 						
 						updateArrayActorsViewport();
 						iCurrHeroWallBounceCount++;
+						
 						return;
 					}
 				}
