@@ -575,7 +575,7 @@
 
 			visibility: hidden;
 
-			z-index: 2; /*3 is ImageHeroBody*/
+			z-index: 999999; /*2; 3 is ImageHeroBody*/
 		}			
 
 		.ImageWalkOnSnowEffect {
@@ -4197,6 +4197,7 @@ var bIsHeroFacingUp=false;
 		//-----------------------------
 		var myCanvas = document.getElementById("myCanvasId");
 		var myCanvasTwo = document.getElementById("myCanvasTwoId");
+		var myCanvasGrid = document.getElementById("myCanvasGridId");
 		var myCanvasTint = document.getElementById("myCanvasTintId");
 		
 		//added by Mike, 20260930
@@ -4220,6 +4221,10 @@ var bIsHeroFacingUp=false;
 		myCanvasTwo.style.width=637; //640;
 		myCanvasTwo.style.height=357; //360;
 
+		//added by Mike, 20261020
+		myCanvasGrid.style.width=637; //640;
+		myCanvasGrid.style.height=357; //360;
+
 		myCanvasTint.style.width=640;
 		myCanvasTint.style.height=360;
 
@@ -4235,11 +4240,18 @@ var bIsHeroFacingUp=false;
 		//var myCanvasTwo = document.getElementById("myCanvasTwoId");
 		
 		//TODO: -test; using another separate canvas for this; filter
+/*
 		var myCanvasTwoContext = myCanvasTwo.getContext("2d");
 		myCanvasTwo.style.opacity=0.5;//0.1;
 		drawGrid(myCanvasTwoContext,0,0);
-		
+
+		//edited by Mike, 20261020
 		myCanvasTwo.style.opacity=1.0; //reset
+*/
+
+		var myCanvasGridContext = myCanvasGrid.getContext("2d");
+		myCanvasGrid.style.opacity=0.5;//0.1;
+		drawGrid(myCanvasGridContext,0,0);
 	
 		//removed by Mike, 20260907
 		//forceLandscape();
@@ -4279,11 +4291,14 @@ var bIsHeroFacingUp=false;
 		fHeroBodySoulDistanceX=0;
 		fHeroBodySoulDistanceY=0;
 		
-		//added by Mike, 20261010
-		mainImageTilePosZMax=(iViewportMaxHeight/2-iImageFrameHeightLarge/2)-iImageFrameHeightLarge/2;//0; //inverted like the y-axis
+		//edited by Mike, 20261020; from 20261010
+		//mainImageTilePosZMax=(iViewportMaxHeight/2-iImageFrameHeightLarge/2)-iImageFrameHeightLarge/2;//0; //inverted like the y-axis
+
+		mainImageTilePosZMax=(iViewportMaxHeight/2-iImageFrameHeightLarge/2)-iImageFrameHeightLarge*0.6;
 
 		//added by Mike, 20261017
 		mainImageTilePosZMaxBase=mainImageTilePosZMax;
+
 
 		
 /*		//edited by Mike, 20260615; debug		
@@ -4425,6 +4440,7 @@ var bIsHeroFacingUp=false;
 		var textStatusDiv = document.getElementById("textStatusDivId");
 		var textStatusBackgroundDiv = document.getElementById("textStatusBackgroundDivId");
 		var myCanvasTwo = document.getElementById("myCanvasTwoId");
+		var myCanvasGrid = document.getElementById("myCanvasGridId");
 
 		var myCanvasTint = document.getElementById("myCanvasTintId");
 
@@ -4531,6 +4547,7 @@ var bIsHeroFacingUp=false;
 		textStatusDiv.style.visibility="hidden";
 		textStatusBackgroundDiv.style.visibility="hidden";
 		myCanvasTwo.style.visibility="hidden";
+		myCanvasGrid.style.visibility="hidden";
 
 		//myCanvasTint.style.visibility="hidden";
 
@@ -4609,6 +4626,9 @@ var bIsHeroFacingUp=false;
 		//--------------------
 		myCanvasTwo.style.top = (iVerticalOffsetInnerScreen+0)+"px";
 		myCanvasTwo.style.left = iHorizontalOffset+"px";
+
+		myCanvasGrid.style.top = (iVerticalOffsetInnerScreen+0)+"px";
+		myCanvasGrid.style.left = iHorizontalOffset+"px";
 
 		//let iMyCanvasTintOffsetY=iImageFrameHeight;
 		//let iMyCanvasTintOffsetY=0;
@@ -5723,9 +5743,17 @@ alert("iInputY: "+iInputY);
 	//added by Mike, 20261010
 	function setHeroShadowEffectPosition(iInputX, iInputY) {
 		var heroShadowEffectImage = document.getElementById("heroShadowEffectImageId");
+		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
+		
+		heroShadowEffectImage.style.zIndex=mainImageTileHeroBody.style.zIndex-1;	
 
 		if (heroShadowEffectImage.style.visibility=="visible") {
-		  return;
+			//added by Mike, 20261020
+			//allow positions to be updated;
+			heroShadowEffectImage.style.left = iInputX;
+			heroShadowEffectImage.style.top = iInputY;
+
+		    return;
 		}
 
 /*
@@ -5744,9 +5772,10 @@ alert("iInputY: "+iInputY);
 		iHeroAttackEffectAnimationDelayCount=iHeroAttackEffectAnimationDelayCountMax;
 		iHeroAttackEffectAnimationCount=-1; //0;
 */
+
 		heroShadowEffectImage.style.left = iInputX;
 		heroShadowEffectImage.style.top = iInputY;
-		
+
 		//alert("DITO!!");
 	} 
 	
@@ -10325,6 +10354,16 @@ if (arrayWalkOnSnowEffectCount==1) {
 		}
 	}
 	
+	//added by Mike, 20261020
+	function updateShadowEffect() {
+		if (iCurrPlatformLevel==0) {
+			setHeroShadowEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/3,mainImageTilePosY+iImageFrameHeightLarge*0.7);
+		}
+		else if (iCurrPlatformLevel==1) {
+			setHeroShadowEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/3,mainImageTilePosY);
+		}	
+	}
+	
 	//added by Mike, 20260801
 	function updateArrayActorsViewport() {
 		const iArrayActorsCountMax=arrayActors.length;
@@ -10595,11 +10634,13 @@ if (fDifferenceInXPos!=0) {
 					continue;
 				}
 
-				//added by Mike, 20261013
+				//removed by Mike, 20261020; from 20261013
+/*
 				//always put the hero above the other actors except the effects
 				if (arrayActors[iCountTwo]["type"]==HERO_ARRAY_ACTOR_ROLE_TYPE) {
 					continue;
 				}
+*/
 				
 				//bImageTilePosX=parseInt(arrayActors[iCountTwo].style.left);
 				//edited by Mike, 20260921
@@ -10669,14 +10710,27 @@ if (fDifferenceInXPos!=0) {
 			//edited by Mike, 20261014
 			//if (currMainImageTileHeightPosZ!=mainImageTilePosZMax) {
 			if (iCurrPlatformLevel==0) {					
-				bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex+1;
+				//edited by Mike, 20261020
+				//bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex+1;
+				
+				if (bIsHeroJumping) {
+					mainImageTileHeroBody.style.zIndex=999999-1;
+					bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex-1;
+				}
+				else {
+					bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex+1;
+				}
+				
 				//bgTileImage.style.zIndex=document.getElementById("coinImageId"+0).style.zIndex-1;
 				
 				//alert(mainImageTileHeroBody.style.zIndex);
 			}
 			else {
+				//edited by Mike, 20261020; from 20261014
+				//add this; otherwise, top portion of wall doesn't cover monsters when he jumps;
 				//mainImageTileHeroBody.style.zIndex=999999-1;
-				//edited by Mike, 20261014
+
+				mainImageTileHeroBody.style.zIndex=999999-1;
 				bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex-1;
 				
 				document.getElementById("mainImageTileFireballProjectileImageId").style.zIndex=mainImageTileHeroBody.style.zIndex;
@@ -11419,12 +11473,10 @@ if (fDifferenceInXPos!=0) {
 			//edited by Mike, 20261014
 			//const fOffsetPosX=iImageFrameWidthLarge*0.1;
 			
-			//edited by Mike, 20261017
-			if (isPointsOfRectIntersectingPointsOfRectWall(parseFloat(mainImageTilePosX),parseFloat(mainImageTilePosY), parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*1, iImageFrameHeightLarge*1, iImageFrameWidthBgTile*1, iImageFrameHeightBgTile*1/2)) {
+			//edited by Mike, 20261020; from 20261017
+			//if (isPointsOfRectIntersectingPointsOfRectWall(parseFloat(mainImageTilePosX),parseFloat(mainImageTilePosY), parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*1, iImageFrameHeightLarge*1, iImageFrameWidthBgTile*1, iImageFrameHeightBgTile*1/2)) {
 
-			//if (isPointsOfRectIntersectingPointsOfRectWall(parseFloat(mainImageTilePosX),parseFloat(mainImageTilePosY), parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top)+iImageFrameHeightBgTile/4, iImageFrameWidthLarge*1, iImageFrameHeightLarge*1, iImageFrameWidthBgTile*1, iImageFrameHeightBgTile*1/2)) {
-
-			//if (isPointsOfRectIntersectingPointsOfRectWall(parseFloat(mainImageTilePosX)-fOffsetPosX,parseFloat(mainImageTilePosY), parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*1+fOffsetPosX, iImageFrameHeightLarge*1, iImageFrameWidthBgTile*1, iImageFrameHeightBgTile*1/2)) {
+			if (isPointsOfRectIntersectingPointsOfRectWall(parseFloat(mainImageTilePosX),parseFloat(mainImageTilePosY), parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthLarge*1, iImageFrameHeightLarge*1, iImageFrameWidthBgTile*1, iImageFrameHeightBgTile*.6)) {
 
 
 				var iOffsetX=0;//iImageFrameWidthLarge/4;
@@ -11478,6 +11530,10 @@ if (fDifferenceInXPos!=0) {
 							
 							//alert(">>DITO!!"+currMainImageTileHeightPosZ);
 						}
+					
+						//added by Mike, 20261020
+						//otherwise; lag; updating shadow position upon jumping onto a platform
+						updateShadowEffect();
 
 						return;
 					}
@@ -11654,12 +11710,16 @@ if (fDifferenceInXPos!=0) {
 				//added by Mike, 20261016
 				bIsHeroHovering=false;
 				
-				//edited by Mike, 20261014
-				if (!bIsHeroJumping) {
+				//edited by Mike, 20261020; from 20261014
+				//if (!bIsHeroJumping) {
 					currMainImageTileHeightPosZ=mainImageTilePosY; //set to the default height;
-					//added by Mike, 20261014
-					iCurrPlatformLevel=0;//--;
-				}
+					//edited by Mike, 20261020; from 20261014
+					iCurrPlatformLevel--;
+
+					if (iCurrPlatformLevel<0) {
+						iCurrPlatformLevel=0;
+					}
+				//}
 			}
 		}
 	}	
@@ -12639,12 +12699,16 @@ if (fDifferenceInXPos!=0) {
     //added by Mike, 20231126
     var myCanvasTwo = document.getElementById("myCanvasTwoId");
     var myCanvasTwoContext = myCanvasTwo.getContext("2d");
+
+	//added by Mike, 20261020
+    var myCanvasGrid = document.getElementById("myCanvasGridId");
+    var myCanvasGridContext = myCanvasGrid.getContext("2d");
     
 	//added by Mike, 20251113
 	myCanvasContext.clearRect(0, 0, iViewportMaxWidth, iViewportMaxHeight);
 	
-	//edited by Mike, 20261017
-	//myCanvasTwoContext.clearRect(0, 0, iViewportMaxWidth, iViewportMaxHeight);
+	//added by Mike, 20261020; from 20261017
+	myCanvasTwoContext.clearRect(0, 0, iViewportMaxWidth, iViewportMaxHeight);
 
 	//added by Mike, 20261017
 	//drawGrid(myCanvasTwoContext,0,0);
@@ -12702,6 +12766,10 @@ if (fDifferenceInXPos!=0) {
 
     myCanvasTwo.style.top = myCanvas.style.top;
     myCanvasTwo.style.left = myCanvas.style.left;
+
+    myCanvasGrid.style.top = myCanvas.style.top;
+    myCanvasGrid.style.left = myCanvas.style.left;
+
 /*
     myCanvasTint.style.top = myCanvas.style.top;
     myCanvasTint.style.left = myCanvas.style.left;
@@ -12765,6 +12833,7 @@ if (fDifferenceInXPos!=0) {
 			else {
 				//----------------------------------
 				myCanvasTwo.style.visibility="visible";
+				myCanvasGrid.style.visibility="visible";
 
 				//bossBattleBgImage.style.visibility = "visible"; //default
 
@@ -14002,9 +14071,11 @@ if (fDifferenceInXPos!=0) {
 					initBgTileMap();
 					//heroShadowEffectImage.style.zIndex=mainImageTileHeroBody.style.zIndex+1;	
 					
-					//edited by Mike, 20261016
-					//heroShadowEffectImage.style.zIndex=999999;//heroShadowEffectImage.style.zIndex+1;	
-					heroShadowEffectImage.style.zIndex=mainImageTileHeroBody.style.zIndex-1;	
+					//edited by Mike, 20261020; from 20261016
+					////heroShadowEffectImage.style.zIndex=999999;//heroShadowEffectImage.style.zIndex+1;	
+					
+					//heroShadowEffectImage.style.zIndex=mainImageTileHeroBody.style.zIndex-1;	
+
 
 
 					//alert(arrayActors.length);
@@ -14119,8 +14190,15 @@ if (fDifferenceInXPos!=0) {
 					myCanvasTint.style.visibility="hidden";
 				}
 				myCanvasTint.style.opacity=fCurrCanvasTintOpacity;
-					
 
+/*					
+				//removed by Mike, 20261020
+				//let the animations finish;
+				if (bIsGameOver) {
+					return;
+				}
+*/
+				
 /*				
 				if (isSkelMonsterTileActive) {
 					skelMonsterImageTile.style.visibility="visible";
@@ -14403,6 +14481,9 @@ if (fDifferenceInXPos!=0) {
 
 				//updateHeroFacingDirectionPREV();
 				
+				//added by Mike, 20261020
+				updateShadowEffect();
+	
 				//put this here
 				updateHasHeroShotSniper();
 				executeMonsterDeathAnimation();
@@ -15263,24 +15344,19 @@ if (fDifferenceInXPos!=0) {
 							}
 						//}
 						
-						
-						//added by Mike, 20261016
-/*						//buggy
-						if (bIsHeroJumping) {
-//							if (iCurrPlatformLevel==0) {
-								if (bIsHeroHovering) {
-									//alert("DITO!!");
-									//setHeroShadowEffectPosition(0,0);
-									//mainImageTilePosX+iImageFrameWidthLarge/3,mainImageTilePosY+iImageFrameHeightLarge*0.7-mainImageTilePosZ*(iCurrPlatformLevel)/2
-								}
-								else {
-									setHeroShadowEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/3,mainImageTilePosY+iImageFrameHeightLarge*0.7);
-								}
-//							}
+/*						//removed by Mike, 20261020						
+						//edited by Mike, 20261020; from 20261016
+						if (iCurrPlatformLevel==0) {
+							setHeroShadowEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/3,mainImageTilePosY+iImageFrameHeightLarge*0.7);
 						}
-*/
+						else if (iCurrPlatformLevel==1) {
+							setHeroShadowEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/3,mainImageTilePosY);
+						}	
+*/						
+
+/*
 						setHeroShadowEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/3,mainImageTilePosY+iImageFrameHeightLarge*0.7);
-						
+*/						
 						
 						//mainImageTileHeroBody.style.left=fActorPosXUpdated+"px";
 						//mainImageTileHeroBody.style.top=mainImageTilePosZ+"px";
@@ -15967,6 +16043,7 @@ alert("iXPos: "+iXPos);
 		var heroAttackEffectImage = document.getElementById("heroAttackEffectImageId");	
 
 		
+		
 		myFavicon.style.visibility="hidden";	
 		textStatusDiv.style.visibility="hidden";
 		textNewGameDiv.style.visibility="hidden";		
@@ -16308,6 +16385,11 @@ alert("iXPos: "+iXPos);
 			//alert(e.keyCode);
 			//alert(e.code);
 			
+			//added by Mike, 20261020
+			if ((bIsGameOver) || (!bHasPressedStart) || (!bHasViewedHowToPlayGuide)) {
+				return;
+			}
+						
 			if (e.keyCode==70) { //key f
 				bIsActionKeyFireballPressed=true;
 			}
@@ -17231,7 +17313,7 @@ function initTouchInput() {
   //added by Mike, 20221123
   //@return bool
   function isPointsOfRectIntersectingPointsOfRectWall(iXPos1, iYPos1, iXPos2, iYPos2, iImageFrameWidth1, iImageFrameHeight1, iImageFrameWidth2, iImageFrameHeight2) {
-	
+
 	//additional offsets
   	let iOffsetXPosAsPixel1 = iImageFrameWidth1*0.1;
   	let iOffsetYPosAsPixel1 = iImageFrameHeight1*0.1; 
@@ -19290,6 +19372,9 @@ function unlockOrientation() {
 
 				
   <canvas id="myCanvasTwoId" class="myCanvasTwo">
+	</canvas>
+
+  <canvas id="myCanvasGridId" class="myCanvasTwo">
 	</canvas>
 
 	<canvas id="myEffectCanvasId" class="myEffectCanvas">
