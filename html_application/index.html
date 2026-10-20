@@ -10739,6 +10739,9 @@ if (fDifferenceInXPos!=0) {
 						if (parseFloat(mainImageTileHeroBody.style.top)<parseFloat(bgTileImage.style.top)+iImageFrameHeightLarge/2) {
 							bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex+1;
 						}
+						else {
+							bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex-1;
+						}
 					//}
 				}
 				else {
