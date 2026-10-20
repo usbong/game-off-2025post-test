@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20261019; from 20261017
+' @date updated: 20261020; from 20261019
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024, 2025
@@ -5743,9 +5743,9 @@ alert("iInputY: "+iInputY);
 	//added by Mike, 20261010
 	function setHeroShadowEffectPosition(iInputX, iInputY) {
 		var heroShadowEffectImage = document.getElementById("heroShadowEffectImageId");
-		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
-		
-		heroShadowEffectImage.style.zIndex=mainImageTileHeroBody.style.zIndex-1;	
+		//var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");	
+		//removed by Mike, 20261020
+		//heroShadowEffectImage.style.zIndex=mainImageTileHeroBody.style.zIndex-1;	
 
 		if (heroShadowEffectImage.style.visibility=="visible") {
 			//added by Mike, 20261020
@@ -10356,11 +10356,18 @@ if (arrayWalkOnSnowEffectCount==1) {
 	
 	//added by Mike, 20261020
 	function updateShadowEffect() {
+		var heroShadowEffectImage = document.getElementById("heroShadowEffectImageId");
+		var mainImageTileHeroBody = document.getElementById("mainImageTileImageHeroBodyId");
+		
 		if (iCurrPlatformLevel==0) {
 			setHeroShadowEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/3,mainImageTilePosY+iImageFrameHeightLarge*0.7);
+
+			heroShadowEffectImage.style.zIndex=2;	
 		}
 		else if (iCurrPlatformLevel==1) {
 			setHeroShadowEffectPosition(mainImageTilePosX+iImageFrameWidthLarge/3,mainImageTilePosY);
+
+			heroShadowEffectImage.style.zIndex=mainImageTileHeroBody.style.zIndex-1;	
 		}	
 	}
 	
@@ -10607,6 +10614,7 @@ if (fDifferenceInXPos!=0) {
 			//edited by Mike, 20260904; from 20260801
 			//if (arrayActors[iCount]["type"]==BG_TILE_ARRAY_ACTOR_ROLE_TYPE) {
 			if (arrayActors[iCount]["type"]<=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE) {
+				//noted by Mike, 20261020
 				continue;
 			}
 
@@ -10709,10 +10717,12 @@ if (fDifferenceInXPos!=0) {
 
 			//edited by Mike, 20261014
 			//if (currMainImageTileHeightPosZ!=mainImageTilePosZMax) {
-			if (iCurrPlatformLevel==0) {					
+			if (iCurrPlatformLevel==0) {
+			
 				//edited by Mike, 20261020
 				//bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex+1;
-				
+
+/*				//edited again by Mike, 20261020
 				if (bIsHeroJumping) {
 					mainImageTileHeroBody.style.zIndex=999999-1;
 					bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex-1;
@@ -10720,7 +10730,22 @@ if (fDifferenceInXPos!=0) {
 				else {
 					bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex+1;
 				}
+*/				
 				
+				//bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex+1;
+
+				if ((iPlatformWallCount>=iCurrWallBgTileImageCountMax) && (iPlatformWallCount<iCurrPlatformWallTopBgTileImageCountMax)) {
+					//if (bIsHeroJumping) {
+						if (parseFloat(mainImageTileHeroBody.style.top)<parseFloat(bgTileImage.style.top)+iImageFrameHeightLarge/2) {
+							bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex+1;
+						}
+					//}
+				}
+				else {
+					bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex-1;
+				}
+
+				//bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex-1;
 				//bgTileImage.style.zIndex=document.getElementById("coinImageId"+0).style.zIndex-1;
 				
 				//alert(mainImageTileHeroBody.style.zIndex);
@@ -10730,8 +10755,19 @@ if (fDifferenceInXPos!=0) {
 				//add this; otherwise, top portion of wall doesn't cover monsters when he jumps;
 				//mainImageTileHeroBody.style.zIndex=999999-1;
 
-				mainImageTileHeroBody.style.zIndex=999999-1;
-				bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex-1;
+				if ((iPlatformWallCount>=iCurrWallBgTileImageCountMax) && (iPlatformWallCount<iCurrPlatformWallTopBgTileImageCountMax)) {
+					if (!bIsHeroJumping) {
+						bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex+1;
+					}
+					else {
+						mainImageTileHeroBody.style.zIndex=999999-1;
+						bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex-1;
+					}
+				}
+				else {
+					mainImageTileHeroBody.style.zIndex=999999-1;
+					bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex-1;
+				}
 				
 				document.getElementById("mainImageTileFireballProjectileImageId").style.zIndex=mainImageTileHeroBody.style.zIndex;
 				//alert(document.getElementById("mainImageTileFireballProjectileImageId").style.zIndex);
