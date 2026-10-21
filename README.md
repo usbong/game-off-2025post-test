@@ -974,7 +974,7 @@ I initially didn't want to add this, because I wasn't planning on creating a 2D 
 There is now a 3D-like feel to the game, because of our newly added `jump` feature. I created a variable for the `z-axis`, which is also inverted like the `y-axis`, meaning that to go up vertically would require the position in the `z-axis` to be decreased since the origin `(0,0)`, or `(0,0,0)` in this case, is at the top-left, instead of at the center.
 
 
-69) 20261013-20261017; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+69) 20261013-20261021; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -991,7 +991,7 @@ As a side, let me note that it's truly unfortunate that the IP's of many 2D clas
 
 Yet even after the release of Super Mario Galaxy 2 for the Nintendo Wii, there didn't appear to be anyone noteworthy who'd successfully gotten any other beloved 2D platformer franchise into such heights or beyond, an example of the latter I'd say would be The Legend of Zelda: Twilight Princess, also for the Wii.
 
-70) 20261013-20261017; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+70) 20261013-20261021; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1009,7 +1009,7 @@ Juggling multiple `variables` like combinations of on-off switches can be mind-b
 We can make use of a working wall to create many more. 
 
 
-71) 20261013-20261017; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+71) 20261013-20261021; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1027,7 +1027,7 @@ Nonetheless, despite the commotion like the wireless noise, which has markedly i
 We now have `inertia` to prevent abrupt or sudden stops in the hero's movement whenever he moves toward a particular direction.
 
 
-72) 20261013-20261017; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+72) 20261013-20261021; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1043,6 +1043,34 @@ Finally, I've added a filter that could be removed later with a toggle in order 
 **Unlocked Possibilities:**
 
 We now have better physics though there'll always be more that can be done to improve our DIY engine. 
+
+
+
+
+
+
+
+
+73) 20261013-20261021; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+<!--
+Also available here: http://store.usbong.ph/server/gameoff/start.html
+-->
+
+**Key Lesson Learned:** 
+
+Increasing the jumpable walls (now also identified as "platforms") after getting one to work doesn't necessarily mean that the physics in our DIY engine would instantly work without modification, because using the same function to check whether the hero is above the wall and then setting the same variable if so results to wrong values, particularly when, after getting a `true` that the hero is above a wall, another wall sets the same variable to `false`. 
+
+At the code-level, the quickest way that I found to solve this is to use another function, `verifyHeroCollideWithPlatformBgTileWallAll()`, in which when the original function, `verifyHeroCollideWithPlatformBgTileWall()`, returns a `true`, it won't bother checking anymore the rest of the jumpable walls. It's the same technique that I used with the basic wall collisions to stop the hero from passing through a wall.
+
+Another problem that I found and was able to solve is determining when the hero's position in the `z-axis` is supposed to go down one level. Conceptually, the "platform level" is decreased when the hero isn't anymore above the platform and is increased when he is. However, when jumpable walls are put side-by-side, a wall would signal that the hero has gotten off the wall upon moving to another wall beside it, thereby causing the hero to fall between directly adjacent walls. 
+
+A solution that I found to work is to use `iCurrHeroPlatformWallGetOffCount`, a variable that I created just for this and which counts how many times the hero is found to be not anymore intersecting with a wall. If its value shoots up to `> 4`, then the increase wasn't just caused by the hero moving from one adjacent wall to another, but had really come down from one.
+
+To be frank, because the world system produced by our DIY Engine now uses multiple variables that combine through several `if-else` conditions, I found it faster to make observations about the values of certain variables that I thought were relevant, and instead of changing the existing conditions, I simply opted to use the abnormal increase in `iCurrHeroPlatformWallGetOffCount` to solve the problem.
+
+**Unlocked Possibilities:**
+
+Our DIY engine can now handle multiple jumpable walls, directly adjacent or otherwise. I do admit, however, that the z-index of the hero's sprite image when he jumps above one could end up getting incorrectly drawn behind the wall instead of before it. I think that this part could be solved by updating the hero's image sprite animation whenever he jumps.
 
 # Additional Bug Fixes
 
