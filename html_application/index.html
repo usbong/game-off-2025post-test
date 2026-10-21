@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20261020; from 20261019
+' @date updated: 20261021; from 20261020
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024, 2025
@@ -1644,6 +1644,9 @@ var iCurrHeroComboCount=0;
 //added by Mike, 20260911
 var iCurrHeroWallBounceCount=0;
 
+//added by Mike, 20261021
+var iCurrHeroPlatformWallGetOffCount=0;
+
 //added by Mike, 20260727
 var iCurrHeroCoinCount=0;
 
@@ -1912,9 +1915,11 @@ var iCurrDiagonalQ3WallBgTileImageCountMax=0;
 var iCurrPlatformWallBgTileImageCountMax=10; //to be updated later;
 var iCurrPlatformWallTopBgTileImageCountMax=iCurrPlatformWallBgTileImageCountMax; //to be updated later;
 
-
 //added by Mike, 20260912
 var iCurrCollidedBgTileImageCount=-1;
+
+//added by Mike, 20261021
+var iCurrCollidedPlatformBgTileImageCount=-1;
 
 var iCurrParticleEffectCount=0;
 const iCurrParticleEffectCountMax=1;//10;
@@ -3077,6 +3082,9 @@ var bIsHeroFacingUp=false;
 		//added by Mike, 20260911
 		iCurrHeroWallBounceCount=0;
 	
+		//added by Mike, 20261021
+		iCurrHeroPlatformWallGetOffCount=0;
+	
 		//TODO: -add: idle animation	
 		iHeroAnimationCount=0; 
 		
@@ -4038,6 +4046,10 @@ var bIsHeroFacingUp=false;
 		
 		textHeroComboStatusDiv.innerHTML = "Wx"+iCurrHeroWallBounceCount;		
 
+		//edited by Mike, 20261021
+		textHeroComboStatusDiv.innerHTML = "Px"+iCurrHeroPlatformWallGetOffCount;		
+		
+
 		//textHeroComboStatusDiv.innerHTML = "Wx"+iCurrHeroWallBounceCount+"; "+mainImageTileProjectileStepDestinationX;
 		
 		//textHeroComboStatusDiv.innerHTML = "Wx"+iCurrHeroWallBounceCount+"; "+newMainImageTileProjectilePosX;
@@ -4996,7 +5008,10 @@ var bIsHeroFacingUp=false;
 		
 		//added by Mike, 20260911
 		iCurrHeroWallBounceCount=0;
-	
+		
+		//added by Mike, 20261021
+		iCurrHeroPlatformWallGetOffCount=0;
+
 		//resetProjectile()				
 
 /*		
@@ -11483,13 +11498,39 @@ if (fDifferenceInXPos!=0) {
 					alert("!!! iCurrBgTileImageCount: "+iCurrBgTileImageCount);
 					alert("iCurrCollidedBgTileImageCount: "+iCurrCollidedBgTileImageCount);
 */
+					//alert("iCurrCollidedPlatformBgTileImageCount: "+iCurrCollidedPlatformBgTileImageCount);
+
+					//added by Mike, 20261021
+					iCurrHeroPlatformWallGetOffCount=0;
 
 					return;
 				}
 			}
 		}
-	}
 
+				
+		if (iCurrCollidedPlatformBgTileImageCount==-1) {
+/*
+			if (iCurrPlatformLevel==1) {
+				alert("DITO!!");
+			}
+*/			
+
+			if (iCurrHeroPlatformWallGetOffCount>4) {//5) { //2) {
+				currMainImageTileHeightPosZ=mainImageTilePosY; //set to the default height;
+				iCurrPlatformLevel--;
+
+				if (iCurrPlatformLevel<0) {
+					iCurrPlatformLevel=0;
+				}
+				
+				iCurrHeroPlatformWallGetOffCount=0;
+			}
+			else {
+				iCurrHeroPlatformWallGetOffCount++;
+			}
+		}
+	}
 
 	//added by Mike, 20261012
 	//returns bool if hero on top of wall;
@@ -11506,14 +11547,36 @@ if (fDifferenceInXPos!=0) {
 		//added by Mike, 20261020
 		iCurrBgTileImageCount=iCount;
 
+/*		//removed by Mike, 20261021; TODO: -REVERIFY;
 		//added by Mike, 20260912
 		//if not the starting bg tile; also not the same tile; 
 		if ((iCurrCollidedBgTileImageCount!=-1) && (iCurrBgTileImageCount!=iCurrCollidedBgTileImageCount)) {
-			//alert("DITO!!");
-/*
-			alert("iCurrCollidedBgTileImageCount: "+iCurrCollidedBgTileImageCount);
-			alert("iCurrBgTileImageCount: "+iCurrBgTileImageCount);
+				//alert("DITO!!");
+
+				////alert("iCurrCollidedBgTileImageCount: "+iCurrCollidedBgTileImageCount);
+				////alert("iCurrBgTileImageCount: "+iCurrBgTileImageCount);
+
+				//edited by Mike, 20261021
+				//return false;
+
+				//if not the starting bg tile; also not the same tile; 
+				//if ((iCurrCollidedPlatformBgTileImageCount!=-1) && (iCurrBgTileImageCount!=iCurrCollidedPlatformBgTileImageCount)) {
+				//if (iCurrCollidedPlatformBgTileImageCount==-1) {
+					//return false;
+				//}
+		}
 */
+		//added by Mike, 20261021
+		//if not the starting bg tile; also not the same tile; 
+		if ((iCurrCollidedPlatformBgTileImageCount!=-1) && (iCurrBgTileImageCount!=iCurrCollidedPlatformBgTileImageCount)) {
+			//alert("DITO!!");
+			
+			//alert(iCurrPlatformLevel);
+
+			//alert("iCurrCollidedPlatformBgTileImageCount: "+iCurrCollidedPlatformBgTileImageCount);
+			
+			//alert("iCurrBgTileImageCount: "+iCurrBgTileImageCount);
+
 			return false;
 		}
 		
@@ -11581,7 +11644,7 @@ if (fDifferenceInXPos!=0) {
 						updateShadowEffect();
 						
 						//added by Mike, 20261020
-						iCurrCollidedBgTileImageCount=iCurrBgTileImageCount;
+						iCurrCollidedPlatformBgTileImageCount=iCurrBgTileImageCount;
 
 						//alert(iCurrCollidedBgTileImageCount);
 
@@ -11595,11 +11658,16 @@ if (fDifferenceInXPos!=0) {
 				if (iCurrPlatformLevel==1) {
 
 					//added by Mike, 20261020
-					iCurrCollidedBgTileImageCount=iCurrBgTileImageCount;
+					iCurrCollidedPlatformBgTileImageCount=iCurrBgTileImageCount;
+					
+					//alert("HERE!");
 
 					return true;
 				}
 				//----------------------------------
+
+				//removed by Mike, 20261021
+				//iCurrCollidedPlatformBgTileImageCount=-1;
 
 				//added by Mike, 20261017
 				//bIsHeroJumping=false;
@@ -11756,6 +11824,9 @@ if (fDifferenceInXPos!=0) {
 						updateArrayActorsViewport();
 						iCurrHeroWallBounceCount++;
 						
+						//added by Mike, 20261021;
+						iCurrCollidedPlatformBgTileImageCount=-1;
+						
 						return false;
 					}
 				}
@@ -11779,6 +11850,20 @@ if (fDifferenceInXPos!=0) {
 				//added by Mike, 20261016
 				bIsHeroHovering=false;
 
+/*				
+				//added by Mike, 20261021
+				if (iCurrCollidedPlatformBgTileImageCount==-1) {
+				//if (iCurrBgTileImageCount==iCurrCollidedPlatformBgTileImageCount) {
+*/
+					//alert(iCurrCollidedPlatformBgTileImageCount);
+
+				//if ((iCurrCollidedPlatformBgTileImageCount==-1) || (iCurrBgTileImageCount==iCurrCollidedPlatformBgTileImageCount)) {
+				//if (iCurrBgTileImageCount!=iCurrCollidedPlatformBgTileImageCount) {
+				//if ((iCurrCollidedPlatformBgTileImageCount==-1) && (iCurrBgTileImageCount!=iCurrCollidedPlatformBgTileImageCount)) {
+		
+				//alert("DITO!!");
+
+/*				//removed by Mike, 20261021		
 				//edited by Mike, 20261020; from 20261014
 				//if (iCurrPlatformLevel<=0) {
 					//if (!bIsHeroJumping) {
@@ -11789,8 +11874,14 @@ if (fDifferenceInXPos!=0) {
 						if (iCurrPlatformLevel<0) {
 							iCurrPlatformLevel=0;
 						}
+*/						
 					//}
-				//}
+/*
+				}
+				else {
+					return true;
+				}
+*/
 /*
 				//debug
 				if (iCurrCollidedBgTileImageCount==0) {
@@ -11799,9 +11890,10 @@ if (fDifferenceInXPos!=0) {
 					//}
 				}
 */				
-				//added by Mike, 20261020; TODO: -reverify: this;
-				iCurrCollidedBgTileImageCount=-1;
 			}
+
+			//added by Mike, 20261020; TODO: -reverify: this;
+			iCurrCollidedPlatformBgTileImageCount=-1;
 			
 			return false; //added by Mike, 20261020
 		}
@@ -16668,6 +16760,8 @@ alert("iXPos: "+iXPos);
 			if (e.code==='Space') {
 				arrayKeyPressed[iKEY_SPACE]=false;
 				bHasReleasedSpaceKey=true; //added by Mike, 20261012
+				
+				e.preventDefault(); //added by Mike, 20261021SS
 			}
 			
 			//added by Mike, 20260924
@@ -17795,445 +17889,7 @@ function initTouchInput() {
     return true;
   }  
   
-  //edited by Mike, 20260923; from 20260821
-  function initBgTileMapDebug() {
-	var iStageOffsetX=iImageFrameWidthLarge*(-5);//0;//iViewportMaxWidth/2-iImageFrameWidth/2;
-	var iStageOffsetY=iImageFrameHeightLarge*2;//0;//iViewportMaxHeight/2;//-iImageFrameHeightLarge/2;//-iImageFrameWidth/2;
-
-/*
-	iCurrBgTileImageRow=1;
-	iCurrBgTileImageColumn=1;
-
-	//---	
-	var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount);
-
-	//added by Mike, 20260801
-	//----------------------------------
-	arrayActors[iArrayActorsCount]=currBgTileImageObject;
-	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_ACTOR_ROLE_TYPE;
-	iArrayActorsCount++;							
-	//----------------------------------
-	iCurrBgTileImageCount++;
-	//---
-*/
-
-/*	//edited by Mike, 20260904
-	for (iCurrBgTileImageRow=0; iCurrBgTileImageRow<4; iCurrBgTileImageRow++) {
-		for (iCurrBgTileImageColumn=0; iCurrBgTileImageColumn<6; iCurrBgTileImageColumn++) {
-			
-			var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,iCurrBgTileImageRow,iCurrBgTileImageColumn);
-
-			//var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
-
-			//added by Mike, 20260801
-			//----------------------------------
-			arrayActors[iArrayActorsCount]=currBgTileImageObject;
-			arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-			arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_ACTOR_ROLE_TYPE;
-			
-			//removed by Mike, 20260807; use same z-index for bg tiles
-			iArrayActorsCount++;							
-			//----------------------------------
-
-			iCurrBgTileImageCount++;
-		}
-	}
-	
-	iCurrWallBgTileImageCountMax=iCurrBgTileImageRow*iCurrBgTileImageColumn;
-*/
-	var iCurrBgTileImageColumn=0;
-	var iCurrBgTileImageRow=0;
-	
-	//----------------------------------
-	var currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
-
-	//added by Mike, 20260801
-	//----------------------------------
-	arrayActors[iArrayActorsCount]=currBgTileImageObject;
-	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
-	
-	//removed by Mike, 20260807; use same z-index for bg tiles
-	iArrayActorsCount++;							
-	//----------------------------------
-
-	iCurrBgTileImageCount++;
-	//----------------------------------
-
-	iCurrBgTileImageColumn=1;
-	iCurrBgTileImageRow=1;
-	
-	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
-	
-	//added by Mike, 20260801
-	//----------------------------------
-	arrayActors[iArrayActorsCount]=currBgTileImageObject;
-	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
-	
-	//removed by Mike, 20260807; use same z-index for bg tiles
-	iArrayActorsCount++;							
-	//----------------------------------
-
-	iCurrBgTileImageCount++;
-	//----------------------------------
-
-	iCurrBgTileImageColumn=1;
-	iCurrBgTileImageRow=0;
-	
-	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
-
-	//added by Mike, 20260801
-	//----------------------------------
-	arrayActors[iArrayActorsCount]=currBgTileImageObject;
-	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
-	
-	//removed by Mike, 20260807; use same z-index for bg tiles
-	iArrayActorsCount++;							
-	//----------------------------------
-
-	iCurrBgTileImageCount++;
-	//----------------------------------
-
-	iCurrBgTileImageColumn=0;
-	iCurrBgTileImageRow=1;
-	
-	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
-
-	//added by Mike, 20260801
-	//----------------------------------
-	arrayActors[iArrayActorsCount]=currBgTileImageObject;
-	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
-	
-	//removed by Mike, 20260807; use same z-index for bg tiles
-	iArrayActorsCount++;							
-	//----------------------------------
-
-	iCurrBgTileImageCount++;
-	//----------------------------------
-	
-	iCurrBgTileImageColumn=-1;
-	iCurrBgTileImageRow=1/2;
-	
-	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
-
-	//added by Mike, 20260801
-	//----------------------------------
-	arrayActors[iArrayActorsCount]=currBgTileImageObject;
-	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
-	
-	//removed by Mike, 20260807; use same z-index for bg tiles
-	iArrayActorsCount++;							
-	//----------------------------------
-
-	iCurrBgTileImageCount++;
-	//----------------------------------
-	
-	iCurrBgTileImageColumn=2;
-	iCurrBgTileImageRow=1/2;
-	
-	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
-
-	//added by Mike, 20260801
-	//----------------------------------
-	arrayActors[iArrayActorsCount]=currBgTileImageObject;
-	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
-	
-	//removed by Mike, 20260807; use same z-index for bg tiles
-	iArrayActorsCount++;							
-	//----------------------------------
-
-	iCurrBgTileImageCount++;
-	//----------------------------------
-	
-	iCurrBgTileImageColumn=-1;
-	iCurrBgTileImageRow=1/2;
-	
-	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
-
-	//added by Mike, 20260801
-	//----------------------------------
-	arrayActors[iArrayActorsCount]=currBgTileImageObject;
-	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
-	
-	//removed by Mike, 20260807; use same z-index for bg tiles
-	iArrayActorsCount++;							
-	//----------------------------------
-
-	iCurrBgTileImageCount++;
-	//----------------------------------
-	
-	iCurrBgTileImageColumn=2;
-	iCurrBgTileImageRow=1/2;
-	
-	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
-
-	//added by Mike, 20260801
-	//----------------------------------
-	arrayActors[iArrayActorsCount]=currBgTileImageObject;
-	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
-	
-	//removed by Mike, 20260807; use same z-index for bg tiles
-	iArrayActorsCount++;							
-	//----------------------------------
-
-	iCurrBgTileImageCount++;
-	//----------------------------------
-	
-	iCurrBgTileImageColumn=-3;
-	iCurrBgTileImageRow=1/2;
-	
-	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
-
-	//added by Mike, 20260801
-	//----------------------------------
-	arrayActors[iArrayActorsCount]=currBgTileImageObject;
-	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
-	
-	//removed by Mike, 20260807; use same z-index for bg tiles
-	iArrayActorsCount++;							
-	//----------------------------------
-
-	iCurrBgTileImageCount++;
-	//----------------------------------
-
-
-
-
-
-
-	iCurrBgTileImageColumn=4;
-	iCurrBgTileImageRow=3;
-	
-	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
-
-	//added by Mike, 20260801
-	//----------------------------------
-	arrayActors[iArrayActorsCount]=currBgTileImageObject;
-	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
-	
-	//removed by Mike, 20260807; use same z-index for bg tiles
-	iArrayActorsCount++;							
-	//----------------------------------
-
-	iCurrBgTileImageCount++;
-	//----------------------------------
-	
-	iCurrBgTileImageColumn=-3;
-	iCurrBgTileImageRow=1/2;
-	
-	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
-
-	//added by Mike, 20260801
-	//----------------------------------
-	arrayActors[iArrayActorsCount]=currBgTileImageObject;
-	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
-	
-	//removed by Mike, 20260807; use same z-index for bg tiles
-	iArrayActorsCount++;							
-	//----------------------------------
-
-	iCurrBgTileImageCount++;
-	//----------------------------------
-	
-	
-	//alert(iCurrBgTileImageCount); //11
-
-
-	iCurrBgTileImageColumn=-2;
-	iCurrBgTileImageRow=4;
-	
-	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
-
-	//added by Mike, 20260801
-	//----------------------------------
-	arrayActors[iArrayActorsCount]=currBgTileImageObject;
-	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
-	
-	//removed by Mike, 20260807; use same z-index for bg tiles
-	iArrayActorsCount++;							
-	//----------------------------------
-
-	iCurrBgTileImageCount++;
-	//----------------------------------
-	
-	//alert(iCurrBgTileImageCount);
-	
-	iCurrBgTileImageColumn=-3;
-	iCurrBgTileImageRow=1/2;
-	
-	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,1,0);
-
-	//added by Mike, 20260801
-	//----------------------------------
-	arrayActors[iArrayActorsCount]=currBgTileImageObject;
-	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
-	
-	//removed by Mike, 20260807; use same z-index for bg tiles
-	iArrayActorsCount++;							
-	//----------------------------------
-
-	iCurrBgTileImageCount++;
-	//----------------------------------
-	
-	
-
-
-	//alert(iCurrBgTileImageCount); //count 13;
-	
-	iCurrNonDiagonalWallBgTileImageCountMax=iCurrBgTileImageCount;
-
-	//--------------------------
-	//DIAGONALS
-	//--------------------------
-	//--------------------------
-	//DIAGONALS Q2
-	//--------------------------
-
-	//added by Mike, 20260922	
-	iCurrBgTileImageColumn=3;
-	iCurrBgTileImageRow=3;//1/2;
-	
-	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,4,0);
-
-	//added by Mike, 20260801
-	//----------------------------------
-	arrayActors[iArrayActorsCount]=currBgTileImageObject;
-	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
-	
-	//removed by Mike, 20260807; use same z-index for bg tiles
-	iArrayActorsCount++;							
-	//----------------------------------
-
-	iCurrBgTileImageCount++;
-	//----------------------------------
-
-
-	//added by Mike, 20260922	
-	iCurrBgTileImageColumn=0;
-	iCurrBgTileImageRow=3;//1/2;
-	
-	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,4,0);
-
-	//alert(iCurrBgTileImageCount); //count 14;
-
-	//added by Mike, 20260801
-	//----------------------------------
-	arrayActors[iArrayActorsCount]=currBgTileImageObject;
-	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
-	
-	//removed by Mike, 20260807; use same z-index for bg tiles
-	iArrayActorsCount++;							
-	//----------------------------------
-
-	iCurrBgTileImageCount++;
-	//----------------------------------
-	
-	iCurrDiagonalQ2WallBgTileImageCountMax=iCurrBgTileImageCount; //added by Mike, 20260922
-	
-
-	//--------------------------
-	//DIAGONALS Q4
-	//--------------------------
-
-	//added by Mike, 20260922	
-	iCurrBgTileImageColumn=1;
-	iCurrBgTileImageRow=4;//1/2;
-	
-	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5,1);
-
-	//added by Mike, 20260801
-	//----------------------------------
-	arrayActors[iArrayActorsCount]=currBgTileImageObject;
-	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
-	
-	//removed by Mike, 20260807; use same z-index for bg tiles
-	iArrayActorsCount++;							
-	//----------------------------------
-
-	iCurrBgTileImageCount++;
-	//----------------------------------
-	
-	iCurrDiagonalQ4WallBgTileImageCountMax=iCurrBgTileImageCount; //added by Mike, 20260922
-
-
-	//--------------------------
-	//DIAGONALS Q1
-	//--------------------------
-
-	//added by Mike, 20260922	
-	iCurrBgTileImageColumn=1;
-	iCurrBgTileImageRow=3;
-	
-	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,4,1);
-
-	//added by Mike, 20260801
-	//----------------------------------
-	arrayActors[iArrayActorsCount]=currBgTileImageObject;
-	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
-	
-	//removed by Mike, 20260807; use same z-index for bg tiles
-	iArrayActorsCount++;							
-	//----------------------------------
-
-	iCurrBgTileImageCount++;
-	//----------------------------------
-	
-	iCurrDiagonalQ1WallBgTileImageCountMax=iCurrBgTileImageCount; //added by Mike, 20260922
-	
-	
-	
-	
-	//--------------------------
-	//DIAGONALS Q3
-	//--------------------------
-
-	//added by Mike, 20260922	
-	iCurrBgTileImageColumn=0;
-	iCurrBgTileImageRow=4;
-	
-	currBgTileImageObject=setBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5,0);
-
-	//added by Mike, 20260801
-	//----------------------------------
-	arrayActors[iArrayActorsCount]=currBgTileImageObject;
-	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
-	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
-	
-	//removed by Mike, 20260807; use same z-index for bg tiles
-	iArrayActorsCount++;							
-	//----------------------------------
-
-	iCurrBgTileImageCount++;
-	//----------------------------------
-	
-	iCurrDiagonalQ3WallBgTileImageCountMax=iCurrBgTileImageCount; //added by Mike, 20260922
-	
-	
-	
-	iCurrWallBgTileImageCountMax=iCurrBgTileImageCount;
-	
-	//alert(iCurrWallBgTileImageCountMax);
-  }
-
-
-
+ 
   //added by Mike, 20260923
   function initBgTileMapVersion20260923() {
 	var iStageOffsetX=iImageFrameWidthLarge*(-5);//0;//iViewportMaxWidth/2-iImageFrameWidth/2;
@@ -19096,7 +18752,207 @@ function initTouchInput() {
 	return iArrayActorsCount;
   }
   
-  //added by Mike, 20261012
+  //edited by Mike, 20261021; from 20261012
+  //returns iArrayActorsCount;
+  function initBgTileMapORIG() {
+	var iStageOffsetX=iImageFrameWidthLarge*(-5);//0;//iViewportMaxWidth/2-iImageFrameWidth/2;
+	var iStageOffsetY=iImageFrameHeightLarge*2;//0;//iViewportMaxHeight/2;//-iImageFrameHeightLarge/2;//-iImageFrameWidth/2;
+
+	var iCurrBgTileImageColumn=0;
+	var iCurrBgTileImageRow=0;
+	
+	var currBgTileImageObject=null;
+
+	iCurrNonDiagonalWallBgTileImageCountMax=0;
+	iCurrWallBgTileImageCountMax=0;
+	
+	iCurrWallBGTileImageCountStart=iArrayActorsCount;
+	
+	//added by Mike, 20261012
+	//--------------------------
+	//PLATFORM LEVEL 1
+	//--------------------------
+	//CENTER PLATFORM BLOCK
+
+	iCurrBgTileImageColumn=0-3+1/2;
+	iCurrBgTileImageRow=3-1/2+1;
+	
+	//alert(iCurrBgTileImageCount);
+	
+	//----------------------------------
+	currBgTileImageObject=setPlatformBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5,2);//1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
+	//added by Mike, 20261021
+	//debug
+	//jumpable wall 2
+	iCurrBgTileImageColumn=0-3+1/2-1;//1.5;
+	iCurrBgTileImageRow=3-1/2+1;
+	
+	//----------------------------------
+	currBgTileImageObject=setPlatformBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5,2);//1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
+	//jumpable wall 3
+	iCurrBgTileImageColumn=0-3+1/2-1-1;//1.5;
+	iCurrBgTileImageRow=3-1/2+1;
+	
+	//----------------------------------
+	currBgTileImageObject=setPlatformBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5,2);//1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
+
+
+	//jumpable wall 4
+	iCurrBgTileImageColumn=0-3+1/2-1-1-1.75;//1.5;
+	iCurrBgTileImageRow=3-1/2+1;
+	
+	//----------------------------------
+	currBgTileImageObject=setPlatformBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5,2);//1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
+
+	
+	iCurrPlatformWallBgTileImageCountMax=iCurrBgTileImageCount;
+
+	iCurrWallBgTileImageCountMax=iCurrBgTileImageCount;
+	
+	//alert(iCurrPlatformWallBgTileImageCountMax);
+
+	//-----------------------------
+	//TOP portion
+	iCurrBgTileImageColumn=0-3+1/2;
+	iCurrBgTileImageRow=3-1/2+0;
+	
+	//----------------------------------
+	currBgTileImageObject=setPlatformBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5-1,2);//1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+		
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+	
+	
+	//added by Mike, 20261021
+	//jumpable wall 2
+	//debug
+	//TOP portion
+	iCurrBgTileImageColumn=0-3+1/2-1;//1.5;
+	iCurrBgTileImageRow=3-1/2+0;
+	
+	//----------------------------------
+	currBgTileImageObject=setPlatformBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5-1,2);//1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+		
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
+	//jumpable wall 3
+	//TOP portion
+	iCurrBgTileImageColumn=0-3+1/2-1-1;//1.5;
+	iCurrBgTileImageRow=3-1/2+0;
+	
+	//----------------------------------
+	currBgTileImageObject=setPlatformBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5-1,2);//1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+		
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
+
+
+	//jumpable wall 4
+	//TOP portion
+	iCurrBgTileImageColumn=0-3+1/2-1-1-1.75;//-1.5;
+	iCurrBgTileImageRow=3-1/2+0;
+	
+	//----------------------------------
+	currBgTileImageObject=setPlatformBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5-1,2);//1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+		
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
+	
+	iCurrPlatformWallTopBgTileImageCountMax=iCurrBgTileImageCount;
+	
+	//alert(iArrayActorsCount);
+	
+/*
+alert("iCurrPlatformWallBgTileImageCountMax: "+iCurrPlatformWallBgTileImageCountMax);
+alert("iCurrPlatformWallTopBgTileImageCountMax: "+iCurrPlatformWallTopBgTileImageCountMax);
+*/	
+	return iArrayActorsCount;
+  }
+
+  //edited by Mike, 20261021; from 20261012
   //returns iArrayActorsCount;
   function initBgTileMap() {
 	var iStageOffsetX=iImageFrameWidthLarge*(-5);//0;//iViewportMaxWidth/2-iImageFrameWidth/2;
@@ -19137,9 +18993,10 @@ function initTouchInput() {
 	iCurrBgTileImageCount++;
 	//----------------------------------
 
-	//added by Mike, 20261020
-/*	//debug
-	iCurrBgTileImageColumn=0-3+1/2-3;
+	//added by Mike, 20261021
+	//debug
+	//jumpable wall 2
+	iCurrBgTileImageColumn=0-3+1/2-1;//1.5;
 	iCurrBgTileImageRow=3-1/2+1;
 	
 	//----------------------------------
@@ -19155,7 +19012,68 @@ function initTouchInput() {
 	//----------------------------------
 	iCurrBgTileImageCount++;
 	//----------------------------------
-*/	
+
+	//jumpable wall 3
+	iCurrBgTileImageColumn=0-3+1/2-1-1;//1.5;
+	iCurrBgTileImageRow=3-1/2+1;
+	
+	//----------------------------------
+	currBgTileImageObject=setPlatformBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5,2);//1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
+
+	//jumpable wall 3; BOTTOM
+	iCurrBgTileImageColumn=0-3+1/2-1-1;//1.5;
+	iCurrBgTileImageRow=3-1/2+1+1.25;
+	
+	//----------------------------------
+	currBgTileImageObject=setPlatformBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5,2);//1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
+
+
+
+
+	//jumpable wall 4
+	iCurrBgTileImageColumn=0-3+1/2-1-1-1.75;//1.5;
+	iCurrBgTileImageRow=3-1/2+1;
+	
+	//----------------------------------
+	currBgTileImageObject=setPlatformBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5,2);//1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+	
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
+
+	
 	iCurrPlatformWallBgTileImageCountMax=iCurrBgTileImageCount;
 
 	iCurrWallBgTileImageCountMax=iCurrBgTileImageCount;
@@ -19182,10 +19100,11 @@ function initTouchInput() {
 	//----------------------------------
 	
 	
-	//added by Mike, 20261020
-/*	//debug
+	//added by Mike, 20261021
+	//jumpable wall 2
+	//debug
 	//TOP portion
-	iCurrBgTileImageColumn=0-3+1/2-3;
+	iCurrBgTileImageColumn=0-3+1/2-1;//1.5;
 	iCurrBgTileImageRow=3-1/2+0;
 	
 	//----------------------------------
@@ -19200,8 +19119,71 @@ function initTouchInput() {
 	iArrayActorsCount++;							
 	//----------------------------------
 	iCurrBgTileImageCount++;
-	//----------------------------------	
-*/
+	//----------------------------------
+
+	//jumpable wall 3
+	//TOP portion
+	iCurrBgTileImageColumn=0-3+1/2-1-1;//1.5;
+	iCurrBgTileImageRow=3-1/2+0;
+	
+	//----------------------------------
+	currBgTileImageObject=setPlatformBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5-1,2);//1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+		
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
+
+
+	//jumpable wall 3; BOTTOM
+	//TOP portion
+	iCurrBgTileImageColumn=0-3+1/2-1-1;//1.5;
+	iCurrBgTileImageRow=3-1/2+0+1.25;
+	
+	//----------------------------------
+	currBgTileImageObject=setPlatformBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5-1,2);//1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+		
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
+
+
+
+
+	//jumpable wall 4
+	//TOP portion
+	iCurrBgTileImageColumn=0-3+1/2-1-1-1.75;//-1.5;
+	iCurrBgTileImageRow=3-1/2+0;
+	
+	//----------------------------------
+	currBgTileImageObject=setPlatformBgTileImagePosition(0-iStageOffsetX+iCurrBgTileImageColumn*iImageFrameWidthBgTile,0-iStageOffsetY+iCurrBgTileImageRow*iImageFrameHeightBgTile,iCurrBgTileImageCount,5-1,2);//1,0);
+	
+	//added by Mike, 20260801
+	//----------------------------------
+	arrayActors[iArrayActorsCount]=currBgTileImageObject;
+	arrayActors[iArrayActorsCount].style.zIndex=iZIndexDefault+iArrayActorsCount;
+	arrayActors[iArrayActorsCount]["type"]=BG_TILE_ARRAY_WALL_ACTOR_ROLE_TYPE;
+		
+	iArrayActorsCount++;							
+	//----------------------------------
+	iCurrBgTileImageCount++;
+	//----------------------------------
+
 	
 	iCurrPlatformWallTopBgTileImageCountMax=iCurrBgTileImageCount;
 	
@@ -19213,6 +19195,9 @@ alert("iCurrPlatformWallTopBgTileImageCountMax: "+iCurrPlatformWallTopBgTileImag
 */	
 	return iArrayActorsCount;
   }
+
+
+
   
   function onLoad() {
 //alert(navigator.userAgent);
@@ -19669,17 +19654,26 @@ opting to put assets folder in "html_application" folder instead
 
 	<img id="doorLockedImageRightId" class="Image96x96Tile" src="assets/images/tile.png">
 	<img id="riverImageRightId" class="ImageRiverTile" src="assets/images/river.png">
-	
-	
-		<img id="mainImageTileImageTankBodyId" class="ImageTankFrame1" src="assets/images/inputImageLarge.png?lastmod=20241110">
 
+	<img id="mainImageTileImageTankBodyId" class="ImageTankFrame1" src="assets/images/inputImageLarge.png?lastmod=20241110">
+	
 		<img id="mainImageTileImageHeroBodyId" class="ImageHeroBody" src="assets/images/inputImageLarge2026.png?lastmod=20260721T1429">		
 
 		<img id="mainImageTileImageHeroBodyId0" class="ImageHeroBody" src="assets/images/inputImageLarge2026.png?lastmod=20260721T1429">		
 
 		<img id="mainImageTileImageHeroBodyId1" class="ImageHeroBody" src="assets/images/inputImageLarge2026.png?lastmod=20260721T1429">		
 
-		<img id="mainImageTileImageHeroBodyId2" class="ImageHeroBody" src="assets/images/inputImageLarge2026.png?lastmod=20260721T1429">		
+		<img id="mainImageTileImageHeroBodyId2" class="ImageHeroBody" src="assets/images/inputImageLarge2026.png?lastmod=20260721T1429">	
+
+<!--
+		<img id="mainImageTileImageHeroBodyId" class="ImageHeroBody" src="assets/images/inputImageMedium2026.png?lastmod=20261021T1436">		
+
+		<img id="mainImageTileImageHeroBodyId0" class="ImageHeroBody" src="assets/images/inputImageMedium2026.png?lastmod=20261021T1436">		
+
+		<img id="mainImageTileImageHeroBodyId1" class="ImageHeroBody" src="assets/images/inputImageMedium2026.png?lastmod=20261021T1436">		
+
+		<img id="mainImageTileImageHeroBodyId2" class="ImageHeroBody" src="assets/images/inputImageMedium2026.png?lastmod=20261021T1436">
+-->
 
 <!--
 		<img id="mainImageTileImageHeroBodyId" class="ImageHeroBodyDouble" src="assets/images/inputImageLarge2026Double.png?lastmod=20260721T1429">		
