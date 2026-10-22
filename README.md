@@ -974,7 +974,7 @@ I initially didn't want to add this, because I wasn't planning on creating a 2D 
 There is now a 3D-like feel to the game, because of our newly added `jump` feature. I created a variable for the `z-axis`, which is also inverted like the `y-axis`, meaning that to go up vertically would require the position in the `z-axis` to be decreased since the origin `(0,0)`, or `(0,0,0)` in this case, is at the top-left, instead of at the center.
 
 
-69) 20261013-20261021; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+69) 20261013-20261022; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -991,7 +991,7 @@ As a side, let me note that it's truly unfortunate that the IP's of many 2D clas
 
 Yet even after the release of Super Mario Galaxy 2 for the Nintendo Wii, there didn't appear to be anyone noteworthy who'd successfully gotten any other beloved 2D platformer franchise into such heights or beyond, an example of the latter I'd say would be The Legend of Zelda: Twilight Princess, also for the Wii.
 
-70) 20261013-20261021; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+70) 20261013-20261022; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1009,7 +1009,7 @@ Juggling multiple `variables` like combinations of on-off switches can be mind-b
 We can make use of a working wall to create many more. 
 
 
-71) 20261013-20261021; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+71) 20261013-20261022; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1027,7 +1027,7 @@ Nonetheless, despite the commotion like the wireless noise, which has markedly i
 We now have `inertia` to prevent abrupt or sudden stops in the hero's movement whenever he moves toward a particular direction.
 
 
-72) 20261013-20261021; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+72) 20261013-20261022; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1051,7 +1051,7 @@ We now have better physics though there'll always be more that can be done to im
 
 
 
-73) 20261013-20261021; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+73) 20261013-20261022; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1071,6 +1071,54 @@ To be frank, because the world system produced by our DIY Engine now uses multip
 **Unlocked Possibilities:**
 
 Our DIY engine can now handle multiple jumpable walls, directly adjacent or otherwise. I do admit, however, that the z-index of the hero's sprite image when he jumps above one could end up getting incorrectly drawn behind the wall instead of before it. I think that this part could be solved by updating the hero's image sprite animation whenever he jumps.
+
+
+
+
+
+
+74) 20261013-20261022; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+<!--
+Also available here: http://store.usbong.ph/server/gameoff/start.html
+-->
+
+**Key Lesson Learned:** 
+
+As I was looking into whether I could make the platforms easier to jump on by reducing its height on the `z-axis` by `32px` when I realized that simply updating the sprite image when the hero is jumping by making his arms move closer to his body wasn't really going to solve the problem in this case anymore. 
+
+After several tests, I ended up writing a set of `if-else` conditions to determine whether the hero should be behind or before the jumpable wall, whose sprite image is made up of two parts, the top and the bottom. It looks like this: 
+
+```
+if (parseFloat(mainImageTileHeroBody.style.top)<parseFloat(bgTileImage.style.top)+iImageFrameHeightLarge/2) {
+
+		if ((bIsHeroJumping) 
+			&& (bIsHeroFacingLeftOrRight)
+			&& (parseFloat(mainImageTileHeroBody.style.top)+iImageFrameHeightLarge/2>parseFloat(bgTileImage.style.top)+iImageFrameHeightLarge/2)
+			&& (iCurrCollidedPlatformBgTileImageCount!=-1)) {
+	
+			mainImageTileHeroBody.style.zIndex=iCurrZIndex;
+			bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex-1;
+		}
+		else {
+			bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex+1;
+		}
+		
+		...
+```	
+
+It was previously like this, markedly simple, but doesn't solve the problem, which occurs often enough to merit having to be addressed.
+
+```
+if (parseFloat(mainImageTileHeroBody.style.top)<parseFloat(bgTileImage.style.top)+iImageFrameHeightLarge/2) {
+
+	bgTileImage.style.zIndex=mainImageTileHeroBody.style.zIndex-1;
+}
+		
+```			
+
+**Unlocked Possibilities:**
+
+I've been updating our DIY engine to see if we could get more platforms with varying heights in terms of the `z-axis`. 
 
 # Additional Bug Fixes
 
