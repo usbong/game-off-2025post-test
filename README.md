@@ -974,7 +974,7 @@ I initially didn't want to add this, because I wasn't planning on creating a 2D 
 There is now a 3D-like feel to the game, because of our newly added `jump` feature. I created a variable for the `z-axis`, which is also inverted like the `y-axis`, meaning that to go up vertically would require the position in the `z-axis` to be decreased since the origin `(0,0)`, or `(0,0,0)` in this case, is at the top-left, instead of at the center.
 
 
-69) 20261013-20261022; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+69) 20261013-20261024; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -991,7 +991,7 @@ As a side, let me note that it's truly unfortunate that the IP's of many 2D clas
 
 Yet even after the release of Super Mario Galaxy 2 for the Nintendo Wii, there didn't appear to be anyone noteworthy who'd successfully gotten any other beloved 2D platformer franchise into such heights or beyond, an example of the latter I'd say would be The Legend of Zelda: Twilight Princess, also for the Wii.
 
-70) 20261013-20261022; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+70) 20261013-20261024; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1009,7 +1009,7 @@ Juggling multiple `variables` like combinations of on-off switches can be mind-b
 We can make use of a working wall to create many more. 
 
 
-71) 20261013-20261022; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+71) 20261013-20261024; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1027,7 +1027,7 @@ Nonetheless, despite the commotion like the wireless noise, which has markedly i
 We now have `inertia` to prevent abrupt or sudden stops in the hero's movement whenever he moves toward a particular direction.
 
 
-72) 20261013-20261022; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+72) 20261013-20261024; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1051,7 +1051,7 @@ We now have better physics though there'll always be more that can be done to im
 
 
 
-73) 20261013-20261022; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+73) 20261013-20261024; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1077,7 +1077,7 @@ Our DIY engine can now handle multiple jumpable walls, directly adjacent or othe
 
 
 
-74) 20261013-20261022; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+74) 20261013-20261024; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1119,6 +1119,32 @@ if (parseFloat(mainImageTileHeroBody.style.top)<parseFloat(bgTileImage.style.top
 **Unlocked Possibilities:**
 
 I've been updating our DIY engine to see if we could get more platforms with varying heights in terms of the `z-axis`. 
+
+
+
+
+
+
+
+
+75) 20261013-20261024; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+<!--
+Also available here: http://store.usbong.ph/server/gameoff/start.html
+-->
+
+**Key Lesson Learned:** 
+
+I've added another platform, "Platform Level 2," that is `7.2px` higher than "Platform Level 1" in the `z-axis`. I was initially concerned that the hero was only jumping up to the maximum height regardless of the platform, but after several tests, I did find the small difference of `7.2px` when he's on "Platform Level 2," meaning that he's jumping higher than if he was only on "Platform Level 1".
+
+Another concern that I had was that given that the platforms weren't in isometric view, it was slightly difficult to comprehend why the hero couldn't jump above it when at very close range. In this regard, I updated the code so that he looks like he's bumped a wall, and must step back and jump while accelerating to get on top of the platform.
+
+Next, I tested adding an auto-jump feature, which somewhat worked physics-wise without much modification in the code, after seeing that "Platform Level 1" seemed low enough in height that the hero could might as well just step on it like climbing the stairs, instead of jumping very high; however, I've opted to go with the manual jumping, while keeping the auto-jump feature an available option if I eventually decide to go down that path. Moving in that direction would, of course, add more man-hours in the development time, and certainly many more if we revert back to the manual jumping.
+
+**Unlocked Possibilities:**
+
+We could still add several more platforms that vary in height with respect to the `z-axis`. Also, this version of our DIY engine reminds me more and more of CrossCode, though I wasn't using it as my reference at all. 
+
+By the way, I stopped playing CrossCode not because I've gotten myself stuck inside a dungeon, but because I think that there's been an error in the script which I was reading in Mandarin, such that I felt that I had to use a lot of my time to figure out how to get the Shate Tribe to move away from blocking the way, especially since I dislike checking answers for problems like this one on the internet. Otherwise, I very much enjoyed figuring out the brainy puzzles in the dungeons, as well as Lina's short phrases like 为什么？ uttered in various expressions such as angry or puzzlement. The soundtrack though seemed to me not exactly something that is used in a video game, even one like CrossCode.
 
 # Additional Bug Fixes
 
