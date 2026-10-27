@@ -974,7 +974,7 @@ I initially didn't want to add this, because I wasn't planning on creating a 2D 
 There is now a 3D-like feel to the game, because of our newly added `jump` feature. I created a variable for the `z-axis`, which is also inverted like the `y-axis`, meaning that to go up vertically would require the position in the `z-axis` to be decreased since the origin `(0,0)`, or `(0,0,0)` in this case, is at the top-left, instead of at the center.
 
 
-69) 20261013-20261026; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+69) 20261013-20261027; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -991,7 +991,7 @@ As a side, let me note that it's truly unfortunate that the IP's of many 2D clas
 
 Yet even after the release of Super Mario Galaxy 2 for the Nintendo Wii, there didn't appear to be anyone noteworthy who'd successfully gotten any other beloved 2D platformer franchise into such heights or beyond, an example of the latter I'd say would be The Legend of Zelda: Twilight Princess, also for the Wii.
 
-70) 20261013-20261026; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+70) 20261013-20261027; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1009,7 +1009,7 @@ Juggling multiple `variables` like combinations of on-off switches can be mind-b
 We can make use of a working wall to create many more. 
 
 
-71) 20261013-20261026; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+71) 20261013-20261027; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1027,7 +1027,7 @@ Nonetheless, despite the commotion like the wireless noise, which has markedly i
 We now have `inertia` to prevent abrupt or sudden stops in the hero's movement whenever he moves toward a particular direction.
 
 
-72) 20261013-20261026; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+72) 20261013-20261027; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1051,7 +1051,7 @@ We now have better physics though there'll always be more that can be done to im
 
 
 
-73) 20261013-20261026; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+73) 20261013-20261027; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1077,7 +1077,7 @@ Our DIY engine can now handle multiple jumpable walls, directly adjacent or othe
 
 
 
-74) 20261013-20261026; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+74) 20261013-20261027; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1127,7 +1127,7 @@ I've been updating our DIY engine to see if we could get more platforms with var
 
 
 
-75) 20261013-20261026; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+75) 20261013-20261027; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
@@ -1147,14 +1147,14 @@ We could still add several more platforms that vary in height with respect to th
 By the way, I stopped playing CrossCode not because I've gotten myself stuck inside a dungeon, but because I think that there's been an error in the script which I was reading in Mandarin, such that I felt that I had to use a lot of my time to figure out how to get the Shate Tribe to move away from blocking the road, especially since I dislike checking answers for problems like this one on the internet. Otherwise, I very much enjoyed figuring out the brainy puzzles in the dungeons, as well as Lea's short phrases like 为什么？ uttered in various expressions such as in angry or puzzlement. The soundtrack though seemed to me not exactly something that is used in a video game, even one like CrossCode, but maybe their next game might be better.
 
 
-76) 20261013-20261026; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+76) 20261013-20261027; https://masarapmabuhay.itch.io/game-off-2025-post-test29
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
 
 **Key Lesson Learned:** 
 
-I've been polishing the `jump` feature of our DIY engine. The hero could get stuck when he jumps from a level 2 platform and barely reaches the level 1 platform, something that I could already replicate. However, it turns out that the `acceleration` feature was the cause of the problem, wherein at a certain `velocity` the hero could get himself into a wall much more deeply than the default. Even though I've programmed the wall to push the hero back toward the opposite direction, he gets stuck rather miserable and can't even jump or move away, unless the user makes a left-click with the mouse to wiggle himself out somewhat.
+I've been polishing the `jump` feature of our DIY engine. The hero could get stuck when he jumps from a level 2 platform and barely reaches the level 1 platform, something that I could already replicate. However, it turns out that the `acceleration` feature was the cause of the problem, wherein at a certain `velocity` the hero could penetrate a wall much more deeply than usual with the default `velocity`. Even though I've programmed the wall to push the hero back toward the opposite direction, he still gets stuck rather miserable and can't even jump or move away, unless the user makes a left-click with the mouse to wiggle himself out somewhat.
 
 **Unlocked Possibilities:**
 
@@ -1163,6 +1163,23 @@ Our DIY engine could now show a simulation of everyday physics concepts.
 The jumping feature shows the capability of the engine to calculate not only the `x` and `y` coordinates, but also the `z` coordinate, which signifies the height with respect to the `z-axis`. Jumping shows that this `z-axis` also exists, but without any platforms to jump on, it appears more of a pseudo demonstration of having a `z-axis` given that the `y-axis` could be used in its stead. Moreover, adding `acceleration` and `gravity` shows general high school physics at work, though the `constants` are, of course, not exactly the same as the real world's.
 
 Finally, an engine programmed in any computer language to simulate the real world could be reduced to zeroes and ones. In this sense, the idea of a world that grows from vibrations, which become ever more sophisticated isn't far-fetched.
+
+
+
+
+
+77) 20261013-20261027; https://masarapmabuhay.itch.io/game-off-2025-post-test29
+<!--
+Also available here: http://store.usbong.ph/server/gameoff/start.html
+-->
+
+**Key Lesson Learned:** 
+
+I've added more platforms with varying heights from 1 to 5, while keeping the ground level to be 0. I was also able to get a basic staircase-like platform by lining up all the platforms from lowest to highest with respect to the `z-axis`, though they could definitely use more platforms in between, so that the hero would walk more smoothly from one platform level to the next. I did also add an auto-walk feature in which the hero could walk between platforms if their height levels differ only by 1 level, such as from the ground to platform level 1. Meanwhile, the hero could be made to jump anytime as before.
+
+**Unlocked Possibilities:**
+
+We now have more platforms with varying heights.
 
 # Additional Bug Fixes
 
