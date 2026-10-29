@@ -1194,7 +1194,12 @@ Also available here: http://store.usbong.ph/server/gameoff/start.html
 
 The existing diagonal walls used `squares`, making their non-right angles too wide. In this version, I divided the height of the wall by two, so that the angles would be less wide and we would get an `isometric view` of the walls. As for the collision detection, I had to update it so use only the top portion of half of the square, and made the hero's `y` position the point to check against the diagonal wall's `hypothenus` for `quadrant 3` and `quadrant 4` instead of the feet of the hero.
 
+<img src="https://github.com/usbong/game-off-2025post-test/blob/main/patterns/isometricDiagonalWallsCollisionDetection20261029.png" width="60%">
+
 I also note here that it was far easier to create the line for the `hypothenus` using MS Paint instead of GIMP.
+
+<img src="https://github.com/usbong/game-off-2025post-test/blob/main/patterns/diagonalWallsMSPaint20261029-2.png" width="40%">
+
 
 **Unlocked Possibilities:**
 
