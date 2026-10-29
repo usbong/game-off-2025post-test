@@ -1181,6 +1181,25 @@ I've added more platforms with varying heights from 1 to 5, while keeping the gr
 
 We now have more platforms with varying heights.
 
+
+
+
+
+78) 20261029; https://masarapmabuhay.itch.io/game-off-2025-post-test30
+<!--
+Also available here: http://store.usbong.ph/server/gameoff/start.html
+-->
+
+**Key Lesson Learned:** 
+
+The existing diagonal walls used `squares`, making their non-right angles too wide. In this version, I divided the height of the wall by two, so that the angles would be less wide and we would get an `isometric view` of the walls. As for the collision detection, I had to update it so use only the top portion of half of the square, and made the hero's `y` position the point to check against the diagonal wall's `hypothenus` for `quadrant 3` and `quadrant 4` instead of the feet of the hero.
+
+I also note here that it was far easier to create the line for the `hypothenus` using MS Paint instead of GIMP.
+
+**Unlocked Possibilities:**
+
+We now have isometric diagonal walls.
+
 # Additional Bug Fixes
 
 1) 20260619;<br/> 
