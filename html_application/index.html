@@ -11,7 +11,7 @@
 ' @company: USBONG
 ' @author: SYSON, MICHAEL B.
 ' @date created: 20221214
-' @date updated: 20261029; from 20261028
+' @date updated: 20261030; from 20261029
 ' @website: www.usbong.ph
 '
 ' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024, 2025
@@ -1392,8 +1392,6 @@
   var fInitialScale=1.0;
   var fInitialScaleDefault=1.0;
 
-
-
 const iHeroLifeBarStatusImageTileOffsetX=4;//2; //0;//edited by Mike, 20260813; from 20260809
 
 var iRowCount=0;
@@ -1514,6 +1512,8 @@ var bHasReleasedDirectionalKey=true;
 //added by Mike, 20260910
 var bHasHeroHitWall=false;
 var bHasClickedWall=false; //added by Mike, 20260913
+
+var bHasHeroBouncedFromWall=false;
 
 var bHeroHasWalkedToAdjacentPlatformWall=false; //added by Mike, 20261027
 
@@ -2225,6 +2225,15 @@ const iImageFrameHeightBgTile=128;
 //added by Mike, 20231121
 var iMouseInputImageWidth=64;
 var iMouseInputImageHeight=64;
+
+/*
+//removed by Mike, 20261030
+//max before hero is forcibly stopped;
+const fDifferenceInXPosMax=iImageFrameWidthLarge/8;
+const fDifferenceInYPosMax=iImageFrameHeightLarge/8;
+var fHeroHitWallViewportX=0
+var fHeroHitWallViewportY=0
+*/
 
 //added by Mike, 20260917; put this after setting iImageFrameHeightLarge
 var iHeroFrameY=iImageFrameHeightLarge*1;//0;
@@ -3075,6 +3084,7 @@ var bIsHeroFacingUp=false;
 
 		mainImageTileProjectile.style.visibility="hidden";
 		bHasFired=false;		
+
 
 /*		
 		//added by Mike, 20260913
@@ -10553,6 +10563,7 @@ if (arrayWalkOnSnowEffectCount==1) {
 		}		
 */		
 
+
 		var fDifferenceInXPos=0;
 		var fDifferenceInXPos=0;
 
@@ -10561,21 +10572,45 @@ if (arrayWalkOnSnowEffectCount==1) {
 			if (iCurrHeroWallBounceCount!=0) {
 				fDifferenceInXPos=Math.abs(fCurrViewportX-fHeroHitWallViewportX);
 				fDifferenceInYPos=Math.abs(fCurrViewportY-fHeroHitWallViewportY);
+/*
+				alert("fDifferenceInXPos: "+fDifferenceInXPos);
+				alert("fDifferenceInYPos: "+fDifferenceInYPos);
+*/				
+/*
+				if ((fDifferenceInXPos>=2.5) || (fDifferenceInYPos>=2.5)) {
+*/				
 
-				//max before hero is forcibly stopped;
-				const fDifferenceInXPosMax=iImageFrameWidthLarge/8;
-				const fDifferenceInYPosMax=iImageFrameHeightLarge/8;
-				
-				//if ((!bIsActionKeyPressed) && (bIsActionKeyControlPressed)) {
-					if ((fDifferenceInXPos>=fDifferenceInXPosMax) || (fDifferenceInYPos>=fDifferenceInYPosMax)) {
-						bIsActionKeyControlPressed=false;
-						bHasHeroHitWall=false;
-												
-						resetProjectile();
+					//added by Mike, 20261030
+					bHasHeroBouncedFromWall=true;
 
-						return;
-					}
+
+					//max before hero is forcibly stopped;
+					const fDifferenceInXPosMax=iImageFrameWidthLarge/8;
+					const fDifferenceInYPosMax=iImageFrameHeightLarge/8;
+					
+					//if ((!bIsActionKeyPressed) && (bIsActionKeyControlPressed)) {
+						if ((fDifferenceInXPos>=fDifferenceInXPosMax) || (fDifferenceInYPos>=fDifferenceInYPosMax)) {
+
+							resetProjectile(); //removed by Mike, 20261030
+
+							bIsActionKeyControlPressed=false;
+							bHasHeroHitWall=false;
+
+							return;
+						}
+
+/*
 				//}
+				}
+				else {
+					bIsActionKeyControlPressed=false;
+					bHasHeroHitWall=false;
+											
+					resetProjectile();
+
+					return;
+				}
+*/
 			}
 		}
 		
@@ -12241,7 +12276,8 @@ if (fDifferenceInXPos!=0) {
 			//added by Mike, 20261026; from 20261019
 			//----------------------------------
 			if (bHasHeroHitWall) {
-				mainImageTileProjectileStepX=mainImageTileProjectileStepXMin;mainImageTileProjectileStepY=mainImageTileProjectileStepYMin;
+				mainImageTileProjectileStepX=mainImageTileProjectileStepXMin;
+				mainImageTileProjectileStepY=mainImageTileProjectileStepYMin;
 				bIsHeroDeaccelerating=false;
 			}
 			//----------------------------------
@@ -14727,6 +14763,12 @@ if (fDifferenceInXPos!=0) {
 
 				//bHasHeroHitWall=true;
 				
+				//added by Mike, 20261030
+				//to reduce bouncing off the wall via mouse clicks;
+				mainImageTileProjectileStepX=mainImageTileProjectileStepXMin;
+				mainImageTileProjectileStepY=mainImageTileProjectileStepYMin;
+				
+				
 				if (iCurrHeroWallBounceCount==0) {
 						//alert("DITO!!!");
 
@@ -14905,6 +14947,13 @@ if (fDifferenceInXPos!=0) {
 						//alert("DITO!!!");
 						bHasHeroHitWall=true;
 //					}
+
+					//added by Mike, 20261030
+					//TODO: -reverify this; if hero could still get stuck
+					//reduce bounce off wall via mouse click
+					newMainImageTileProjectilePosX=newMainImageTileProjectilePosX/3;//2;
+					newMainImageTileProjectilePosY=newMainImageTileProjectilePosY/3;//2;
+
 				}
 				//if hero gets stuck, help him get out
 				else {
@@ -14993,6 +15042,7 @@ if (fDifferenceInXPos!=0) {
 						}
 */						
 						iCurrHeroWallBounceCount++;
+
 						return;
 					}
 				}
@@ -18373,6 +18423,18 @@ alert(Date.now()-iMouseClickStartTime);
 	iMouseClickStartTime=Date.now(); //in milliseconds
 	//--------------------------------
 
+	//added by Mike, 20261030
+	//----------------------------
+	if ((iPrevMouseXPos==iXPos) && (iPrevMouseYPos==iYPos)) {
+		if (bHasHeroBouncedFromWall) {
+			resetProjectile();
+			return;
+		}
+	}
+	bHasHeroBouncedFromWall=false;
+	//----------------------------
+
+
 	iPrevMouseXPos=iXPos;
 	iPrevMouseYPos=iYPos;
 	
@@ -18502,7 +18564,15 @@ alert(Date.now()-iMouseClickStartTime);
 	//added by Mike, 20260913
 	//if (bHasHeroHitWall) {
 	//if (iCurrBgTileImageCount>0) {
+	//edited by Mike, 20261030
 	if ((bHasHeroHitWall) && (iCurrBgTileImageCount>=0)) {
+/*
+	fDifferenceInXPos=Math.abs(fCurrViewportX-fHeroHitWallViewportX);
+	fDifferenceInYPos=Math.abs(fCurrViewportY-fHeroHitWallViewportY);
+
+
+	if (((bHasHeroHitWall) && (iCurrBgTileImageCount>=0)) || ((fDifferenceInXPos<fDifferenceInXPosMax/4) || (fDifferenceInYPos<fDifferenceInYPosMax/4))) {
+*/
 		if (!bIsActionKeyPressed) {
 			if (!bIsActionKeyFireballPressed) {	
 				for (iCurrBgTileImageCount=0; iCurrBgTileImageCount<iCurrWallBgTileImageCountMax; iCurrBgTileImageCount++) {
@@ -18511,7 +18581,7 @@ alert(Date.now()-iMouseClickStartTime);
 					if (isPointsOfRectIntersectingPointsOfRectWall(iXPos,iYPos, parseFloat(bgTileImage.style.left),parseFloat(bgTileImage.style.top), iImageFrameWidthDefault/2, iImageFrameHeightDefault/2, iImageFrameWidthBgTile*1, iImageFrameHeightBgTile*1)) {
 
 						bHasClickedWall=true;
-						
+	
 						//TODO: -reverify: decelerate; instead of abrupt stop;
 						resetProjectile();
 						return;
