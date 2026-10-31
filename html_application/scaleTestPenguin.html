@@ -1,0 +1,126 @@
+<!--
+/*
+' Copyright 2026 USBONG
+'
+' Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You ' may obtain a copy of the License at
+'
+' http://www.apache.org/licenses/LICENSE-2.0
+'
+' Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, ' WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing ' permissions and limitations under the License.
+'
+' @company: USBONG
+' @author: SYSON, MICHAEL B.
+' @date created: 20261030
+' @date updated: 20261031; from 20261030
+' @website: www.usbong.ph
+'
+' References: GitHub itch.io Game Off 2021, 2022, 2023, 2024, 2025
+'
+'*/
+-->
+
+<!DOCTYPE html>
+<html>
+<body onload="onLoad();">
+<!--
+<h1>HTML5 Canvas</h1>
+-->
+<h2>Image Scale Test</h2>
+
+<canvas id="myCanvasId" width="300" height="150" style="border:1px solid grey"></canvas>
+
+<script>
+	const fFramesPerSecondDefault=16.66;
+	//const fFramesPerSecondDefault=33.33;
+	var fFramesPerSecond=fFramesPerSecondDefault;
+	var iCurrentIntervalId=-1;
+
+	//reference: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/transform-function/scale;
+	//last accessed: 20261030
+
+	var fScaleXDefault=3.2;//1.0;
+	var fScaleYDefault=0.4;//0.4;
+
+	var fScaleX=fScaleXDefault;
+	var fScaleY=fScaleYDefault;
+	
+	const iImageWidth=32;
+	const iImageHeight=32;
+
+	const iCanvasWidth=300;//1024;
+	const iCanvasHeight=150;//1024; //however, actual canvas for road only 75;
+
+	const fPosXDefault=iCanvasWidth/2-iImageWidth*fScaleXDefault-iImageWidth/4;
+
+	//const fPosYDefault=iCanvasHeight/2-iImageHeight*fScaleYDefault*8;
+	const fPosYDefault=iCanvasHeight/2-iImageHeight*fScaleYDefault*2;
+	
+	var fPosX=fPosXDefault;//0;//300;
+	var fPosY=fPosYDefault;//0;
+
+	const px = iImageWidth/2;//32; // X coordinate of the specific point
+	const py = iImageHeight//32; // Y coordinate of the specific point
+
+	function onLoad() {
+		clearInterval(iCurrentIntervalId);
+		iCurrentIntervalId=setInterval(myUpdateFunction, fFramesPerSecond);
+	}
+
+	function myUpdateFunction() {
+		const canvas = document.getElementById("myCanvasId");
+		const myCanvasContext = canvas.getContext("2d");
+
+		//ctx.fillRect(20, 20, 150, 100);
+
+		canvas.style.transformOrigin = 'center center'; // or '50px 50px'
+
+		const img = new Image();
+		img.src = "assets/images/favicon.png";//'path/to/image.jpg';
+		//img.src = "assets/images/map.png";//'path/to/image.jpg';
+
+		myCanvasContext.clearRect(0, 0, canvas.width, canvas.height);
+
+		myCanvasContext.save();
+
+		var px=iImageWidth*fScaleX/4-iImageWidth/4;
+
+		myCanvasContext.translate(px, py);
+		myCanvasContext.scale(fScaleX, fScaleY);
+
+		//myCanvasContext.rotate(-0.1);
+		//myCanvasContext.rotate(-0.015);
+
+		myCanvasContext.translate(-px, -py);
+
+		myCanvasContext.drawImage(img, fPosX, fPosY);
+		
+		var fMultiplier=15;//30;//20;//4;//3;//2;//1;//5;//10.0;
+		
+		//fPosY+=0.1;
+		fPosY+=0.4;
+		//fPosY+=1.6;
+		fPosY+=0.4*fMultiplier;
+		
+		//fScaleX+=0.003*fMultiplier;
+		fScaleX+=0.003*fMultiplier;
+
+		//if (fPosY>canvas.height) {
+		//if (fPosY>iCanvasHeight*1.5) {
+		//if (fPosY>iCanvasHeight*2) {
+		if (fPosY>iCanvasHeight*1.8) {
+
+			fPosY=fPosYDefault;//0;//-iImageHeight/2;
+			fScaleY=fScaleYDefault;//0.4;
+			
+			fPosX=fPosXDefault;
+			fScaleX=fScaleXDefault;
+			
+			//alert("DITO!!");
+		}
+		
+		myCanvasContext.restore();
+	}
+</script>
+
+</body>
+</html>
