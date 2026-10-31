@@ -1185,18 +1185,19 @@ We now have more platforms with varying heights.
 
 
 
-78) 20261029; https://masarapmabuhay.itch.io/game-off-2025-post-test30
+78) 20261029-20261031; https://masarapmabuhay.itch.io/game-off-2025-post-test30
+
 <!--
 Also available here: http://store.usbong.ph/server/gameoff/start.html
 -->
 
 **Key Lesson Learned:** 
 
-The existing diagonal walls used `squares`, making their non-right angles too wide. In this version, I divided the height of the wall by two, so that the angles would be less wide and we would get an `isometric view` of the walls. As for the collision detection, I had to update it so use only the top portion of half of the square, and made the hero's `y` position the point to check against the diagonal wall's `hypothenus` for `quadrant 3` and `quadrant 4` instead of the feet of the hero.
+The existing diagonal walls used `squares`, making their non-right angles too wide. In this version, I divided the height of the wall by two, so that the angles would be less wide and we would get an `isometric view` of the walls. As for the collision detection, I had to update it so use only the top portion of half of the square, and made the hero's `y` position the point to check against the diagonal wall's `hypotenuse` for `quadrant 3` and `quadrant 4` instead of the feet of the hero.
 
 <img src="https://github.com/usbong/game-off-2025post-test/blob/main/patterns/isometricDiagonalWallsCollisionDetection20261029.png" width="60%">
 
-I also note here that it was far easier to create the line for the `hypothenus` using MS Paint instead of GIMP.
+I also note here that it was far easier to create the line for the `hypotenuse` using MS Paint instead of GIMP.
 
 <img src="https://github.com/usbong/game-off-2025post-test/blob/main/patterns/diagonalWallsMSPaint20261029-2.png" width="40%">
 
@@ -1204,6 +1205,29 @@ I also note here that it was far easier to create the line for the `hypothenus` 
 **Unlocked Possibilities:**
 
 We now have isometric diagonal walls.
+
+
+
+79) 20261029-20261031; https://masarapmabuhay.itch.io/game-off-2025-post-test30
+
+Additional Image Scaling Tests:
+http://store.usbong.ph/server/gameoff/scaleTest.html
+
+http://store.usbong.ph/server/gameoff/scaleTestPenguin.html
+
+**Key Lesson Learned:** 
+
+I've updated the code to reduce the hero's bouncing back behavior upon hitting a wall by adding checks to see if the user is clicking the mouse on the same spot multiple times. If so, the hero doesn't anymore move toward that direction. Previously, our DIY engine only checked if the user is clicking a wall and if he's clicking it multiple times.
+
+In addition, I've been doing some tests with regard to image scaling. I wanted to see if I could create the effect of traversing an image map using `scaling`, `translation` and `rotation` akin to Super Mario Kart, Pilotwings and FFVI, all on the Super Famicom/Super NES. So far, what I have reminds me of Antarctic Adventure for the Family Computer.
+
+Speaking of consoles, I do have the goal of reaching the capabilities of developing PlayStation-like games as an indie developer. OpenGL and SDL had been immensely helpful to me in this regard, and I hope that I could again use them or their equivalent even on Windows. Incidentally, I learned fairly recently that javascript apps could also be packaged as an executable using a framework called "Electron," thereby enabling them to be distributed and run on Steam.
+
+**Unlocked Possibilities:**
+
+We now have working samples that use image scaling techniques.
+
+
 
 # Additional Bug Fixes
 
